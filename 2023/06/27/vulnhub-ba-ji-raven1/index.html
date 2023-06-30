@@ -648,7 +648,7 @@
 <h2 id="二、渗透测试过程"><a href="#二、渗透测试过程" class="headerlink" title="二、渗透测试过程"></a>二、渗透测试过程</h2><p>kali攻击机ip为192.168.101.128</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230624215915330.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230624215915330.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230624215915330"></p>
 <h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1. 信息收集"></a>1. 信息收集</h3><ul>
-<li>通过netdiscover进行二层发现，发现地址为192.168.101.130主机</li>
+<li>通过netdiscover进行二层发现，发现地址为192.168.101.135主机</li>
 </ul>
 <blockquote>
 <p>其他几个主机分别代表：</p>
@@ -835,13 +835,16 @@
 <h4 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h4><p>使用<strong>python pty提权</strong></p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo python -c <span class="string">&#x27;import pty; pty.spawn(&quot;/bin/bash&quot;);&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p>michael用户进行python提权时，由于michael用户没有被赋予sudo的权限，所以提权失败，并且该事件还被记录了</p>
+<p>michael用户进行python提权时，由于michael用户没有被赋予sudo执行python的权限，所以提权失败，并且该事件还被记录了</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162718424.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162718424.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230626162718424"></p>
 <p>ssh登录steven之后再尝试提权：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh steven@192.168.101.135</span><br><span class="line">sudo python -c <span class="string">&#x27;import pty; pty.spawn(&quot;/bin/bash&quot;);&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162930601.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162930601.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230626162930601"></p>
-<p>steven是具有sudo权限的</p>
+<p>steven是具有python sudo权限的，在sudoers里存在：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steven ALL=(ALL) NOPASSWD: /usr/bin/python</span><br></pre></td></tr></table></figure>
+
+<p>授予普通用户以root权限执行Python脚本（实战用不了一点）</p>
 <p>用find命令或者直接找，在~目录下也能找到flag4</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626163116227.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626163116227.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230626163116227"></p>
 <p>本次渗透测试完毕</p>
