@@ -223,9 +223,9 @@
     <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
     
     
-    <category term="shiro" scheme="https://godownio.github.io/tags/shiro/"/>
-    
     <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
+    
+    <category term="shiro" scheme="https://godownio.github.io/tags/shiro/"/>
     
     <category term="struct2" scheme="https://godownio.github.io/tags/struct2/"/>
     
