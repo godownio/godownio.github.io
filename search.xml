@@ -240,9 +240,9 @@
       
         <tags>
             
-            <tag> fastjson </tag>
-            
             <tag> shiro </tag>
+            
+            <tag> fastjson </tag>
             
             <tag> struct2 </tag>
             
