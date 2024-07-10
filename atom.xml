@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-05-06T09:49:34.230Z</updated>
+  <updated>2024-07-10T03:33:21.051Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CC重启之从零代码构造CC1</title>
+    <link href="https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/"/>
+    <id>https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/</id>
+    <published>2024-07-09T16:05:36.000Z</published>
+    <updated>2024-07-10T03:33:21.051Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在此快速重温一遍Java反序列化知识，调试的payload是没有灵魂的，自己构造的payload才是soul&lt;/p&gt;
+&lt;h2 id=&quot;反射&quot;&gt;&lt;a href=&quot;#反射&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
+    
+    
+    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
+    
+  </entry>
   
   <entry>
     <title>毕设</title>
@@ -273,9 +301,9 @@
     <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
     
     
-    <category term="shiro" scheme="https://godownio.github.io/tags/shiro/"/>
-    
     <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
+    
+    <category term="shiro" scheme="https://godownio.github.io/tags/shiro/"/>
     
     <category term="struct2" scheme="https://godownio.github.io/tags/struct2/"/>
     
@@ -582,33 +610,6 @@
     <category term="JSONP" scheme="https://godownio.github.io/tags/JSONP/"/>
     
     <category term="蜜罐" scheme="https://godownio.github.io/tags/%E8%9C%9C%E7%BD%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java学习笔记</title>
-    <link href="https://godownio.github.io/2022/05/10/java-xue-xi-bi-ji/"/>
-    <id>https://godownio.github.io/2022/05/10/java-xue-xi-bi-ji/</id>
-    <published>2022-05-10T05:05:36.000Z</published>
-    <updated>2023-07-02T14:11:37.434Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;java学习简记&quot;&gt;&lt;a href=&quot;#java学习简记&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
-    
-    
-    <category term="java杂论" scheme="https://godownio.github.io/tags/java%E6%9D%82%E8%AE%BA/"/>
     
   </entry>
   
