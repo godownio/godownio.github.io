@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-07-10T03:33:21.051Z</updated>
+  <updated>2024-07-14T08:02:27.116Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,18 +17,46 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>CC重启之从零代码构造CC1</title>
+    <title>CC重启之基于动态代理newProxyInstance构造的LazyMap版 CC1</title>
+    <link href="https://godownio.github.io/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/"/>
+    <id>https://godownio.github.io/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/</id>
+    <published>2024-07-13T14:45:32.000Z</published>
+    <updated>2024-07-14T08:02:27.116Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;前置知识：&lt;/p&gt;
+&lt;h2 id=&quot;Java动态代理&quot;&gt;&lt;a href=&quot;#Java动态代理&quot; class=&quot;headerlink&quot; title=&quot;Java动态代理&quot;&gt;&lt;/a&gt;Java动态代理&lt;/h2&gt;&lt;h3 id=&quot;静态代理&quot;&gt;&lt;a href=&quot;#静态代理&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
+    
+    
+    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CC重启之从零代码构造TransformedMap CC1</title>
     <link href="https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/"/>
     <id>https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/</id>
     <published>2024-07-09T16:05:36.000Z</published>
-    <updated>2024-07-10T03:33:21.051Z</updated>
+    <updated>2024-07-14T08:02:55.032Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;在此快速重温一遍Java反序列化知识，调试的payload是没有灵魂的，自己构造的payload才是soul&lt;/p&gt;
+    <summary type="html">&lt;p&gt;在此快速重温一遍Java反序列化知识&lt;/p&gt;
 &lt;h2 id=&quot;反射&quot;&gt;&lt;a href=&quot;#反射&quot; class=&quot;headerlink&quot;</summary>
         
       
@@ -579,37 +607,6 @@
     
     
     <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JSONP劫持</title>
-    <link href="https://godownio.github.io/2022/08/18/jsonp-jie-chi/"/>
-    <id>https://godownio.github.io/2022/08/18/jsonp-jie-chi/</id>
-    <published>2022-08-18T05:05:36.000Z</published>
-    <updated>2023-07-02T14:11:21.156Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;JSONP概念&quot;&gt;&lt;a href=&quot;#JSONP概念&quot; class=&quot;headerlink&quot; title=&quot;JSONP概念&quot;&gt;&lt;/a&gt;JSONP概念&lt;/h1&gt;&lt;p&gt;JSONP&amp;#x3D;JSON with</summary>
-        
-      
-    
-    
-    
-    <category term="溯源" scheme="https://godownio.github.io/categories/%E6%BA%AF%E6%BA%90/"/>
-    
-    <category term="JSONP" scheme="https://godownio.github.io/categories/%E6%BA%AF%E6%BA%90/JSONP/"/>
-    
-    
-    <category term="溯源" scheme="https://godownio.github.io/tags/%E6%BA%AF%E6%BA%90/"/>
-    
-    <category term="JSONP" scheme="https://godownio.github.io/tags/JSONP/"/>
-    
-    <category term="蜜罐" scheme="https://godownio.github.io/tags/%E8%9C%9C%E7%BD%90/"/>
     
   </entry>
   
