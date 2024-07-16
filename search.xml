@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>CC重启之基于动态代理newProxyInstance构造的LazyMap版 CC1</title>
+      <title>CC重启之基于动态代理构造的LazyMap CC1及利用二次反序列化的修复</title>
       <link href="/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/"/>
       <url>/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/</url>
       
