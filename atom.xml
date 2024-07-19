@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-07-17T12:20:21.055Z</updated>
+  <updated>2024-07-19T11:27:30.523Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CC重启之URLDNS补课</title>
+    <link href="https://godownio.github.io/2024/07/19/urldns-bu-ke/"/>
+    <id>https://godownio.github.io/2024/07/19/urldns-bu-ke/</id>
+    <published>2024-07-19T11:27:00.000Z</published>
+    <updated>2024-07-19T11:27:30.523Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在写CC6的时候，发现后半截是URLDNS的链，来重新构造一遍URLDNS。&lt;/p&gt;
+&lt;p&gt;他妈的，护网还被鸽了，面试是没挂过的，项目是没去过的。&lt;/p&gt;
+&lt;h2 id=&quot;URLDNS&quot;&gt;&lt;a href=&quot;#URLDNS&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
+    
+    
+    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
+    
+  </entry>
   
   <entry>
     <title>CC重启之基于动态代理构造的LazyMap CC1及利用二次反序列化的修复</title>
@@ -581,33 +610,6 @@
     <category term="defineClass" scheme="https://godownio.github.io/tags/defineClass/"/>
     
     <category term="CC3" scheme="https://godownio.github.io/tags/CC3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java TransformedMap&amp;LazyMap</title>
-    <link href="https://godownio.github.io/2022/09/03/java-transformedmap-lazymap/"/>
-    <id>https://godownio.github.io/2022/09/03/java-transformedmap-lazymap/</id>
-    <published>2022-09-03T05:05:36.000Z</published>
-    <updated>2024-07-10T03:19:40.535Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;java反射&quot;&gt;&lt;a href=&quot;#java反射&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
-    
-    
-    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
     
   </entry>
   
