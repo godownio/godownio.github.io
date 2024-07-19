@@ -619,7 +619,8 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>前置知识：</p>
+        <p>本文首发于<a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/406123.html">https://www.freebuf.com/vuls/406123.html</a></p>
+<p>前置知识：</p>
 <h2 id="Java动态代理"><a href="#Java动态代理" class="headerlink" title="Java动态代理"></a>Java动态代理</h2><h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>假设现在有这么一个需求：</p>
 <ul>
 <li>创建了一个接口A，里面有display()函数、select()函数、add()函数，类AImpl实现了这三个函数，类AstaticProxy作为类AImpl的日志类，在AImpl每个函数执行完打印“调用了display函数”，调用了”select函数”…类似对AImpl进行装饰</li>
@@ -708,7 +709,9 @@
 <p>动态代理是对一个类下所有方法的代理，用Proxy.newProxyInstance()创建，需要传入一个实现了InvocationHandler，重写了invoke方法的实例。在调用该代理类方法时，会自动跳转执行invoke内的内容。</p>
 <p>共需要一个接口，一个实现了该接口的被代理类，一个实现了InvocationHnadler的代理类，最后Proxy.newInstance()创建代理实例。</p>
 </blockquote>
-<p>最简单的TransformedMap链（<a href="https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/%EF%BC%89%E4%B8%AD%EF%BC%8C%E7%94%A8TransformeredMap.checkSetValue%E8%A7%A6%E5%8F%91ChainedTransformer.transform%E3%80%82%E5%90%8C%E6%97%B6%E6%88%91%E4%BB%AC%E4%B9%9F%E8%83%BD%E7%9C%8B%E5%88%B0LazyMap.get%E4%B9%9F%E8%B0%83%E7%94%A8%E4%BA%86transform%E6%96%B9%E6%B3%95%E3%80%82">https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/）中，用TransformeredMap.checkSetValue触发ChainedTransformer.transform。同时我们也能看到LazyMap.get也调用了transform方法。</a></p>
+<p>最简单的TransformedMap链</p>
+<p><a href="https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/">https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/</a></p>
+<p>中，用TransformeredMap.checkSetValue触发ChainedTransformer.transform。同时我们也能看到LazyMap.get也调用了transform方法。</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240713154230857.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240713154230857.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240713154230857"></p>
 <p>我们尝试通读一下LazyMap类，和TransformedMap一样，构造方法是protected类型，通过decorate调用构造函数对map进行装配，只不过这里除了map外只接收了一个Transformer参数。</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240713190824083.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240713190824083.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240713190824083"></p>
@@ -718,7 +721,8 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240713191128650.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240713191128650.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240713191128650"></p>
 <p>从以上内容可以看出来，LazyMap.decorate是把传入的Transformer绑定到LazyMap。get函数就是从map中查找以Transfomer为键的值，没有就调用当前Transformer的transform方法，把返回对象做为value添加进map。</p>
 <p>也就是：LazyMap意为懒装配Map，不像其他Map，LazyMap的创建只需要传入键，在get时才把键和transform返回的结果put进map。</p>
-<p>书接上文<a href="https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/%EF%BC%8C%E6%88%91%E4%BB%AC%E6%9E%84%E9%80%A0chainedTransformer%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B%EF%BC%9A">https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/，我们构造chainedTransformer代码如下：</a></p>
+<p>书接上文<a href="https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/">https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/</a></p>
+<p>我们构造chainedTransformer代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">        Transformer[] transformers = <span class="keyword">new</span> <span class="title class_">Transformer</span>[]&#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(Runtime.class),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;getMethod&quot;</span>,<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class,Class[].class&#125;,<span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;getRuntime&quot;</span>,<span class="literal">null</span>&#125;),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;invoke&quot;</span>,<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Object.class,Object[].class&#125;,<span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="literal">null</span>,<span class="literal">null</span>&#125;),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;exec&quot;</span>,<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class&#125;,<span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;calc.exe&quot;</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="type">ChainedTransformer</span> <span class="variable">chainedTransformer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ChainedTransformer</span>(transformers);</span><br><span class="line"><span class="comment">//chainedTransformer1</span></span><br></pre></td></tr></table></figure>
 
 <p>我们控制factory为chainedTransformer，且设置的map中不存在以chainedTransform为键，即可成功调用chainedTransformer.transform()</p>
@@ -1074,7 +1078,7 @@ Constructor类型存储getConstructor获取的有参或无参
                   <span class="post-date">05-06</span>
                 
               </div>
-              <a class="post-title" href="/2024/05/06/bi-she/">毕设</a>
+              <a class="post-title" href="/2024/05/06/bi-she/">golang构造TCP重组包问询GPT检测反序列化流量</a>
             </div>
           </div>
         
@@ -1095,7 +1099,7 @@ Constructor类型存储getConstructor获取的有参或无参
                   <span class="post-date">03-01</span>
                 
               </div>
-              <a class="post-title" href="/2024/03/01/kao-yan-c-suan-fa-lian-xi/">考研C++算法练习</a>
+              <a class="post-title" href="/2024/03/01/kao-yan-c-suan-fa-lian-xi/">C++算法练习</a>
             </div>
           </div>
         

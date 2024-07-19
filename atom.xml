@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-07-16T07:14:47.369Z</updated>
+  <updated>2024-07-17T12:20:21.055Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -21,15 +21,16 @@
     <link href="https://godownio.github.io/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/"/>
     <id>https://godownio.github.io/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/</id>
     <published>2024-07-13T14:45:32.000Z</published>
-    <updated>2024-07-16T07:14:47.369Z</updated>
+    <updated>2024-07-17T12:20:21.055Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;前置知识：&lt;/p&gt;
-&lt;h2 id=&quot;Java动态代理&quot;&gt;&lt;a href=&quot;#Java动态代理&quot; class=&quot;headerlink&quot; title=&quot;Java动态代理&quot;&gt;&lt;/a&gt;Java动态代理&lt;/h2&gt;&lt;h3 id=&quot;静态代理&quot;&gt;&lt;a href=&quot;#静态代理&quot;</summary>
+    <summary type="html">&lt;p&gt;本文首发于&lt;a href=&quot;https://www.freebuf.com/vuls/406123.html&quot;&gt;https://www.freebuf.com/vuls/406123.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;前置知识：&lt;/p&gt;
+&lt;h2</summary>
         
       
     
@@ -73,18 +74,18 @@
   </entry>
   
   <entry>
-    <title>毕设</title>
+    <title>golang构造TCP重组包问询GPT检测反序列化流量</title>
     <link href="https://godownio.github.io/2024/05/06/bi-she/"/>
     <id>https://godownio.github.io/2024/05/06/bi-she/</id>
     <published>2024-05-06T06:05:36.000Z</published>
-    <updated>2024-05-06T09:49:34.230Z</updated>
+    <updated>2024-07-19T06:49:14.004Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;毕设&quot;&gt;&lt;a href=&quot;#毕设&quot; class=&quot;headerlink&quot; title=&quot;毕设&quot;&gt;&lt;/a&gt;毕设&lt;/h1&gt;&lt;p&gt;前言：距离上次的JAVA网上书城（完全够毕设工作量，毕设做JAVA可以看&lt;a</summary>
+    <summary type="html">&lt;h1 id=&quot;golang构造TCP重组包问询GPT检测反序列化流量&quot;&gt;&lt;a href=&quot;#golang构造TCP重组包问询GPT检测反序列化流量&quot; class=&quot;headerlink&quot;</summary>
         
       
     
@@ -98,18 +99,18 @@
   </entry>
   
   <entry>
-    <title>考研C++算法练习</title>
+    <title>C++算法练习</title>
     <link href="https://godownio.github.io/2024/03/01/kao-yan-c-suan-fa-lian-xi/"/>
     <id>https://godownio.github.io/2024/03/01/kao-yan-c-suan-fa-lian-xi/</id>
     <published>2024-03-01T14:05:36.000Z</published>
-    <updated>2024-03-07T10:17:58.723Z</updated>
+    <updated>2024-07-19T06:49:34.063Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h2 id=&quot;算法练习（C-代码）&quot;&gt;&lt;a href=&quot;#算法练习（C-代码）&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;h2 id=&quot;算法练习（C-代码）&quot;&gt;&lt;a href=&quot;#算法练习（C-代码）&quot; class=&quot;headerlink&quot; title=&quot;算法练习（C++代码）&quot;&gt;&lt;/a&gt;算法练习（C++代码）&lt;/h2&gt;&lt;h3 id=&quot;快速幂算法&quot;&gt;&lt;a href=&quot;#快速幂算法&quot;</summary>
         
       
     
