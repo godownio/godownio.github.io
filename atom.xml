@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-07-19T11:28:49.457Z</updated>
+  <updated>2024-07-20T03:50:21.965Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,39 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>CC重启之类URLDNS的CC6</title>
+    <link href="https://godownio.github.io/2024/07/20/lei-urldns-de-cc6/"/>
+    <id>https://godownio.github.io/2024/07/20/lei-urldns-de-cc6/</id>
+    <published>2024-07-20T03:49:01.000Z</published>
+    <updated>2024-07-20T03:50:21.965Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;CC6&quot;&gt;&lt;a href=&quot;#CC6&quot; class=&quot;headerlink&quot; title=&quot;CC6&quot;&gt;&lt;/a&gt;CC6&lt;/h2&gt;&lt;p&gt;在上一篇文章的分析中&lt;/p&gt;
+&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
+    
+    
+    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
+    
+  </entry>
+  
+  <entry>
     <title>CC重启之URLDNS补课</title>
     <link href="https://godownio.github.io/2024/07/19/urldns-bu-ke/"/>
     <id>https://godownio.github.io/2024/07/19/urldns-bu-ke/</id>
     <published>2024-07-19T11:27:00.000Z</published>
-    <updated>2024-07-19T11:28:49.457Z</updated>
+    <updated>2024-07-20T03:49:50.581Z</updated>
     
     
       
@@ -79,7 +107,7 @@
     <link href="https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/"/>
     <id>https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/</id>
     <published>2024-07-09T16:05:36.000Z</published>
-    <updated>2024-07-14T09:10:21.886Z</updated>
+    <updated>2024-07-19T15:11:23.751Z</updated>
     
     
       
@@ -576,40 +604,6 @@
     <category term="CC2" scheme="https://godownio.github.io/tags/CC2/"/>
     
     <category term="shiroCommonBeanutils" scheme="https://godownio.github.io/tags/shiroCommonBeanutils/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java_TemplatesImpl在BCEL和shiro中的利用</title>
-    <link href="https://godownio.github.io/2022/10/07/java-templatesimpl-zai-bcel-he-shiro-zhong-de-li-yong/"/>
-    <id>https://godownio.github.io/2022/10/07/java-templatesimpl-zai-bcel-he-shiro-zhong-de-li-yong/</id>
-    <published>2022-10-07T05:05:36.000Z</published>
-    <updated>2023-07-02T14:12:06.456Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;URLClassLoader可以从远程HTTP服务器上加载.class文件，从而执行任意代码。&lt;/p&gt;
-&lt;h1 id=&quot;JAVA-Classloader&quot;&gt;&lt;a href=&quot;#JAVA-Classloader&quot; class=&quot;headerlink&quot; title=&quot;JAVA</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
-    
-    
-    <category term="shiro" scheme="https://godownio.github.io/tags/shiro/"/>
-    
-    <category term="BCEL" scheme="https://godownio.github.io/tags/BCEL/"/>
-    
-    <category term="defineClass" scheme="https://godownio.github.io/tags/defineClass/"/>
-    
-    <category term="CC3" scheme="https://godownio.github.io/tags/CC3/"/>
     
   </entry>
   
