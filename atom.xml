@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-07-20T03:50:21.965Z</updated>
+  <updated>2024-07-31T08:30:27.417Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>java类加载及双亲委派机制</title>
+    <link href="https://godownio.github.io/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/"/>
+    <id>https://godownio.github.io/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/</id>
+    <published>2024-07-31T08:40:01.000Z</published>
+    <updated>2024-07-31T08:30:27.417Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;前面的CC1和CC6，都是在Runtime.exec执行命令。如果WAF过滤了Runtime就寄，而且用命令的方式写入shell进行下一步利用，在流量中一个数据包就能把你的行为全部看完，很容易被分析出来。&lt;/p&gt;
+&lt;p&gt;如果用恶意字节码加载的方式，我们的流量会更乱，溯源更麻</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
+    
+    
+    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
+    
+  </entry>
   
   <entry>
     <title>CC重启之类URLDNS的CC6</title>
@@ -575,35 +603,6 @@
     
     
     <category term="RMI原理" scheme="https://godownio.github.io/tags/RMI%E5%8E%9F%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java_PriorityQueue构造无TransformingComparator CC2</title>
-    <link href="https://godownio.github.io/2022/10/23/java-priorityqueue/"/>
-    <id>https://godownio.github.io/2022/10/23/java-priorityqueue/</id>
-    <published>2022-10-23T05:05:36.000Z</published>
-    <updated>2023-07-02T14:12:20.308Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;java-PriorityQueue&quot;&gt;&lt;a href=&quot;#java-PriorityQueue&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
-    
-    
-    <category term="CC2" scheme="https://godownio.github.io/tags/CC2/"/>
-    
-    <category term="shiroCommonBeanutils" scheme="https://godownio.github.io/tags/shiroCommonBeanutils/"/>
     
   </entry>
   
