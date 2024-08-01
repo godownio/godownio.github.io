@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-07-31T08:41:45.146Z</updated>
+  <updated>2024-08-01T10:03:01.414Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,39 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>一个搞笑的铸币CC3</title>
+    <link href="https://godownio.github.io/2024/08/01/cc3-xiao-cha-qu/"/>
+    <id>https://godownio.github.io/2024/08/01/cc3-xiao-cha-qu/</id>
+    <published>2024-08-01T03:21:21.000Z</published>
+    <updated>2024-08-01T10:03:01.414Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天没事想自己写个CC3类加载&lt;/p&gt;
+&lt;p&gt;结果为了顺利触发到TemplatesImpl#getTransletInstance的newInstance给我整急眼了，使劲改字段强行通过循环&lt;br&gt;&lt;img</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
+    
+    
+    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
+    
+  </entry>
+  
+  <entry>
     <title>java类加载及双亲委派机制</title>
     <link href="https://godownio.github.io/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/"/>
     <id>https://godownio.github.io/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/</id>
     <published>2024-07-31T08:40:01.000Z</published>
-    <updated>2024-07-31T08:41:45.146Z</updated>
+    <updated>2024-07-31T11:10:06.264Z</updated>
     
     
       
@@ -30,6 +58,34 @@
         
     <summary type="html">&lt;p&gt;前面的CC1和CC6，都是在Runtime.exec执行命令。如果WAF过滤了Runtime就寄，而且用命令的方式写入shell进行下一步利用，在流量中一个数据包就能把你的行为全部看完，很容易被分析出来。&lt;/p&gt;
 &lt;p&gt;如果用恶意字节码加载的方式，我们的流量会更乱，溯源更麻</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
+    
+    
+    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于类加载的多路径TemplatesImpl CC3</title>
+    <link href="https://godownio.github.io/2024/07/31/duo-lu-jing-templatesimpl-cc3/"/>
+    <id>https://godownio.github.io/2024/07/31/duo-lu-jing-templatesimpl-cc3/</id>
+    <published>2024-07-31T08:40:01.000Z</published>
+    <updated>2024-08-01T10:03:56.254Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上一文讲到类加载的底层原理&lt;/p&gt;
+&lt;p&gt;&lt;a</summary>
         
       
     
@@ -135,7 +191,7 @@
     <link href="https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/"/>
     <id>https://godownio.github.io/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/</id>
     <published>2024-07-09T16:05:36.000Z</published>
-    <updated>2024-07-19T15:11:23.751Z</updated>
+    <updated>2024-08-01T09:05:25.531Z</updated>
     
     
       
@@ -545,64 +601,6 @@
     <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
     
     <category term="中间件" scheme="https://godownio.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RMI源码分析</title>
-    <link href="https://godownio.github.io/2022/11/24/rmi-yuan-ma-fen-xi/"/>
-    <id>https://godownio.github.io/2022/11/24/rmi-yuan-ma-fen-xi/</id>
-    <published>2022-11-24T05:05:36.000Z</published>
-    <updated>2023-07-02T14:10:29.259Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;想学JDNI，那想必一定躲不过RMI。建议看过CC链后阅读&lt;/p&gt;
-&lt;h1 id=&quot;RMI简述&quot;&gt;&lt;a href=&quot;#RMI简述&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="RMI" scheme="https://godownio.github.io/categories/java/RMI/"/>
-    
-    
-    <category term="RMI" scheme="https://godownio.github.io/tags/RMI/"/>
-    
-    <category term="RMI源码" scheme="https://godownio.github.io/tags/RMI%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RMI攻击</title>
-    <link href="https://godownio.github.io/2022/11/21/rmi-gong-ji/"/>
-    <id>https://godownio.github.io/2022/11/21/rmi-gong-ji/</id>
-    <published>2022-11-21T05:05:36.000Z</published>
-    <updated>2023-07-02T14:10:42.033Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;RMI原理&quot;&gt;&lt;a href=&quot;#RMI原理&quot; class=&quot;headerlink&quot; title=&quot;RMI原理&quot;&gt;&lt;/a&gt;RMI原理&lt;/h2&gt;&lt;p&gt;这方面的东西就不多说了，看RMI流程图：&lt;/p&gt;
-&lt;p&gt;&lt;img</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="RMI" scheme="https://godownio.github.io/categories/java/RMI/"/>
-    
-    
-    <category term="RMI原理" scheme="https://godownio.github.io/tags/RMI%E5%8E%9F%E7%90%86/"/>
     
   </entry>
   

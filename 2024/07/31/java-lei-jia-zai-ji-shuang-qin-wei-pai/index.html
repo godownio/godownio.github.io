@@ -685,6 +685,39 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CC3TemplatesImpl</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">URLClassLoader</span> <span class="variable">urlClassLoader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URLClassLoader</span>(<span class="keyword">new</span> <span class="title class_">URL</span>[]&#123;<span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://127.0.0.1:9999/&quot;</span>)&#125;);</span><br><span class="line">        Class&lt;?&gt; clazz = urlClassLoader.loadClass(<span class="string">&quot;CC6TiedMapEntry&quot;</span>);</span><br><span class="line">        clazz.newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>当然也可以http搭配file和jar协议使用，自行发挥吧。</p>
+<h2 id="源码详解"><a href="#源码详解" class="headerlink" title="源码详解"></a>源码详解</h2><p>除此以外还有一种更底层的代码进行类加载。我们深入分析一下下列代码是怎么加载类的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) throws Exception &#123;</span><br><span class="line">    ClassLoader classLoader = ClassLoader.getSystemClassLoader();</span><br><span class="line">    Class&lt;?&gt; clazz = classLoader.loadClass(&quot;org.example.CC6TiedMapEntry&quot;);</span><br><span class="line">    clazz.newInstance();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ClassLoader.getSystemClassLoader()返回的是系统类加载器，通常是一个Launcher$AppClassLoader 的实例</p>
+</blockquote>
+<p>我们指定的类先进入单参数的ClassLoader#loadClass，因为AppClassLoader，父类URLClassLoader及其父类SecureClassLoader里并没有单参数loadClass，但是SecureClassLoader继承了ClassLoader</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731173028112.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731173028112.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240731173028112"></p>
+<p>该loadClass调用了另一个双参数的loadClass，尽管ClassLoader实现了这个双参数的loadClass，但根据多态性原则，还是交给重载了该方法的子类AppClassLoader运行。</p>
+<p>在AppClassLoader中调用了父类的loadClass，也就是ClassLoader的loadClass</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731175928852.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731175928852.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240731175928852"></p>
+<p>于是开始双亲委派</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731180116014.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731180116014.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240731180116014"></p>
+<p>由于不在指定的目录下，BootstrapLoader和ExtClassLoader都加载不了，最后传回了AppClassLoader。</p>
+<p>AppClassLoader#findClass不存在，交由其父类URLClassLoader#findClass处理。</p>
+<p>于是在该方法中，获取了类路径，并调用defineClass加载字节码</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731180720964.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731180720964.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240731180720964"></p>
+<p>跟进defineClass，发现实际上是调用了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731180820380.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731180820380.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240731180820380"></p>
+<p>在ClassLoader#defineClass进行了字节码的加载，具体的实现在defineClass1这个C++实现方法中。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731181000728.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731181000728.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240731181000728"></p>
+<p>这个过程不需要记住，只需要知道最后在ClassLoader#defineClass进行字节码的加载</p>
+<p>调用过程：AppClassLoader#loadClass-&gt;ClassLoader#loadClass-&gt;双亲委派-&gt;AppClassLoader#findClass(无)-&gt;URLClassLoader#findClass-&gt;URLClassLoader#defineClass-&gt;ClassLoader#defineClass</p>
+<p>双亲委派过程：检查是否加载过-&gt;ExtClassLoader#loadClass-&gt;BootstrapClassLoader-&gt;AppClassLoader#findClass</p>
+<h2 id="defineClass底层加载"><a href="#defineClass底层加载" class="headerlink" title="defineClass底层加载"></a>defineClass底层加载</h2><p>既然最后类加载的地方是defineClass，那我们反射直接调用一遍该方法测试一下</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731182329733.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731182329733.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240731182329733"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    Class&lt;ClassLoader&gt; cl = ClassLoader.class;</span><br><span class="line">    <span class="type">Method</span> <span class="variable">defineclassmethod</span> <span class="operator">=</span> cl.getDeclaredMethod(<span class="string">&quot;defineClass&quot;</span>, String.class, <span class="type">byte</span>[].class, <span class="type">int</span>.class, <span class="type">int</span>.class);</span><br><span class="line">    defineclassmethod.setAccessible(<span class="literal">true</span>);</span><br><span class="line">    <span class="type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\CODE_COLLECT\\CC6TiedMapEntry.class&quot;</span>));</span><br><span class="line">    <span class="type">Class</span> <span class="variable">cc6Instance</span> <span class="operator">=</span> (Class) defineclassmethod.invoke(ClassLoader.getSystemClassLoader(), <span class="string">&quot;CC6TiedMapEntry&quot;</span>, code, <span class="number">0</span>, code.length);</span><br><span class="line">    cc6Instance.newInstance();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731183540038.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731183540038.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240731183540038"></p>
+<p>可见，可以直接调用defineClass加载类。</p>
+<p>尽管defineClass是protected final，其他地方依然有调用到该方法，让我们可以构造底层的恶意类加载攻击。</p>
+<p>比如bcel，TemplatesImpl</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731190735428.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240731190735428.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240731190735428"></p>
 
       </div>
       <div class="post-tags-categories">
@@ -724,22 +757,41 @@
 
 
 
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B892.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B892.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2024/08/01/cc3-xiao-cha-qu/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> 上一篇:
+        <div class="title-text">一个搞笑的铸币CC3</div>
+      </div>
+      
+      <!-- <div class="content">
+        今天没事想自己写个CC3类加载
+结果为了顺利触发到TemplatesImpl#getTransletInstance的n
+      </div> -->
+    </a>
+  </div>
+
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B889.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B889.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B893.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B893.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/07/20/lei-urldns-de-cc6/" class="post-nav-link">
+    <a href="/2024/07/31/duo-lu-jing-templatesimpl-cc3/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">CC重启之类URLDNS的CC6</div>
+        <div class="title-text">基于类加载的多路径TemplatesImpl CC3</div>
       </div>
       <!-- <div class="content">
-        CC6在上一篇文章的分析中
-https://godownio.github.io/2024/07/13/cc-chong
+        上一文讲到类加载的底层原理
+https://godownio.github.io/2024/07/31/java-lei
       </div> -->
     </a>
   </div>
@@ -877,7 +929,7 @@ https://godownio.github.io/2024/07/13/cc-chong
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-text">Java双亲委派类加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E4%B9%8BURLClassLoader"><span class="toc-text">类加载器之URLClassLoader</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#file%E5%8D%8F%E8%AE%AE"><span class="toc-text">file协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jar%E5%8D%8F%E8%AE%AE"><span class="toc-text">jar协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http%E5%8D%8F%E8%AE%AE"><span class="toc-text">http协议</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-text">Java双亲委派类加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E4%B9%8BURLClassLoader"><span class="toc-text">类加载器之URLClassLoader</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#file%E5%8D%8F%E8%AE%AE"><span class="toc-text">file协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jar%E5%8D%8F%E8%AE%AE"><span class="toc-text">jar协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http%E5%8D%8F%E8%AE%AE"><span class="toc-text">http协议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3"><span class="toc-text">源码详解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#defineClass%E5%BA%95%E5%B1%82%E5%8A%A0%E8%BD%BD"><span class="toc-text">defineClass底层加载</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -910,6 +962,27 @@ https://godownio.github.io/2024/07/13/cc-chong
             
 
             <div class="post-img-box">
+              <a href="/2024/08/01/cc3-xiao-cha-qu/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B892.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B892.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">08-01</span>
+                
+              </div>
+              <a class="post-title" href="/2024/08/01/cc3-xiao-cha-qu/">一个搞笑的铸币CC3</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B891.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B891.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -922,6 +995,27 @@ https://godownio.github.io/2024/07/13/cc-chong
                 
               </div>
               <a class="post-title" href="/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/">java类加载及双亲委派机制</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/07/31/duo-lu-jing-templatesimpl-cc3/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B893.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B893.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">07-31</span>
+                
+              </div>
+              <a class="post-title" href="/2024/07/31/duo-lu-jing-templatesimpl-cc3/">基于类加载的多路径TemplatesImpl CC3</a>
             </div>
           </div>
         
@@ -964,48 +1058,6 @@ https://godownio.github.io/2024/07/13/cc-chong
                 
               </div>
               <a class="post-title" href="/2024/07/19/urldns-bu-ke/">CC重启之URLDNS补课</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B887.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B887.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">07-13</span>
-                
-              </div>
-              <a class="post-title" href="/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/">CC重启之基于动态代理构造的LazyMap CC1及利用二次反序列化的修复</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B886.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B886.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">07-10</span>
-                
-              </div>
-              <a class="post-title" href="/2024/07/10/cc-chong-qi-zhi-cong-ling-dai-ma-gou-zao-cc1/">CC重启之从零代码构造TransformedMap CC1</a>
             </div>
           </div>
         
