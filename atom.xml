@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-08-01T10:09:07.486Z</updated>
+  <updated>2024-08-02T09:11:14.411Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,60 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CTF 快速查ban</title>
+    <link href="https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/"/>
+    <id>https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/</id>
+    <published>2024-08-02T09:10:57.000Z</published>
+    <updated>2024-08-02T09:11:14.411Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;CC链&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240802170805620.png&quot; class=&quot;lazyload</summary>
+        
+      
+    
+    
+    
+    <category term="CTF" scheme="https://godownio.github.io/categories/CTF/"/>
+    
+    
+    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CC完结PriorityQueue CC2&amp;CC4</title>
+    <link href="https://godownio.github.io/2024/08/02/cc2-cc4-priorityqueue/"/>
+    <id>https://godownio.github.io/2024/08/02/cc2-cc4-priorityqueue/</id>
+    <published>2024-08-02T08:11:32.000Z</published>
+    <updated>2024-08-02T09:10:01.248Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;CC2，4，5，7都是Common Collections 4.0版本下的反序列化漏洞。pom依赖：&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
+    
+    
+    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
+    
+  </entry>
   
   <entry>
     <title>基于类加载的多路径TemplatesImpl CC3</title>
@@ -541,66 +595,6 @@
     <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
     
     <category term="jndi" scheme="https://godownio.github.io/tags/jndi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>spring内存马——Controller&amp;Interceptor</title>
-    <link href="https://godownio.github.io/2022/12/29/spring-nei-cun-ma-controller-interceptor/"/>
-    <id>https://godownio.github.io/2022/12/29/spring-nei-cun-ma-controller-interceptor/</id>
-    <published>2022-12-29T05:05:36.000Z</published>
-    <updated>2023-07-02T14:09:48.272Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Spring内存马&quot;&gt;&lt;a href=&quot;#Spring内存马&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    
-    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    <category term="Spring" scheme="https://godownio.github.io/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Tomcat内存马——Filter&amp;Servlet&amp;Listener&amp;valve</title>
-    <link href="https://godownio.github.io/2022/12/12/tomcat-nei-cun-ma-filter-servlet-listener-valve/"/>
-    <id>https://godownio.github.io/2022/12/12/tomcat-nei-cun-ma-filter-servlet-listener-valve/</id>
-    <published>2022-12-12T05:05:36.000Z</published>
-    <updated>2023-07-02T14:09:18.891Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Tomcat内存马&quot;&gt;&lt;a href=&quot;#Tomcat内存马&quot; class=&quot;headerlink&quot; title=&quot;Tomcat内存马&quot;&gt;&lt;/a&gt;Tomcat内存马&lt;/h1&gt;&lt;p&gt;基础知识：&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    
-    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
-    
-    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    <category term="中间件" scheme="https://godownio.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
     
   </entry>
   
