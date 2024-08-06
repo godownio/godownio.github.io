@@ -916,6 +916,8 @@
       
         <tags>
             
+            <tag> CTF </tag>
+            
             <tag> 爬虫 </tag>
             
             <tag> 机器学习 </tag>
@@ -970,8 +972,6 @@
       <categories>
           
           <category> 内网渗透 </category>
-          
-          <category> msf </category>
           
       </categories>
       
