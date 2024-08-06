@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-08-02T09:14:27.379Z</updated>
+  <updated>2024-08-06T10:02:39.489Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Shiro550 URLDNS&amp;CC&amp;CB攻击</title>
+    <link href="https://godownio.github.io/2024/08/06/shiro-fan-xu-lie-hua-shen-ji/"/>
+    <id>https://godownio.github.io/2024/08/06/shiro-fan-xu-lie-hua-shen-ji/</id>
+    <published>2024-08-06T10:00:57.000Z</published>
+    <updated>2024-08-06T10:02:39.489Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Shiro550&quot;&gt;&lt;a href=&quot;#Shiro550&quot; class=&quot;headerlink&quot; title=&quot;Shiro550&quot;&gt;&lt;/a&gt;Shiro550&lt;/h1&gt;&lt;h2 id=&quot;环境搭建：&quot;&gt;&lt;a href=&quot;#环境搭建：&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
+    
+    <category term="Shiro" scheme="https://godownio.github.io/tags/Shiro/"/>
+    
+  </entry>
+  
+  <entry>
     <title>CTF 快速查ban</title>
     <link href="https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/"/>
     <id>https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/</id>
     <published>2024-08-02T09:10:57.000Z</published>
-    <updated>2024-08-02T09:14:27.379Z</updated>
+    <updated>2024-08-06T10:06:47.747Z</updated>
     
     
       
@@ -47,14 +76,14 @@
     <link href="https://godownio.github.io/2024/08/02/cc2-cc4-priorityqueue/"/>
     <id>https://godownio.github.io/2024/08/02/cc2-cc4-priorityqueue/</id>
     <published>2024-08-02T08:11:32.000Z</published>
-    <updated>2024-08-02T09:10:01.248Z</updated>
+    <updated>2024-08-02T09:39:50.496Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;CC2，4，5，7都是Common Collections 4.0版本下的反序列化漏洞。pom依赖：&lt;/p&gt;
+    <summary type="html">&lt;p&gt;CC2，4都是Common Collections 4.0版本下的反序列化漏洞。pom依赖：&lt;/p&gt;
 &lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
         
       
@@ -131,7 +160,7 @@
     <link href="https://godownio.github.io/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/"/>
     <id>https://godownio.github.io/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/</id>
     <published>2024-07-31T08:40:01.000Z</published>
-    <updated>2024-07-31T11:10:06.264Z</updated>
+    <updated>2024-08-06T07:01:55.340Z</updated>
     
     
       
@@ -501,11 +530,11 @@
   </entry>
   
   <entry>
-    <title>struct2-fastjson-shiro-jboss合集</title>
+    <title>struct2利用</title>
     <link href="https://godownio.github.io/2023/05/01/struct2-fastjson-shiro-jboss-he-ji/"/>
     <id>https://godownio.github.io/2023/05/01/struct2-fastjson-shiro-jboss-he-ji/</id>
     <published>2023-05-01T05:05:36.000Z</published>
-    <updated>2023-07-02T14:09:34.453Z</updated>
+    <updated>2024-08-06T10:03:20.281Z</updated>
     
     
       
@@ -525,15 +554,7 @@
     <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
     
     
-    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
-    
-    <category term="shiro" scheme="https://godownio.github.io/tags/shiro/"/>
-    
     <category term="struct2" scheme="https://godownio.github.io/tags/struct2/"/>
-    
-    <category term="jboss" scheme="https://godownio.github.io/tags/jboss/"/>
-    
-    <category term="java反序列化工具" scheme="https://godownio.github.io/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
@@ -564,37 +585,6 @@
     <category term="CVE" scheme="https://godownio.github.io/tags/CVE/"/>
     
     <category term="SPEL表达式注入" scheme="https://godownio.github.io/tags/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Fastjson jdbcRowSetImpl链及后续漏洞分析</title>
-    <link href="https://godownio.github.io/2023/02/06/fastjson-jdbcrowsetimpl-lian-ji-hou-xu-lou-dong-fen-xi/"/>
-    <id>https://godownio.github.io/2023/02/06/fastjson-jdbcrowsetimpl-lian-ji-hou-xu-lou-dong-fen-xi/</id>
-    <published>2023-02-06T05:05:36.000Z</published>
-    <updated>2023-07-02T14:13:27.711Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Fastjson-jdbcRowSetImpl链及后续漏洞分析&quot;&gt;&lt;a href=&quot;#Fastjson-jdbcRowSetImpl链及后续漏洞分析&quot; class=&quot;headerlink&quot; title=&quot;Fastjson</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="fastjson" scheme="https://godownio.github.io/categories/java/fastjson/"/>
-    
-    
-    <category term="RMI" scheme="https://godownio.github.io/tags/RMI/"/>
-    
-    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
-    
-    <category term="jndi" scheme="https://godownio.github.io/tags/jndi/"/>
     
   </entry>
   
