@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-08-06T10:22:48.089Z</updated>
+  <updated>2024-09-18T14:21:30.770Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>7u21&amp;8u20反序列化</title>
+    <link href="https://godownio.github.io/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/"/>
+    <id>https://godownio.github.io/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/</id>
+    <published>2024-09-18T14:19:57.000Z</published>
+    <updated>2024-09-18T14:21:30.770Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;仅需JDK在指定版本，有反序列化入口，但无需其他的依赖包比如CC，CB能否直接打入反序列化？&lt;/p&gt;
+&lt;p&gt;其中一个答案就是java原生反序列化链JDK7u21&lt;/p&gt;
+&lt;h1 id=&quot;jdk7u21原生反序列化&quot;&gt;&lt;a href=&quot;#jdk7u21原生反序列化&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="java原生RCE" scheme="https://godownio.github.io/tags/java%E5%8E%9F%E7%94%9FRCE/"/>
+    
+  </entry>
   
   <entry>
     <title>Shiro550 URLDNS&amp;CC&amp;CB攻击</title>
@@ -302,7 +331,7 @@
     <link href="https://godownio.github.io/2024/05/06/bi-she/"/>
     <id>https://godownio.github.io/2024/05/06/bi-she/</id>
     <published>2024-05-06T06:05:36.000Z</published>
-    <updated>2024-07-19T06:49:14.004Z</updated>
+    <updated>2024-09-15T02:49:49.982Z</updated>
     
     
       
@@ -555,36 +584,6 @@
     
     
     <category term="struct2" scheme="https://godownio.github.io/tags/struct2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Cloud GateWay CVE-2022-22947构造哥斯拉马</title>
-    <link href="https://godownio.github.io/2023/04/19/spring-cloud-gateway-cve-2022-22947-spel-biao-da-shi-zhu-ru/"/>
-    <id>https://godownio.github.io/2023/04/19/spring-cloud-gateway-cve-2022-22947-spel-biao-da-shi-zhu-ru/</id>
-    <published>2023-04-19T05:05:36.000Z</published>
-    <updated>2023-07-02T14:10:13.270Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;这篇文章的主要目的是学习一下spel表达式注入和哥斯拉内存马注入，还有神器java-object-searcher的使用&lt;/p&gt;
-&lt;h1 id=&quot;SPEL表达式注入&quot;&gt;&lt;a href=&quot;#SPEL表达式注入&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="OtherCVE" scheme="https://godownio.github.io/categories/java/OtherCVE/"/>
-    
-    
-    <category term="CVE" scheme="https://godownio.github.io/tags/CVE/"/>
-    
-    <category term="SPEL表达式注入" scheme="https://godownio.github.io/tags/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   

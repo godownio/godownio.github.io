@@ -633,6 +633,13 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506163017511.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506163017511.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240506163017511"></p>
 <p>加个狗屎UI花了三倍以上的代码和时间。</p>
 <p>创新点：go本身线程安全（作为常驻WAF本身不易遭到攻击），gopacket基于Npcap，Winpcap升级版，goroutine协程效率高，资源消耗低。LLM判结果，方便且更新快。</p>
+<h2 id="go-fyne环境搭建问题"><a href="#go-fyne环境搭建问题" class="headerlink" title="go-fyne环境搭建问题"></a>go-fyne环境搭建问题</h2><p>tdm记得勾倒数第二个插件</p>
+<p>要装npcap</p>
+<p>go env -w CGO_ENABLED&#x3D;1</p>
+<p>gcc环境变量</p>
+<p>gcc改环境变量后goland需要重启</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193025972.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193025972.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240302193025972"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193000453.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193000453.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240302193000453"></p>
 <h2 id="使用手册"><a href="#使用手册" class="headerlink" title="使用手册"></a>使用手册</h2><p>本工具已将阿里qwen LLM SDK拖到本地，请前往qwen_model.go修改ChatQWenModel为自己需要的LLM</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ChatQWenModel = <span class="string">&quot;qwen-turbo&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -892,7 +899,7 @@ Constructor类型存储getConstructor获取的有参或无参
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#golang%E6%9E%84%E9%80%A0TCP%E9%87%8D%E7%BB%84%E5%8C%85%E9%97%AE%E8%AF%A2GPT%E6%A3%80%E6%B5%8B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B5%81%E9%87%8F"><span class="toc-text">golang构造TCP重组包问询GPT检测反序列化流量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C"><span class="toc-text">使用手册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#main-go"><span class="toc-text">main.go</span></a></li></ol></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#golang%E6%9E%84%E9%80%A0TCP%E9%87%8D%E7%BB%84%E5%8C%85%E9%97%AE%E8%AF%A2GPT%E6%A3%80%E6%B5%8B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B5%81%E9%87%8F"><span class="toc-text">golang构造TCP重组包问询GPT检测反序列化流量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#go-fyne%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E9%97%AE%E9%A2%98"><span class="toc-text">go-fyne环境搭建问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C"><span class="toc-text">使用手册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#main-go"><span class="toc-text">main.go</span></a></li></ol></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -918,6 +925,27 @@ Constructor类型存储getConstructor获取的有参或无参
       <!-- hash算法 -->
       
       <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B897.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B897.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">09-18</span>
+                
+              </div>
+              <a class="post-title" href="/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/">7u21&amp;8u20反序列化</a>
+            </div>
+          </div>
         
           <div class="aside-list-item">
             
@@ -1000,27 +1028,6 @@ Constructor类型存储getConstructor获取的有参或无参
                 
               </div>
               <a class="post-title" href="/2024/08/01/duo-lu-jing-templatesimpl-cc3/">基于类加载的多路径TemplatesImpl CC3</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/08/01/cc3-xiao-cha-qu/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B892.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B892.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">08-01</span>
-                
-              </div>
-              <a class="post-title" href="/2024/08/01/cc3-xiao-cha-qu/">一个搞笑的铸币CC3</a>
             </div>
           </div>
         
