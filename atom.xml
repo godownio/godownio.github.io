@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-09-23T03:43:19.826Z</updated>
+  <updated>2024-09-23T03:51:05.924Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>loadClass和forName加载数组类</title>
-    <link href="https://godownio.github.io/2024/09/23/loadclass-dao-zhi-de-fan-xu-lie-hua-guo-lu/"/>
-    <id>https://godownio.github.io/2024/09/23/loadclass-dao-zhi-de-fan-xu-lie-hua-guo-lu/</id>
+    <link href="https://godownio.github.io/2024/09/23/loadclass-he-forname-jia-zai-shu-zu-lei/"/>
+    <id>https://godownio.github.io/2024/09/23/loadclass-he-forname-jia-zai-shu-zu-lei/</id>
     <published>2024-09-23T01:23:45.000Z</published>
-    <updated>2024-09-23T03:43:19.826Z</updated>
+    <updated>2024-09-23T03:51:05.924Z</updated>
     
     
       
@@ -37,7 +37,7 @@
     
     <category term="java" scheme="https://godownio.github.io/categories/java/"/>
     
-    <category term="other" scheme="https://godownio.github.io/categories/java/other/"/>
+    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
     
     
     <category term="类加载" scheme="https://godownio.github.io/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/"/>
@@ -78,7 +78,7 @@
     <link href="https://godownio.github.io/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/"/>
     <id>https://godownio.github.io/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/</id>
     <published>2024-09-18T14:19:57.000Z</published>
-    <updated>2024-09-18T14:23:50.969Z</updated>
+    <updated>2024-09-23T03:49:49.094Z</updated>
     
     
       
@@ -95,7 +95,7 @@
     
     <category term="java" scheme="https://godownio.github.io/categories/java/"/>
     
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
     
     
     <category term="java原生RCE" scheme="https://godownio.github.io/tags/java%E5%8E%9F%E7%94%9FRCE/"/>
@@ -246,7 +246,7 @@
     <link href="https://godownio.github.io/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/"/>
     <id>https://godownio.github.io/2024/07/31/java-lei-jia-zai-ji-shuang-qin-wei-pai/</id>
     <published>2024-07-31T08:40:01.000Z</published>
-    <updated>2024-09-23T03:42:28.956Z</updated>
+    <updated>2024-09-23T03:51:15.400Z</updated>
     
     
       
@@ -262,7 +262,7 @@
     
     <category term="java" scheme="https://godownio.github.io/categories/java/"/>
     
-    <category term="other" scheme="https://godownio.github.io/categories/java/other/"/>
+    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
     
     
     <category term="类加载" scheme="https://godownio.github.io/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/"/>
