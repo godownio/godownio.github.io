@@ -874,17 +874,17 @@
 <h3 id="其他流，如Shiro流"><a href="#其他流，如Shiro流" class="headerlink" title="其他流，如Shiro流"></a>其他流，如Shiro流</h3><p>非RMI流直接进else创建dgc了，跟上面利用方式一样</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919233346788.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919233346788.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240919233346788"></p>
 <h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><p>ysoserial</p>
-<h3 id="8u121前"><a href="#8u121前" class="headerlink" title="8u121前"></a>8u121前</h3><p><code>RegistryImpl_Skel.dispatch</code>处理lookup、bind等请求，客户端攻击注册中心</p>
+<h3 id="8u121前"><a href="#8u121前" class="headerlink" title="8u121前"></a>8u121前</h3><p>由于<code>RegistryImpl_Skel.dispatch</code>处理lookup、bind等请求，客户端攻击注册中心</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919231414609.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919231414609.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240919231414609"></p>
-<p>通过攻击dgc攻击注册中心</p>
+<p>客户端通过攻击dgc攻击注册中心</p>
 <p>exploit中</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919231641395.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919231641395.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240919231641395"></p>
-<p>payload中，JRMPListener是针对一个反序列化点，RMI开启另一个RMI服务（端口不同），再打RMI，一种二次反序列化。但是原来的链子既然都能执行开RMI了，也能RCE了😂，没什么用</p>
+<p>payload中，JRMPListener是针对一个反序列化点，RMI开启另一个RMI服务（端口不同），再打RMI，一种二次反序列化。绕过一些RMI限制，但是原来的链子既然都能执行开RMI了，也能RCE了😂，没什么用</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919232620197.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919232620197.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240919232620197"></p>
-<h3 id="8u121后"><a href="#8u121后" class="headerlink" title="8u121后"></a>8u121后</h3><p>高版本绕过，伪造RMI服务，可攻击注册中心和客户端</p>
+<h3 id="8u121后"><a href="#8u121后" class="headerlink" title="8u121后"></a>8u121后</h3><p>上文的高版本绕过，RMI流，可攻击注册中心和客户端</p>
 <p>exploit中</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919232311093.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919232311093.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240919232311093"></p>
-<p>非RMI服务，利用非RMI流走开RMI服务，用这个payload&#x2F;JRMPClient开RMI服务，再用exploit对RMI进行攻击。非常常用的二次反序列化链子。</p>
+<p>也是上文的高版本绕过，但是走的非RMI流，利用非RMI流走开RMI服务，用这个payload&#x2F;JRMPClient开RMI服务，再用exploit对RMI进行攻击。非常常用的二次反序列化链子。</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919232905118.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240919232905118.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240919232905118"></p>
 <p>这个payload可以在本机开JRMP监听</p>
 <p>Usage：</p>
