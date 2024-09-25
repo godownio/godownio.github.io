@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-09-23T03:51:05.924Z</updated>
+  <updated>2024-09-25T10:33:16.795Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JNDI注入(InitialContext.lookup)</title>
+    <link href="https://godownio.github.io/2024/09/25/jndi-zhu-ru/"/>
+    <id>https://godownio.github.io/2024/09/25/jndi-zhu-ru/</id>
+    <published>2024-09-25T10:30:58.000Z</published>
+    <updated>2024-09-25T10:33:16.795Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;JNDI是一种命名服务，全称叫Java Naming and Directory Interface&lt;/p&gt;
+&lt;p&gt;开发者可以讲JNDI</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="RMI" scheme="https://godownio.github.io/categories/java/RMI/"/>
+    
+    
+    <category term="java原生RCE" scheme="https://godownio.github.io/tags/java%E5%8E%9F%E7%94%9FRCE/"/>
+    
+    <category term="JNDI" scheme="https://godownio.github.io/tags/JNDI/"/>
+    
+  </entry>
   
   <entry>
     <title>loadClass和forName加载数组类</title>
@@ -49,7 +79,7 @@
     <link href="https://godownio.github.io/2024/09/20/rmi-san-duan-jrmp-ji-qi-gao-ban-ben-rao-guo/"/>
     <id>https://godownio.github.io/2024/09/20/rmi-san-duan-jrmp-ji-qi-gao-ban-ben-rao-guo/</id>
     <published>2024-09-20T13:47:03.000Z</published>
-    <updated>2024-09-23T03:45:24.960Z</updated>
+    <updated>2024-09-25T10:30:08.720Z</updated>
     
     
       
@@ -78,7 +108,7 @@
     <link href="https://godownio.github.io/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/"/>
     <id>https://godownio.github.io/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/</id>
     <published>2024-09-18T14:19:57.000Z</published>
-    <updated>2024-09-23T03:49:49.094Z</updated>
+    <updated>2024-09-23T15:02:27.435Z</updated>
     
     
       
@@ -558,31 +588,6 @@
     <category term="内网渗透" scheme="https://godownio.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
     
     <category term="vulnhub" scheme="https://godownio.github.io/tags/vulnhub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>无线攻击之aircrack-ng</title>
-    <link href="https://godownio.github.io/2023/06/10/wu-xian-gong-ji-aircrack-ng/"/>
-    <id>https://godownio.github.io/2023/06/10/wu-xian-gong-ji-aircrack-ng/</id>
-    <published>2023-06-10T05:05:36.000Z</published>
-    <updated>2023-07-02T14:14:31.543Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;无线攻击之aircrack-ng套件&quot;&gt;&lt;a href=&quot;#无线攻击之aircrack-ng套件&quot; class=&quot;headerlink&quot; title=&quot;无线攻击之aircrack-ng套件&quot;&gt;&lt;/a&gt;无线攻击之aircrack-ng套件&lt;/h1&gt;&lt;h2</summary>
-        
-      
-    
-    
-    
-    <category term="杂七杂八" scheme="https://godownio.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
-    
-    
-    <category term="aircrack-ng" scheme="https://godownio.github.io/tags/aircrack-ng/"/>
     
   </entry>
   
