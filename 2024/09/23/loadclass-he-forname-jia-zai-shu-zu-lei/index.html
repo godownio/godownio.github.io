@@ -620,12 +620,12 @@
     <article class="post post-detail">
       <div class="post-content">
         <p>在打shiro的时候，我们发现不能用Transformer数组，而能用byte[]数组，这是为甚？</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922200019055.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922200019055.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922200019055"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922200019055.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922200019055.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>原文：</p>
 <p><a href="https://godownio.github.io/2024/08/06/shiro-fan-xu-lie-hua-shen-ji/">https://godownio.github.io/2024/08/06/shiro-fan-xu-lie-hua-shen-ji/</a></p>
 <h2 id="ClassLoader-loadClass和Class-forName"><a href="#ClassLoader-loadClass和Class-forName" class="headerlink" title="ClassLoader.loadClass和Class.forName"></a>ClassLoader.loadClass和Class.forName</h2><p>先说结论。<code>URLClassLoader#loadClass不能加载数组类，Class#forName可以加载数组类</code></p>
 <h3 id="Class-forName"><a href="#Class-forName" class="headerlink" title="Class.forName"></a>Class.forName</h3><p>Class#forName调用了一个native方法进行加载</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923102910864.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923102910864.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240923102910864"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923102910864.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923102910864.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>这个分析不了，但是结论就是forName0可以加载数组类，且根据ClassLoader遵循双亲委派逻辑</p>
 <h3 id="ClassLoader-loadClass"><a href="#ClassLoader-loadClass" class="headerlink" title="ClassLoader.loadClass"></a>ClassLoader.loadClass</h3><p>ClassLoader#loadClass实现了双亲委派。</p>
 <p>还记得之前讲的双亲委派机制吗，loadClass向父加载器传递，到顶层再逐层调用findClass查找类</p>
@@ -639,34 +639,34 @@
 <p>[L是一个JVM的标记，说明实际上这是一个数组，即Transformer[]</p>
 </blockquote>
 <p>shiro的漏洞点DefaultSerializar.deserialize，在readObject前，用自定义的ClassResolvingObjectInputStream解析了输入流，而不是用默认的ObjectInputStream</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203138768.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203138768.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922203138768"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203138768.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203138768.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>该类resolveClass用自定义的forName查找类，而不是Class.forName</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203248779.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203248779.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922203248779"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203248779.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203248779.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <blockquote>
 <p>resolveClass 是反序列化中用来查找类的方法。读取序列化流的时候，读到一个字符串形式的类名，需要通过这个方法来找到对应的对象。</p>
 </blockquote>
 <p>调用了这什么静态变量的loadClass</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203633004.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203633004.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922203633004"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203633004.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203633004.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>也就是ExceptionIgnoringAccessor.loadClass</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203708443.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203708443.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922203708443"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203708443.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203708443.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>先getClassLoader获取类加载器，然后调用该类加载器的loadClass</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203835867.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203835867.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922203835867"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203835867.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203835867.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>不同中间件的类加载器不同，Tomcat中是ParallelWebappClassLoader</p>
 <p>网上下个Tomcat 8.5.6源码分析一下</p>
 <p>ParallelWebappClassLoader继承WebappClassLoaderBase，且未重写loadClass，那就看WebappClassLoaderBase.loadClass</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922204156808.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922204156808.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922204156808"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922204156808.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922204156808.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>草，这个也没重写，我TM跟跟跟</p>
 <p>最后跟到WebappClassLoaderBase，挖草，巴拉一串，可以读注释的英文（很快，别读，我直接抄结论</p>
 <p>1、先在tomcat的缓存中查找该类是否已经加载过<br>2、如果没有，在jdk的缓存里查找该类是否已经加载过<br>3、如果没有，则使用ExtClassLoader#loadClass加载，ExtClassLoader会走双亲委派。这里是为了在打破双亲委派的同时保留加载系统内置类的功能，绕过AppClassLoader。<br>4、如果没有加载成功，判断是否设置了delegate也就是遵循双亲委派，默认是false，就会调用WebAppClassLoader#findClass方法进行加载。<br>5、如果没有加载成功，会用父类加载器调用Class#forName进行加载，也就是用tomcat中的CommonClassLoader。</p>
 <p>delegateLoad为false，能进if。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922223036102.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922223036102.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922223036102">可以看到在这个过程里，实际上是既有Class#forName又有ClassLoader#loadClass的。加载类的地方实际就两个WebAppClassLoader#findClass和用CommonClassLoader调用Class#forName</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922223036102.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922223036102.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">可以看到在这个过程里，实际上是既有Class#forName又有ClassLoader#loadClass的。加载类的地方实际就两个WebAppClassLoader#findClass和用CommonClassLoader调用Class#forName</p>
 <ul>
 <li>findClass为什么没有加载成功呢？</li>
 </ul>
 <p>WebAppClassLoader#findClass调用了findClassInternal，name一开始就经过了binaryNameToPath</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110029463.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110029463.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240923110029463"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110029463.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110029463.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>换成了和URLClassLoader#findClass类似的改成&#x2F;a&#x2F;b&#x2F;c.class形式，也不能加载数组类</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110051795.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110051795.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240923110051795"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110051795.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110051795.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
 <li>CommonClassLoader调用Class#forName为什么没有加载成功呢？</li>
 </ul>
@@ -683,12 +683,12 @@
 <p>gitdown直接下载文件夹</p>
 <p><a target="_blank" rel="noopener" href="http://tool.mkblog.cn/downgit">http://tool.mkblog.cn/downgit</a></p>
 <p>题目很明显了，用CC链打</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212851740.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212851740.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922212851740"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212851740.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212851740.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>springboot项目，直接看Controller</p>
 <p>IndexController自己定义了MyObjectInputStream解析输入流</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212249180.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212249180.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922212249180"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212249180.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212249180.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>resolveClass调用loadClass寻找类</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212345117.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212345117.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240922212345117"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212345117.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212345117.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>ClassLoader在构造函数给出了，URLClassLoader。</p>
 <p>URLClassLoader.loadClass不能加载数组类。</p>
 <p>一个数组类也不能传，怎么打CC？</p>

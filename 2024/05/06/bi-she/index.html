@@ -625,12 +625,12 @@
 <ul>
 <li>恶意流量检测模块：</li>
 </ul>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/718010841cfdfab5a4b8d573e56bc2ab.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/718010841cfdfab5a4b8d573e56bc2ab.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="718010841cfdfab5a4b8d573e56bc2ab"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/08cfc52f4e4aae7b92ebca557f96b2dc.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/08cfc52f4e4aae7b92ebca557f96b2dc.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="08cfc52f4e4aae7b92ebca557f96b2dc"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/718010841cfdfab5a4b8d573e56bc2ab.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/718010841cfdfab5a4b8d573e56bc2ab.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/08cfc52f4e4aae7b92ebca557f96b2dc.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/08cfc52f4e4aae7b92ebca557f96b2dc.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
 <li>全流量模块</li>
 </ul>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506163017511.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506163017511.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240506163017511"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506163017511.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506163017511.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>加个狗屎UI花了三倍以上的代码和时间。</p>
 <p>创新点：go本身线程安全（作为常驻WAF本身不易遭到攻击），gopacket基于Npcap，Winpcap升级版，goroutine协程效率高，资源消耗低。LLM判结果，方便且更新快。</p>
 <h2 id="go-fyne环境搭建问题"><a href="#go-fyne环境搭建问题" class="headerlink" title="go-fyne环境搭建问题"></a>go-fyne环境搭建问题</h2><p>tdm记得勾倒数第二个插件</p>
@@ -638,19 +638,19 @@
 <p>go env -w CGO_ENABLED&#x3D;1</p>
 <p>gcc环境变量</p>
 <p>gcc改环境变量后goland需要重启</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193025972.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193025972.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240302193025972"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193000453.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193000453.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240302193000453"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193025972.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193025972.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193000453.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240302193000453.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h2 id="使用手册"><a href="#使用手册" class="headerlink" title="使用手册"></a>使用手册</h2><p>本工具已将阿里qwen LLM SDK拖到本地，请前往qwen_model.go修改ChatQWenModel为自己需要的LLM</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ChatQWenModel = <span class="string">&quot;qwen-turbo&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>计费如下（越贵越慢，但是更准）：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506164052032.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506164052032.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240506164052032"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506164052032.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506164052032.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>在http_copy.go#queryAI()把apiKey修改为自己的灵积API，请前往<a target="_blank" rel="noopener" href="https://dashscope.console.aliyun.com/apiKey">https://dashscope.console.aliyun.com/apiKey</a></p>
 <p>环境使用go 1.21.9，在1.1+都OK，c++环境使用TDM-GCC，需要安装fyne：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get fyne.io/fyne/v2</span><br></pre></td></tr></table></figure>
 
 <p>点击<code>开始/切换</code>，一般选择Loopback做测试，Loopback是安装wireshark所带的本地环回地址网卡，监测以太网是无法监测到环回地址流量的。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506164734028.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506164734028.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240506164734028"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506164734028.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506164734028.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>同理，全流量也选择网卡即可。</p>
 <ul>
 <li>全流量模式：可以使用菜单上所有功能，如过滤、排序、捕获等（严格模式：只接收来自IP包发往本机的数据包；混杂模式：接收发往其他主机，流经过本地的数据包）</li>
@@ -681,9 +681,9 @@
 <h3 id="main-go"><a href="#main-go" class="headerlink" title="main.go"></a>main.go</h3><p>首先，main.go进行了字体初始化，并调用了应用程序的主程序进行阻塞响应。</p>
 <p>在Run()对Fyne窗口进行了一系列设置。可以先忽略带HTTP函数的内容，因为基本都是函数复用。</p>
 <p>LoadMenus加载菜单，LoadLayers()为点击数据包的如下内容，对LayersData数据做展示，</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506170807012.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506170807012.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240506170807012"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506170807012.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506170807012.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>PkgInfo为点击数据包的如下内容，使用NewTable进行展示。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506170940397.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506170940397.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240506170940397"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506170940397.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240506170940397.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>Monitor为右下角的网卡信息。</p>
 
       </div>

