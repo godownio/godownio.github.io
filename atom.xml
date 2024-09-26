@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-09-25T11:01:50.368Z</updated>
+  <updated>2024-09-26T11:06:23.725Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ROME链(ToStringBean&amp;EqualsBean)</title>
+    <link href="https://godownio.github.io/2024/09/26/rome-lian/"/>
+    <id>https://godownio.github.io/2024/09/26/rome-lian/</id>
+    <published>2024-09-26T11:04:58.000Z</published>
+    <updated>2024-09-26T11:06:23.725Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;ROME 是一个关于 RSS 和 Atom 格式的 java 框架&lt;/p&gt;
+&lt;p&gt;那什么是 RSS 和 Atom 呢？&lt;/p&gt;
+&lt;p&gt;RSS 全称：RDF Site Summary 或 Really Simple</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="ROME" scheme="https://godownio.github.io/tags/ROME/"/>
+    
+  </entry>
   
   <entry>
     <title>JNDI注入(InitialContext.lookup)</title>
@@ -546,35 +575,6 @@
 &lt;/thead&gt;
 &lt;tbody&gt;&lt;tr&gt;
 &lt;t</summary>
-        
-      
-    
-    
-    
-    <category term="内网渗透" scheme="https://godownio.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-    <category term="靶机" scheme="https://godownio.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA/"/>
-    
-    
-    <category term="内网渗透" scheme="https://godownio.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-    <category term="vulnhub" scheme="https://godownio.github.io/tags/vulnhub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>vulnhub靶机渗透RAVEN1</title>
-    <link href="https://godownio.github.io/2023/06/27/vulnhub-ba-ji-raven1/"/>
-    <id>https://godownio.github.io/2023/06/27/vulnhub-ba-ji-raven1/</id>
-    <published>2023-06-27T05:05:36.000Z</published>
-    <updated>2023-07-02T14:14:09.171Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Raven-1&quot;&gt;&lt;a href=&quot;#Raven-1&quot; class=&quot;headerlink&quot; title=&quot;Raven 1&quot;&gt;&lt;/a&gt;Raven 1&lt;/h1&gt;&lt;h2 id=&quot;一、有效资产收集&quot;&gt;&lt;a href=&quot;#一、有效资产收集&quot;</summary>
         
       
     
