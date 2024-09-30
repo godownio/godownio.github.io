@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-09-26T14:56:49.677Z</updated>
+  <updated>2024-09-30T02:41:48.509Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nodejs</title>
+    <link href="https://godownio.github.io/2024/09/30/nodejs-lou-dong/"/>
+    <id>https://godownio.github.io/2024/09/30/nodejs-lou-dong/</id>
+    <published>2024-09-30T02:41:58.000Z</published>
+    <updated>2024-09-30T02:41:48.509Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;抄一份nodejs的漏洞合集&lt;/p&gt;
+&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="nodejs" scheme="https://godownio.github.io/categories/nodejs/"/>
+    
+    
+    <category term="nodejs" scheme="https://godownio.github.io/tags/nodejs/"/>
+    
+  </entry>
   
   <entry>
     <title>ROME链(ToStringBean&amp;EqualsBean)</title>
@@ -195,7 +221,7 @@
     <link href="https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/"/>
     <id>https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/</id>
     <published>2024-08-02T09:10:57.000Z</published>
-    <updated>2024-09-26T14:56:49.768Z</updated>
+    <updated>2024-09-28T07:35:37.128Z</updated>
     
     
       
@@ -534,47 +560,6 @@
         
         
     <summary type="html">&lt;h1 id=&quot;CH4INRULZ-v1-0-1&quot;&gt;&lt;a href=&quot;#CH4INRULZ-v1-0-1&quot; class=&quot;headerlink&quot; title=&quot;CH4INRULZ_v1.0.1&quot;&gt;&lt;/a&gt;CH4INRULZ_v1.0.1&lt;/h1&gt;&lt;h2</summary>
-        
-      
-    
-    
-    
-    <category term="内网渗透" scheme="https://godownio.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-    <category term="靶机" scheme="https://godownio.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA/"/>
-    
-    
-    <category term="内网渗透" scheme="https://godownio.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-    <category term="vulnhub" scheme="https://godownio.github.io/tags/vulnhub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>vulnhub靶机渗透RAVEN2</title>
-    <link href="https://godownio.github.io/2023/06/28/vulnhub-ba-ji-raven2/"/>
-    <id>https://godownio.github.io/2023/06/28/vulnhub-ba-ji-raven2/</id>
-    <published>2023-06-28T05:05:36.000Z</published>
-    <updated>2024-09-26T14:56:49.771Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;资产编号&lt;/th&gt;
-&lt;th&gt;资产分类&lt;/th&gt;
-&lt;th&gt;资产名称&lt;/th&gt;
-&lt;th&gt;资产规格&lt;/th&gt;
-&lt;th&gt;访问地址&lt;/th&gt;
-&lt;th&gt;备注&amp;#x2F;问题&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;&lt;tr&gt;
-&lt;t</summary>
         
       
     
