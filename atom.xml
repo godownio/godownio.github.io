@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-09-30T02:43:27.524Z</updated>
+  <updated>2024-10-06T06:13:30.995Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>fastjson parseObject分析(纯流程无POC)</title>
+    <link href="https://godownio.github.io/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/"/>
+    <id>https://godownio.github.io/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/</id>
+    <published>2024-10-06T06:13:23.000Z</published>
+    <updated>2024-10-06T06:13:30.995Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;FastJson 是阿里巴巴的开源 JSON 解析库，它可以解析 JSON 格式的字符串，支持 javaBean 序列化为 JSON 字符串，也可以从 JSON 字符串反序列化到 javabean&lt;/p&gt;
+&lt;p&gt;特点就是快，性能好，也就是因为此，FastJson</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
+    
+  </entry>
   
   <entry>
     <title>nodejs漏洞</title>
@@ -531,35 +559,6 @@
         
         
     <summary type="html">&lt;h1 id=&quot;vulnhub靶机Node1&quot;&gt;&lt;a href=&quot;#vulnhub靶机Node1&quot; class=&quot;headerlink&quot; title=&quot;vulnhub靶机Node1&quot;&gt;&lt;/a&gt;vulnhub靶机Node1&lt;/h1&gt;&lt;h2 id=&quot;一、有效资产收集&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="内网渗透" scheme="https://godownio.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-    <category term="靶机" scheme="https://godownio.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA/"/>
-    
-    
-    <category term="内网渗透" scheme="https://godownio.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-    <category term="vulnhub" scheme="https://godownio.github.io/tags/vulnhub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>vulnhub靶机渗透CH4INRULZ_v1.0.1</title>
-    <link href="https://godownio.github.io/2023/06/29/vulnhub-ba-ji-ch4inrulz-v1.0.1/"/>
-    <id>https://godownio.github.io/2023/06/29/vulnhub-ba-ji-ch4inrulz-v1.0.1/</id>
-    <published>2023-06-29T05:05:36.000Z</published>
-    <updated>2024-09-26T14:56:49.699Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;CH4INRULZ-v1-0-1&quot;&gt;&lt;a href=&quot;#CH4INRULZ-v1-0-1&quot; class=&quot;headerlink&quot; title=&quot;CH4INRULZ_v1.0.1&quot;&gt;&lt;/a&gt;CH4INRULZ_v1.0.1&lt;/h1&gt;&lt;h2</summary>
         
       
     
