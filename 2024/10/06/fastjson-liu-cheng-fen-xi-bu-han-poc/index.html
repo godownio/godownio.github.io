@@ -827,6 +827,14 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241006135609133.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241006135609133.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241006135609133"></p>
 <p>根据上面的调试，很容易知道，调用不含JSON.toJSON的parse，就不会触发getter，parseArray和一些不同参数的parseObject也不会，具体看具体代码</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241006135958391.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241006135958391.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241006135958391"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>fastjson根据@type还原类，是在本地从0开始实例化，然后调用setter赋值</p>
+<p>如果解析函数里有JSON.toJSON，还会调用getter</p>
+<p>按以下顺序判断，满足条件的话，会被当成setter调用：</p>
+<ul>
+<li>set开头，参数长度为1，非static，方法名总长度大于3</li>
+<li>没有setter方法，有字段是bool类型，则用<code>is</code>加上首字母大写后的字段去查找（所以isName这种也算setter）</li>
+<li>没有setter方法，有getter方法，参数长度为0，返回类型是属于Collection 或其子类、Map 或其子类、AtomicBoolean、AtomicInteger、AtomicLong的一种</li>
+</ul>
 
       </div>
       <div class="post-tags-categories">
@@ -865,6 +873,25 @@
 <div class="post-nav">
 
 
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2024/10/08/fastjson-lian/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> 上一篇:
+        <div class="title-text">fastjson JNDI+不出网BCEL</div>
+      </div>
+      
+      <!-- <div class="content">
+        回想fastjson获取setter方法的部分
+123456789101112131415161718192021222
+      </div> -->
+    </a>
+  </div>
 
 
 
@@ -1024,7 +1051,7 @@ S.No
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FastJson%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-text">FastJson解析流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95"><span class="toc-text">调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#javaBeanInfo-build"><span class="toc-text">javaBeanInfo.build</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%8F%96FastjsonASMDeserializer-1-Person"><span class="toc-text">提取FastjsonASMDeserializer_1_Person</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#another-%E8%B0%83%E8%AF%95"><span class="toc-text">another 调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#toJSON%E8%A7%A6%E5%8F%91getter"><span class="toc-text">toJSON触发getter</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FastJson%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-text">FastJson解析流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95"><span class="toc-text">调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#javaBeanInfo-build"><span class="toc-text">javaBeanInfo.build</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%8F%96FastjsonASMDeserializer-1-Person"><span class="toc-text">提取FastjsonASMDeserializer_1_Person</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#another-%E8%B0%83%E8%AF%95"><span class="toc-text">another 调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#toJSON%E8%A7%A6%E5%8F%91getter"><span class="toc-text">toJSON触发getter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -1050,6 +1077,27 @@ S.No
       <!-- hash算法 -->
       
       <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/10/08/fastjson-lian/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-08</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/08/fastjson-lian/">fastjson JNDI+不出网BCEL</a>
+            </div>
+          </div>
         
           <div class="aside-list-item">
             
@@ -1132,27 +1180,6 @@ S.No
                 
               </div>
               <a class="post-title" href="/2024/09/25/jndi-zhu-ru/">JNDI注入(InitialContext.lookup)</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/09/23/loadclass-he-forname-jia-zai-shu-zu-lei/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B899.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B899.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">09-23</span>
-                
-              </div>
-              <a class="post-title" href="/2024/09/23/loadclass-he-forname-jia-zai-shu-zu-lei/">loadClass和forName加载数组类</a>
             </div>
           </div>
         
