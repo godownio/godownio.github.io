@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-10-08T14:57:02.525Z</updated>
+  <updated>2024-10-11T09:04:02.047Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>jackson 反序列化(纯流程无POC)</title>
+    <link href="https://godownio.github.io/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/"/>
+    <id>https://godownio.github.io/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/</id>
+    <published>2024-10-11T07:03:23.000Z</published>
+    <updated>2024-10-11T09:04:02.047Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;pom.xml：&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="jackson" scheme="https://godownio.github.io/tags/jackson/"/>
+    
+  </entry>
   
   <entry>
     <title>fastjson JNDI+不出网BCEL</title>
@@ -277,7 +305,7 @@
     <link href="https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/"/>
     <id>https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/</id>
     <published>2024-08-02T09:10:57.000Z</published>
-    <updated>2024-10-08T12:06:11.912Z</updated>
+    <updated>2024-10-09T03:54:38.861Z</updated>
     
     
       
@@ -545,31 +573,6 @@
     
     
     <category term="golang" scheme="https://godownio.github.io/tags/golang/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C++算法练习</title>
-    <link href="https://godownio.github.io/2024/03/01/kao-yan-c-suan-fa-lian-xi/"/>
-    <id>https://godownio.github.io/2024/03/01/kao-yan-c-suan-fa-lian-xi/</id>
-    <published>2024-03-01T14:05:36.000Z</published>
-    <updated>2024-09-26T14:56:49.774Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;算法练习（C-代码）&quot;&gt;&lt;a href=&quot;#算法练习（C-代码）&quot; class=&quot;headerlink&quot; title=&quot;算法练习（C++代码）&quot;&gt;&lt;/a&gt;算法练习（C++代码）&lt;/h2&gt;&lt;h3 id=&quot;快速幂算法&quot;&gt;&lt;a href=&quot;#快速幂算法&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="算法" scheme="https://godownio.github.io/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-    <category term="C++" scheme="https://godownio.github.io/tags/C/"/>
     
   </entry>
   
