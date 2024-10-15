@@ -651,8 +651,15 @@
 <p>beans.xml放到resources下，利用ClassPathXmlApplicationContext加载xml文档</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpELcase</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        ApplicationContext applicationContext=<span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;beans.xml&quot;</span>);</span><br><span class="line">        Person person=applicationContext.getBean(<span class="string">&quot;person&quot;</span>,Person.class);</span><br><span class="line">        person.getName();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>spring默认singleton单例模式，在getBean的时候，调用bean的无参构造函数进行实例化，而且每次getBean都是返回同一个实例（也就是只有第一次getBean才会调构造函数）。</p>
-<p>给属性赋值是调用的setter</p>
+<p>singleton模式下，Spring加载bean并调用setter进行依赖注入的行为发生在ClassPathXmlApplicationContext加载XML配置文件的过程中，具体来说：</p>
+<ul>
+<li>加载配置文件阶段：<br>当使用ClassPathXmlApplicationContext类来加载一个或多个XML配置文件时，Spring会解析这些配置文件中的bean定义，并将它们注册到IoC容器中。</li>
+<li>bean实例化与依赖注入：<br>在这个过程中，对于每个bean，Spring会根据XML中定义的信息创建bean的实例。<br>如果bean定义中包含了属性及其setter方法，则Spring会调用这些setter方法来完成依赖注入。</li>
+<li>getBean方法：<br>当通过getBean方法从应用上下文中请求某个bean时，Spring实际上是从已经初始化好的bean池中获取该bean的引用。<br>此时，bean的实例化和依赖注入工作已经完成。</li>
+</ul>
+<p>调用getBean只是从容器中获取已经准备好的bean实例。</p>
+<p>singleton和prototype模式的区别：</p>
+<p>对于singleton作用域的bean，Spring会在启动时创建一个单例实例，并将其保存在容器中。<br>对于prototype作用域的bean，Spring不会在启动时创建实例，而是在每次调用getBean方法时创建一个新的实例。</p>
 <h3 id="SpelExpressionParser-注入"><a href="#SpelExpressionParser-注入" class="headerlink" title="SpelExpressionParser 注入"></a>SpelExpressionParser 注入</h3><p>SpelExpressionParser.parseExpression进行Spel解析，直接注，无需<code>#&#123;&#125;</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExpressionTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">ExpressionParser</span> <span class="variable">parser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpelExpressionParser</span>();</span><br><span class="line">        <span class="type">Expression</span> <span class="variable">expression</span> <span class="operator">=</span> parser.parseExpression(<span class="string">&quot;T(java.lang.Runtime).getRuntime().exec(&#x27;calc&#x27;)&quot;</span>);</span><br><span class="line">        <span class="type">EvaluationContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StandardEvaluationContext</span>();</span><br><span class="line">        expression.getValue(context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -711,6 +718,27 @@
 <div class="post-nav">
 
 
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2024/10/14/jackson-lian/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> 上一篇:
+        <div class="title-text">spEL表达式注入</div>
+      </div>
+      
+      <!-- <div class="content">
+        想不到2017的链子我还在复现
+反序列化条件达到以下任意一个条件，可以反序列化指定类：
+
+开启了enableDefaul
+      </div> -->
+    </a>
+  </div>
 
 
 
@@ -897,6 +925,27 @@
             
 
             <div class="post-img-box">
+              <a href="/2024/10/14/jackson-lian/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-14</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/14/jackson-lian/">spEL表达式注入</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2024/10/14/spel-biao-da-shi-zhu-ru/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8107.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8107.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -972,27 +1021,6 @@
                 
               </div>
               <a class="post-title" href="/2024/10/08/fastjson-lian/">fastjson JNDI+不出网BCEL</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8103.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8103.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-06</span>
-                
-              </div>
-              <a class="post-title" href="/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/">fastjson parseObject分析(纯流程无POC)</a>
             </div>
           </div>
         

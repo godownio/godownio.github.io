@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-10-14T01:32:37.552Z</updated>
+  <updated>2024-10-15T09:33:13.085Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -18,10 +18,38 @@
   
   <entry>
     <title>spEL表达式注入</title>
+    <link href="https://godownio.github.io/2024/10/14/jackson-lian/"/>
+    <id>https://godownio.github.io/2024/10/14/jackson-lian/</id>
+    <published>2024-10-14T01:30:23.000Z</published>
+    <updated>2024-10-15T09:33:13.085Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;想不到2017的链子我还在复现&lt;/p&gt;
+&lt;h3 id=&quot;反序列化条件&quot;&gt;&lt;a href=&quot;#反序列化条件&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="jackson" scheme="https://godownio.github.io/tags/jackson/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spEL表达式注入</title>
     <link href="https://godownio.github.io/2024/10/14/spel-biao-da-shi-zhu-ru/"/>
     <id>https://godownio.github.io/2024/10/14/spel-biao-da-shi-zhu-ru/</id>
     <published>2024-10-14T01:30:23.000Z</published>
-    <updated>2024-10-14T01:32:37.552Z</updated>
+    <updated>2024-10-15T09:15:44.772Z</updated>
     
     
       
@@ -78,7 +106,7 @@
     <link href="https://godownio.github.io/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/"/>
     <id>https://godownio.github.io/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/</id>
     <published>2024-10-11T07:03:23.000Z</published>
-    <updated>2024-10-13T04:45:53.149Z</updated>
+    <updated>2024-10-15T09:32:01.300Z</updated>
     
     
       
@@ -106,7 +134,7 @@
     <link href="https://godownio.github.io/2024/10/08/fastjson-lian/"/>
     <id>https://godownio.github.io/2024/10/08/fastjson-lian/</id>
     <published>2024-10-08T14:53:23.000Z</published>
-    <updated>2024-10-11T09:13:21.062Z</updated>
+    <updated>2024-10-15T09:20:37.006Z</updated>
     
     
       
@@ -364,7 +392,7 @@
     <link href="https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/"/>
     <id>https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/</id>
     <published>2024-08-02T09:10:57.000Z</published>
-    <updated>2024-10-09T03:54:38.861Z</updated>
+    <updated>2024-10-14T07:58:55.142Z</updated>
     
     
       
@@ -539,35 +567,6 @@
     <summary type="html">&lt;p&gt;在写CC6的时候，发现后半截是URLDNS的链，来重新构造一遍URLDNS。&lt;/p&gt;
 &lt;p&gt;他妈的，护网还被鸽了，面试是没挂过的，项目是没去过的。&lt;/p&gt;
 &lt;h2 id=&quot;URLDNS&quot;&gt;&lt;a href=&quot;#URLDNS&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
-    
-    
-    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CC重启之基于动态代理构造的LazyMap CC1及利用二次反序列化的修复</title>
-    <link href="https://godownio.github.io/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/"/>
-    <id>https://godownio.github.io/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/</id>
-    <published>2024-07-13T14:45:32.000Z</published>
-    <updated>2024-09-26T14:56:49.786Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本文首发于&lt;a href=&quot;https://www.freebuf.com/vuls/406123.html&quot;&gt;https://www.freebuf.com/vuls/406123.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;前置知识：&lt;/p&gt;
-&lt;h2</summary>
         
       
     
