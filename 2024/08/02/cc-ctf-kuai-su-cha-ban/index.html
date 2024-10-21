@@ -628,16 +628,35 @@
 <p>kali默认的是zsh<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=zsh&spm=1001.2101.3001.7020"></a> shell，所以如果想把kali的shell用bash反弹出去的话需要先用<strong>bash命令进入bash shell</strong>才能使用bash反弹shell</p>
 <h2 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h2><p>fastjson目标不出网，&lt;&#x3D;1.2.24下打BCEL，需要回显可以打内存马</p>
 <p>目标出网 ，&lt;&#x3D;1.2.47，打JNDI</p>
-<h2 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget"></a>Gadget</h2><p>一个gadget衔接合集</p>
+<h2 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget"></a>Gadget</h2><p>一个gadget衔接合集，仅统计常用衔接链</p>
 <p>BadAttributeValueExpException.readObject -&gt; toString</p>
-<p>(jackson&#x2F;springboot) POJONode.toString -&gt; getter</p>
+<p>(jackson&#x2F;springboot) POJONode.toString -&gt; JSON.writeValueAsString -&gt;getter</p>
+<p>(jackson) ObjectMapper.readValue -&gt; setter&#x2F;constructor&#x2F;getter</p>
+<p>(jackson) JSONFactory.createParser -&gt; setter&#x2F;constructor</p>
 <p>(fastjson) JSON.parse -&gt; setter</p>
-<p>(fastjson) JSON.parseObject -&gt; getter</p>
-<p>(jackson) ObjectMapper.readValue -&gt; setter&#x2F;constructor</p>
-<h2 id="other骚报错解决"><a href="#other骚报错解决" class="headerlink" title="other骚报错解决"></a>other骚报错解决</h2><p>idea java文件变成茶杯是没办法调试和find Usages的，需要把源代码目录标记为源代码根目录。比如分析Tomcat源码：</p>
+<p>(fastjson) JSON.parseObject -&gt; settter&#x2F;getter</p>
+<p>signedObject.getObject -&gt; readObject</p>
+<p>JdbcRowSetImpl.setAutoCommit -&gt;  JNDI</p>
+<p>(Tomcat) BasicDataSource.getConnection -&gt; Class.forName</p>
+<p>(JDK8u65) AnnotationInvocationHandler.invoke -&gt; get</p>
+<p>(jdk7u21&#x2F;8u20 rce) AnnotationInvocationHandler.equalsImpl -&gt; invoke </p>
+<p>PriorityQueue.readObject -&gt; compare</p>
+<p>(c3p0) ReferenceableUtils#ReferenceSerialized.referenceToObject -&gt; Reference JNDI</p>
+<p>(rome) ToStringBean.toString -&gt; invoke</p>
+<p>(tome) EqualsBean.beanEquals -&gt; invoke</p>
+<p>(spring) XString.equals -&gt; toString</p>
+<p>(spring) ClassPathXmlApplicationContext.ClassPathXmlApplicationContext -&gt; spEL注入</p>
+<h3 id="CC-Gadget"><a href="#CC-Gadget" class="headerlink" title="CC Gadget"></a>CC Gadget</h3><p>CC Gadget提纯</p>
+<p>TransformedMap.checkSetValue -&gt; transform (CC1)</p>
+<p>LazyMap.get -&gt; transform (CC1)</p>
+<p>TransformingComparator.compare -&gt; transform (CC2)</p>
+<p>TiedMapEntry.hashCode -&gt; get (CC3)</p>
+<p>TrAXFilter.TrAXFilter -&gt; newTransformer (CC3)</p>
+<p>TiedMapEntry.toString -&gt; getValue -&gt; get (CC5)</p>
+<h3 id="jwt"><a href="#jwt" class="headerlink" title="jwt"></a>jwt</h3><p>一般jwt直接破解不了的，考虑原型链污染key。一般jwt考题都伴随了原型链污染</p>
+<h2 id="other骚报错解决"><a href="#other骚报错解决" class="headerlink" title="other骚报错解决"></a>other骚报错解决</h2><h3 id="idea文件咖啡杯问题"><a href="#idea文件咖啡杯问题" class="headerlink" title="idea文件咖啡杯问题"></a>idea文件咖啡杯问题</h3><p>idea java文件变成茶杯是没办法调试和find Usages的，需要把源代码目录标记为源代码根目录。比如分析Tomcat源码：</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922205013696.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922205013696.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>nodejs原型链污染记得改Content-Type为application&#x2F;json</p>
-<p>jinja2 报cannot import name ‘Markup‘ from ‘jinja2‘</p>
+<h3 id="jinja2安装问题"><a href="#jinja2安装问题" class="headerlink" title="jinja2安装问题"></a>jinja2安装问题</h3><p>jinja2 报cannot import name ‘Markup‘ from ‘jinja2‘</p>
 <ol>
 <li>先卸载已经安装的jinja2:<br><code>pip uninstall jinja2</code></li>
 <li>安装 2.11.3版本（目前已知该版本有‘Markup’模块）<br><code>pip install jinja2==2.11.3</code></li>
@@ -656,14 +675,34 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928150112011.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928150112011.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240928150112011"></p>
 <p>尝试把werkzeug降到0.14</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928150315423.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240928150315423.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240928150315423"></p>
-<ul>
+<h3 id="fenjing安装问题"><a href="#fenjing安装问题" class="headerlink" title="fenjing安装问题"></a>fenjing安装问题</h3><ul>
 <li>jinja ssti 神器 fenjing安装：</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pipx install fenjing</span><br><span class="line">pipx run fenjing webui</span><br></pre></td></tr></table></figure>
 
-
-
 <p>python创建虚拟环境后（pycharm能创建虚拟venv），在 venv\Scripts\目录下使用activate进入虚拟环境命令行，pip下载虚拟环境依赖包。(注意pip时关掉代理，清华源屏蔽国外流量)</p>
+<h3 id="nodejs原型链污染无效问题"><a href="#nodejs原型链污染无效问题" class="headerlink" title="nodejs原型链污染无效问题"></a>nodejs原型链污染无效问题</h3><p>nodejs原型链污染记得改Content-Type为application&#x2F;json</p>
+<h3 id="静态代码块执行问题"><a href="#静态代码块执行问题" class="headerlink" title="静态代码块执行问题"></a>静态代码块执行问题</h3><p>众所周知，类加载分为以下几个部分：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241020173306426.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241020173306426.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241020173306426"></p>
+<p>可简单认为<code>加载连接-&gt;初始化-&gt;实例化-&gt;使用</code></p>
+<p>其中加载连接什么代码块都不会调用，初始化会调用静态代码块，实例化调用构造代码块和构造方法</p>
+<ul>
+<li>调用静态方法会执行：静态代码块，静态方法</li>
+<li>给静态属性赋值：静态代码块</li>
+<li>调用构造方法：静态代码块，构造代码块，构造方法</li>
+<li>Person.class：什么都不会执行</li>
+</ul>
+<p>动态加载调用总结如下</p>
+<ul>
+<li><p>默认Class.forName：静态代码块</p>
+</li>
+<li><p>Class.forName第二个参数传false：什么都不会执行（不初始化版）</p>
+</li>
+<li><p>ClassLoader.loadClass：什么都不会执行！不进行初始化</p>
+</li>
+<li><p>defineClass：什么都不做</p>
+</li>
+</ul>
 
       </div>
       <div class="post-tags-categories">
@@ -874,7 +913,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-Collections"><span class="toc-text">Common-Collections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trick%E7%BB%95%E8%BF%87"><span class="toc-text">trick绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson"><span class="toc-text">fastjson</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gadget"><span class="toc-text">Gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other%E9%AA%9A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3"><span class="toc-text">other骚报错解决</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-Collections"><span class="toc-text">Common-Collections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trick%E7%BB%95%E8%BF%87"><span class="toc-text">trick绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson"><span class="toc-text">fastjson</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gadget"><span class="toc-text">Gadget</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CC-Gadget"><span class="toc-text">CC Gadget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jwt"><span class="toc-text">jwt</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other%E9%AA%9A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3"><span class="toc-text">other骚报错解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#idea%E6%96%87%E4%BB%B6%E5%92%96%E5%95%A1%E6%9D%AF%E9%97%AE%E9%A2%98"><span class="toc-text">idea文件咖啡杯问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jinja2%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">jinja2安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fenjing%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">fenjing安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E6%97%A0%E6%95%88%E9%97%AE%E9%A2%98"><span class="toc-text">nodejs原型链污染无效问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98"><span class="toc-text">静态代码块执行问题</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -900,6 +939,27 @@
       <!-- hash算法 -->
       
       <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/10/21/groovy-lou-dong/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-21</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/21/groovy-lou-dong/">Groovy漏洞</a>
+            </div>
+          </div>
         
           <div class="aside-list-item">
             
@@ -982,27 +1042,6 @@
                 
               </div>
               <a class="post-title" href="/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/">jackson 反序列化(纯流程无POC)</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/10/08/fastjson-lian/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-08</span>
-                
-              </div>
-              <a class="post-title" href="/2024/10/08/fastjson-lian/">fastjson JNDI+不出网BCEL</a>
             </div>
           </div>
         

