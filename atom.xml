@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-10-23T09:21:35.396Z</updated>
+  <updated>2024-10-23T09:28:57.135Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://godownio.github.io/2024/10/26/c3p0-lian/"/>
     <id>https://godownio.github.io/2024/10/26/c3p0-lian/</id>
     <published>2024-10-26T09:21:23.000Z</published>
-    <updated>2024-10-23T09:21:35.396Z</updated>
+    <updated>2024-10-23T09:28:57.135Z</updated>
     
     
       
@@ -41,6 +41,37 @@
     
     
     <category term="C3P0" scheme="https://godownio.github.io/tags/C3P0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>fastjson $ref调用getter</title>
+    <link href="https://godownio.github.io/2024/10/24/fastjson-ref-diao-yong-getter/"/>
+    <id>https://godownio.github.io/2024/10/24/fastjson-ref-diao-yong-getter/</id>
+    <published>2024-10-24T09:04:23.000Z</published>
+    <updated>2024-10-24T09:04:49.793Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;之前有分析到，fastjson识别setter的流程如下：&lt;/p&gt;
+&lt;p&gt;按以下顺序判断，满足条件的话，会被当成setter调用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;set开头，参数长度为1，非static，方法名总长度大于3&lt;/li&gt;
+&lt;li&gt;没有setter方法，有字段是boo</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
     
   </entry>
   
@@ -536,34 +567,6 @@
         
     <summary type="html">&lt;p&gt;上一文讲到类加载的底层原理&lt;/p&gt;
 &lt;p&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
-    
-    
-    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一个搞笑的铸币CC3</title>
-    <link href="https://godownio.github.io/2024/08/01/cc3-xiao-cha-qu/"/>
-    <id>https://godownio.github.io/2024/08/01/cc3-xiao-cha-qu/</id>
-    <published>2024-08-01T03:21:21.000Z</published>
-    <updated>2024-09-26T14:56:49.737Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;今天没事想自己写个CC3类加载&lt;/p&gt;
-&lt;p&gt;结果为了顺利触发到TemplatesImpl#getTransletInstance的newInstance给我整急眼了，使劲改字段强行通过循环&lt;br&gt;&lt;img</summary>
         
       
     

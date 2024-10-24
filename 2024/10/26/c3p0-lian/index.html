@@ -591,7 +591,7 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.jpg')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
@@ -745,9 +745,10 @@
 <li>从<code>HASM_HEADER</code>长度+1开始，截取到userOverridesAsString的倒数第二个字符</li>
 </ol>
 <p>HASM_HEADER为<code>HexAsciiSerializedMap</code></p>
-<pre><code>2. 调用`ByteUtils.fromHexAscii`把截取的字符串转为二进制
-2. 调用`SerializableUtils.fromByteArray`反序列化字节码
-</code></pre>
+<ol start="2">
+<li>调用<code>ByteUtils.fromHexAscii</code>把截取的字符串转为二进制</li>
+<li>调用<code>SerializableUtils.fromByteArray</code>反序列化字节码</li>
+</ol>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016174046772.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016174046772.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241016174046772"></p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016174053242.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016174053242.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241016174053242"></p>
 <p>向parseUserOverridesAsString传参<code>HexAsciiSerializedMap+任意字符+恶意十六进制字节码+任意字符</code>就能二次反序列化</p>
@@ -819,18 +820,18 @@
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8112.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8112.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/10/21/groovy-lou-dong/" class="post-nav-link">
+    <a href="/2024/10/24/fastjson-ref-diao-yong-getter/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">Groovy漏洞</div>
+        <div class="title-text">fastjson $ref调用getter</div>
       </div>
       <!-- <div class="content">
-        Groovy 是一种基于 Java 平台的面向对象语言。
+        之前有分析到，fastjson识别setter的流程如下：
+按以下顺序判断，满足条件的话，会被当成setter调用：
 
-pom.xml：
-12345&lt;dependency&g
+
       </div> -->
     </a>
   </div>
@@ -1003,7 +1004,7 @@ pom.xml：
             <div class="post-img-box">
               <a href="/2024/10/26/c3p0-lian/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
             </div>
             <div class="post-date-title">
@@ -1013,6 +1014,27 @@ pom.xml：
                 
               </div>
               <a class="post-title" href="/2024/10/26/c3p0-lian/">C3P0合集</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/10/24/fastjson-ref-diao-yong-getter/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8112.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8112.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-24</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/24/fastjson-ref-diao-yong-getter/">fastjson $ref调用getter</a>
             </div>
           </div>
         
@@ -1076,27 +1098,6 @@ pom.xml：
                 
               </div>
               <a class="post-title" href="/2024/10/14/spel-biao-da-shi-zhu-ru/">spEL表达式注入</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/10/13/spring-yi-wen-ru-men-zhuan-zai/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8106.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8106.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-13</span>
-                
-              </div>
-              <a class="post-title" href="/2024/10/13/spring-yi-wen-ru-men-zhuan-zai/">spring一文入门</a>
             </div>
           </div>
         
