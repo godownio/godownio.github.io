@@ -31,11 +31,11 @@
     
     
     <entry>
-      <title>fastjson jackson大区分</title>
+      <title>fastjson jackson getter setter和constructor的区分</title>
       <link href="/2024/10/25/fastjson-jackson-da-qu-fen/"/>
       <url>/2024/10/25/fastjson-jackson-da-qu-fen/</url>
       
-        <content type="html"><![CDATA[<p>以下均指对json的反序列化过程</p><h2 id="setter"><a href="#setter" class="headerlink" title="setter"></a>setter</h2><p>fastjson调用setter：遍历所有方法，找出所有满足setter要求的方法，再根据传入的json去反射调用</p><p>jackson调用setter：直接对传入的json中的字段拼接上set，然后去取setter</p><p>其实二者一样，但是fastjson不能调用私有和受保护setter，而jackson可以</p><h2 id="getter"><a href="#getter" class="headerlink" title="getter"></a>getter</h2><p>fastjson调用getter：</p><p>1、没有setter方法，有getter方法。且getter满足：参数长度为0，返回类型是属于Collection 或其子类、Map 或其子类、AtomicBoolean、AtomicInteger、AtomicLong的一种</p><p>2、fastjson&gt;&#x3D;1.2.36 可用<code>$ref</code>调用getter</p><p>解析函数里有JSON.toJSON，还会调用getter（parseObject）</p><p>jackson调用getter：</p><p>1、没有setter，有getter方法。可以直接反序列化调用</p><p>2、jackson-databind&amp;core&amp;annotations&gt;&#x3D;2.13.3，通过POJONode调用getter</p><h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><p>fastjson调用构造方法：</p><ul><li>如果存在无参构造方法，则将其作为构造方法</li><li>否则使用参数数量最多且排在最前面的构造方法。</li></ul><p>jackson调用构造方法：</p><ul><li>没有无参构造时：<ul><li>按照顺序，如果有参构造的参数全，或者更多(就是有不存在的值)，这样还能正常运行</li><li>如果参数不全则直接异常</li></ul></li><li>无参构造和有参构造方法都有的时候先走无参构造；   <ul><li>无参构造需要set&#x2F;get方法来完成序列化和反序列化</li></ul></li></ul>]]></content>
+        <content type="html"><![CDATA[<p>以下均指对json的反序列化过程</p><h2 id="setter"><a href="#setter" class="headerlink" title="setter"></a>setter</h2><p>fastjson调用setter：遍历所有方法，找出所有满足setter要求的方法，再根据传入的json去反射调用</p><p>jackson调用setter：直接对传入的json中的字段拼接上set，然后去取setter</p><p>其实二者一样，但是fastjson不能调用私有和受保护setter，而jackson可以</p><h2 id="getter"><a href="#getter" class="headerlink" title="getter"></a>getter</h2><p>fastjson调用getter：</p><p>1、没有setter方法，有getter方法。且getter满足：参数长度为0，返回类型是属于Collection 或其子类、Map 或其子类、AtomicBoolean、AtomicInteger、AtomicLong的一种</p><p>2、fastjson&gt;&#x3D;1.2.36 可用<code>$ref</code>调用getter</p><p>解析函数里有JSON.toJSON，还会调用getter（parseObject）</p><p>jackson调用getter：</p><p>1、没有setter，有getter方法。可以直接反序列化调用</p><p>2、jackson-databind&amp;core&amp;annotations&gt;&#x3D;2.13.3，通过POJONode调用getter</p><h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><p>fastjson调用构造方法：</p><ul><li>如果存在无参构造方法，则将其作为构造方法</li><li>否则使用参数数量最多且排在最前面的构造方法。</li></ul><p>jackson调用构造方法：</p><ul><li>按照顺序，如果有参构造的参数能对应上，直接调用</li></ul>]]></content>
       
       
       <categories>
