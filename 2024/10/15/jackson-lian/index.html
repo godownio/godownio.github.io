@@ -675,14 +675,14 @@
 <p>不管了，见版本直接打</p>
 <p>如果有知道原因的，QQ+1958304602 解答V9.9喝蜜雪冰城</p>
 </blockquote>
-<p>其他的就是调setter赋值了</p>
+<p>其他的就是调setter赋值了，注意jackson能调用私有的setter</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241013111602440.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241013111602440.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241013111700984.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241013111700984.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>有没有注意到我们并没有设置一般都会设置的<code>_tfactory</code></p>
 <p>在CC中我们不设置，是因为readObject帮我们设置了</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241013113237325.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241013113237325.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>在JDK低版本用不到<code>_tfactory</code>，所以不设置也没问题</p>
-<p>在JDK&gt;7U21||8u20的情况下，不设置<code>_tfactory</code>defineTransletClasses会报错</p>
+<p>在JDK&gt;7U21||&gt;8u20的情况下，不设置<code>_tfactory</code>defineTransletClasses会报错</p>
 <p>区别如下：</p>
 <p>左为JDK8U65，右为JDK7U21</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241013114035230.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241013114035230.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
@@ -1044,6 +1044,27 @@ pom.xml：
             
 
             <div class="post-img-box">
+              <a href="/2024/10/25/fastjson-jackson-da-qu-fen/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8113.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8113.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-25</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/25/fastjson-jackson-da-qu-fen/">fastjson jackson大区分</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2024/10/24/fastjson-ref-diao-yong-getter/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8112.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8112.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1098,27 +1119,6 @@ pom.xml：
                 
               </div>
               <a class="post-title" href="/2024/10/15/jackson-lian/">jackson 反序列化合集</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/10/14/spel-biao-da-shi-zhu-ru/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8107.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8107.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-14</span>
-                
-              </div>
-              <a class="post-title" href="/2024/10/14/spel-biao-da-shi-zhu-ru/">spEL表达式注入</a>
             </div>
           </div>
         

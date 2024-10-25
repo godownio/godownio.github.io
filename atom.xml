@@ -45,11 +45,41 @@
   </entry>
   
   <entry>
+    <title>fastjson jackson大区分</title>
+    <link href="https://godownio.github.io/2024/10/25/fastjson-jackson-da-qu-fen/"/>
+    <id>https://godownio.github.io/2024/10/25/fastjson-jackson-da-qu-fen/</id>
+    <published>2024-10-25T07:23:23.000Z</published>
+    <updated>2024-10-25T07:23:54.510Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;以下均指对json的反序列化过程&lt;/p&gt;
+&lt;h2 id=&quot;setter&quot;&gt;&lt;a href=&quot;#setter&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
+    
+    <category term="jackson" scheme="https://godownio.github.io/tags/jackson/"/>
+    
+  </entry>
+  
+  <entry>
     <title>fastjson $ref调用getter</title>
     <link href="https://godownio.github.io/2024/10/24/fastjson-ref-diao-yong-getter/"/>
     <id>https://godownio.github.io/2024/10/24/fastjson-ref-diao-yong-getter/</id>
     <published>2024-10-24T09:04:23.000Z</published>
-    <updated>2024-10-24T09:07:05.180Z</updated>
+    <updated>2024-10-25T07:23:09.963Z</updated>
     
     
       
@@ -108,7 +138,7 @@
     <link href="https://godownio.github.io/2024/10/15/jackson-lian/"/>
     <id>https://godownio.github.io/2024/10/15/jackson-lian/</id>
     <published>2024-10-15T07:37:23.000Z</published>
-    <updated>2024-10-23T01:57:52.730Z</updated>
+    <updated>2024-10-25T07:10:41.054Z</updated>
     
     
       
@@ -193,7 +223,7 @@
     <link href="https://godownio.github.io/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/"/>
     <id>https://godownio.github.io/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/</id>
     <published>2024-10-11T07:03:23.000Z</published>
-    <updated>2024-10-15T10:40:08.643Z</updated>
+    <updated>2024-10-25T07:15:32.505Z</updated>
     
     
       
@@ -251,7 +281,7 @@
     <link href="https://godownio.github.io/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/"/>
     <id>https://godownio.github.io/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/</id>
     <published>2024-10-06T06:13:23.000Z</published>
-    <updated>2024-10-15T10:40:08.637Z</updated>
+    <updated>2024-10-25T06:02:46.128Z</updated>
     
     
       
@@ -539,34 +569,6 @@
         
     <summary type="html">&lt;p&gt;CC2，4都是Common Collections 4.0版本下的反序列化漏洞。pom依赖：&lt;/p&gt;
 &lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
-    
-    
-    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>基于类加载的多路径TemplatesImpl CC3</title>
-    <link href="https://godownio.github.io/2024/08/01/duo-lu-jing-templatesimpl-cc3/"/>
-    <id>https://godownio.github.io/2024/08/01/duo-lu-jing-templatesimpl-cc3/</id>
-    <published>2024-08-01T10:08:32.000Z</published>
-    <updated>2024-09-26T14:56:49.728Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;上一文讲到类加载的底层原理&lt;/p&gt;
-&lt;p&gt;&lt;a</summary>
         
       
     
