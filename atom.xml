@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-10-23T09:28:57.135Z</updated>
+  <updated>2024-10-28T03:43:03.424Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,65 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SnakeYaml反序列化分析</title>
+    <link href="https://godownio.github.io/2024/10/28/snakeyaml/"/>
+    <id>https://godownio.github.io/2024/10/28/snakeyaml/</id>
+    <published>2024-10-28T03:43:23.000Z</published>
+    <updated>2024-10-28T03:43:03.424Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;SnakeYaml是java的yaml解析类库，支持Java对象的序列化&amp;#x2F;反序列化&lt;/p&gt;
+&lt;p&gt;类似python，SnakeYaml使用缩进代表层级关系，缩进只能用空格，不能用TAB。&lt;/p&gt;
+&lt;p&gt;Copy一手Yaml语法：&lt;/p&gt;
+&lt;p&gt;1、对象&lt;/p&gt;
+&lt;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="SnakeYaml" scheme="https://godownio.github.io/tags/SnakeYaml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>fastjson 1.2.68漏洞分析及commons-io写文件</title>
+    <link href="https://godownio.github.io/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/"/>
+    <id>https://godownio.github.io/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/</id>
+    <published>2024-10-28T03:42:23.000Z</published>
+    <updated>2024-10-28T03:42:16.486Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;fastjson 1.2.68版本绕过&lt;/p&gt;
+&lt;h1 id=&quot;fastjson-1-2-68&quot;&gt;&lt;a href=&quot;#fastjson-1-2-68&quot; class=&quot;headerlink&quot; title=&quot;fastjson 1.2.68&quot;&gt;&lt;/a&gt;fastjson</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
+    
+  </entry>
   
   <entry>
     <title>C3P0合集</title>
@@ -335,7 +394,7 @@
     <link href="https://godownio.github.io/2024/09/30/nodejs-lou-dong/"/>
     <id>https://godownio.github.io/2024/09/30/nodejs-lou-dong/</id>
     <published>2024-09-30T02:41:58.000Z</published>
-    <updated>2024-09-30T02:43:27.524Z</updated>
+    <updated>2024-10-27T07:21:23.785Z</updated>
     
     
       
@@ -527,59 +586,6 @@
     <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
     
     <category term="Shiro" scheme="https://godownio.github.io/tags/Shiro/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CTF 快速查ban</title>
-    <link href="https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/"/>
-    <id>https://godownio.github.io/2024/08/02/cc-ctf-kuai-su-cha-ban/</id>
-    <published>2024-08-02T09:10:57.000Z</published>
-    <updated>2024-10-21T11:19:20.536Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;Common-Collections&quot;&gt;&lt;a href=&quot;#Common-Collections&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
-    
-    
-    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CC完结PriorityQueue CC2&amp;CC4</title>
-    <link href="https://godownio.github.io/2024/08/02/cc2-cc4-priorityqueue/"/>
-    <id>https://godownio.github.io/2024/08/02/cc2-cc4-priorityqueue/</id>
-    <published>2024-08-02T08:11:32.000Z</published>
-    <updated>2024-09-26T14:56:49.718Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;CC2，4都是Common Collections 4.0版本下的反序列化漏洞。pom依赖：&lt;/p&gt;
-&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="CC" scheme="https://godownio.github.io/categories/java/CC/"/>
-    
-    
-    <category term="CC" scheme="https://godownio.github.io/tags/CC/"/>
     
   </entry>
   

@@ -858,7 +858,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">app.<span class="title function_">post</span>(<span class="string">&#x27;/register&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> user = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(req.<span class="property">body</span>)</span><br><span class="line">    <span class="keyword">if</span> (!user.<span class="property">username</span> || !user.<span class="property">password</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> res.<span class="title function_">json</span>(&#123; <span class="attr">msg</span>: <span class="string">&#x27;empty username or password&#x27;</span>, <span class="attr">err</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (users.<span class="title function_">filter</span>(<span class="function"><span class="params">u</span> =&gt;</span> u.<span class="property">username</span> == user.<span class="property">username</span>).<span class="property">length</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> res.<span class="title function_">json</span>(&#123; <span class="attr">msg</span>: <span class="string">&#x27;username already exists&#x27;</span>, <span class="attr">err</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (user.<span class="property">isAdmin</span> &amp;&amp; user.<span class="property">inviteCode</span> != <span class="variable constant_">INVITE_CODE</span>) &#123;</span><br><span class="line">        user.<span class="property">isAdmin</span> = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">return</span> res.<span class="title function_">json</span>(&#123; <span class="attr">msg</span>: <span class="string">&#x27;invalid invite code&#x27;</span>, <span class="attr">err</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> newUser = <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;&#125;, baseUser, user)</span><br><span class="line">    users.<span class="title function_">push</span>(newUser)</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">msg</span>: <span class="string">&#x27;user created successfully&#x27;</span>, <span class="attr">err</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>json解析后，利用Object.assign()创建子类newUser，push进users</p>
-<p>这里传入payload:<code>&quot;__proto__&quot;&#123;&quot;isAdmin&quot;:true&#125;</code>造成原型链污染，生成的user用户拥有isAdmin&#x3D;true<br><img src="https://i-blog.csdnimg.cn/blog_migrate/df570f457215733b422d11b049586779.png" class="lazyload placeholder" data-srcset="https://i-blog.csdnimg.cn/blog_migrate/df570f457215733b422d11b049586779.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="在这里插入图片描述"></p>
+<p>这里传入payload:<code>&quot;__proto__&quot;&#123;&quot;isAdmin&quot;:true&#125;</code>造成原型链污染，生成的user用户拥有isAdmin&#x3D;true<br><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/df570f457215733b422d11b049586779.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/df570f457215733b422d11b049586779.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="在这里插入图片描述"></p>
 <h3 id="Code-Breaking-2018-Thejs"><a href="#Code-Breaking-2018-Thejs" class="headerlink" title="Code-Breaking 2018 Thejs"></a>Code-Breaking 2018 Thejs</h3><p><a target="_blank" rel="noopener" href="http://code-breaking.com/puzzle/9/">http://code-breaking.com/puzzle/9/</a></p>
 <p>npm下不了express的，执行<code>npm i gulp-connect@5.6.1</code></p>
 <p>然后编辑配置</p>
@@ -1187,6 +1187,48 @@ RSS 全称：
             
 
             <div class="post-img-box">
+              <a href="/2024/10/28/snakeyaml/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8115.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8115.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-28</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/28/snakeyaml/">SnakeYaml反序列化分析</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8114.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8114.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-28</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/">fastjson 1.2.68漏洞分析及commons-io写文件</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2024/10/26/c3p0-lian/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8111.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1241,48 +1283,6 @@ RSS 全称：
                 
               </div>
               <a class="post-title" href="/2024/10/24/fastjson-ref-diao-yong-getter/">fastjson $ref调用getter</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/10/21/groovy-lou-dong/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8110.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-21</span>
-                
-              </div>
-              <a class="post-title" href="/2024/10/21/groovy-lou-dong/">Groovy漏洞</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/10/15/jackson-lian/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-15</span>
-                
-              </div>
-              <a class="post-title" href="/2024/10/15/jackson-lian/">jackson 反序列化合集</a>
             </div>
           </div>
         
