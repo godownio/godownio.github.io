@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-10-31T09:25:50.696Z</updated>
+  <updated>2024-11-01T01:53:51.683Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>XStream反序列化合集</title>
+    <title>XStream反序列化合集(Until 1.4.17)</title>
     <link href="https://godownio.github.io/2024/10/31/xstream/"/>
     <id>https://godownio.github.io/2024/10/31/xstream/</id>
     <published>2024-10-31T07:23:23.000Z</published>
-    <updated>2024-10-31T09:25:50.696Z</updated>
+    <updated>2024-11-01T01:53:51.683Z</updated>
     
     
       
