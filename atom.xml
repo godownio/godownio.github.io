@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-11-01T02:49:15.102Z</updated>
+  <updated>2024-11-06T12:33:10.900Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>论java中的XXE</title>
+    <link href="https://godownio.github.io/2024/11/06/java-xxe/"/>
+    <id>https://godownio.github.io/2024/11/06/java-xxe/</id>
+    <published>2024-11-06T12:33:32.000Z</published>
+    <updated>2024-11-06T12:33:10.900Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;简单介绍一下XXE&lt;/p&gt;
+&lt;h2 id=&quot;XXE简述&quot;&gt;&lt;a href=&quot;#XXE简述&quot; class=&quot;headerlink&quot; title=&quot;XXE简述&quot;&gt;&lt;/a&gt;XXE简述&lt;/h2&gt;&lt;h3 id=&quot;内部实体与外部实体&quot;&gt;&lt;a href=&quot;#内部实体与外部实体&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>XStream反序列化合集(Until 1.4.17)</title>
@@ -42,32 +68,6 @@
     
     
     <category term="XStream" scheme="https://godownio.github.io/tags/XStream/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>论java中的XXE</title>
-    <link href="https://godownio.github.io/2024/10/31/java-xxe/"/>
-    <id>https://godownio.github.io/2024/10/31/java-xxe/</id>
-    <published>2024-10-31T07:23:23.000Z</published>
-    <updated>2024-11-06T12:27:43.597Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;简单介绍一下XXE&lt;/p&gt;
-&lt;h2 id=&quot;XXE简述&quot;&gt;&lt;a href=&quot;#XXE简述&quot; class=&quot;headerlink&quot; title=&quot;XXE简述&quot;&gt;&lt;/a&gt;XXE简述&lt;/h2&gt;&lt;h3 id=&quot;内部实体与外部实体&quot;&gt;&lt;a href=&quot;#内部实体与外部实体&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
-    
     
   </entry>
   
