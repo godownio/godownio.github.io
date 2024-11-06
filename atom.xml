@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-11-01T01:53:51.683Z</updated>
+  <updated>2024-11-01T02:49:15.102Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://godownio.github.io/2024/10/31/xstream/"/>
     <id>https://godownio.github.io/2024/10/31/xstream/</id>
     <published>2024-10-31T07:23:23.000Z</published>
-    <updated>2024-11-01T01:53:51.683Z</updated>
+    <updated>2024-11-01T02:49:15.102Z</updated>
     
     
       
@@ -42,6 +42,32 @@
     
     
     <category term="XStream" scheme="https://godownio.github.io/tags/XStream/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>论java中的XXE</title>
+    <link href="https://godownio.github.io/2024/10/31/java-xxe/"/>
+    <id>https://godownio.github.io/2024/10/31/java-xxe/</id>
+    <published>2024-10-31T07:23:23.000Z</published>
+    <updated>2024-11-06T12:27:43.597Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;简单介绍一下XXE&lt;/p&gt;
+&lt;h2 id=&quot;XXE简述&quot;&gt;&lt;a href=&quot;#XXE简述&quot; class=&quot;headerlink&quot; title=&quot;XXE简述&quot;&gt;&lt;/a&gt;XXE简述&lt;/h2&gt;&lt;h3 id=&quot;内部实体与外部实体&quot;&gt;&lt;a href=&quot;#内部实体与外部实体&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
+    
     
   </entry>
   
@@ -554,35 +580,6 @@
     <category term="java" scheme="https://godownio.github.io/categories/java/"/>
     
     <category term="RMI" scheme="https://godownio.github.io/categories/java/RMI/"/>
-    
-    
-    <category term="java原生RCE" scheme="https://godownio.github.io/tags/java%E5%8E%9F%E7%94%9FRCE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>7u21&amp;8u20反序列化</title>
-    <link href="https://godownio.github.io/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/"/>
-    <id>https://godownio.github.io/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/</id>
-    <published>2024-09-18T14:19:57.000Z</published>
-    <updated>2024-09-26T14:56:49.732Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;仅需JDK在指定版本，有反序列化入口，但无需其他的依赖包比如CC，CB能否直接打入反序列化？&lt;/p&gt;
-&lt;p&gt;其中一个答案就是java原生反序列化链JDK7u21&lt;/p&gt;
-&lt;h1 id=&quot;jdk7u21原生反序列化&quot;&gt;&lt;a href=&quot;#jdk7u21原生反序列化&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
     
     
     <category term="java原生RCE" scheme="https://godownio.github.io/tags/java%E5%8E%9F%E7%94%9FRCE/"/>
