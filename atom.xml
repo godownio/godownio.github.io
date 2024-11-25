@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-11-07T06:43:23.691Z</updated>
+  <updated>2024-11-25T15:02:30.063Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>IDEA +docker远程调试weblogic</title>
+    <link href="https://godownio.github.io/2024/11/25/idea-docker-yuan-cheng-diao-shi/"/>
+    <id>https://godownio.github.io/2024/11/25/idea-docker-yuan-cheng-diao-shi/</id>
+    <published>2024-11-25T15:03:32.000Z</published>
+    <updated>2024-11-25T15:02:30.063Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;抄一个IDEA docker的远程调试，复现weblogic被整的大脑偏瘫&lt;/p&gt;
+&lt;h2 id=&quot;vulhub版环境搭建&quot;&gt;&lt;a href=&quot;#vulhub版环境搭建&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>论java中的XXE</title>
@@ -554,35 +580,6 @@
     
     
     <category term="类加载" scheme="https://godownio.github.io/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RMI三端源码分析&amp;JRMP及其高版本绕过</title>
-    <link href="https://godownio.github.io/2024/09/20/rmi-san-duan-jrmp-ji-qi-gao-ban-ben-rao-guo/"/>
-    <id>https://godownio.github.io/2024/09/20/rmi-san-duan-jrmp-ji-qi-gao-ban-ben-rao-guo/</id>
-    <published>2024-09-20T13:47:03.000Z</published>
-    <updated>2024-09-26T14:56:49.671Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;说实话我每次看到RMI的流程我都觉得脑袋疼。而且分析完了都不记得分析了个什么鸟。&lt;/p&gt;
-&lt;p&gt;或许这次会好一点。&lt;/p&gt;
-&lt;h2 id=&quot;RMI远程类调用&quot;&gt;&lt;a href=&quot;#RMI远程类调用&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="RMI" scheme="https://godownio.github.io/categories/java/RMI/"/>
-    
-    
-    <category term="java原生RCE" scheme="https://godownio.github.io/tags/java%E5%8E%9F%E7%94%9FRCE/"/>
     
   </entry>
   
