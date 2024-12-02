@@ -3529,7 +3529,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 }
 .post figure.highlight figcaption {
   font-size: 0.85em;
-  color: #999;
+  color: #69c;
   line-height: 1em;
   margin-bottom: 1em;
 }
@@ -3574,7 +3574,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 }
 .post figure.highlight .gist .gist-file .gist-meta {
   background: #f5f5f5;
-  color: #999;
+  color: #69c;
   font: 0.85em font-sans;
   text-shadow: 0 0;
   padding: 0;
@@ -3590,7 +3590,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 }
 .post figure.highlight pre .comment,
 .post figure.highlight pre .title {
-  color: #999;
+  color: #69c;
 }
 .post figure.highlight pre .variable,
 .post figure.highlight pre .attribute,
@@ -3628,7 +3628,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
   color: #9c9;
 }
 .post figure.highlight pre .css .hexcolor {
-  color: #69c;
+  color: #6cc;
 }
 .post figure.highlight pre .function,
 .post figure.highlight pre .python .decorator,
