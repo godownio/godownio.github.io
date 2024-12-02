@@ -3469,7 +3469,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 }
 .post figure.highlight,
 .post figure.highlight pre {
-  background: #ccc;
+  background: #fff;
   padding: 15px article-padding;
   border-style: solid;
   border-color: color-border;
@@ -3547,7 +3547,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
   border-style: solid;
   border-color: color-border;
   border-width: 1px 0;
-  background: #ccc;
+  background: #fff;
   padding: 15px article-padding 15px 0;
 }
 .post figure.highlight .gist .gist-file {
@@ -3573,7 +3573,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
   border: none;
 }
 .post figure.highlight .gist .gist-file .gist-meta {
-  background: #ccc;
+  background: #fff;
   color: #999;
   font: 0.85em font-sans;
   text-shadow: 0 0;
