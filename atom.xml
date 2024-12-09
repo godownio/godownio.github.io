@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-12-04T03:16:21.466Z</updated>
+  <updated>2024-12-09T13:59:19.652Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2023CISCN 初赛WEB WP</title>
+    <link href="https://godownio.github.io/2024/12/09/2023ciscn-fu-xian/"/>
+    <id>https://godownio.github.io/2024/12/09/2023ciscn-fu-xian/</id>
+    <published>2024-12-09T13:56:21.000Z</published>
+    <updated>2024-12-09T13:59:19.652Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;补课&lt;/p&gt;
+&lt;h1 id=&quot;2023CISCN&quot;&gt;&lt;a href=&quot;#2023CISCN&quot; class=&quot;headerlink&quot; title=&quot;2023CISCN&quot;&gt;&lt;/a&gt;2023CISCN&lt;/h1&gt;&lt;h2 id=&quot;Unzip&quot;&gt;&lt;a href=&quot;#Unzip&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
+    
+    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
+    
+    
+    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
+    
+    <category term="go ssti" scheme="https://godownio.github.io/tags/go-ssti/"/>
+    
+    <category term="spring CGW" scheme="https://godownio.github.io/tags/spring-CGW/"/>
+    
+  </entry>
   
   <entry>
     <title>java加载动态链接库绕过RASP的一些思考</title>
@@ -244,7 +276,7 @@
     <link href="https://godownio.github.io/2024/10/26/c3p0-lian/"/>
     <id>https://godownio.github.io/2024/10/26/c3p0-lian/</id>
     <published>2024-10-26T09:21:23.000Z</published>
-    <updated>2024-12-01T07:40:18.995Z</updated>
+    <updated>2024-12-04T09:22:42.461Z</updated>
     
     
       
@@ -389,7 +421,7 @@
     <link href="https://godownio.github.io/2024/10/14/spel-biao-da-shi-zhu-ru/"/>
     <id>https://godownio.github.io/2024/10/14/spel-biao-da-shi-zhu-ru/</id>
     <published>2024-10-14T01:30:23.000Z</published>
-    <updated>2024-10-15T09:15:44.772Z</updated>
+    <updated>2024-12-09T13:59:10.457Z</updated>
     
     
       
@@ -410,7 +442,7 @@
     <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
     
     
-    <category term="spring" scheme="https://godownio.github.io/tags/spring/"/>
+    <category term="SPEL表达式注入" scheme="https://godownio.github.io/tags/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
@@ -541,32 +573,6 @@
         
     <summary type="html">&lt;p&gt;觉得自己牛逼了？打个比赛你就老实了&lt;/p&gt;
 &lt;h2 id=&quot;SCTF-SycServer2-0原型链污染&quot;&gt;&lt;a href=&quot;#SCTF-SycServer2-0原型链污染&quot; class=&quot;headerlink&quot; title=&quot;SCTF</summary>
-        
-      
-    
-    
-    
-    <category term="nodejs" scheme="https://godownio.github.io/categories/nodejs/"/>
-    
-    
-    <category term="nodejs" scheme="https://godownio.github.io/tags/nodejs/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>nodejs漏洞</title>
-    <link href="https://godownio.github.io/2024/09/30/nodejs-lou-dong/"/>
-    <id>https://godownio.github.io/2024/09/30/nodejs-lou-dong/</id>
-    <published>2024-09-30T02:41:58.000Z</published>
-    <updated>2024-10-27T07:21:23.785Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;抄一份nodejs的漏洞合集&lt;/p&gt;
-&lt;p&gt;&lt;a</summary>
         
       
     
