@@ -3638,7 +3638,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 .post figure.highlight pre .perl .sub,
 .post figure.highlight pre .javascript .title,
 .post figure.highlight pre .coffeescript .title {
-  color: #69c;
+  color: #191970;
 }
 .post figure.highlight pre .keyword,
 .post figure.highlight pre .javascript .function {
