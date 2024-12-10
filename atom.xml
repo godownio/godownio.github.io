@@ -197,7 +197,7 @@
         
     <summary type="html">&lt;p&gt;XStream是一个能将Java对象和XML相互转换的Java库。（脑海浮现spring 加载xml&lt;/p&gt;
 &lt;p&gt;pom.xml：&lt;/p&gt;
-&lt;pre class=&quot;line-numbers language-markup&quot;</summary>
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
         
       
     
@@ -486,7 +486,7 @@
         
         
     <summary type="html">&lt;p&gt;pom.xml：&lt;/p&gt;
-&lt;pre class=&quot;line-numbers language-markup&quot; data-language=&quot;markup&quot;&gt;&lt;code class=&quot;language-markup&quot;&gt;&lt;span class=&quot;token</summary>
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
         
       
     
@@ -514,7 +514,7 @@
         
         
     <summary type="html">&lt;p&gt;回想fastjson获取setter方法的部分&lt;/p&gt;
-&lt;pre class=&quot;line-numbers language-java&quot; data-language=&quot;java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token</summary>
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
         
       
     

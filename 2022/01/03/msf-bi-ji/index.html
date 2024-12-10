@@ -580,21 +580,6 @@
         
  <!-- prismjs 代码高亮 -->
  
-    
-    <link href="/js/prism/prism-line-numbers.css" rel="stylesheet">
-    
-        <link href="/js/prism/prism-coy.min.css" rel="stylesheet">
-    
-
-    <style>
-        pre[class*="language-"] {
-            overflow-y: hidden;
-        }
-        .line-numbers .line-numbers-rows {
-            border: none;
-        }
-    </style>
-  
 
 
 <div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
@@ -637,8 +622,7 @@
         <h1 id="msf笔记"><a href="#msf笔记" class="headerlink" title="msf笔记"></a>msf笔记</h1><p>先Nmap或者arp-scan扫端口，根据端口攻击。如果开了web端口，就想办法rce反弹shell。拿到shell后扫一下内网，目前只会ping扫，或者升msf，用msf的scan exp扫。然后在靶机上download venom客户端用以代理，在攻击机起服务端，socks通道打通后，更改proxychains4.conf（配置文件，名字可能不一样），实现攻击机的全局代理，然后带上Proxychains nmap扫内网靶机端口</p>
 <blockquote>
 <p>如果靶机打着无回显了，应该是靶机命令还没执行完，比如ping扫内网，命令还没执行完，在shell退了sessions，或者单纯的用ctrl+c，在靶机上命令是还会继续执行的，就导致了后续命令执行不了。这种情况再杀掉session重新打时，之前在靶机上的shell还在，就会发生如下情况：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>-<span class="token punctuation">]</span> Command shell session <span class="token number">3</span> is not valid and will be closed
-<span class="token punctuation">[</span>*<span class="token punctuation">]</span> <span class="token number">192.168</span>.137.129 - Command shell session <span class="token number">3</span> closed.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[-] Command shell session 3 is not valid and will be closed</span><br><span class="line">[*] 192.168.137.129 - Command shell session 3 closed.</span><br></pre></td></tr></table></figure>
 
 <p>可以把靶机重启，但是要重复许多步骤，最好不要杀掉sessions,进入之前没执行完命令的sessions，然后发送远程ctrl+c</p>
 </blockquote>

