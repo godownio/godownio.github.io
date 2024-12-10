@@ -3604,7 +3604,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 .post figure.highlight pre .css .id,
 .post figure.highlight pre .css .class,
 .post figure.highlight pre .css .pseudo {
-  color: #f2777a;
+  color: #d9474b;
 }
 .post figure.highlight pre .number,
 .post figure.highlight pre .preprocessor,
@@ -3642,7 +3642,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 }
 .post figure.highlight pre .keyword,
 .post figure.highlight pre .javascript .function {
-  color: #c9c;
+  color: #5c0a5c;
 }
 .donate_bar {
   text-align: center;
