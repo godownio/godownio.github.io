@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-12-10T13:45:54.894Z</updated>
+  <updated>2024-12-19T02:22:29.491Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="https://godownio.github.io/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/"/>
+    <id>https://godownio.github.io/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/</id>
+    <published>2024-12-19T02:24:54.171Z</published>
+    <updated>2024-12-19T02:22:29.491Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Spring-FatJar写文件到RCE&quot;&gt;&lt;a href=&quot;#Spring-FatJar写文件到RCE&quot; class=&quot;headerlink&quot; title=&quot;Spring FatJar写文件到RCE&quot;&gt;&lt;/a&gt;Spring</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>2023CISCN 初赛WEB WP</title>
@@ -45,6 +66,33 @@
     <category term="go ssti" scheme="https://godownio.github.io/tags/go-ssti/"/>
     
     <category term="spring CGW" scheme="https://godownio.github.io/tags/spring-CGW/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AspectJWeaver反序列化写文件</title>
+    <link href="https://godownio.github.io/2024/12/09/aspectjweaver-fan-xu-lie-hua/"/>
+    <id>https://godownio.github.io/2024/12/09/aspectjweaver-fan-xu-lie-hua/</id>
+    <published>2024-12-09T13:56:21.000Z</published>
+    <updated>2024-12-19T02:43:57.652Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="AspectJWeaver" scheme="https://godownio.github.io/tags/AspectJWeaver/"/>
     
   </entry>
   
@@ -506,7 +554,7 @@
     <link href="https://godownio.github.io/2024/10/08/fastjson-lian/"/>
     <id>https://godownio.github.io/2024/10/08/fastjson-lian/</id>
     <published>2024-10-08T14:53:23.000Z</published>
-    <updated>2024-10-15T10:40:08.651Z</updated>
+    <updated>2024-12-19T01:55:02.546Z</updated>
     
     
       
@@ -528,60 +576,6 @@
     <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
     
     <category term="BCEL" scheme="https://godownio.github.io/tags/BCEL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>fastjson parseObject分析(纯流程无POC)</title>
-    <link href="https://godownio.github.io/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/"/>
-    <id>https://godownio.github.io/2024/10/06/fastjson-liu-cheng-fen-xi-bu-han-poc/</id>
-    <published>2024-10-06T06:13:23.000Z</published>
-    <updated>2024-10-25T06:02:46.128Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;FastJson 是阿里巴巴的开源 JSON 解析库，它可以解析 JSON 格式的字符串，支持 javaBean 序列化为 JSON 字符串，也可以从 JSON 字符串反序列化到 javabean&lt;/p&gt;
-&lt;p&gt;特点就是快，性能好，也就是因为此，FastJson</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2024SCTF Sysclover2原型链污染环境变量</title>
-    <link href="https://godownio.github.io/2024/10/05/cong-2024sctf-sysclover2-xue-xi-yuan-xing-lian-wu-ran-huan-jing-bian-liang-getshell/"/>
-    <id>https://godownio.github.io/2024/10/05/cong-2024sctf-sysclover2-xue-xi-yuan-xing-lian-wu-ran-huan-jing-bian-liang-getshell/</id>
-    <published>2024-10-05T11:12:23.000Z</published>
-    <updated>2024-10-15T10:40:08.648Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;觉得自己牛逼了？打个比赛你就老实了&lt;/p&gt;
-&lt;h2 id=&quot;SCTF-SycServer2-0原型链污染&quot;&gt;&lt;a href=&quot;#SCTF-SycServer2-0原型链污染&quot; class=&quot;headerlink&quot; title=&quot;SCTF</summary>
-        
-      
-    
-    
-    
-    <category term="nodejs" scheme="https://godownio.github.io/categories/nodejs/"/>
-    
-    
-    <category term="nodejs" scheme="https://godownio.github.io/tags/nodejs/"/>
     
   </entry>
   
