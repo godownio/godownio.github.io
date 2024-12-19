@@ -44,6 +44,31 @@
   </entry>
   
   <entry>
+    <title>python利用栈帧进行沙箱逃逸</title>
+    <link href="https://godownio.github.io/2024/12/19/python-zhan-zheng-tao-yi/"/>
+    <id>https://godownio.github.io/2024/12/19/python-zhan-zheng-tao-yi/</id>
+    <published>2024-12-19T07:07:21.000Z</published>
+    <updated>2024-12-19T09:07:37.660Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;python利用栈帧进行沙箱逃逸&quot;&gt;&lt;a href=&quot;#python利用栈帧进行沙箱逃逸&quot; class=&quot;headerlink&quot; title=&quot;python利用栈帧进行沙箱逃逸&quot;&gt;&lt;/a&gt;python利用栈帧进行沙箱逃逸&lt;/h1&gt;&lt;p&gt;copy copy</summary>
+        
+      
+    
+    
+    
+    <category term="python" scheme="https://godownio.github.io/categories/python/"/>
+    
+    
+    <category term="栈帧逃逸" scheme="https://godownio.github.io/tags/%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>AspectJWeaver反序列化写文件</title>
     <link href="https://godownio.github.io/2024/12/19/aspectjweaver-fan-xu-lie-hua/"/>
     <id>https://godownio.github.io/2024/12/19/aspectjweaver-fan-xu-lie-hua/</id>
@@ -552,36 +577,6 @@
     
     
     <category term="jackson" scheme="https://godownio.github.io/tags/jackson/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>fastjson JNDI+不出网BCEL</title>
-    <link href="https://godownio.github.io/2024/10/08/fastjson-lian/"/>
-    <id>https://godownio.github.io/2024/10/08/fastjson-lian/</id>
-    <published>2024-10-08T14:53:23.000Z</published>
-    <updated>2024-12-19T01:55:02.546Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;回想fastjson获取setter方法的部分&lt;/p&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
-    
-    <category term="BCEL" scheme="https://godownio.github.io/tags/BCEL/"/>
     
   </entry>
   
