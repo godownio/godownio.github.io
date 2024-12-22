@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-12-19T09:11:34.036Z</updated>
+  <updated>2024-12-22T09:57:43.309Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2024CISCN 初赛WEB WP</title>
+    <link href="https://godownio.github.io/2024/12/22/ciscn-2024-web-wp/"/>
+    <id>https://godownio.github.io/2024/12/22/ciscn-2024-web-wp/</id>
+    <published>2024-12-22T09:51:21.000Z</published>
+    <updated>2024-12-22T09:57:43.309Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;2024CISCN&quot;&gt;&lt;a href=&quot;#2024CISCN&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
+    
+    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
+    
+    
+    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
+    
+  </entry>
   
   <entry>
     <title>python利用栈帧进行沙箱逃逸</title>
@@ -100,7 +127,7 @@
     <link href="https://godownio.github.io/2024/12/09/2023ciscn-fu-xian/"/>
     <id>https://godownio.github.io/2024/12/09/2023ciscn-fu-xian/</id>
     <published>2024-12-09T13:56:21.000Z</published>
-    <updated>2024-12-10T13:45:54.894Z</updated>
+    <updated>2024-12-20T08:34:20.585Z</updated>
     
     
       
@@ -108,7 +135,7 @@
         
         
     <summary type="html">&lt;p&gt;补课&lt;/p&gt;
-&lt;h1 id=&quot;2023CISCN&quot;&gt;&lt;a href=&quot;#2023CISCN&quot; class=&quot;headerlink&quot; title=&quot;2023CISCN&quot;&gt;&lt;/a&gt;2023CISCN&lt;/h1&gt;&lt;h2 id=&quot;Unzip&quot;&gt;&lt;a href=&quot;#Unzip&quot;</summary>
+&lt;h1 id=&quot;2023CISCN&quot;&gt;&lt;a href=&quot;#2023CISCN&quot; class=&quot;headerlink&quot;</summary>
         
       
     
@@ -187,7 +214,7 @@
     <link href="https://godownio.github.io/2024/12/01/jdbc-attack/"/>
     <id>https://godownio.github.io/2024/12/01/jdbc-attack/</id>
     <published>2024-12-01T06:44:21.000Z</published>
-    <updated>2024-12-13T12:27:02.239Z</updated>
+    <updated>2024-12-22T09:59:18.236Z</updated>
     
     
       
@@ -549,34 +576,6 @@
     
     
     <category term="spring" scheme="https://godownio.github.io/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>jackson 反序列化(纯流程无POC)</title>
-    <link href="https://godownio.github.io/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/"/>
-    <id>https://godownio.github.io/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/</id>
-    <published>2024-10-11T07:03:23.000Z</published>
-    <updated>2024-10-25T07:15:32.505Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;pom.xml：&lt;/p&gt;
-&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="jackson" scheme="https://godownio.github.io/tags/jackson/"/>
     
   </entry>
   
