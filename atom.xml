@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-12-22T10:15:02.426Z</updated>
+  <updated>2024-12-30T02:02:14.854Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RASP的防</title>
+    <link href="https://godownio.github.io/2024/12/30/rasp-de-fang/"/>
+    <id>https://godownio.github.io/2024/12/30/rasp-de-fang/</id>
+    <published>2024-12-30T02:01:27.000Z</published>
+    <updated>2024-12-30T02:02:14.854Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本文所有代码位于：&lt;a href=&quot;https://github.com/godownio/RASPAgent&quot;&gt;https://github.com/godownio/RASPAgent&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;环境配置&quot;&gt;&lt;a href=&quot;#环境配置&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="RASP" scheme="https://godownio.github.io/categories/java/RASP/"/>
+    
+    
+    <category term="RASP" scheme="https://godownio.github.io/tags/RASP/"/>
+    
+  </entry>
   
   <entry>
     <title>2024CISCN 初赛WEB WP</title>
@@ -214,7 +242,7 @@
     <link href="https://godownio.github.io/2024/12/01/jdbc-attack/"/>
     <id>https://godownio.github.io/2024/12/01/jdbc-attack/</id>
     <published>2024-12-01T06:44:21.000Z</published>
-    <updated>2024-12-22T10:04:17.557Z</updated>
+    <updated>2024-12-25T02:58:17.626Z</updated>
     
     
       
@@ -549,33 +577,6 @@
     
     
     <category term="SPEL表达式注入" scheme="https://godownio.github.io/tags/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>spring一文入门</title>
-    <link href="https://godownio.github.io/2024/10/13/spring-yi-wen-ru-men-zhuan-zai/"/>
-    <id>https://godownio.github.io/2024/10/13/spring-yi-wen-ru-men-zhuan-zai/</id>
-    <published>2024-10-13T09:30:23.000Z</published>
-    <updated>2024-10-15T10:40:08.660Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Spring&quot;&gt;&lt;a href=&quot;#Spring&quot; class=&quot;headerlink&quot; title=&quot;Spring&quot;&gt;&lt;/a&gt;Spring&lt;/h1&gt;&lt;p&gt;转载自&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
-    
-    
-    <category term="spring" scheme="https://godownio.github.io/tags/spring/"/>
     
   </entry>
   

