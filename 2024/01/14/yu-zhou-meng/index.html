@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>分类 | Godown_blog</title>
+  <title>那些宇宙 | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -578,219 +578,590 @@
 </header>
         <!-- 内容区域 -->
         
-<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"></div>
-<div class="bg-light-floor-categories" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -3;"></div>
+ <!-- prismjs 代码高亮 -->
+ 
 
-<div class="categories-header" style="background-image:url('https://pic2.zhimg.com/80/v2-7c496c95897fb15768593cc5170c8b1a_1440w.jpg?source=1940ef5c')">
-    <div class="categories-header-title">
-        categories
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8128.png')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        那些宇宙
+      </span>
     </div>
-    <div class="categories-header-desc">
     
-        <span class="title" id="categories-header-desc"></span>
-    <script>
-  function typedFn() {
-    const el = '#categories-header-desc';
-    const type = 'categories';
-    let desc = '愿你如风，被人温柔以待'
-    var typed = new Typed(el, {
-      strings: [desc],
-      startDelay: 100,
-      typeSpeed: 100,
-      loop: true,
-      backSpeed: 50,
-      showCursor: true
-    });
-  }
-  typedFn();
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <p>今天刚刷到科学家破解“祖父悖论”，时间旅行的可行性得到自洽的帖子。刚好放空了自己一段时间，想到一些自己的理解。</p>
+<p>该贴原文梗概如下：</p>
+<p>在牛顿物理中，时间线性推进，但爱因斯坦广义相对论揭示，时空可以进行完全，典型的例子就是黑洞。理论上，时空弯曲可能形成闭合的时间曲线，使得旅行者回到过去。研究作者Lorenzo Gavassino指出，旋转的物质可以“拖拽”时空，导致时间形成环路。尽管宇宙整体并未表现出这样的旋转特性，但黑洞等旋转天体可能创造类似环境，为闭合时间曲线提供可能性。</p>
+<p>时间旅行的最大难题在于由此引发的悖论（祖父悖论仅是其中之一）。这些矛盾源于人们假设热力学定律在时间循环中仍正常运作。热力学中的熵，衡量系统混乱程度，是唯一区分过去与未来的物理法则，也是我们记忆过去而无法预知未来的原因。</p>
+<blockquote>
+<p>我认为此处的预知未来是指熵较大的未来，如果熵较小，如苍蝇预测你举手是会拍他，人在空中无法改变自由落体的结果。而有些生物似乎并不能记忆过去，如鱼的行为特性似乎记不得自己吃过食物，老年痴呆患者也会失去记忆能力。但渺小的生物也具有预测的能力，如横上一个障碍在蚂蚁面前，蚂蚁会绕过；如前面的苍蝇。记忆与预测后面还会提到。</p>
+</blockquote>
+<p>Gavassino的研究于2024年12月12日发表在《经典与量子引力》期刊，arxiv：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2405.18640">https://arxiv.org/abs/2405.18640</a></p>
+<p>论文摘要如下：利用Wigner定理，宇宙飞船在轴对称宇宙中沿紧密类时曲线飞行，宇宙飞船内部能级经历自发离散化，在完成曲线的往返后，所有系统回到了它们的初始状态。这意味着宇宙飞船内观察者的记忆必然会在旅程结束时被抹去。更一般的说，如果熵增加，Poincare循环最终会在循环结束时逆转，迫使熵减少到初始值。该文证明这种熵的减少与本征态热化假设时一致的。</p>
+<p>Gavassino表示，过去的科学家和哲学家认为，如果时间旅行存在，大自然会通过“自洽性原则”防止矛盾的发生。他的研究首次用量子力学推导出这一原则，并证明历史的自洽性可以自然从量子定律中得到。</p>
+<p>我列举一下该文提出的一些有趣的例子来帮助理解：</p>
+<p>人们通常认为，在一个具有封闭类时曲线(ctc)的宇宙中，人们可以“旅行到过去”。从表面上看，这似乎是一个明显的暗示，因为(在足够大的尺度上)人们可以将类时曲线视为假想的穿越时空的宇宙飞船的世界线。如果这样的曲线形成一个循环,宇宙飞船就会回到它的起点，回到它自己的过去。然而，为了确认这是一次真实的回到过去的旅行,我们必须首先讨论乘客(即宏观粒子系统)在完成往返时会发生什么。例如，考虑下面的问题:“爱丽丝能在旅程的终点遇见年轻时的自己吗?”“回答这个问题和类似的问题最终归结为确定ctc上非平衡热力学系统的统计演变，这就是论文做的。</p>
+<p>我们首先注意到，根据我们目前对物理学的理解，嫡增加是唯一的物理定律。这使我们能够区分过去和未来。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250114152547077.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250114152547077.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250114152547077"></p>
+<p>因此在曲线中存在一个事件x0，其中飞船的嫡最小，另一个事件xf ,其中飞船的嫡最大。然后，让我们把封闭的曲线分成两个开放的部分，开始于x0，结束于xf。从S(x0)≤S(xf)开始，两个部分的嫡(平均)从x0增长到xf。因此，在CTC的两个分支上，热力学时间开始于xx，结束于xf。基于这一事实，有人认为，如果一个观察者从x0开始他的旅程,并沿着图中的绿线逆时针移动，那么，当他们穿过事件xf后，我们就不能再说他们的主观时间“不断增长”。相反，所有热力学过程(包括记忆形成和老化等生物过程)都是颠倒的。因此，严格地说，这个观察者的故事以x0结尾。蓝线包含另一个故事，其中另一个(时间反转)版本的观察者顺时针从x0移动到xf。结论:从在CTC上旅行的观察者的角度来看,封闭的类时曲线不是(嫡)时间的环路。相反，它是两条平行的嫡时间线，它们都在相同的事件中开始和结束(即x0和xf) 。</p>
+<p>例如，考虑一个Alice的观察者，她的生命从x0开始，连同一枚硬币和一个笔记本。假设沿循环顺时针发展的Alice版本投掷硬币并得到正面，在笔记本上写”H”，而另一个版本(逆时针)的Alice得到反面，并写上”T”，当两个时间线在事件xf中相遇时，哪个字母会出现在笔记本上？</p>
+<p>摆脱这个悖论的唯一方法是诉诸自洽原则，根据该原则，宇宙真正发生的历史只有那些一切都一致的历史。例如，在上面Alice的实验中，可以假设硬币在两个平行历史上纵使给出一样的结果。在经典世界中（你所理解的世界），者必须作为柯西问题的附加约束来强制执行（理解为上帝），而在量子世界中，自洽性自动保持为进化算子的固有特征。并且Gavassino还针对这个历史的自洽性给出了详细的物理证明。</p>
+<p>而且，历史的自洽性不要求我们对初始状态施加约束，因为所有操作都是一致的，所有故事都是自动自洽，该自洽限制的是所有粒子的微观运动。</p>
+<p>这是一种怎样的理论？</p>
+<p>要知道世界上不可能存在一样的操作复刻，就算你做出和上一秒一样的动作，体内的微观粒子的运动也一定不会相同。</p>
+<p>再次回到宇宙飞船的命题（请不要再看上面的绿蓝热力学图了，那只是x0到xf的热力学，而不是整个时间轴的图）。我们逆转时间从xf穿梭回x0，穿梭到x0会消除你的所有记忆，并开始保持操作一致性，直到再次回到xf。</p>
+<p>上面所讲为量子力学，而在平行世界（保持记忆）中，自洽性一定程度上正好能解释祖父悖论。那么多个逻辑，我们总能想出一个自洽，比如假定两个平行宇宙来解释祖父悖论，主宇宙的孩子A回去杀死了祖父A1，那孩子A1为什么会存在？很简单，祖父A1死了，导致祖母只能和B1结婚，后代为孩子B。孩子B也回去杀死了祖父B1，导致祖母无法和B1结婚，最终只能和A1结婚，生下孩子A。而这只是个简化理论，a的时间线产生的b可以是任意宇宙的你，而导致你出现的b也是任意宇宙的你，这里的ab只是个代名词。无穷宇宙中，总会有那么个b导致你的出现，而你的出现又会导致新的宇宙出现。每个人都是故事的开端和结果。</p>
+<p>自洽性反应到经典世界，也就是我们的世界真的存在一个“上帝”，这或许是爱因斯坦相信上帝的原因。</p>
+<p>那我穿梭回去，我能遇到小时候的自己吗？假设现在有一个老鲍勃一个人呆在宇宙飞船里，根据作者给出的理论推导，要么老鲍勃在遇到小鲍勃之前就死了（宇宙飞船穿梭所耗的时间），要么他重生，成为消除记忆的年轻的鲍勃，开启操作一致性）。不管怎样，方程结果都没能安排两个鲍勃见面。 </p>
+<p>第二个建模：现在有两个人蹲在宇宙飞船上，他们就是老鲍勃和年轻的鲍勃（我们强行安排他们见面）。老鲍勃相信自己是来自未来的鲍勃，但是“老鲍勃”的信念并不能可靠的描述他自己的过去，因为逆转时空熵减少的原因，老鲍勃一定会有记忆损失，老鲍勃在去到x0之前的所有记忆可能都是错误的。老鲍勃的存在与年轻的鲍勃的生活没有宏观的因果关系（他们两个没故事）。因此，年轻的鲍勃没理由相信老鲍勃真是来自未来的自己，而老鲍勃更有可能是一个“年长的克隆体”。</p>
+<p>读到这里，这让我不禁的想到梦。所谓的逆转时空后的记忆损失和自洽的正常过自己的生活，都能和梦境贴上联系。比如亲人去世之前会有所谓的警示梦，比如生活遇到大波动会遇到象征梦，甚至穿梭坠落之类的梦。猜测可能是去世后具有另一量子态逆转时空，但是损失了许多记忆回到现在（并非附加本体），而是与当前量子发生纠缠，但是由于自洽性，历史仍然继续推进。</p>
+<p>做个比喻性描述，尽管电影不应该拿来做真实性描述。恐怖游轮里的JESS，为什么她会继续回到那艘邮轮，影评说实际上她的孩子已经死了，她潜意识依旧是想救自己的孩子。让我们放到整个时间循环上，初始点为JESS登上邮轮，末位为JESS发生车祸失去孩子。那么一轮循环之后，JESS会失去她的所有记忆，在邮轮睡觉时已经完成了时空穿梭。</p>
+<p>尽管这一理论框架令人振奋，但闭合时间曲线是否真实存在仍是未知。许多物理学家对此表示怀疑。1992年，Stephen Hawking提出“时间保护猜想”，认为物理法则可能会阻止时间循环的形成，例如时空在循环建立前可能会崩溃或变为奇点。</p>
+<p>但是上述问题的解决都是依赖所谓的上帝——自洽性。我们也提到这似乎是Alice笔记本实验的唯一解，不然笔记本上会同时存在两个字母。</p>
+<p>现在解释一下平行世界理论：</p>
+<p>假设一个实验，发射一个电子向10个盒子的任意一个。量子理论可以给出电子落在每个盒子的概率，根据电子的轨迹和盒子的相对位置，这个概率在不同盒子中可能不同。我们发射电子，重复99次。它每次落入哪个盒子的次数与理论预测一致——量子理论胜利了。</p>
+<p>但是只做一次实验，结果就无法预测。因为量子理论只能描述平均结果，无法描述单一事件。调整实验的情境，要考虑的就更深了。假设我们测量的是电子的动量，而不是位置。与位置不同，微观世界也会遵循守恒定律。但在测量之前，动量的叠加状态和最终测量值完全不同。（动量也不可测量，物理测得电流都是一堆电子），就好像单个电子的动量突然出现突然消失一样。</p>
+<p>平行世界理论就是这么诞生的吧。微观世界的动量是在多个宇宙之间守恒，不仅解释了薛定谔那只生死不明的猫——另外一个版本的猫在其他宇宙（此处猫指量子）。还解释了动量并没有被创造或者销毁。</p>
+<p>讲完了这些，想象一下时间穿梭+自洽性理论存在会怎样影响我们的生活，这段会是很有趣的事情。</p>
+<p>我想分两个层面想象一下这个问题，分别是：地球的未来-&gt;现在，外星的未来-&gt;现在。</p>
+<p>假如地球的未来存在时空穿梭，飞船上分别有老Bob和老Alice，上面说到穿梭回去会消除记忆加变年轻（重生）是吧。理论上来说，年轻的Bob会变成老Bob，每个阶段的Bob都会存在，可真的是这样吗？那个被送回原来时空的Bob呢？身体和记忆没有一部分再存在于时空中，这真的能算上全阶段存在吗。或许他根本没有穿梭回去而是死在了某个角落。</p>
+<p>外星的未来-&gt;现在，假设存在外星生物A，暂时不知道是不是肉体存在。穿梭到了地球的现在，也就是他的过去，请问他是怎么存在？我暂时能想到四个答案：A.他在外星的过去 B.随宇宙飞船降落在地球的现在 C.灰飞烟灭 D.仅作为奇怪的存在观察地球的现在 </p>
+<p>当你能回答这个问题，或者针对每个选项有自己的想法，那也算是我们的一个放空了</p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>作者:  </strong>GodownKai</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>文章链接:  </strong>
+    <a href="/2024/01/14/yu-zhou-meng/" target="_blank" title="那些宇宙">https://godownio.github.io/2024/01/14/yu-zhou-meng/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明:   </strong>
+      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      许可协议。转载请注明出处!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B884.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B884.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2024/03/01/kao-yan-c-suan-fa-lian-xi/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> 上一篇:
+        <div class="title-text">C++算法练习</div>
+      </div>
+      
+      <!-- <div class="content">
+        算法练习（C++代码）快速幂算法题目：输入一个整数 n ，求 n^n 的个位数是多少。
+
+快速幂算法：指数为偶数，则底数
+      </div> -->
+    </a>
+  </div>
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B882.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B882.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2023/06/30/vulnhub-ba-ji-node1/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">vulnhub靶机渗透Node1</div>
+      </div>
+      <!-- <div class="content">
+        vulnhub靶机Node1一、有效资产收集
+
+
+资产编号
+资产分类
+资产名称
+资产规格
+访问地址
+备注&#x2F;问题
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
 </script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
     
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <aside id='l_side'>
+  
+    
+      <section class="widget side_blogger">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Godown_blog</h2>
+        
+        
+          <p>something for nothing</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Godown_blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="mailto:1958304602@qq.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/godownio"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1958304602"
+              class="social fab fa-qq flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+    
+  
+  
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+  <header>
+    
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!--  -->
+        <div class="toc"></div>
+      </div>
     </div>
-    <div class="mask-box"></div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
 </div>
 
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
 
 
-<div id="categories" class="container">
-    <div class="card">
-        <div class="card-content">
-            <div class="category-title center-align">
-                <i class="fas fa-tags"></i>&nbsp;&nbsp;文章分类
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/12/30/rasp-de-fang/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8127.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8127.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
             </div>
-            <div class="category-chips">
+            <div class="post-date-title">
+              <div>
                 
+                  <span class="post-date">12-30</span>
                 
-                <a href="/categories/java/" title="java: 48">
-                    <span class="category-content"
-                        title="java" style="background-color: #A3E4D7;">java
-                        <span class="category-length">48</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/CC/" title="CC: 10">
-                    <span class="category-content"
-                        title="CC" style="background-color: #FFF;">CC
-                        <span class="category-length">10</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/" title="框架漏洞: 19">
-                    <span class="category-content"
-                        title="框架漏洞" style="background-color: #D7BDE2;">框架漏洞
-                        <span class="category-length">19</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/ctf/" title="ctf: 4">
-                    <span class="category-content"
-                        title="ctf" style="background-color: #F9E79F;">ctf
-                        <span class="category-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/Hexo/" title="Hexo: 1">
-                    <span class="category-content"
-                        title="Hexo" style="background-color: #E8F8F5;">Hexo
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/java%E6%9D%82%E8%B0%88/" title="java杂谈: 9">
-                    <span class="category-content"
-                        title="java杂谈" style="background-color: #F9E79F;">java杂谈
-                        <span class="category-length">9</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%BA%AF%E6%BA%90/" title="溯源: 1">
-                    <span class="category-content"
-                        title="溯源" style="background-color: #FEF9E7;">溯源
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/other%E6%BC%8F%E6%B4%9E/" title="other漏洞: 3">
-                    <span class="category-content"
-                        title="other漏洞" style="background-color: #F8F9F9;">other漏洞
-                        <span class="category-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/RASP/" title="RASP: 1">
-                    <span class="category-content"
-                        title="RASP" style="background-color: #D7BDE2;">RASP
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/ctf/WP/" title="WP: 3">
-                    <span class="category-content"
-                        title="WP" style="background-color: #A3E4D7;">WP
-                        <span class="category-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/RMI/" title="RMI: 3">
-                    <span class="category-content"
-                        title="RMI" style="background-color: #FFF;">RMI
-                        <span class="category-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/" title="内存马: 3">
-                    <span class="category-content"
-                        title="内存马" style="background-color: #82E0AA;">内存马
-                        <span class="category-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%BA%AF%E6%BA%90/JSONP/" title="JSONP: 1">
-                    <span class="category-content"
-                        title="JSONP" style="background-color: #F9E79F;">JSONP
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" title="内网渗透: 6">
-                    <span class="category-content"
-                        title="内网渗透" style="background-color: #F8C471;">内网渗透
-                        <span class="category-length">6</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/nodejs/" title="nodejs: 2">
-                    <span class="category-content"
-                        title="nodejs" style="background-color: #82E0AA;">nodejs
-                        <span class="category-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/python/" title="python: 1">
-                    <span class="category-content"
-                        title="python" style="background-color: #F8C471;">python
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA/" title="靶机: 4">
-                    <span class="category-content"
-                        title="靶机" style="background-color: #F9E79F;">靶机
-                        <span class="category-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E5%86%85%E7%BD%91%E7%AC%94%E8%AE%B0/" title="内网笔记: 2">
-                    <span class="category-content"
-                        title="内网笔记" style="background-color: #D7BDE2;">内网笔记
-                        <span class="category-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/others%E6%9D%82%E8%B0%88/" title="others杂谈: 1">
-                    <span class="category-content"
-                        title="others杂谈" style="background-color: #A3E4D7;">others杂谈
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" title="杂七杂八: 2">
-                    <span class="category-content"
-                        title="杂七杂八" style="background-color: #F5EEF8;">杂七杂八
-                        <span class="category-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E7%AE%97%E6%B3%95/" title="算法: 1">
-                    <span class="category-content"
-                        title="算法" style="background-color: #F9EBEA;">算法
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
+              </div>
+              <a class="post-title" href="/2024/12/30/rasp-de-fang/">RASP的防</a>
             </div>
-        </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/12/22/ciscn-2024-web-wp/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8126.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8126.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-22</span>
+                
+              </div>
+              <a class="post-title" href="/2024/12/22/ciscn-2024-web-wp/">2024CISCN 初赛WEB WP</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/12/19/python-zhan-zheng-tao-yi/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8125.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8125.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-19</span>
+                
+              </div>
+              <a class="post-title" href="/2024/12/19/python-zhan-zheng-tao-yi/">python利用栈帧进行沙箱逃逸</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8124.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8124.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-19</span>
+                
+              </div>
+              <a class="post-title" href="/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/">Spring FatJar写文件到RCE</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/12/19/aspectjweaver-fan-xu-lie-hua-xie-wen-jian/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8123.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8123.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-19</span>
+                
+              </div>
+              <a class="post-title" href="/2024/12/19/aspectjweaver-fan-xu-lie-hua-xie-wen-jian/">AspectJWeaver反序列化写文件</a>
+            </div>
+          </div>
+        
+      </div>
     </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
 </div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
 
       </main>
     </div>
