@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2024-12-30T02:02:14.854Z</updated>
+  <updated>2025-01-14T09:10:46.031Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>那些宇宙</title>
+    <link href="https://godownio.github.io/2025/01/14/yu-zhou-meng/"/>
+    <id>https://godownio.github.io/2025/01/14/yu-zhou-meng/</id>
+    <published>2025-01-14T09:06:27.000Z</published>
+    <updated>2025-01-14T09:10:46.031Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天刚刷到科学家破解“祖父悖论”，时间旅行的可行性得到自洽的帖子。刚好放空了自己一段时间，想到一些自己的理解。&lt;/p&gt;
+&lt;p&gt;该贴原文梗概如下：&lt;/p&gt;
+&lt;p&gt;在牛顿物理中，时间线性推进，但爱因斯坦广义相对论揭示，时空可以进行完全，典型的例子就是黑洞。理论上，时空弯曲可能形</summary>
+        
+      
+    
+    
+    
+    <category term="杂七杂八" scheme="https://godownio.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>RASP的防</title>
@@ -547,36 +572,6 @@
     
     
     <category term="jackson" scheme="https://godownio.github.io/tags/jackson/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>spEL表达式注入</title>
-    <link href="https://godownio.github.io/2024/10/14/spel-biao-da-shi-zhu-ru/"/>
-    <id>https://godownio.github.io/2024/10/14/spel-biao-da-shi-zhu-ru/</id>
-    <published>2024-10-14T01:30:23.000Z</published>
-    <updated>2024-12-09T13:59:10.457Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;学C3P0不会jackson，然后滚去学jackson了&lt;/p&gt;
-&lt;p&gt;学jackson不会spEL，然后滚去学spEL了&lt;/p&gt;
-&lt;p&gt;学SpEL不会spring，然后滚来学spring了&lt;/p&gt;
-&lt;h3 id=&quot;spring&quot;&gt;&lt;a href=&quot;#spring&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
-    
-    
-    <category term="SPEL表达式注入" scheme="https://godownio.github.io/tags/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
