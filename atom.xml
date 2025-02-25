@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-01-14T09:10:46.031Z</updated>
+  <updated>2025-02-25T01:58:29.072Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,66 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>2022MRCTF springcoffee</title>
+    <link href="https://godownio.github.io/2025/02/21/mrctf2022-springcoffee/"/>
+    <id>https://godownio.github.io/2025/02/21/mrctf2022-springcoffee/</id>
+    <published>2025-02-21T12:08:37.000Z</published>
+    <updated>2025-02-25T01:58:29.072Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;MRCTF-2022&quot;&gt;&lt;a href=&quot;#MRCTF-2022&quot; class=&quot;headerlink&quot; title=&quot;MRCTF 2022&quot;&gt;&lt;/a&gt;MRCTF 2022&lt;/h1&gt;&lt;p&gt;刚看完Dubbo kryo反序列化，手痒难耐，网上找到这个ctf</summary>
+        
+      
+    
+    
+    
+    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
+    
+    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
+    
+    
+    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>apache Dubbo反序列化</title>
+    <link href="https://godownio.github.io/2025/02/14/apache-dubbo-fan-xu-lie-hua/"/>
+    <id>https://godownio.github.io/2025/02/14/apache-dubbo-fan-xu-lie-hua/</id>
+    <published>2025-02-14T08:54:27.000Z</published>
+    <updated>2025-02-25T01:56:44.150Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;首先，先介绍一下JAVA RPC&lt;/p&gt;
+&lt;h1 id=&quot;apache-Dubbo反序列化&quot;&gt;&lt;a href=&quot;#apache-Dubbo反序列化&quot; class=&quot;headerlink&quot; title=&quot;apache Dubbo反序列化&quot;&gt;&lt;/a&gt;apache</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="apache Dubbo" scheme="https://godownio.github.io/tags/apache-Dubbo/"/>
+    
+  </entry>
+  
+  <entry>
     <title>那些宇宙</title>
     <link href="https://godownio.github.io/2025/01/14/yu-zhou-meng/"/>
     <id>https://godownio.github.io/2025/01/14/yu-zhou-meng/</id>
     <published>2025-01-14T09:06:27.000Z</published>
-    <updated>2025-01-14T09:10:46.031Z</updated>
+    <updated>2025-01-15T04:13:25.049Z</updated>
     
     
       
@@ -30,7 +85,7 @@
         
     <summary type="html">&lt;p&gt;今天刚刷到科学家破解“祖父悖论”，时间旅行的可行性得到自洽的帖子。刚好放空了自己一段时间，想到一些自己的理解。&lt;/p&gt;
 &lt;p&gt;该贴原文梗概如下：&lt;/p&gt;
-&lt;p&gt;在牛顿物理中，时间线性推进，但爱因斯坦广义相对论揭示，时空可以进行完全，典型的例子就是黑洞。理论上，时空弯曲可能形</summary>
+&lt;p&gt;在牛顿物理中，时间线性推进，但爱因斯坦广义相对论揭示，时空可以进行弯曲，典型的例子就是黑洞。理论上，时空弯曲可能形</summary>
         
       
     
@@ -516,62 +571,6 @@
     
     
     <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Groovy漏洞</title>
-    <link href="https://godownio.github.io/2024/10/21/groovy-lou-dong/"/>
-    <id>https://godownio.github.io/2024/10/21/groovy-lou-dong/</id>
-    <published>2024-10-21T14:11:23.000Z</published>
-    <updated>2024-12-01T07:43:03.163Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;Groovy 是一种基于 Java 平台的面向对象语言。&lt;/p&gt;
-&lt;p&gt;&lt;img</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="Groovy" scheme="https://godownio.github.io/tags/Groovy/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>jackson 反序列化合集</title>
-    <link href="https://godownio.github.io/2024/10/15/jackson-lian/"/>
-    <id>https://godownio.github.io/2024/10/15/jackson-lian/</id>
-    <published>2024-10-15T07:37:23.000Z</published>
-    <updated>2024-10-25T07:45:31.930Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;想不到2017的链子我还在复现&lt;/p&gt;
-&lt;h3 id=&quot;反序列化条件&quot;&gt;&lt;a href=&quot;#反序列化条件&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="jackson" scheme="https://godownio.github.io/tags/jackson/"/>
     
   </entry>
   
