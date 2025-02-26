@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-02-25T01:58:29.072Z</updated>
+  <updated>2025-02-26T04:51:35.582Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>servlet内存马re</title>
+    <link href="https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/"/>
+    <id>https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/</id>
+    <published>2025-02-25T06:23:33.000Z</published>
+    <updated>2025-02-26T04:51:35.582Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;新开一个内存马的坑，虽然之前学了，但是很散，而且code没做集成。现在总的复习一遍，把code归到一个项目方便后续利用&lt;/p&gt;
+&lt;p&gt;内存马的概念就不提了&lt;/p&gt;
+&lt;h1 id=&quot;servlet内存马&quot;&gt;&lt;a href=&quot;#servlet内存马&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    
+    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+  </entry>
   
   <entry>
     <title>2022MRCTF springcoffee</title>
@@ -540,37 +569,6 @@
     <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
     
     <category term="jackson" scheme="https://godownio.github.io/tags/jackson/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>fastjson $ref调用getter</title>
-    <link href="https://godownio.github.io/2024/10/24/fastjson-ref-diao-yong-getter/"/>
-    <id>https://godownio.github.io/2024/10/24/fastjson-ref-diao-yong-getter/</id>
-    <published>2024-10-24T09:04:23.000Z</published>
-    <updated>2024-12-01T07:42:29.850Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;之前有分析到，fastjson识别setter的流程如下：&lt;/p&gt;
-&lt;p&gt;按以下顺序判断，满足条件的话，会被当成setter调用：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;set开头，参数长度为1，非static，方法名总长度大于3&lt;/li&gt;
-&lt;li&gt;没有setter方法，有字段是boo</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
     
   </entry>
   
