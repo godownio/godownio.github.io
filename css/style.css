@@ -3475,7 +3475,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
   border-color: color-border;
   border-width: 1px 0;
   overflow: auto;
-  color: #1356e5;
+  color: #000;
 }
 .post figure.highlight .gutter pre,
 .post figure.highlight .gist .gist-file .gist-data .line-numbers {
@@ -3529,7 +3529,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 }
 .post figure.highlight figcaption {
   font-size: 0.85em;
-  color: #8a8888;
+  color: #1356e5;
   line-height: 1em;
   margin-bottom: 1em;
 }
@@ -3574,7 +3574,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 }
 .post figure.highlight .gist .gist-file .gist-meta {
   background: #f2f2f2;
-  color: #8a8888;
+  color: #1356e5;
   font: 0.85em font-sans;
   text-shadow: 0 0;
   padding: 0;
@@ -3590,7 +3590,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
 }
 .post figure.highlight pre .comment,
 .post figure.highlight pre .title {
-  color: #8a8888;
+  color: #1356e5;
 }
 .post figure.highlight pre .variable,
 .post figure.highlight pre .attribute,
