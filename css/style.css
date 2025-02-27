@@ -3475,7 +3475,7 @@ pre:hover::-webkit-scrollbar-thumb:hover,
   border-color: color-border;
   border-width: 1px 0;
   overflow: auto;
-  color: #000;
+  color: #1356e5;
 }
 .post figure.highlight .gutter pre,
 .post figure.highlight .gist .gist-file .gist-data .line-numbers {
