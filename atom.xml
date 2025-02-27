@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-02-26T04:51:35.582Z</updated>
+  <updated>2025-02-27T06:35:36.819Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Tomcat下获取StandardContext的方法(JSP转Java内存马)</title>
+    <link href="https://godownio.github.io/2025/02/26/huo-qu-standardcontext-de-fang-fa/"/>
+    <id>https://godownio.github.io/2025/02/26/huo-qu-standardcontext-de-fang-fa/</id>
+    <published>2025-02-26T13:13:09.000Z</published>
+    <updated>2025-02-27T06:35:36.819Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;2025凑一下2020年的热闹，本文将介绍各环境下获取StandardContext的办法，以及直接写response回显的方法&lt;/p&gt;
+&lt;p&gt;本文会copy很多师傅们的见解，一个大总结，会做好ref的！&lt;/p&gt;
+&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    
+    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+  </entry>
+  
+  <entry>
     <title>servlet内存马re</title>
     <link href="https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/"/>
     <id>https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/</id>
     <published>2025-02-25T06:23:33.000Z</published>
-    <updated>2025-02-26T04:51:35.582Z</updated>
+    <updated>2025-02-27T06:29:47.628Z</updated>
     
     
       
@@ -539,36 +568,6 @@
     
     
     <category term="C3P0" scheme="https://godownio.github.io/tags/C3P0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>fastjson jackson getter setter和constructor的区分</title>
-    <link href="https://godownio.github.io/2024/10/25/fastjson-jackson-da-qu-fen/"/>
-    <id>https://godownio.github.io/2024/10/25/fastjson-jackson-da-qu-fen/</id>
-    <published>2024-10-25T07:23:23.000Z</published>
-    <updated>2024-10-25T07:46:15.276Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;以下均指对json的反序列化过程&lt;/p&gt;
-&lt;h2 id=&quot;setter&quot;&gt;&lt;a href=&quot;#setter&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
-    
-    <category term="jackson" scheme="https://godownio.github.io/tags/jackson/"/>
     
   </entry>
   
