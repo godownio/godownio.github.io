@@ -28,7 +28,7 @@
 
   
   
-    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
   
   
     
@@ -48,13 +48,8 @@
     
     
     <!-- 依赖于jquery和vue -->
-    
-        <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
-    
-
-    
-        <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
-    
+    <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
 
     <!-- import link -->
     
@@ -78,26 +73,24 @@
 
   
   <!-- 预加载动画 -->
-  <!-- 页面预加载动画 -->
-
   
-    <div class="preloader_2" id="loader">
+  
+  <div class="preloader_6" id="loader">
   <div class="loader"></div>
 </div>
+  <script>
+    var endLoading = function () {
+      document.body.style.overflow = 'auto';
+      document.getElementById('loader').classList.add("loaded");
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+  </script>
 
-  
-<script>
-  var endLoading = function () {
-    document.body.style.overflow = 'auto';
-    document.getElementById('loader').classList.add("loading");
-  }
-  window.addEventListener('DOMContentLoaded',endLoading);
-</script>
 
   <body>
     <!-- 判断是否为暗黑风格 -->
     <!-- 判断是否为黑夜模式 -->
-<script>
+<script defer>
   let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
 
   if (isDark) {
@@ -292,7 +285,7 @@
                   </li>
                   
                   <li>
-                    <a href="/about">
+                    <a href="/me">
                       
                       <i class="fas fa-film" style="margin-top: -20px;"></i>
                       
@@ -468,7 +461,7 @@
                   </li>
                   
                   <li>
-                    <a href="/about">
+                    <a href="/me">
                       
                       <i class="fas fa-film" style="margin-top: -20px;"></i>
                       
@@ -628,10 +621,10 @@
                 </a>
                 
                 
-                <a href="/categories/ctf/" title="ctf: 5">
+                <a href="/categories/java/CC/" title="CC: 10">
                     <span class="category-content"
-                        title="ctf" style="background-color: #F9E79F;">ctf
-                        <span class="category-length">5</span>
+                        title="CC" style="background-color: #FFF;">CC
+                        <span class="category-length">10</span>
                     </span>
                 </a>
                 
@@ -644,18 +637,10 @@
                 </a>
                 
                 
-                <a href="/categories/java/CC/" title="CC: 10">
+                <a href="/categories/ctf/" title="ctf: 5">
                     <span class="category-content"
-                        title="CC" style="background-color: #FFF;">CC
-                        <span class="category-length">10</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/Hexo/" title="Hexo: 1">
-                    <span class="category-content"
-                        title="Hexo" style="background-color: #E8F8F5;">Hexo
-                        <span class="category-length">1</span>
+                        title="ctf" style="background-color: #F9E79F;">ctf
+                        <span class="category-length">5</span>
                     </span>
                 </a>
                 
@@ -668,17 +653,9 @@
                 </a>
                 
                 
-                <a href="/categories/ctf/WP/" title="WP: 4">
+                <a href="/categories/Hexo/" title="Hexo: 1">
                     <span class="category-content"
-                        title="WP" style="background-color: #A3E4D7;">WP
-                        <span class="category-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%BA%AF%E6%BA%90/" title="溯源: 1">
-                    <span class="category-content"
-                        title="溯源" style="background-color: #FEF9E7;">溯源
+                        title="Hexo" style="background-color: #E8F8F5;">Hexo
                         <span class="category-length">1</span>
                     </span>
                 </a>
@@ -692,10 +669,26 @@
                 </a>
                 
                 
+                <a href="/categories/%E6%BA%AF%E6%BA%90/" title="溯源: 1">
+                    <span class="category-content"
+                        title="溯源" style="background-color: #FEF9E7;">溯源
+                        <span class="category-length">1</span>
+                    </span>
+                </a>
+                
+                
                 <a href="/categories/java/RASP/" title="RASP: 1">
                     <span class="category-content"
                         title="RASP" style="background-color: #D7BDE2;">RASP
                         <span class="category-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/ctf/WP/" title="WP: 4">
+                    <span class="category-content"
+                        title="WP" style="background-color: #A3E4D7;">WP
+                        <span class="category-length">4</span>
                     </span>
                 </a>
                 
@@ -748,14 +741,6 @@
                 </a>
                 
                 
-                <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" title="杂七杂八: 3">
-                    <span class="category-content"
-                        title="杂七杂八" style="background-color: #F5EEF8;">杂七杂八
-                        <span class="category-length">3</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E5%86%85%E7%BD%91%E7%AC%94%E8%AE%B0/" title="内网笔记: 2">
                     <span class="category-content"
                         title="内网笔记" style="background-color: #D7BDE2;">内网笔记
@@ -764,18 +749,26 @@
                 </a>
                 
                 
-                <a href="/categories/%E7%AE%97%E6%B3%95/" title="算法: 1">
-                    <span class="category-content"
-                        title="算法" style="background-color: #F9EBEA;">算法
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA/" title="靶机: 4">
                     <span class="category-content"
                         title="靶机" style="background-color: #F9E79F;">靶机
                         <span class="category-length">4</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" title="杂七杂八: 3">
+                    <span class="category-content"
+                        title="杂七杂八" style="background-color: #F5EEF8;">杂七杂八
+                        <span class="category-length">3</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/%E7%AE%97%E6%B3%95/" title="算法: 1">
+                    <span class="category-content"
+                        title="算法" style="background-color: #F9EBEA;">算法
+                        <span class="category-length">1</span>
                     </span>
                 </a>
                 
@@ -793,7 +786,7 @@
   
     <!-- 底部鱼儿跳动效果，依赖于jquery-->
 <div id="j-fish-skip" style=" position: relative;height: 153px;width: auto;"></div>
-<script>
+<script defer>
   var RENDERER = {
     POINT_INTERVAL: 5,
     FISH_COUNT: 3,
@@ -960,8 +953,14 @@
       
         
           <div class="footer-copyright">
-            <p>Copyright © 2020 - 2025 <a target="_blank" rel="noopener" href="https://github.com/godownio">godownio</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
+            <p>Copyright © 2020 - 2023 <a target="_blank" rel="noopener" href="https://github.com/godownio">godownio</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
 
+          </div>
+        
+      
+        
+          <div class="footer-custom">
+            
           </div>
         
       
@@ -972,58 +971,45 @@
 
     <!-- 渲染暗黑按钮 -->
     
-      <div class="dark">
+      <div class="dark" onclick="toggleDarkMode()">
   <div class="dark-content">
-    <i class="fas fa-moon" aria-hidden="true"></i>
-    <!-- <span>关灯</span> -->
+    <i class="fas" id="darkIcon" aria-hidden="true"></i>
   </div>
-  
 </div>
 
-<script>
+<script defer>
   $(function() {
-    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    // 初始化暗黑模式状态
+    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+    updateDarkModeIcon(isDark);
+  });
+
+  function toggleDarkMode() {
+    const isDark = $(document.body).hasClass('darkModel');
+    $(document.body).toggleClass('darkModel');
+    localStorage.setItem('dark', !isDark);
+    updateDarkModeIcon(!isDark);
+  }
+
+  function updateDarkModeIcon(isDark) {
+    const iconElement = document.getElementById('darkIcon');
     if (isDark) {
-      $(".dark-content").replaceWith(
-          `
-          <div class='dark-content'>
-            <i class="fas fa-lightbulb" aria-hidden="true"></i>
-          </div>
-          `
-        );
+      iconElement.classList.remove('fa-moon');
+      iconElement.classList.add('fa-lightbulb');
+    } else {
+      iconElement.classList.remove('fa-lightbulb');
+      iconElement.classList.add('fa-moon');
     }
-    $('.dark').click(function() {
-      if ($(document.body).is('.darkModel')) {
-        $(document.body).removeClass('darkModel');
-        localStorage.setItem('dark', false);
-        $(".dark-content").replaceWith(
-          `
-          <div class='dark-content'>
-            <i class="fas fa-moon" aria-hidden="true"></i>
-          </div>
-          `
-        );
-      } else {
-        $(document.body).addClass('darkModel');
-        localStorage.setItem('dark', true);
-        $(".dark-content").replaceWith(
-          `
-          <div class='dark-content'>
-            <i class="fas fa-lightbulb" aria-hidden="true"></i>
-          </div>
-          `
-        );
-      }
-    })
-  })
+  }
 </script>
+
     
     <!-- 渲染回到顶部按钮 -->
     
       <div class="goTop top-btn-color" pointer>
   <i class="fas fa-arrow-up" aria-hidden="true"></i>
 </div>
-<script src="/js/goTop.js"></script>
+<script defer src="/js/goTop.js"></script>
 
     
     <!-- 渲染左下角音乐播放器 -->
@@ -1056,9 +1042,9 @@
 </style>
 <meting-js  
   class=""
-  server="netease"
-  type="album"
-  id="2646285"
+  server="tencent"
+  type="playlist"
+  id="5002690"
   fixed='true'
   autoplay='false'
   theme='#42b983'
@@ -1077,13 +1063,13 @@
     bottom: 300px;
   }
 </style> -->
-<script src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
-<script src="https://unpkg.com/meting@2/dist/Meting.min.js"></script>
+<script defer src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script defer src="https://unpkg.com/meting@2/dist/Meting.min.js"></script>
     
 
     <!-- 图片放大 -->
     
-      <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+      <script src="https://unpkg.com/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     
 
     <!-- 百度解析 -->
@@ -1091,7 +1077,7 @@
 
     <!-- Baidu Push -->
 
-<script>
+<script async>
     (function () {
         var bp = document.createElement('script');
         var curProtocol = window.location.protocol.split(':')[0];
@@ -1108,7 +1094,7 @@
     
     <!-- 背景彩带 -->
     
-      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+      <script async type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
     
 
     <script src="/js/utils/index.js"></script>
@@ -1478,15 +1464,15 @@
 <!-- 评论所需js -->
 
   
-    <script type="text/javascript">
-  var utteranceCommon = {};
+        <script type="text/javascript">
+  var utteranceComment = {};
 
   function check_utterance() {
     let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
     if (isDark) {
-      utteranceCommon.Theme = 'github-dark';
+      utteranceComment.Theme = 'github-dark';
     } else {
-      utteranceCommon.Theme = 'github-light';
+      utteranceComment.Theme = 'github-light';
     }
 
     return document.getElementById("gitment-container");
@@ -1501,7 +1487,7 @@
       utterances.type = 'text/javascript';
       utterances.async = true;
       utterances.setAttribute('issue-term', 'pathname')
-      utterances.setAttribute('theme', utteranceCommon.Theme)
+      utterances.setAttribute('theme', utteranceComment.Theme)
       utterances.setAttribute('repo', '')
       utterances.crossorigin = 'anonymous';
       utterances.src = 'https://utteranc.es/client.js';
@@ -1516,7 +1502,7 @@
     if (!HEAD) return;
     const message = {
       type: 'set-theme',
-      theme: utteranceCommon.Theme
+      theme: utteranceComment.Theme
     };
     const utteranceIframe = document.querySelector('iframe');
     utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
@@ -1540,7 +1526,7 @@
     max-width: inherit !important;
   }
 </style>
-  
+      
 
 
 <!-- 鼠标点击特效 -->
@@ -1548,8 +1534,8 @@
 
   
     <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 999; pointer-events: none;" ></canvas>
-    <script src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
-    <script src="/js/cursor/explosion.min.js"></script>
+    <script async src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
+    <script async src="/js/cursor/explosion.min.js"></script>
   
 
 
@@ -1620,9 +1606,7 @@
 
   <script src="/js/pjax@0.2.8/index.js"></script>
   
-    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
-
-<div class="pjax-animate">
+    <div class="pjax-animate">
   
     <div class="loading-circle"><div id="loader-circle"></div></div>
     <script>
