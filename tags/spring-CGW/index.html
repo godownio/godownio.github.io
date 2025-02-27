@@ -28,7 +28,7 @@
 
   
   
-    <link href="https://unpkg.com/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
   
   
     
@@ -48,8 +48,13 @@
     
     
     <!-- 依赖于jquery和vue -->
-    <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
-    <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
+    
+        <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+    
+
+    
+        <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
+    
 
     <!-- import link -->
     
@@ -73,24 +78,26 @@
 
   
   <!-- 预加载动画 -->
+  <!-- 页面预加载动画 -->
+
   
-  
-  <div class="preloader_6" id="loader">
+    <div class="preloader_2" id="loader">
   <div class="loader"></div>
 </div>
-  <script>
-    var endLoading = function () {
-      document.body.style.overflow = 'auto';
-      document.getElementById('loader').classList.add("loaded");
-    }
-    window.addEventListener('DOMContentLoaded', endLoading);
-  </script>
 
+  
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+</script>
 
   <body>
     <!-- 判断是否为暗黑风格 -->
     <!-- 判断是否为黑夜模式 -->
-<script defer>
+<script>
   let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
 
   if (isDark) {
@@ -759,7 +766,7 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
   
     <!-- 底部鱼儿跳动效果，依赖于jquery-->
 <div id="j-fish-skip" style=" position: relative;height: 153px;width: auto;"></div>
-<script defer>
+<script>
   var RENDERER = {
     POINT_INTERVAL: 5,
     FISH_COUNT: 3,
@@ -932,6 +939,21 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
         
       
         
+          
+            <!-- 不蒜子统计 -->
+            <!-- 不蒜子统计 -->
+<span id="busuanzi_container_site_pv">
+      <i class="fas fa-eye" aria-hidden="true"></i>本站总访问量：<span id="busuanzi_value_site_pv"></span> 次
+</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+      <i class="fas fa-users" aria-hidden="true"></i>本站访客数：<span id="busuanzi_value_site_uv"></span> 人
+</span>
+
+          
+        
+      
+        
           <div class="footer-custom">
             
           </div>
@@ -944,45 +966,58 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
 
     <!-- 渲染暗黑按钮 -->
     
-      <div class="dark" onclick="toggleDarkMode()">
+      <div class="dark">
   <div class="dark-content">
-    <i class="fas" id="darkIcon" aria-hidden="true"></i>
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
   </div>
+  
 </div>
 
-<script defer>
+<script>
   $(function() {
-    // 初始化暗黑模式状态
-    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
-    updateDarkModeIcon(isDark);
-  });
-
-  function toggleDarkMode() {
-    const isDark = $(document.body).hasClass('darkModel');
-    $(document.body).toggleClass('darkModel');
-    localStorage.setItem('dark', !isDark);
-    updateDarkModeIcon(!isDark);
-  }
-
-  function updateDarkModeIcon(isDark) {
-    const iconElement = document.getElementById('darkIcon');
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
     if (isDark) {
-      iconElement.classList.remove('fa-moon');
-      iconElement.classList.add('fa-lightbulb');
-    } else {
-      iconElement.classList.remove('fa-lightbulb');
-      iconElement.classList.add('fa-moon');
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
     }
-  }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
 </script>
-
     
     <!-- 渲染回到顶部按钮 -->
     
       <div class="goTop top-btn-color" pointer>
   <i class="fas fa-arrow-up" aria-hidden="true"></i>
 </div>
-<script defer src="/js/goTop.js"></script>
+<script src="/js/goTop.js"></script>
 
     
     <!-- 渲染左下角音乐播放器 -->
@@ -1036,13 +1071,13 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
     bottom: 300px;
   }
 </style> -->
-<script defer src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
-<script defer src="https://unpkg.com/meting@2/dist/Meting.min.js"></script>
+<script src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://unpkg.com/meting@2/dist/Meting.min.js"></script>
     
 
     <!-- 图片放大 -->
     
-      <script src="https://unpkg.com/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     
 
     <!-- 百度解析 -->
@@ -1050,7 +1085,7 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
 
     <!-- Baidu Push -->
 
-<script async>
+<script>
     (function () {
         var bp = document.createElement('script');
         var curProtocol = window.location.protocol.split(':')[0];
@@ -1067,7 +1102,7 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
     
     <!-- 背景彩带 -->
     
-      <script async type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
     
 
     <script src="/js/utils/index.js"></script>
@@ -1437,15 +1472,15 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
 <!-- 评论所需js -->
 
   
-        <script type="text/javascript">
-  var utteranceComment = {};
+    <script type="text/javascript">
+  var utteranceCommon = {};
 
   function check_utterance() {
     let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
     if (isDark) {
-      utteranceComment.Theme = 'github-dark';
+      utteranceCommon.Theme = 'github-dark';
     } else {
-      utteranceComment.Theme = 'github-light';
+      utteranceCommon.Theme = 'github-light';
     }
 
     return document.getElementById("gitment-container");
@@ -1460,7 +1495,7 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
       utterances.type = 'text/javascript';
       utterances.async = true;
       utterances.setAttribute('issue-term', 'pathname')
-      utterances.setAttribute('theme', utteranceComment.Theme)
+      utterances.setAttribute('theme', utteranceCommon.Theme)
       utterances.setAttribute('repo', '')
       utterances.crossorigin = 'anonymous';
       utterances.src = 'https://utteranc.es/client.js';
@@ -1475,7 +1510,7 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
     if (!HEAD) return;
     const message = {
       type: 'set-theme',
-      theme: utteranceComment.Theme
+      theme: utteranceCommon.Theme
     };
     const utteranceIframe = document.querySelector('iframe');
     utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
@@ -1499,7 +1534,7 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
     max-width: inherit !important;
   }
 </style>
-      
+  
 
 
 <!-- 鼠标点击特效 -->
@@ -1507,8 +1542,8 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
 
   
     <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 999; pointer-events: none;" ></canvas>
-    <script async src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
-    <script async src="/js/cursor/explosion.min.js"></script>
+    <script src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
+    <script src="/js/cursor/explosion.min.js"></script>
   
 
 
@@ -1579,7 +1614,9 @@ spel支持在运行时查询和操作对象图，以API接口的形式创建，�
 
   <script src="/js/pjax@0.2.8/index.js"></script>
   
-    <div class="pjax-animate">
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
   
     <div class="loading-circle"><div id="loader-circle"></div></div>
     <script>
