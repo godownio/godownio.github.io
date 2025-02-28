@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-02-27T10:17:36.551Z</updated>
+  <updated>2025-02-28T07:56:17.574Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2025Aliyun CTF Jtools</title>
+    <link href="https://godownio.github.io/2025/02/28/2025aliyun-ctf-java/"/>
+    <id>https://godownio.github.io/2025/02/28/2025aliyun-ctf-java/</id>
+    <published>2025-02-28T07:56:09.000Z</published>
+    <updated>2025-02-28T07:56:17.574Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;第三届阿里云CTF，复现两道JAVA，应该很多地方都能找到靶场。我是用的赛后环境，趁热用&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
+    
+    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
+    
+    
+    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
+    
+  </entry>
   
   <entry>
     <title>Tomcat下获取StandardContext的方法(JSP转Java内存马)</title>
@@ -540,34 +567,6 @@
     
     
     <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C3P0合集</title>
-    <link href="https://godownio.github.io/2024/10/26/c3p0-he-ji/"/>
-    <id>https://godownio.github.io/2024/10/26/c3p0-he-ji/</id>
-    <published>2024-10-26T09:21:23.000Z</published>
-    <updated>2024-12-04T09:22:42.461Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;C3P0是一个开源的JDBC连接池，它实现了数据源和JNDI绑定，目前使用它的开源项目有Hibernate，Spring等。&lt;/p&gt;
-&lt;p&gt;连接池类似于线程池，在一些情况下我们会频繁地操作数据库，此时Java在连接数据库时会频繁地创建或销毁句柄，增大资源的消耗。为了避免这样</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="C3P0" scheme="https://godownio.github.io/tags/C3P0/"/>
     
   </entry>
   
