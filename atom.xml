@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-02-28T07:56:17.574Z</updated>
+  <updated>2025-03-05T12:50:46.160Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RASP的绕过 单回显JNI内存马</title>
+    <link href="https://godownio.github.io/2025/03/05/rasp-rao-guo/"/>
+    <id>https://godownio.github.io/2025/03/05/rasp-rao-guo/</id>
+    <published>2025-03-05T12:49:09.000Z</published>
+    <updated>2025-03-05T12:50:46.160Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;RASP绕过&quot;&gt;&lt;a href=&quot;#RASP绕过&quot; class=&quot;headerlink&quot; title=&quot;RASP绕过&quot;&gt;&lt;/a&gt;RASP绕过&lt;/h1&gt;&lt;p&gt;rasp从0到1：&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="RASP" scheme="https://godownio.github.io/categories/java/RASP/"/>
+    
+    
+    <category term="RASP" scheme="https://godownio.github.io/tags/RASP/"/>
+    
+  </entry>
   
   <entry>
     <title>2025Aliyun CTF Jtools</title>
@@ -77,7 +104,7 @@
     <link href="https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/"/>
     <id>https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/</id>
     <published>2025-02-25T06:23:33.000Z</published>
-    <updated>2025-02-27T10:15:34.183Z</updated>
+    <updated>2025-02-28T11:12:32.120Z</updated>
     
     
       
@@ -106,7 +133,7 @@
     <link href="https://godownio.github.io/2025/02/21/mrctf2022-springcoffee/"/>
     <id>https://godownio.github.io/2025/02/21/mrctf2022-springcoffee/</id>
     <published>2025-02-21T12:08:37.000Z</published>
-    <updated>2025-02-27T10:15:08.273Z</updated>
+    <updated>2025-02-28T11:13:02.423Z</updated>
     
     
       
@@ -133,15 +160,15 @@
     <link href="https://godownio.github.io/2025/02/14/apache-dubbo-fan-xu-lie-hua/"/>
     <id>https://godownio.github.io/2025/02/14/apache-dubbo-fan-xu-lie-hua/</id>
     <published>2025-02-14T08:54:27.000Z</published>
-    <updated>2025-02-27T10:14:37.066Z</updated>
+    <updated>2025-02-28T11:52:04.995Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;首先，先介绍一下JAVA RPC&lt;/p&gt;
-&lt;h1 id=&quot;apache-Dubbo反序列化&quot;&gt;&lt;a href=&quot;#apache-Dubbo反序列化&quot; class=&quot;headerlink&quot; title=&quot;apache Dubbo反序列化&quot;&gt;&lt;/a&gt;apache</summary>
+    <summary type="html">&lt;p&gt;本文key点就在于apache Hessian2反序列化会触发readMap，进而触发hashMap.put&lt;/p&gt;
+&lt;p&gt;&lt;img</summary>
         
       
     
@@ -539,34 +566,6 @@
     
     
     <category term="SnakeYaml" scheme="https://godownio.github.io/tags/SnakeYaml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>fastjson 1.2.68漏洞分析及commons-io写文件</title>
-    <link href="https://godownio.github.io/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/"/>
-    <id>https://godownio.github.io/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/</id>
-    <published>2024-10-28T03:42:23.000Z</published>
-    <updated>2024-12-19T01:45:47.930Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;fastjson 1.2.68版本绕过&lt;/p&gt;
-&lt;h1 id=&quot;fastjson-1-2-68&quot;&gt;&lt;a href=&quot;#fastjson-1-2-68&quot; class=&quot;headerlink&quot; title=&quot;fastjson 1.2.68&quot;&gt;&lt;/a&gt;fastjson</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
     
   </entry>
   

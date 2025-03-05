@@ -657,8 +657,10 @@
             </a>
           </div>
           <div class="post-content">
-            首先，先介绍一下JAVA RPC
-apache Dubbo反序列化JAVA RPCJava RPC（Remote Procedure Call）是一种允许在分布式系统中执行跨进程通信的技术。它使得一个程序可以调用位于不同地址空间（通常是不同
+            本文key点就在于apache Hessian2反序列化会触发readMap，进而触发hashMap.put
+
+首先，先介绍一下JAVA RPC
+apache Dubbo反序列化JAVA RPCJava RPC（Remote Procedu
           </div>
         </div>
         <div class="post-more">
