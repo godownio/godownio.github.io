@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-03-07T03:52:01.820Z</updated>
+  <updated>2025-03-08T14:56:36.181Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Tomcat JavaMemShell re(NO JSP)</title>
+    <link href="https://godownio.github.io/2025/03/08/tomcat-javamemshell-re-no-jsp/"/>
+    <id>https://godownio.github.io/2025/03/08/tomcat-javamemshell-re-no-jsp/</id>
+    <published>2025-03-08T14:56:15.000Z</published>
+    <updated>2025-03-08T14:56:36.181Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Tomcat 内存马技术的实现依赖于&lt;code&gt;Servlet 3.0&lt;/code&gt;版本之后的动态注册组件，而 Tomcat 7.x 版本才开始支持&lt;code&gt;Servlet 3.0&lt;/code&gt;&lt;/p&gt;
+&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    
+    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+  </entry>
   
   <entry>
     <title>log4j2 漏洞</title>
@@ -131,7 +159,7 @@
     <link href="https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/"/>
     <id>https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/</id>
     <published>2025-02-25T06:23:33.000Z</published>
-    <updated>2025-02-28T11:12:32.120Z</updated>
+    <updated>2025-03-08T09:00:20.802Z</updated>
     
     
       
@@ -533,35 +561,6 @@
     
     <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>XStream反序列化合集(Until 1.4.17)</title>
-    <link href="https://godownio.github.io/2024/10/31/xstream/"/>
-    <id>https://godownio.github.io/2024/10/31/xstream/</id>
-    <published>2024-10-31T07:23:23.000Z</published>
-    <updated>2024-12-01T07:41:22.714Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;XStream是一个能将Java对象和XML相互转换的Java库。（脑海浮现spring 加载xml&lt;/p&gt;
-&lt;p&gt;pom.xml：&lt;/p&gt;
-&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="XStream" scheme="https://godownio.github.io/tags/XStream/"/>
     
   </entry>
   
