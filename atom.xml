@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-03-08T14:58:14.683Z</updated>
+  <updated>2025-03-16T09:20:58.200Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Java SpringMemShell(NO JSP)</title>
+    <link href="https://godownio.github.io/2025/03/16/springmemshell/"/>
+    <id>https://godownio.github.io/2025/03/16/springmemshell/</id>
+    <published>2025-03-16T09:16:15.000Z</published>
+    <updated>2025-03-16T09:20:58.200Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;SpringMemShell&quot;&gt;&lt;a href=&quot;#SpringMemShell&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    
+    <category term="Spring" scheme="https://godownio.github.io/tags/Spring/"/>
+    
+    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Tomcat JavaMemShell re(NO JSP)</title>
     <link href="https://godownio.github.io/2025/03/08/tomcat-javamemshell-re-no-jsp/"/>
     <id>https://godownio.github.io/2025/03/08/tomcat-javamemshell-re-no-jsp/</id>
     <published>2025-03-08T14:56:15.000Z</published>
-    <updated>2025-03-08T14:58:14.683Z</updated>
+    <updated>2025-03-16T09:20:54.678Z</updated>
     
     
       
@@ -41,6 +70,8 @@
     
     
     <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
     
   </entry>
   
@@ -130,7 +161,7 @@
     <link href="https://godownio.github.io/2025/02/26/tomcat-xia-huo-qu-standardcontext-de-fang-fa-jsp-zhuan-java-nei-cun-ma/"/>
     <id>https://godownio.github.io/2025/02/26/tomcat-xia-huo-qu-standardcontext-de-fang-fa-jsp-zhuan-java-nei-cun-ma/</id>
     <published>2025-02-26T13:13:09.000Z</published>
-    <updated>2025-02-27T10:17:36.551Z</updated>
+    <updated>2025-03-16T09:20:01.432Z</updated>
     
     
       
@@ -152,6 +183,8 @@
     
     <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
     
+    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
+    
   </entry>
   
   <entry>
@@ -159,7 +192,7 @@
     <link href="https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/"/>
     <id>https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/</id>
     <published>2025-02-25T06:23:33.000Z</published>
-    <updated>2025-03-08T09:00:20.802Z</updated>
+    <updated>2025-03-16T09:20:09.124Z</updated>
     
     
       
@@ -180,6 +213,8 @@
     
     
     <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
     
   </entry>
   
@@ -534,32 +569,6 @@
     <category term="java" scheme="https://godownio.github.io/categories/java/"/>
     
     <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>论java中的XXE</title>
-    <link href="https://godownio.github.io/2024/11/06/java-xxe/"/>
-    <id>https://godownio.github.io/2024/11/06/java-xxe/</id>
-    <published>2024-11-06T12:33:32.000Z</published>
-    <updated>2024-12-01T07:40:19.003Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;简单介绍一下XXE&lt;/p&gt;
-&lt;h2 id=&quot;XXE简述&quot;&gt;&lt;a href=&quot;#XXE简述&quot; class=&quot;headerlink&quot; title=&quot;XXE简述&quot;&gt;&lt;/a&gt;XXE简述&lt;/h2&gt;&lt;h3 id=&quot;内部实体与外部实体&quot;&gt;&lt;a href=&quot;#内部实体与外部实体&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
     
     
   </entry>
