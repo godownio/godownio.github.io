@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>友情链接 | Godown_blog</title>
+  <title>1.8k star java-memshell-generator简单分析 | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8138.png')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        friends
+        1.8k star java-memshell-generator简单分析
       </span>
     </div>
     
@@ -619,9 +619,108 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        
+        <h1 id="1-8k-star-java-memshell-generator简单分析"><a href="#1-8k-star-java-memshell-generator简单分析" class="headerlink" title="1.8k star java-memshell-generator简单分析"></a>1.8k star java-memshell-generator简单分析</h1><p>闲着也是闲着！来re一个工具吧！</p>
+<p>re工具没什么技术，师傅们就当新闻资讯刷了</p>
+<p>大部分内存马在pen4uin师傅的java-memshell-generator中已经集成了，强烈推荐！</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pen4uin/java-memshell-generator">https://github.com/pen4uin/java-memshell-generator</a></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316201746518.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316201746518.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316201746518"></p>
+<p>今天我们就来解析一下这个1.8k star工具的原理，看看一个好的工具究竟整体是怎么实现的。</p>
+<p>首先需要下载jexpr-encoder-utils到本地maven：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、下载 jexpr-encoder-utils-<span class="number">0.2</span><span class="number">.2</span>.jar</span><br><span class="line">    https:<span class="comment">//github.com/woodpecker-appstore/jexpr-encoder-utils/releases</span></span><br><span class="line"><span class="number">2</span>、添加到本地 Maven 仓库</span><br><span class="line">    mvn install:install-file -Dfile=jexpr-encoder-utils-<span class="number">0.2</span><span class="number">.2</span>.jar -DgroupId=me.gv7.woodpecker -DartifactId=jexpr-encoder-utils -Dversion=<span class="number">0.2</span><span class="number">.2</span> -Dpackaging=jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>尽管官方给的工具打包是<code>mvn package assembly:single</code>，但是主目录下的pom.xml已经指定了package参数，所以直接mvn package一样的</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316214234916.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316214234916.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316214234916"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316214517224.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316214517224.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316214517224"></p>
+<p>jmg-all模块下的pom.xml通过插件配置了入口的主类为jmg.all.jMGApp</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316203120947.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316203120947.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316203120947"></p>
+<p>jMGApp main函数根据传入的参数选择以gui or cli的主函数启动</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316214607052.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316214607052.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316214607052"></p>
+<p>所以可以利用jmg-all的jMGApp进行调试</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316221740901.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316221740901.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316221740901"></p>
+<p>后面我就不分析pom.xml了，都是通过配置插件指定的</p>
+<p>从GUIApp可以看出是用的FlatLightLaf进行的可视化</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316214803173.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316214803173.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316214803173"></p>
+<p>其中<code>GUIApp::createAndShowGUI</code> 是 Java 中的方法引用语法，用于简化 Lambda 表达式的写法。等价于<code>() -&gt; GUIApp.createAndShowGUI()</code>，表示无参数调用 createAndShowGUI 静态方法</p>
+<p>OK，后面我就按照这个框架把我的my-yso改个可视化出来</p>
+<p>跟进到jMG.start，一堆图形化的设置，省略一下。看到创建 jMGForm 实例并获取其内容面板</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316215820636.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316215820636.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316215820636"></p>
+<p>跟进到jMGForm构造函数，不过能调试就很EZ了</p>
+<p>下面贴代码和对应的图形化，哥斯拉相对冰蝎会多一个SpringWebFlux中间件能用，组件类型也要多个WFHandlerMethod</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316223238310.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316223238310.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316223238310"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316223410704.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316223410704.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316223410704"></p>
+<p>创建默认下拉框的代码这里就跳过了</p>
+<p>这里四个addActionListener添加事件监听器，第一个toolBox的监听器是，根据所选的工具类型（Godzilla、Behinder等），重新设置后面两个下拉框（中间件&#x2F;框架、组件类型）。以此类推到后面两个Box</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316230351398.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316230351398.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316230351398"></p>
+<p>后面是监听文本框的输入的几个事件监听器</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316230848622.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250316230848622.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250316230848622"></p>
+<p>注意观察点击生成按钮后触发的事件：</p>
+<p>初始化文本面板：调用 TextPaneUtil.initTextPane 方法设置文本面板的样式和字体。<br>输出启动信息：通过 TextPaneUtil.startPrintln 打印当前工具类型、服务器类型、Shell 类型和输出格式。<br>配置初始化：调用 initConfig 方法设置配置参数。<br>生成 Shell 和 Injector：分别调用 ShellGeneratorUtil.makeShell 和 InjectorGenerator.makeInjector 方法生成 Shell 和 Injector。<br>输出结果：调用 ResultUtil.resultOutput 方法处理并输出结果。<br>恢复滚动位置：调用 ComponentUtil.restoreScrollPosition 恢复滚动条位置。<br>配置重置：调用 resetConfig 方法重置配置参数。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317134723468.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317134723468.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317134723468"></p>
+<h2 id="AntSword-MemShell"><a href="#AntSword-MemShell" class="headerlink" title="AntSword MemShell"></a>AntSword MemShell</h2><p>跟进到makeShell函数，根据不同的case实例化不同的Generator，然后调用其makeShell函数。这里就只看蚁剑的shell怎么制作的</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317143132376.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317143132376.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317143132376"></p>
+<p>makeShell先是获取shell名，shell类名参数，然后调用modifyShell制作字节码</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317143507448.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317143507448.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317143507448"></p>
+<p>利用javassist制作类，重点来了，因为我选的是AntSword的Listener型内存马，所以这里传入的参数是AntSwordListener。然后用javassist获取了该类</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317145127743.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317145127743.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317145127743"></p>
+<p>跟进到AntSwordListener，很明显按照Listener内存马的手法继承了ServletRequestListener接口，然后重写了requestInitialized方法。注意到这个代码里并没有去注册Listener，而且getResponseFromRequest也是空的</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317150017574.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317150017574.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317150017574"></p>
+<p>继续回到modifyShell，调用了ResponseUtil.getMethodBody方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317144211549.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317144211549.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317144211549"></p>
+<p>如果是Tomcat，则会调用到默认的getCommonMethodBody</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317144502709.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317144502709.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317144502709"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317144418508.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317144418508.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317144418508"></p>
+<p>观察到getCommonMethodBody其实是个从HttpServeltResponse中取出response的方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317144343698.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317144343698.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317144343698"></p>
+<p>getFV是个递归类及其父类去查找字段的方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317145800636.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317145800636.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317145800636"></p>
+<p>所以modifyShell内的if块是向ctClass中补全getResponseFromRequest的代码，以此从HttpServeltResponse中反射取出response。</p>
+<p>我们可以整理一下该工具创建AntSword Tomcat Listener内存马的过程：</p>
+<ol>
+<li>根据用户选择的AntSword、Listener创建了AntSwordListener，不过只有写response的代码，没有注册Listener和获取response的代码</li>
+<li>根据用户选择的Tomcat 进行代码插桩，实现了Tomcat下从HttpServeltResponse获取response</li>
+</ol>
+<p>那么注册的代码在哪？</p>
+<p>上面跟进的代码是makeShell，继续跟进makeInjector</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317150942545.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317150942545.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317150942545"></p>
+<p>根据选中的选项取到TomcatListenerInjectorTpl，跟进到UtilPlus.generate</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317151203264.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317151203264.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317151203264"></p>
+<p>经典的javassist获取TomcatListenerInjectorTpl</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317154710383.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317154710383.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317154710383"></p>
+<p>跟进到TomcatListenerInjectorTpl，很明显该类下的getContext是Tomcat下获取StandardContext的办法。这里tomcat v9从Tomact WebappClassLoader的resources字段中获取是很常见的手法，不过上面的v5&#x2F;v6&#x2F;v7&#x2F;v8为什么是从线程中的ContainerBackgroundProcessor中获取？其他文章似乎并没有提到这种获取StandardContext的办法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317154630675.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317154630675.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317154630675"></p>
+<p>带着小小的疑惑我随便开了个Tomcat项目，发现可以通过如下变量图找到StandardHost，进而找到StandardContext</p>
+<p>注意由于是通过getThreads获取了所有线程，与我们直接在一次请求中找到StanardContext不同，所有线程会包括所有主机的请求，所以StanardHost会存在很多条数据，虽然此处只有localhost，如果目标自定义了 host，则会获取不到对应的 context，导致注入失败。所以需要遍历StandardHost</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317155804344.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317155804344.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317155804344"></p>
+<p>又学到辣</p>
+<p>然后是添加Listener的部分，没什么好说的，直接addApplicationEventListener</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317160831788.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317160831788.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317160831788"></p>
+<p>总的连起来的代码在构造函数，先获取Context，然后getListener获取之前生成的恶意Listener，然后addListener添加</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317160943087.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317160943087.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317160943087"></p>
+<p>getListener是反射调用defineClass然后实例化</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317161059269.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317161059269.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317161059269"></p>
+<p>然后我来串一下整体逻辑：</p>
+<ol>
+<li>在点击”生成”的事件监听器中，调用了makeShell生成了指定的Shell。其中makeShell会调用modifyShell去根据中间件修改获取response的方式。</li>
+<li>依旧是在点击”生成”的事件监听器中，调用makeInjector，然后在makeInjector中调用UtilPlus.generate。在generate中生成了对应的注册器去注入内存马。</li>
+</ol>
+<p>所以要修改内存马，可以直接修改jmg-core包下的jmg.core.template的注册器</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317163000841.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317163000841.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317163000841"></p>
+<p>但是这些都是根据中间件通用的，修改具体执行命令的Shell，需要根据Shell管理器的类型找到对应Shell。如冰蝎的在jmg-behinder模块下的jmg.behinder.memshell</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317163211613.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317163211613.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317163211613"></p>
+<p>工具还实现了JDK_AbstractTranslet打TemplatesImpl字节码，真是爽到发昏！</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317163310981.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250317163310981.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250317163310981"></p>
+<p>由于该工具太过全能，我就不再分析内存马了</p>
+
       </div>
       <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/%E5%86%85%E5%AD%98%E9%A9%AC/" class="">
+              内存马
+            </a>
+          
+        </div>
         
       </div>
       
@@ -632,7 +731,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/friends/index.html" target="_blank" title="friends">https://godownio.github.io/friends/index.html</a>
+    <a href="/2025/03/17/1.8k-star-java-memshell-generator-fen-xi/" target="_blank" title="1.8k star java-memshell-generator简单分析">https://godownio.github.io/2025/03/17/1.8k-star-java-memshell-generator-fen-xi/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -651,6 +750,23 @@
 
 
 
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8137.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8137.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2025/03/16/springmemshell/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">Java SpringMemShell(NO JSP)</div>
+      </div>
+      <!-- <div class="content">
+        SpringMemShell其实我在23年1月有发过SpringMemShell，但是现在回过头来我居然都看不懂。。重新
+      </div> -->
+    </a>
+  </div>
 
 </div>
 
@@ -856,143 +972,29 @@
   <div class="layout_sticky">    
     
       
-        
-    <section class="widget side_category">
-      
+<section class="widget side_toc">
+  
   <header>
     
-      <a style="color: " href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
     
   </header>
 
 
-      <div class='content'>
-        <ul class="entry navigation">
-          
-            <li><a class="flat-box"
-              title="/categories/Hexo/" href="/categories/Hexo/"
-              id="categoriesHexo"
-              ><div class='name'>Hexo</div><div class='badge'>(1)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/ctf/" href="/categories/ctf/"
-              id="categoriesctf"
-              ><div class='name'>ctf</div><div class='badge'>(6)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/ctf/WP/" href="/categories/ctf/WP/"
-              id="categoriesctfWP"
-              ><div class='name'>WP</div><div class='badge'>(5)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/java/" href="/categories/java/"
-              id="categoriesjava"
-              ><div class='name'>java</div><div class='badge'>(56)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/java/CC/" href="/categories/java/CC/"
-              id="categoriesjavaCC"
-              ><div class='name'>CC</div><div class='badge'>(10)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/java/RASP/" href="/categories/java/RASP/"
-              id="categoriesjavaRASP"
-              ><div class='name'>RASP</div><div class='badge'>(2)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/java/RMI/" href="/categories/java/RMI/"
-              id="categoriesjavaRMI"
-              ><div class='name'>RMI</div><div class='badge'>(3)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/java/java%E6%9D%82%E8%B0%88/" href="/categories/java/java%E6%9D%82%E8%B0%88/"
-              id="categoriesjavajavaE69D82E8B088"
-              ><div class='name'>java杂谈</div><div class='badge'>(9)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/java/other%E6%BC%8F%E6%B4%9E/" href="/categories/java/other%E6%BC%8F%E6%B4%9E/"
-              id="categoriesjavaotherE6BC8FE6B49E"
-              ><div class='name'>other漏洞</div><div class='badge'>(3)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/" href="/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"
-              id="categoriesjavaE58685E5AD98E9A9AC"
-              ><div class='name'>内存马</div><div class='badge'>(8)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/" href="/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"
-              id="categoriesjavaE6A186E69EB6E6BC8FE6B49E"
-              ><div class='name'>框架漏洞</div><div class='badge'>(21)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/nodejs/" href="/categories/nodejs/"
-              id="categoriesnodejs"
-              ><div class='name'>nodejs</div><div class='badge'>(2)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/python/" href="/categories/python/"
-              id="categoriespython"
-              ><div class='name'>python</div><div class='badge'>(1)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"
-              id="categoriesE58685E7BD91E6B897E9808F"
-              ><div class='name'>内网渗透</div><div class='badge'>(6)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E5%86%85%E7%BD%91%E7%AC%94%E8%AE%B0/" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E5%86%85%E7%BD%91%E7%AC%94%E8%AE%B0/"
-              id="categoriesE58685E7BD91E6B897E9808FE58685E7BD91E7AC94E8AEB0"
-              ><div class='name'>内网笔记</div><div class='badge'>(2)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA/" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E9%9D%B6%E6%9C%BA/"
-              id="categoriesE58685E7BD91E6B897E9808FE99DB6E69CBA"
-              ><div class='name'>靶机</div><div class='badge'>(4)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"
-              id="categoriesE69D82E4B883E69D82E585AB"
-              ><div class='name'>杂七杂八</div><div class='badge'>(3)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/%E6%BA%AF%E6%BA%90/" href="/categories/%E6%BA%AF%E6%BA%90/"
-              id="categoriesE6BAAFE6BA90"
-              ><div class='name'>溯源</div><div class='badge'>(1)</div></a></li>
-          
-            <li><a class="flat-box child"
-              title="/categories/%E6%BA%AF%E6%BA%90/JSONP/" href="/categories/%E6%BA%AF%E6%BA%90/JSONP/"
-              id="categoriesE6BAAFE6BA90JSONP"
-              ><div class='name'>JSONP</div><div class='badge'>(1)</div></a></li>
-          
-            <li><a class="flat-box"
-              title="/categories/%E7%AE%97%E6%B3%95/" href="/categories/%E7%AE%97%E6%B3%95/"
-              id="categoriesE7AE97E6B395"
-              ><div class='name'>算法</div><div class='badge'>(1)</div></a></li>
-          
-        </ul>
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-8k-star-java-memshell-generator%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90"><span class="toc-text">1.8k star java-memshell-generator简单分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#AntSword-MemShell"><span class="toc-text">AntSword MemShell</span></a></li></ol></li></ol> -->
+        <div class="toc"></div>
       </div>
-    </section>
-  
-  
-      
-      
-        
-<section class="widget side_tagcloud">
-    
-  <header>
-    
-      <a style="color: " href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-    <a href="/tags/AspectJWeaver/" style="font-size: 14px; color: #999">AspectJWeaver</a> <a href="/tags/BCEL/" style="font-size: 15.67px; color: #8e8e8e">BCEL</a> <a href="/tags/C/" style="font-size: 14px; color: #999">C++</a> <a href="/tags/C3P0/" style="font-size: 14px; color: #999">C3P0</a> <a href="/tags/CC/" style="font-size: 24px; color: #555">CC</a> <a href="/tags/CTF/" style="font-size: 20.67px; color: #6c6c6c">CTF</a> <a href="/tags/CVE/" style="font-size: 15.67px; color: #8e8e8e">CVE</a> <a href="/tags/Groovy/" style="font-size: 14px; color: #999">Groovy</a> <a href="/tags/JDBC/" style="font-size: 14px; color: #999">JDBC</a> <a href="/tags/JNDI/" style="font-size: 17.33px; color: #828282">JNDI</a> <a href="/tags/JSONP/" style="font-size: 14px; color: #999">JSONP</a> <a href="/tags/RASP/" style="font-size: 15.67px; color: #8e8e8e">RASP</a> <a href="/tags/ROME/" style="font-size: 14px; color: #999">ROME</a> <a href="/tags/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/" style="font-size: 15.67px; color: #8e8e8e">SPEL表达式注入</a> <a href="/tags/Shiro/" style="font-size: 15.67px; color: #8e8e8e">Shiro</a> <a href="/tags/SnakeYaml/" style="font-size: 14px; color: #999">SnakeYaml</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/Tomcat/" style="font-size: 20.67px; color: #6c6c6c">Tomcat</a> <a href="/tags/XStream/" style="font-size: 14px; color: #999">XStream</a> <a href="/tags/aircrack-ng/" style="font-size: 14px; color: #999">aircrack-ng</a> <a href="/tags/apache-Dubbo/" style="font-size: 14px; color: #999">apache Dubbo</a> <a href="/tags/fastjson/" style="font-size: 20.67px; color: #6c6c6c">fastjson</a> <a href="/tags/go-ssti/" style="font-size: 14px; color: #999">go ssti</a> <a href="/tags/golang/" style="font-size: 14px; color: #999">golang</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/jackson/" style="font-size: 17.33px; color: #828282">jackson</a> <a href="/tags/java%E5%8E%9F%E7%94%9FRCE/" style="font-size: 17.33px; color: #828282">java原生RCE</a> <a href="/tags/java%E6%9D%82%E8%AE%BA/" style="font-size: 15.67px; color: #8e8e8e">java杂论</a> <a href="/tags/log4j/" style="font-size: 14px; color: #999">log4j</a> <a href="/tags/marshalsec/" style="font-size: 14px; color: #999">marshalsec</a> <a href="/tags/nodejs/" style="font-size: 15.67px; color: #8e8e8e">nodejs</a> <a href="/tags/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 14px; color: #999">python反序列化</a> <a href="/tags/shiroCommonBeanutils/" style="font-size: 14px; color: #999">shiroCommonBeanutils</a> <a href="/tags/spring/" style="font-size: 14px; color: #999">spring</a> <a href="/tags/spring-CGW/" style="font-size: 15.67px; color: #8e8e8e">spring CGW</a> <a href="/tags/struct2/" style="font-size: 14px; color: #999">struct2</a> <a href="/tags/vulnhub/" style="font-size: 19px; color: #777">vulnhub</a> <a href="/tags/weblogic/" style="font-size: 14px; color: #999">weblogic</a> <a href="/tags/ysoserial/" style="font-size: 14px; color: #999">ysoserial</a> <a href="/tags/%E5%86%85%E5%AD%98%E9%A9%AC/" style="font-size: 22.33px; color: #606060">内存马</a> <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" style="font-size: 20.67px; color: #6c6c6c">内网渗透</a> <a href="/tags/%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/" style="font-size: 14px; color: #999">栈帧逃逸</a> <a href="/tags/%E6%BA%AF%E6%BA%90/" style="font-size: 14px; color: #999">溯源</a> <a href="/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/" style="font-size: 15.67px; color: #8e8e8e">类加载</a> <a href="/tags/%E8%9C%9C%E7%BD%90/" style="font-size: 14px; color: #999">蜜罐</a>
     </div>
+  </div>
 </section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
+</div>
 
-  
-      
       
   <section class="widget side_recent_post">
     
@@ -1118,134 +1120,6 @@
     </div>
   </section>
 
-      
-  <section class="widget side_archives">
-    
-    <header><a style="color: red" href='/archives/'><i class="fas fa-archive fa-fw" aria-hidden="true"></i><span class='name'>归档</span></a></header><div class="content"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/03/"><span class="card-archive-list-date">三月 2025</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/02/"><span class="card-archive-list-date">二月 2025</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/01/"><span class="card-archive-list-date">一月 2025</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">十二月 2024</span><span class="card-archive-list-count">9</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">十一月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">十月 2024</span><span class="card-archive-list-count">14</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">九月 2024</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/08/"><span class="card-archive-list-date">八月 2024</span><span class="card-archive-list-count">5</span></a></li></ul></div>
-  </section>
-
-      <section class="widget side_webinfo">
-  
-  <header>
-    
-      <i style="color: " class="fas fa-chart-line fa-fw" aria-hidden="true"></i><span class='name' style="color: ">站点信息</span>
-    
-  </header>
-
-
-  <div class='content'>
-    <div class="webinfo">
-      
-        <div class="webinfo-item">
-          <div>文章数目：</div>
-          <div>77 篇</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>已运行时间：</div>
-          <div id="webinfo-runtime-count" publish_date="03/24/2020 21:34:09"></div>
-        </div>
-        <script>
-          var BirthDay = new Date(new Date('2020/03/15'));
-          var today = new Date();
-          var timeold = (today.getTime() - BirthDay.getTime());
-          var daysold = Math.floor(timeold / (24 * 60 * 60 * 1000));
-          document.getElementById('webinfo-runtime-count').innerHTML = daysold + ' 天';
-        </script>
-      
-
-
-      
-        <div class="webinfo-item">
-          <div>本站总字数：</div>
-          <div>288.2k 字</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站访客数：</div>
-          
-          <div><span id="busuanzi_value_site_uv"><i class="fas fa-fan fa-spin fa-fw" aria-hidden="true"></i></span> 人</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站总访问量：</div>
-          
-          <div><span id="busuanzi_value_site_pv"><i class="fas fa-fan fa-spin fa-fw" aria-hidden="true"></i></span> 次</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>最后活动时间：</div>
-          
-            <div id="last-update" style="display: none;">Mon Mar 17 2025 16:36:58 GMT+0800 (中国标准时间)</div>
-            <div id="last-update-show">2025-03-17 日</div>
-          
-        </div>
-        
-        <script>
-          function timeago(dateTimeStamp) {
-              var minute = 1000 * 60; //把分，时，天，周，半个月，一个月用毫秒表示
-              var hour = minute * 60;
-              var day = hour * 24;
-              var week = day * 7;
-              var month = day * 30;
-              var now = new Date().getTime(); //获取当前时间毫秒
-              var diffValue = now - dateTimeStamp; //时间差
-              if (diffValue < 0) {
-                  return;
-              }
-              var minC = diffValue / minute; //计算时间差的分，时，天，周，月
-              var hourC = diffValue / hour;
-              var dayC = diffValue / day;
-              var weekC = diffValue / week;
-              var monthC = diffValue / month;
-              if (monthC >= 1 && monthC <= 3) {
-                  result = " " + parseInt(monthC) + " 月前"
-              } else if (weekC >= 1 && weekC <= 3) {
-                  result = " " + parseInt(weekC) + " 周前"
-              } else if (dayC >= 1 && dayC <= 6) {
-                  result = " " + parseInt(dayC) + " 天前"
-              } else if (hourC >= 1 && hourC <= 23) {
-                  result = " " + parseInt(hourC) + " 小时前"
-              } else if (minC >= 1 && minC <= 59) {
-                  result = " " + parseInt(minC) + " 分钟前"
-              } else if (diffValue >= 0 && diffValue <= minute) {
-                  result = "刚刚"
-              } else {
-                  var datetime = new Date();
-                  datetime.setTime(dateTimeStamp);
-                  var Nyear = datetime.getFullYear();
-                  var Nmonth = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-                  var Ndate = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-                  var Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
-                  var Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-                  var Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-                  result = Nyear + "-" + Nmonth + "-" + Ndate
-              }
-              return result;
-          }
-          var lastUpDate = document.getElementById('last-update').innerHTML;
-          try {
-            document.getElementById('last-update-show').innerHTML = timeago(new Date(lastUpDate));
-          } catch (error) {
-            document.getElementById('last-update-show').innerHTML = '2025-03-17 日';
-          }
-        </script>
-        
-      
-    </div>
-  </div>
-</section>
-      
     
   </div>
 </aside>
