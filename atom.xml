@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-03-17T08:36:30.060Z</updated>
+  <updated>2025-03-20T14:34:24.543Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,43 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>HTB 第七期 Escapetwo</title>
+    <link href="https://godownio.github.io/2025/03/20/htb-shua-ti-ji-lu/"/>
+    <id>https://godownio.github.io/2025/03/20/htb-shua-ti-ji-lu/</id>
+    <published>2025-03-20T14:35:15.000Z</published>
+    <updated>2025-03-20T14:34:24.543Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;不会内网渗透，被面试官狠狠羞辱&lt;/p&gt;
+&lt;p&gt;难受死了，刷HTB来了，放弃治疗&lt;/p&gt;
+&lt;p&gt;VPN用的欧盟+TCP，美国的似乎用不了&lt;/p&gt;
+&lt;p&gt;&lt;img</summary>
+        
+      
+    
+    
+    
+    <category term="内网渗透" scheme="https://godownio.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="HTB WP" scheme="https://godownio.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/HTB-WP/"/>
+    
+    
+    <category term="域渗透" scheme="https://godownio.github.io/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="HTB" scheme="https://godownio.github.io/tags/HTB/"/>
+    
+  </entry>
+  
+  <entry>
     <title>1.8k star java-memshell-generator简单分析</title>
     <link href="https://godownio.github.io/2025/03/17/1.8k-star-java-memshell-generator-fen-xi/"/>
     <id>https://godownio.github.io/2025/03/17/1.8k-star-java-memshell-generator-fen-xi/</id>
     <published>2025-03-17T08:35:15.000Z</published>
-    <updated>2025-03-17T08:36:30.060Z</updated>
+    <updated>2025-03-20T14:33:13.642Z</updated>
     
     
       
@@ -543,34 +575,6 @@
     
     
     <category term="JNDI" scheme="https://godownio.github.io/tags/JNDI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JDBC Attack漫谈</title>
-    <link href="https://godownio.github.io/2024/12/01/jdbc-attack/"/>
-    <id>https://godownio.github.io/2024/12/01/jdbc-attack/</id>
-    <published>2024-12-01T06:44:21.000Z</published>
-    <updated>2024-12-25T02:58:17.626Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;20年开始就很多复现了，现在才赶来学习&lt;/p&gt;
-&lt;p&gt;议题最开始在 BlackHat Europe 2019 上由 Back2Zero 团队给出演讲，后在欧洲顶级信息安全会议 HITB SECCONF SIN-2021 上由 Litch1 &amp;amp; pyn3rd</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="JDBC" scheme="https://godownio.github.io/tags/JDBC/"/>
     
   </entry>
   
