@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-03-21T13:30:37.366Z</updated>
+  <updated>2025-03-25T04:50:16.868Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DispatcherServlet.doDispatch请求分发详解</title>
+    <link href="https://godownio.github.io/2025/03/25/spring-dispatcherservlet-xiang-jie/"/>
+    <id>https://godownio.github.io/2025/03/25/spring-dispatcherservlet-xiang-jie/</id>
+    <published>2025-03-25T04:49:15.000Z</published>
+    <updated>2025-03-25T04:50:16.868Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;DispatcherServlet-doDispatch详解&quot;&gt;&lt;a href=&quot;#DispatcherServlet-doDispatch详解&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
+    
+    
+    <category term="spring" scheme="https://godownio.github.io/tags/spring/"/>
+    
+  </entry>
   
   <entry>
     <title>HTB 第七期 Escapetwo</title>
@@ -80,7 +107,7 @@
     <link href="https://godownio.github.io/2025/03/16/springmemshell/"/>
     <id>https://godownio.github.io/2025/03/16/springmemshell/</id>
     <published>2025-03-16T09:16:15.000Z</published>
-    <updated>2025-03-21T13:30:37.361Z</updated>
+    <updated>2025-03-23T13:55:19.962Z</updated>
     
     
       
@@ -546,35 +573,6 @@
     
     <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>JNDI高版本注入</title>
-    <link href="https://godownio.github.io/2024/12/01/jndi-zhu-ru-gao-ban-ben/"/>
-    <id>https://godownio.github.io/2024/12/01/jndi-zhu-ru-gao-ban-ben/</id>
-    <published>2024-12-01T07:09:23.000Z</published>
-    <updated>2024-12-02T08:19:21.438Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;JNDI高版本注入可以说是java安全大集合了。涉及了许多框架漏洞的组合使用，当分析完JNDI高版本时，我认为也算是正式入门JAVA安全了&lt;/p&gt;
-&lt;p&gt;jndi注入第一需要在影响版本内，第二需要出网&lt;/p&gt;
-&lt;p&gt;jdk8&amp;lt;8u191之前，ldap都能打，且不需要其</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="RMI" scheme="https://godownio.github.io/categories/java/RMI/"/>
-    
-    
-    <category term="JNDI" scheme="https://godownio.github.io/tags/JNDI/"/>
     
   </entry>
   
