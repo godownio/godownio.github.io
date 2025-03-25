@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-03-25T04:50:16.868Z</updated>
+  <updated>2025-03-25T08:10:28.021Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>常用的二次反序列化攻击</title>
+    <link href="https://godownio.github.io/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/"/>
+    <id>https://godownio.github.io/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/</id>
+    <published>2025-03-25T08:10:15.000Z</published>
+    <updated>2025-03-25T08:10:28.021Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;一些链被黑名单ban了，可以用二次反序列化绕过，比如JRMP&lt;/p&gt;
+&lt;h2 id=&quot;JRMP&quot;&gt;&lt;a href=&quot;#JRMP&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
+    
+    
+    <category term="二次反序列化" scheme="https://godownio.github.io/tags/%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    
+  </entry>
   
   <entry>
     <title>DispatcherServlet.doDispatch请求分发详解</title>
@@ -107,7 +135,7 @@
     <link href="https://godownio.github.io/2025/03/16/springmemshell/"/>
     <id>https://godownio.github.io/2025/03/16/springmemshell/</id>
     <published>2025-03-16T09:16:15.000Z</published>
-    <updated>2025-03-23T13:55:19.962Z</updated>
+    <updated>2025-03-25T08:04:09.871Z</updated>
     
     
       
@@ -547,32 +575,6 @@
     <category term="go ssti" scheme="https://godownio.github.io/tags/go-ssti/"/>
     
     <category term="spring CGW" scheme="https://godownio.github.io/tags/spring-CGW/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java加载动态链接库绕过RASP的一些思考</title>
-    <link href="https://godownio.github.io/2024/12/04/java-jia-zai-dong-tai-lian-jie-ku/"/>
-    <id>https://godownio.github.io/2024/12/04/java-jia-zai-dong-tai-lian-jie-ku/</id>
-    <published>2024-12-04T03:14:21.000Z</published>
-    <updated>2024-12-22T10:10:46.724Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;今天在复现JNDI高版本注入用NativeLibLoader绕过的时候，由于能力有限（没有MACos系统，当不了伸手党直接复刻操作，也不会二进制），造不出类似的dll文件，msfvenom生成的dll -b参数好像也完全不起作用&lt;/p&gt;
-&lt;p&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
-    
     
   </entry>
   

