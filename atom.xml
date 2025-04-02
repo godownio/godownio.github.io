@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-03-25T08:10:28.021Z</updated>
+  <updated>2025-04-02T06:29:10.979Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>tabby &amp; codeQL分析含依赖JAR包</title>
+    <link href="https://godownio.github.io/2025/04/02/tabby-yu-codeql-de-an-zhuang-yu-shi-yong/"/>
+    <id>https://godownio.github.io/2025/04/02/tabby-yu-codeql-de-an-zhuang-yu-shi-yong/</id>
+    <published>2025-04-02T06:28:15.000Z</published>
+    <updated>2025-04-02T06:29:10.979Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;tabby-amp-codeQL分析含依赖JAR包&quot;&gt;&lt;a href=&quot;#tabby-amp-codeQL分析含依赖JAR包&quot; class=&quot;headerlink&quot; title=&quot;tabby &amp;amp; codeQL分析含依赖JAR包&quot;&gt;&lt;/a&gt;tabby</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
+    
+    
+    <category term="tabby" scheme="https://godownio.github.io/tags/tabby/"/>
+    
+    <category term="codeql" scheme="https://godownio.github.io/tags/codeql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>常用的二次反序列化攻击</title>
     <link href="https://godownio.github.io/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/"/>
     <id>https://godownio.github.io/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/</id>
     <published>2025-03-25T08:10:15.000Z</published>
-    <updated>2025-03-25T08:10:28.021Z</updated>
+    <updated>2025-04-02T05:46:23.832Z</updated>
     
     
       
@@ -543,38 +572,6 @@
     
     
     <category term="AspectJWeaver" scheme="https://godownio.github.io/tags/AspectJWeaver/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2023CISCN 初赛WEB WP</title>
-    <link href="https://godownio.github.io/2024/12/09/ciscn-2023-web-wp/"/>
-    <id>https://godownio.github.io/2024/12/09/ciscn-2023-web-wp/</id>
-    <published>2024-12-09T13:56:21.000Z</published>
-    <updated>2024-12-22T10:11:18.554Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;补课&lt;/p&gt;
-&lt;h1 id=&quot;2023CISCN&quot;&gt;&lt;a href=&quot;#2023CISCN&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
-    
-    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
-    
-    
-    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
-    
-    <category term="go ssti" scheme="https://godownio.github.io/tags/go-ssti/"/>
-    
-    <category term="spring CGW" scheme="https://godownio.github.io/tags/spring-CGW/"/>
     
   </entry>
   
