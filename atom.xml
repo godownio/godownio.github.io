@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-04-02T06:29:10.979Z</updated>
+  <updated>2025-04-06T09:59:12.722Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,38 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>fastjson 原生反序列化（obj.toString的四种触发方式）</title>
+    <link href="https://godownio.github.io/2025/04/06/fastjson-yuan-sheng-fan-xu-lie-hua-obj.tostring-de-si-chong-hong-fa-fang-shi/"/>
+    <id>https://godownio.github.io/2025/04/06/fastjson-yuan-sheng-fan-xu-lie-hua-obj.tostring-de-si-chong-hong-fa-fang-shi/</id>
+    <published>2025-04-06T09:59:15.000Z</published>
+    <updated>2025-04-06T09:59:12.722Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;fastjson-原生反序列化（obj-toString的四种触发方式）&quot;&gt;&lt;a href=&quot;#fastjson-原生反序列化（obj-toString的四种触发方式）&quot; class=&quot;headerlink&quot; title=&quot;fastjson</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
+    
+  </entry>
+  
+  <entry>
     <title>tabby &amp; codeQL分析含依赖JAR包</title>
     <link href="https://godownio.github.io/2025/04/02/tabby-yu-codeql-de-an-zhuang-yu-shi-yong/"/>
     <id>https://godownio.github.io/2025/04/02/tabby-yu-codeql-de-an-zhuang-yu-shi-yong/</id>
     <published>2025-04-02T06:28:15.000Z</published>
-    <updated>2025-04-02T06:29:10.979Z</updated>
+    <updated>2025-04-06T09:58:18.949Z</updated>
     
     
       
@@ -545,33 +572,6 @@
     
     
     <category term="Spring" scheme="https://godownio.github.io/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AspectJWeaver反序列化写文件</title>
-    <link href="https://godownio.github.io/2024/12/19/aspectjweaver-fan-xu-lie-hua-xie-wen-jian/"/>
-    <id>https://godownio.github.io/2024/12/19/aspectjweaver-fan-xu-lie-hua-xie-wen-jian/</id>
-    <published>2024-12-19T03:19:21.000Z</published>
-    <updated>2024-12-22T10:11:32.578Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="AspectJWeaver" scheme="https://godownio.github.io/tags/AspectJWeaver/"/>
     
   </entry>
   
