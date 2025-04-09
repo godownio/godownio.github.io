@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-04-06T09:59:12.722Z</updated>
+  <updated>2025-04-09T08:35:02.771Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用java-object-searcher构造Tomcat线程回显</title>
+    <link href="https://godownio.github.io/2025/04/09/li-yong-java-object-searcher-gou-jian-tomcat-xian-cheng-hui-xian/"/>
+    <id>https://godownio.github.io/2025/04/09/li-yong-java-object-searcher-gou-jian-tomcat-xian-cheng-hui-xian/</id>
+    <published>2025-04-09T08:34:52.000Z</published>
+    <updated>2025-04-09T08:35:02.771Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;提前说好，回显并不是内存马&lt;/p&gt;
+&lt;h2 id=&quot;Java-object-searcher&quot;&gt;&lt;a href=&quot;#Java-object-searcher&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    
+    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
+    
+  </entry>
   
   <entry>
     <title>fastjson 原生反序列化（obj.toString的四种触发方式）</title>
@@ -545,33 +575,6 @@
     
     
     <category term="栈帧逃逸" scheme="https://godownio.github.io/tags/%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring FatJar写文件到RCE</title>
-    <link href="https://godownio.github.io/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/"/>
-    <id>https://godownio.github.io/2024/12/19/springboot-fatjar-xie-wen-jian-dao-rce/</id>
-    <published>2024-12-19T07:59:21.000Z</published>
-    <updated>2024-12-22T10:12:20.494Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Spring-FatJar写文件到RCE&quot;&gt;&lt;a href=&quot;#Spring-FatJar写文件到RCE&quot; class=&quot;headerlink&quot; title=&quot;Spring FatJar写文件到RCE&quot;&gt;&lt;/a&gt;Spring</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="Spring" scheme="https://godownio.github.io/tags/Spring/"/>
     
   </entry>
   
