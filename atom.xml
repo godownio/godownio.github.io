@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-04-14T10:05:30.999Z</updated>
+  <updated>2025-04-15T07:03:34.169Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Shiro反序列化突破长度限制</title>
+    <link href="https://godownio.github.io/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/"/>
+    <id>https://godownio.github.io/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/</id>
+    <published>2025-04-15T07:02:08.000Z</published>
+    <updated>2025-04-15T07:03:34.169Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Shiro反序列化突破长度限制&quot;&gt;&lt;a href=&quot;#Shiro反序列化突破长度限制&quot; class=&quot;headerlink&quot; title=&quot;Shiro反序列化突破长度限制&quot;&gt;&lt;/a&gt;Shiro反序列化突破长度限制&lt;/h1&gt;&lt;p&gt;来源于hw面试官的问题，shiro</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="Shiro" scheme="https://godownio.github.io/tags/Shiro/"/>
+    
+  </entry>
   
   <entry>
     <title>CC注入Tomcat Upgrade/Executor/WebSocket内存马</title>
@@ -553,33 +580,6 @@
     
     
     <category term="RASP" scheme="https://godownio.github.io/tags/RASP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2024CISCN 初赛WEB WP</title>
-    <link href="https://godownio.github.io/2024/12/22/ciscn-2024-web-wp/"/>
-    <id>https://godownio.github.io/2024/12/22/ciscn-2024-web-wp/</id>
-    <published>2024-12-22T09:51:21.000Z</published>
-    <updated>2024-12-22T10:15:02.426Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;2024CISCN&quot;&gt;&lt;a href=&quot;#2024CISCN&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
-    
-    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
-    
-    
-    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
     
   </entry>
   
