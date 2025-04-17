@@ -635,7 +635,7 @@
 <p>Shiro 550的原理我就不再重复多分析了</p>
 <p>简单说来就是：序列化字节码-&gt;固定密钥AES加密-&gt;base64编码-&gt;POST数据-&gt;反序列化</p>
 <p>感兴趣的去org.apache.shiro.web.mgt.CookieRememberMeManager分析。</p>
-<p>给一个栈图，在OncePerRequestFilter的doFilter处理请求，在CookieRemberMeManager生成cookie和处理cookie。</p>
+<p>给一个栈图，在OncePerRequestFilter的doFilter处理请求，在CookieRememberMeManager生成cookie和处理cookie。</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805154744315.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805154744315.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>着重看下利用</p>
 <h2 id="URLDNS"><a href="#URLDNS" class="headerlink" title="URLDNS"></a>URLDNS</h2><p>URLDNS不需要依赖，直接盲打以探测漏洞。</p>
