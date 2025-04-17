@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-04-17T09:14:18.916Z</updated>
+  <updated>2025-04-17T15:09:55.519Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Tomcat下SpEL的不出网利用</title>
+    <link href="https://godownio.github.io/2025/04/17/spel-de-bu-chu-wang-li-yong/"/>
+    <id>https://godownio.github.io/2025/04/17/spel-de-bu-chu-wang-li-yong/</id>
+    <published>2025-04-17T15:09:08.000Z</published>
+    <updated>2025-04-17T15:09:55.519Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;依旧来自p神的Springboot Code-Breaking 2025小挑战&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
+    
+  </entry>
   
   <entry>
     <title>Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323）</title>
@@ -554,31 +581,6 @@
     
     
     <category term="apache Dubbo" scheme="https://godownio.github.io/tags/apache-Dubbo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>那些宇宙</title>
-    <link href="https://godownio.github.io/2025/01/14/yu-zhou-meng/"/>
-    <id>https://godownio.github.io/2025/01/14/yu-zhou-meng/</id>
-    <published>2025-01-14T09:06:27.000Z</published>
-    <updated>2025-02-27T10:13:38.367Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;今天刚刷到科学家破解“祖父悖论”，时间旅行的可行性得到自洽的帖子。刚好放空了自己一段时间，想到一些自己的理解。&lt;/p&gt;
-&lt;p&gt;该贴原文梗概如下：&lt;/p&gt;
-&lt;p&gt;在牛顿物理中，时间线性推进，但爱因斯坦广义相对论揭示，时空可以进行弯曲，典型的例子就是黑洞。理论上，时空弯曲可能形</summary>
-        
-      
-    
-    
-    
-    <category term="杂七杂八" scheme="https://godownio.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
-    
     
   </entry>
   
