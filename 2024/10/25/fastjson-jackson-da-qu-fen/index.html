@@ -628,7 +628,7 @@
 <p>2、fastjson&gt;&#x3D;1.2.36 可用<code>$ref</code>调用getter</p>
 <p>解析函数里有JSON.toJSON，还会调用getter（parseObject）</p>
 <p>jackson调用getter：</p>
-<p>1、没有setter，有getter方法。可以直接反序列化调用</p>
+<p>1、没有该字段，没有setter，有getter方法，getter返回值是Map，Collection的子类。可以直接反序列化调用</p>
 <p>2、jackson-databind&amp;core&amp;annotations&gt;&#x3D;2.13.3，通过POJONode调用getter</p>
 <h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><p>fastjson调用构造方法：</p>
 <ul>

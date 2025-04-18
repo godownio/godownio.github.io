@@ -763,6 +763,8 @@
 <p>跟进到<code>_readMapAndClose</code>，从JsonParser中读取并解析JSON数据为指定的valueType对象</p>
 <p>会走进deser.deserialize</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154527112.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154527112.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>其中令牌可以看到JsonToken，<code>&#123;&#125;</code>代表对象，<code>[]</code>代表数组</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250418163443014.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250418163443014.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250418163443014"></p>
 <p>我们这里JSONToken令牌是START_OBJECT，表示是个对象进行反序列化</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154556761.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154556761.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>继续跟进，如果令牌是START_OBJECT，会走进if调用vanillaDeserialize</p>
