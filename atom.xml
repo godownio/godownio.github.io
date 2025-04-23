@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-04-21T14:59:06.846Z</updated>
+  <updated>2025-04-23T07:39:40.555Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Resin反序列化JNDI</title>
+    <link href="https://godownio.github.io/2025/04/23/resin-fan-xu-lie-hua/"/>
+    <id>https://godownio.github.io/2025/04/23/resin-fan-xu-lie-hua/</id>
+    <published>2025-04-23T07:39:06.000Z</published>
+    <updated>2025-04-23T07:39:40.555Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;resin反序列化&quot;&gt;&lt;a href=&quot;#resin反序列化&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="resin" scheme="https://godownio.github.io/tags/resin/"/>
+    
+  </entry>
   
   <entry>
     <title>ascii-jar首次操刀解决code-breaking 2025</title>
@@ -536,37 +563,6 @@
     <summary type="html">&lt;p&gt;2025凑一下2020年的热闹，本文将介绍各环境下获取StandardContext的办法，以及直接写response回显的方法&lt;/p&gt;
 &lt;p&gt;本文会copy很多师傅们的见解，一个大总结，会做好ref的！&lt;/p&gt;
 &lt;h1</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    
-    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>servlet内存马re</title>
-    <link href="https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/"/>
-    <id>https://godownio.github.io/2025/02/25/servlet-nei-cun-ma-re/</id>
-    <published>2025-02-25T06:23:33.000Z</published>
-    <updated>2025-03-16T09:20:09.124Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;新开一个内存马的坑，虽然之前学了，但是很散，而且code没做集成。现在总的复习一遍，把code归到一个项目方便后续利用&lt;/p&gt;
-&lt;p&gt;内存马的概念就不提了&lt;/p&gt;
-&lt;h1 id=&quot;servlet内存马&quot;&gt;&lt;a href=&quot;#servlet内存马&quot;</summary>
         
       
     
