@@ -591,7 +591,7 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.png')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
@@ -621,6 +621,7 @@
       <div class="post-content">
         <p>Java ssti，我特么莱辣</p>
 <p>分析一下thymeleaf，velocity，freemarker等的模板注入！这节是Thymeleaf</p>
+<p>代码环境：<a target="_blank" rel="noopener" href="https://github.com/godownio/SSTIVuln">https://github.com/godownio/SSTIVuln</a></p>
 <h1 id="Java-Thymeleaf-SSTI"><a href="#Java-Thymeleaf-SSTI" class="headerlink" title="Java Thymeleaf SSTI"></a>Java Thymeleaf SSTI</h1><p>写JavaWeb和SSM的时候，前端页面可能会用JSP写，但是因为之前项目都是war包部署，而SpringBoot都是jar包且内嵌tomcat，所以是不支持解析jsp文件的。</p>
 <p>但是如果是编写纯静态的html就很不方便，那么这时候就需要一个模版引擎类似于Jinja2可以通过表达式帮我们把动态的变量渲染到前端页面，我们只需要写一个template即可。</p>
 <h2 id="Thymeleaf的一些基础"><a href="#Thymeleaf的一些基础" class="headerlink" title="Thymeleaf的一些基础"></a>Thymeleaf的一些基础</h2><p>作为安全人员，不用完全掌握一个组件具体是怎么在开发中使用的，只需要知道一些简单的方法</p>
@@ -1245,7 +1246,7 @@ pom：
             <div class="post-img-box">
               <a href="/2025/04/28/java-thymeleaf-ssti-spel/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
             </div>
             <div class="post-date-title">
