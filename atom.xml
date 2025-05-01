@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-05-01T08:40:30.647Z</updated>
+  <updated>2025-05-01T08:40:35.204Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java Freemarker SSTI</title>
+    <link href="https://godownio.github.io/2025/05/01/java-freemarker-ssti/"/>
+    <id>https://godownio.github.io/2025/05/01/java-freemarker-ssti/</id>
+    <published>2025-05-01T08:40:06.000Z</published>
+    <updated>2025-05-01T08:40:35.204Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Java-Freemarker-SSTI&quot;&gt;&lt;a href=&quot;#Java-Freemarker-SSTI&quot; class=&quot;headerlink&quot; title=&quot;Java Freemarker SSTI&quot;&gt;&lt;/a&gt;Java Freemarker</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="SSTI" scheme="https://godownio.github.io/categories/java/SSTI/"/>
+    
+    
+    <category term="Freemarker" scheme="https://godownio.github.io/tags/Freemarker/"/>
+    
+  </entry>
   
   <entry>
     <title>Java Thymeleaf SSTI(本质为SpEL)</title>
@@ -547,33 +574,6 @@
     
     
     <category term="RASP" scheme="https://godownio.github.io/tags/RASP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2025Aliyun CTF Jtools</title>
-    <link href="https://godownio.github.io/2025/02/28/2025aliyun-ctf-java/"/>
-    <id>https://godownio.github.io/2025/02/28/2025aliyun-ctf-java/</id>
-    <published>2025-02-28T07:56:09.000Z</published>
-    <updated>2025-03-21T13:28:16.562Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;第三届阿里云CTF，复现两道JAVA，应该很多地方都能找到靶场。我是用的赛后环境，趁热用&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
-    
-    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
-    
-    
-    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
     
   </entry>
   

