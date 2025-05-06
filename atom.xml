@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-05-01T08:49:07.217Z</updated>
+  <updated>2025-05-06T09:43:32.043Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JRE 17受限环境下的h2 jdbc attack</title>
+    <link href="https://godownio.github.io/2025/05/06/jre17-huan-jing-xia-de-h2-jdbc-attack/"/>
+    <id>https://godownio.github.io/2025/05/06/jre17-huan-jing-xia-de-h2-jdbc-attack/</id>
+    <published>2025-05-06T09:43:06.000Z</published>
+    <updated>2025-05-06T09:43:32.043Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;最近看了很多安全文章，发现JDK17下对漏洞姿势的影响还挺大的，通过X1r0z大佬的H2 JDBC Attack学习一下绕过JDK17限制的手法，X1r0z大佬的原文如下：&lt;/p&gt;
+&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="JDBC" scheme="https://godownio.github.io/tags/JDBC/"/>
+    
+    <category term="jdk 17" scheme="https://godownio.github.io/tags/jdk-17/"/>
+    
+  </entry>
   
   <entry>
     <title>Java Freemarker SSTI</title>
@@ -547,33 +577,6 @@
     
     
     <category term="log4j" scheme="https://godownio.github.io/tags/log4j/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RASP的绕过 单回显JNI内存马</title>
-    <link href="https://godownio.github.io/2025/03/05/rasp-rao-guo/"/>
-    <id>https://godownio.github.io/2025/03/05/rasp-rao-guo/</id>
-    <published>2025-03-05T12:49:09.000Z</published>
-    <updated>2025-03-21T13:30:37.377Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;RASP绕过&quot;&gt;&lt;a href=&quot;#RASP绕过&quot; class=&quot;headerlink&quot; title=&quot;RASP绕过&quot;&gt;&lt;/a&gt;RASP绕过&lt;/h1&gt;&lt;p&gt;rasp从0到1：&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="RASP" scheme="https://godownio.github.io/categories/java/RASP/"/>
-    
-    
-    <category term="RASP" scheme="https://godownio.github.io/tags/RASP/"/>
     
   </entry>
   
