@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-05-06T09:43:32.043Z</updated>
+  <updated>2025-05-12T13:27:39.796Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java Agent内存马</title>
+    <link href="https://godownio.github.io/2025/05/12/java-agent-nei-cun-ma/"/>
+    <id>https://godownio.github.io/2025/05/12/java-agent-nei-cun-ma/</id>
+    <published>2025-05-12T13:27:06.000Z</published>
+    <updated>2025-05-12T13:27:39.796Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在了解了RASP的基础上，就很容易看懂Agent内存马了&lt;/p&gt;
+&lt;p&gt;RASP从0到1：&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    
+    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
+    
+    <category term="RASP" scheme="https://godownio.github.io/tags/RASP/"/>
+    
+  </entry>
   
   <entry>
     <title>JRE 17受限环境下的h2 jdbc attack</title>
@@ -550,33 +580,6 @@
     <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
     
     <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>log4j2 漏洞</title>
-    <link href="https://godownio.github.io/2025/03/06/log4j/"/>
-    <id>https://godownio.github.io/2025/03/06/log4j/</id>
-    <published>2025-03-06T12:58:15.000Z</published>
-    <updated>2025-03-21T13:30:37.355Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;log4j漏洞&quot;&gt;&lt;a href=&quot;#log4j漏洞&quot; class=&quot;headerlink&quot; title=&quot;log4j漏洞&quot;&gt;&lt;/a&gt;log4j漏洞&lt;/h1&gt;&lt;p&gt; Log4j </summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="log4j" scheme="https://godownio.github.io/tags/log4j/"/>
     
   </entry>
   
