@@ -692,7 +692,7 @@
 <p>服务器：</p>
 <p>控制lookup参数为<code>rmi://vpsip:port/remoteImpl</code>，必须要调用sayHello才能命令执行</p>
 <p>而RMI就不能这么打，因为RMI中我们不能控制URL，需要多一个获取注册中心的部分，但是当然可以JRMP打</p>
-<h2 id="JNDI绑定Reference"><a href="#JNDI绑定Reference" class="headerlink" title="JNDI绑定Reference"></a>JNDI绑定Reference</h2><p>服务端同样需要RemoteInterface、RemoteImpl、RMIServer</p>
+<h2 id="RMI-JNDI绑定Reference"><a href="#RMI-JNDI绑定Reference" class="headerlink" title="RMI JNDI绑定Reference"></a>RMI JNDI绑定Reference</h2><p>服务端同样需要RemoteInterface、RemoteImpl、RMIServer</p>
 <p>JNDIServer换个方式绑定罢了，看到上面加载RuntimeEvil的例子了吗，需要知道服务器RemoteInterface的代码，并继承UnicastRemoteObject。而经过Reference封装就不用</p>
 <h3 id="恶意-Reference-Server"><a href="#恶意-Reference-Server" class="headerlink" title="恶意 Reference Server"></a>恶意 Reference Server</h3><p>RuntimeEvil.class</p>
 <p>我们的类在实例化后不能转化为ObjectFactory<code>(ObjectFactory) clas.newInstance()</code>。让我们的类继承ObjectFactory即可。</p>
@@ -796,6 +796,36 @@
 </ul>
 <p>8u191 <code>com.sun.jndi.ldap.object.trustURLCodebase </code>属性的默认值被调整为false，LDAP也打不了了</p>
 <p>总之有JNDI，建议直接LDAP打，除非服务器禁了LDAP协议</p>
+<h2 id="JNDI-Reference那些事"><a href="#JNDI-Reference那些事" class="headerlink" title="JNDI Reference那些事"></a>JNDI Reference那些事</h2><p>JNDI实际上在两个类型下走的是两个注入逻辑</p>
+<h3 id="类型1：RMI-Reference封装"><a href="#类型1：RMI-Reference封装" class="headerlink" title="类型1：RMI Reference封装"></a>类型1：RMI Reference封装</h3><p>marshalsec生成的就是这个类型的poc</p>
+<p>在RMI协议下，用Reference封装传输的类，是会经过RegistryContext.lookup调用decodeObject去解封装的。跟进这个decodeObject可以发现，调用了NamingManager.getObjectInstance</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162529427.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162529427.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604162529427"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162548373.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162548373.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604162548373"></p>
+<p>接下来的代码我们很熟悉了，就是判断是否为Reference，并调用getObjectFactoryFromReference和factory.getObjectInstance</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162840413.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162840413.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604162840413"></p>
+<p>从InitialContext开始调用栈如下：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162949263.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162949263.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604162949263"></p>
+<p>事实上RMI型进行JNDI注入也必须用Reference封装，详情见<a href="https://godownio.github.io/2024/09/25/jndi-zhu-ru/#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">https://godownio.github.io/2024/09/25/jndi-zhu-ru/#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90</a></p>
+<h3 id="类型2：LDAP-非Reference封装"><a href="#类型2：LDAP-非Reference封装" class="headerlink" title="类型2：LDAP 非Reference封装"></a>类型2：LDAP 非Reference封装</h3><p>LDAP协议进行JNDI注入时不需要用Reference封装，我们看栈，跟上面对比得到不同的是从URL生成的Context是ldapURLContext，导致了后续的处理不同</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172421360.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172421360.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604172421360"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172456975.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172456975.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604172456975"></p>
+<p>在LdapCtx.c_lookup中，调用了DirectoryManager.getObjectInstance</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172549271.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172549271.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604172549271"></p>
+<p>可以发现DirectoryManager.getObjectInstance和NamingManager.getObjectInstance几乎没区别</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172656933.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172656933.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604172656933"></p>
+<p>因为NamingManager的作用如下：</p>
+<ul>
+<li><p>作用范围较广，包含普通命名服务（如：<code>java:comp/env</code>）的处理。</p>
+</li>
+<li><p>处理 URL 前缀（如：<code>ldap:</code>、<code>rmi:</code>、<code>corba:</code>）并定位适当的上下文工厂。</p>
+</li>
+</ul>
+<p>DirectoryManager是 <code>NamingManager</code> 的一个子集或专门扩展，<strong>专门用于支持目录服务（如 LDAP）相关操作</strong>。处理带属性的对象工厂实例创建，类似于 NamingManager，但面向更“结构化”的服务，如 LDAP 目录。两个的核心逻辑其实没什么区别</p>
+<h3 id="二者的区别"><a href="#二者的区别" class="headerlink" title="二者的区别"></a>二者的区别</h3><p>我们回过头来看为什么RMI不能用非Reference去注入，跟进这个registry.lookup</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604170940427.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604170940427.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604170940427"></p>
+<p>是我们熟悉的RegistryImpl_Stub.lookup，不过这个方法显然只能触发RMI的原生反序列化攻击，也就是JRMP，而不是JNDI，它并没有调用到getObjectFactoryFromReference和factory.getObjectInstance，可以说JNDI我们只看这两个方法，而不是lookup</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604171016229.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604171016229.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604171016229"></p>
+<p>所以我们理论上可以总结为，RMI打JNDI就是要用Reference封装，而Ldap打JNDI，我们是自己写了一个Ldap服务器，你去看代码逻辑可以知道是把恶意http地址绑定在了attribute上，而没有用到Reference</p>
 
       </div>
       <div class="post-tags-categories">
@@ -1097,7 +1127,7 @@ https
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI%E7%BB%91%E5%AE%9ARMI"><span class="toc-text">JNDI绑定RMI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RMIServer"><span class="toc-text">RMIServer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RMIClient"><span class="toc-text">RMIClient</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNDIServer%EF%BC%88RMI%EF%BC%89"><span class="toc-text">JNDIServer（RMI）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNDIClient%EF%BC%88RMI%EF%BC%89"><span class="toc-text">JNDIClient（RMI）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-text">源码分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%B6%E6%84%8FRMI-Server"><span class="toc-text">恶意RMI Server</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI%E7%BB%91%E5%AE%9AReference"><span class="toc-text">JNDI绑定Reference</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%B6%E6%84%8F-Reference-Server"><span class="toc-text">恶意 Reference Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-1"><span class="toc-text">源码分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI-other"><span class="toc-text">JNDI other</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI%E7%BB%91%E5%AE%9ARMI"><span class="toc-text">JNDI绑定RMI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RMIServer"><span class="toc-text">RMIServer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RMIClient"><span class="toc-text">RMIClient</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNDIServer%EF%BC%88RMI%EF%BC%89"><span class="toc-text">JNDIServer（RMI）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNDIClient%EF%BC%88RMI%EF%BC%89"><span class="toc-text">JNDIClient（RMI）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-text">源码分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%B6%E6%84%8FRMI-Server"><span class="toc-text">恶意RMI Server</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMI-JNDI%E7%BB%91%E5%AE%9AReference"><span class="toc-text">RMI JNDI绑定Reference</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%B6%E6%84%8F-Reference-Server"><span class="toc-text">恶意 Reference Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-1"><span class="toc-text">源码分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI-other"><span class="toc-text">JNDI other</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI-Reference%E9%82%A3%E4%BA%9B%E4%BA%8B"><span class="toc-text">JNDI Reference那些事</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B1%EF%BC%9ARMI-Reference%E5%B0%81%E8%A3%85"><span class="toc-text">类型1：RMI Reference封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B2%EF%BC%9ALDAP-%E9%9D%9EReference%E5%B0%81%E8%A3%85"><span class="toc-text">类型2：LDAP 非Reference封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%80%85%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">二者的区别</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
