@@ -671,7 +671,7 @@
 <td>针对类代理，若目标类没有接口，使用 CGLIB 动态生成子类字节码</td>
 </tr>
 </tbody></table>
-<h2 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h2><p>这是一个相对来说逻辑比较复杂的链子</p>
+<h2 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h2><p>这是一个相对来说逻辑比较复杂，但代码简单的链子，网上的链子都用了两层代理，我写的poc只用了一层。</p>
 <p>话不多说，直接给个链子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JdkDynamicAopProxy.invoke()-&gt;</span><br><span class="line">ReflectiveMethodInvocation.proceed()-&gt;</span><br><span class="line">AspectJAroundAdvice-&gt;invoke-&gt;</span><br><span class="line">org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod()-&gt;</span><br><span class="line">method.invoke()</span><br></pre></td></tr></table></figure>
 
