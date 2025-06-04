@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-06-04T03:39:45.055Z</updated>
+  <updated>2025-06-04T03:56:11.535Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://godownio.github.io/2025/06/04/spring-aop-lian/"/>
     <id>https://godownio.github.io/2025/06/04/spring-aop-lian/</id>
     <published>2025-06-04T03:36:26.000Z</published>
-    <updated>2025-06-04T03:39:45.055Z</updated>
+    <updated>2025-06-04T03:56:11.535Z</updated>
     
     
       
@@ -48,7 +48,7 @@
     <link href="https://godownio.github.io/2025/06/01/xctf-mobile-wp-part1/"/>
     <id>https://godownio.github.io/2025/06/01/xctf-mobile-wp-part1/</id>
     <published>2025-06-01T09:06:06.000Z</published>
-    <updated>2025-06-01T09:08:51.721Z</updated>
+    <updated>2025-06-04T03:56:11.480Z</updated>
     
     
       
@@ -74,10 +74,10 @@
   
   <entry>
     <title>fastjson 1.2.76-1.2.80 groovy链</title>
-    <link href="https://godownio.github.io/2025/05/28/fastjson-groovy-lian/"/>
-    <id>https://godownio.github.io/2025/05/28/fastjson-groovy-lian/</id>
+    <link href="https://godownio.github.io/2025/05/28/fastjson-1.2.76-1.2.80-groovy-lian/"/>
+    <id>https://godownio.github.io/2025/05/28/fastjson-1.2.76-1.2.80-groovy-lian/</id>
     <published>2025-05-28T07:56:06.000Z</published>
-    <updated>2025-06-04T03:33:19.161Z</updated>
+    <updated>2025-06-04T03:56:11.513Z</updated>
     
     
       
@@ -105,7 +105,7 @@
     <link href="https://godownio.github.io/2025/05/27/fastjson-quan-ban-ben-fan-xu-lie-hua-pi-pei-hei-bai-ming-dan-guo-cheng/"/>
     <id>https://godownio.github.io/2025/05/27/fastjson-quan-ban-ben-fan-xu-lie-hua-pi-pei-hei-bai-ming-dan-guo-cheng/</id>
     <published>2025-05-27T10:42:06.000Z</published>
-    <updated>2025-05-27T10:42:45.074Z</updated>
+    <updated>2025-06-04T03:56:11.469Z</updated>
     
     
       
@@ -133,7 +133,7 @@
     <link href="https://godownio.github.io/2025/05/12/java-agent-nei-cun-ma/"/>
     <id>https://godownio.github.io/2025/05/12/java-agent-nei-cun-ma/</id>
     <published>2025-05-12T13:27:06.000Z</published>
-    <updated>2025-05-12T13:27:39.796Z</updated>
+    <updated>2025-06-04T03:56:11.509Z</updated>
     
     
       
@@ -163,7 +163,7 @@
     <link href="https://godownio.github.io/2025/05/06/jre17-huan-jing-xia-de-h2-jdbc-attack/"/>
     <id>https://godownio.github.io/2025/05/06/jre17-huan-jing-xia-de-h2-jdbc-attack/</id>
     <published>2025-05-06T09:43:06.000Z</published>
-    <updated>2025-05-06T09:43:32.043Z</updated>
+    <updated>2025-06-04T03:56:11.516Z</updated>
     
     
       
@@ -193,7 +193,7 @@
     <link href="https://godownio.github.io/2025/05/01/java-freemarker-ssti/"/>
     <id>https://godownio.github.io/2025/05/01/java-freemarker-ssti/</id>
     <published>2025-05-01T08:40:06.000Z</published>
-    <updated>2025-05-01T08:49:07.217Z</updated>
+    <updated>2025-06-04T03:56:11.464Z</updated>
     
     
       
@@ -220,7 +220,7 @@
     <link href="https://godownio.github.io/2025/04/28/java-thymeleaf-ssti-spel/"/>
     <id>https://godownio.github.io/2025/04/28/java-thymeleaf-ssti-spel/</id>
     <published>2025-04-28T08:00:06.000Z</published>
-    <updated>2025-05-01T08:40:30.647Z</updated>
+    <updated>2025-06-04T03:56:11.488Z</updated>
     
     
       
@@ -249,7 +249,7 @@
     <link href="https://godownio.github.io/2025/04/23/resin-fan-xu-lie-hua/"/>
     <id>https://godownio.github.io/2025/04/23/resin-fan-xu-lie-hua/</id>
     <published>2025-04-23T07:39:06.000Z</published>
-    <updated>2025-04-23T07:42:42.717Z</updated>
+    <updated>2025-06-04T03:56:11.505Z</updated>
     
     
       
@@ -276,7 +276,7 @@
     <link href="https://godownio.github.io/2025/04/21/ascii-jar-shou-ci-cao-dao/"/>
     <id>https://godownio.github.io/2025/04/21/ascii-jar-shou-ci-cao-dao/</id>
     <published>2025-04-21T14:59:06.000Z</published>
-    <updated>2025-04-21T14:59:06.846Z</updated>
+    <updated>2025-06-04T03:56:11.496Z</updated>
     
     
       
@@ -303,7 +303,7 @@
     <link href="https://godownio.github.io/2025/04/21/2022rwctf-desperate-cat-xue-xi-zi-fu-chuan-xie-jar-wen-jian-he-zang-shu-ju-rao-guo/"/>
     <id>https://godownio.github.io/2025/04/21/2022rwctf-desperate-cat-xue-xi-zi-fu-chuan-xie-jar-wen-jian-he-zang-shu-ju-rao-guo/</id>
     <published>2025-04-21T07:43:43.000Z</published>
-    <updated>2025-04-21T07:46:21.957Z</updated>
+    <updated>2025-06-04T03:56:11.484Z</updated>
     
     
       
@@ -330,7 +330,7 @@
     <link href="https://godownio.github.io/2025/04/17/tomcat-xia-classpathxmlapplicationcontext-de-bu-chu-wang-li-yong/"/>
     <id>https://godownio.github.io/2025/04/17/tomcat-xia-classpathxmlapplicationcontext-de-bu-chu-wang-li-yong/</id>
     <published>2025-04-17T15:09:08.000Z</published>
-    <updated>2025-04-28T07:58:50.978Z</updated>
+    <updated>2025-06-04T03:56:11.474Z</updated>
     
     
       
@@ -357,7 +357,7 @@
     <link href="https://godownio.github.io/2025/04/17/apache-hertzbeat-snakeyaml-fan-xu-lie-hua/"/>
     <id>https://godownio.github.io/2025/04/17/apache-hertzbeat-snakeyaml-fan-xu-lie-hua/</id>
     <published>2025-04-17T09:11:08.000Z</published>
-    <updated>2025-04-17T09:14:18.916Z</updated>
+    <updated>2025-06-04T03:56:11.459Z</updated>
     
     
       
@@ -384,7 +384,7 @@
     <link href="https://godownio.github.io/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/"/>
     <id>https://godownio.github.io/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/</id>
     <published>2025-04-15T07:02:08.000Z</published>
-    <updated>2025-04-15T07:03:34.169Z</updated>
+    <updated>2025-06-04T03:56:11.521Z</updated>
     
     
       
@@ -411,7 +411,7 @@
     <link href="https://godownio.github.io/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/"/>
     <id>https://godownio.github.io/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/</id>
     <published>2025-04-14T10:05:52.000Z</published>
-    <updated>2025-04-14T10:05:30.999Z</updated>
+    <updated>2025-06-04T03:56:11.530Z</updated>
     
     
       
@@ -441,7 +441,7 @@
     <link href="https://godownio.github.io/2025/04/09/li-yong-java-object-searcher-gou-jian-tomcat-xian-cheng-hui-xian/"/>
     <id>https://godownio.github.io/2025/04/09/li-yong-java-object-searcher-gou-jian-tomcat-xian-cheng-hui-xian/</id>
     <published>2025-04-09T08:34:52.000Z</published>
-    <updated>2025-04-09T08:36:31.366Z</updated>
+    <updated>2025-06-04T03:56:11.493Z</updated>
     
     
       
@@ -471,7 +471,7 @@
     <link href="https://godownio.github.io/2025/04/06/fastjson-yuan-sheng-fan-xu-lie-hua-obj.tostring-de-si-chong-hong-fa-fang-shi/"/>
     <id>https://godownio.github.io/2025/04/06/fastjson-yuan-sheng-fan-xu-lie-hua-obj.tostring-de-si-chong-hong-fa-fang-shi/</id>
     <published>2025-04-06T09:59:15.000Z</published>
-    <updated>2025-04-06T09:59:12.722Z</updated>
+    <updated>2025-06-04T03:56:11.501Z</updated>
     
     
       
@@ -498,7 +498,7 @@
     <link href="https://godownio.github.io/2025/04/02/tabby-yu-codeql-de-an-zhuang-yu-shi-yong/"/>
     <id>https://godownio.github.io/2025/04/02/tabby-yu-codeql-de-an-zhuang-yu-shi-yong/</id>
     <published>2025-04-02T06:28:15.000Z</published>
-    <updated>2025-04-06T09:58:18.949Z</updated>
+    <updated>2025-06-04T03:47:04.326Z</updated>
     
     
       
@@ -527,7 +527,7 @@
     <link href="https://godownio.github.io/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/"/>
     <id>https://godownio.github.io/2025/03/25/chang-yong-de-er-ci-fan-xu-lie-hua-gong-ji/</id>
     <published>2025-03-25T08:10:15.000Z</published>
-    <updated>2025-04-02T05:46:23.832Z</updated>
+    <updated>2025-06-04T03:47:04.338Z</updated>
     
     
       
@@ -555,7 +555,7 @@
     <link href="https://godownio.github.io/2025/03/25/spring-dispatcherservlet-xiang-jie/"/>
     <id>https://godownio.github.io/2025/03/25/spring-dispatcherservlet-xiang-jie/</id>
     <published>2025-03-25T04:49:15.000Z</published>
-    <updated>2025-03-25T04:50:16.868Z</updated>
+    <updated>2025-06-04T03:47:04.344Z</updated>
     
     
       

@@ -649,10 +649,10 @@
 </ol>
 <p>这些限制使得传统的上传 WebShell 方法难以奏效，迫使研究者寻找新的绕过手段。</p>
 <p>在代码上，“脏数据”是在数据前后加入的<code>DIRTY DATA AT THE BEGINNING</code>和<code>DIRTY DATA AT THE END</code></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671784782598.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671784782598.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="1671784782598"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671784782598.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671784782598.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>我们的目的是想办法上传一个jsp文件，且不受文件内容限制，如过滤和脏数据。</p>
 <p>首先Tomcat只有catalina包是无法解析jsp的，但是我们是在运行处指定了服务器。虽然maven只导入了catalina，但是依旧能顺利解析jsp</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150142882.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150142882.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420150142882"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150142882.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150142882.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>要调试jsp的解析，应该加上jasper的依赖</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat-jasper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.5.56<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -668,37 +668,37 @@
 <p>也可以自定义Manager的实现，比如做会话复制、加密等</p>
 <p>这里详细介绍一下默认的StandardManager</p>
 <p>在StandardContext.startInternal中，如果没有手动配置Manager(getCluster()&#x3D;&#x3D;null)，Tomcat会默认实例化一个StandardManager</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420124135234.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420124135234.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420124135234"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420124135234.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420124135234.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>接着在startInternal中，调用LifecycleBase.start</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125220730.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125220730.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125220730"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125305738.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125305738.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125305738"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125220730.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125220730.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125305738.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125305738.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>LifecycleBase.start-&gt;startInternal-&gt;StandardManager.load</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125404609.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125404609.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125404609"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125415899.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125415899.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125415899"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125404609.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125404609.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125415899.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125415899.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>load-&gt;doLoad，doLoad调用file方法获取持久化文件路径，并读取文件，通过该文件逐一对会话进行反序列化，并激活会话。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125949773.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125949773.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420125949773"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125949773.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420125949773.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>通过查看file函数，得知文件名存储在pathname里，默认为SESSIONS.ser，且位于临时目录。临时目录的值来自于ServletContext.TEMPDIR</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130214657.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130214657.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420130214657"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130925933.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130925933.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420130925933"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130214657.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130214657.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130925933.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420130925933.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>现在不是很关心反序列化的点。具体可以搜索CVE-2020-9484，主要是没有漏洞依赖，打不了原生反序列化，另一个原因后面说</p>
 <p>既然存在反序列化的过程，那就肯定有序列化的过程</p>
 <p>StandardManager.stopInternal调用了unload()方法</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152215097.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152215097.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420152215097"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152215097.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152215097.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>unload-&gt;doUnload，依旧用file获取了临时目录下的SESSION.ser文件，然后将当前session逐一序列化进文件</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152359456.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152359456.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420152359456"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152359456.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420152359456.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>不过这种操作需要重启Tomcat，有没有办法不重启，触发到序列化呢？</p>
 <p>StandardContext提供了一个reload方法，完成了一次对Lifecycle的stop-&gt;start，程序运行时重启。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420155053236.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420155053236.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420155053236"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420155053236.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420155053236.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>Tomcat启动时，会调用ContainerBase#startInternal，进而调用threadStart</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420202312846.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420202312846.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420202312846"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420202312846.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420202312846.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>threadStart创建了一个后台线程ContainerBackgroundProcessor</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203114276.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203114276.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420203114276"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203114276.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203114276.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>该线程会定时（默认10s）执行调用processChildren</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203544785.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203544785.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420203544785"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203544785.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420203544785.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>processChild遍历container的子容器，调用backgroundProcess。众所周知Container的子容器会包括Engine、Host、Context、Wrapper。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420204800188.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420204800188.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420204800188"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420204800188.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420204800188.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>跟进到StandardContext.backgroundProcess。分别调用了loader、manager、resources、instanceManager的backgroundProcess方法</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420205142288.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420205142288.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420205142288"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420205142288.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420205142288.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>分别解释一下该场景的loader、manager、resources、instanceManager分别指什么：</p>
 <ol>
 <li>Loader：管理当前 Web 应用的类加载器，负责加载 <code>.class</code> 文件。一般是WebappLoader</li>
@@ -707,17 +707,17 @@
 <li>InstanceManager：管理 Web 应用中对象的创建与销毁，比如 Servlet、Filter、Listener。一般实现是用DefaultInstantManager</li>
 </ol>
 <p>直觉上看来，manager.backgroundProcess大概率是我们要找的重启点，但是跟进后发现。这只是一个遍历所有会话，检查每个会话是否已过期的方法。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210449158.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210449158.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420210449158"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210449158.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210449158.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>这个时候突然想起对Lifecycle的重启发生在StandardContext.reload，将目光看到loader.backgroundProcess（也就是WebappLoader.backgroundProcess），调用了context.reload</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210742684.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210742684.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420210742684"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210742684.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420210742684.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>不过需要满足开启了reloadable和满足modified()方法</p>
 <p>reloadable默认为false</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211208507.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211208507.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420211208507"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211208507.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211208507.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>modified()取的classLoader.modified()返回值，继续跟进到WebappClassLoaderBase.modified()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211604418.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211604418.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420211604418"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211604418.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420211604418.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>WebappClassLoaderBase.modified()在不同的Tomcat版本具体实现不同，但是逻辑都一样。我这里是Tomcat 8.5.56版本。</p>
 <p>第一部分检查web 应用中的资源文件（ .class 文件）是否有变动，根据文件的最近修改时间来比较，如果有不同则返回 true。第二部分检查 web 应用中&#x2F;WEB-INF&#x2F;lib的 jar 文件是否有变动，增加、删除和修改都会返回 true。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420212824052.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420212824052.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420212824052"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420212824052.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420212824052.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>总结一下：</p>
 <p>当modified()检测到系统资源文件或jar文件发生变动时，如果开启了reloadable选项，将触发reload。完成一次对SESSION.ser的序列化和反序列化。</p>
 <h3 id="WP"><a href="#WP" class="headerlink" title="WP"></a>WP</h3><p>首先，修正一个写这篇文以来我的错觉。我一直以为客户端发什么session，服务器接收到的就是什么session。服务器的session肯定只会保存自己的认证的session，而不是发什么来都会保存。</p>
@@ -736,7 +736,7 @@
 
 <p>pageContext.servletContext.classLoader.resources.context代表StandardContext，其parent为StandardHost。而appBase 属性表示所有存放 webapp 的目录，它的值默认是 webapps</p>
 <p>假如我们通过 EL 表达式把它的值修改为系统根目录 &#x2F; ，这时候会发生一个很神奇的事情，就是整个系统盘全部被映射到 Tomcat 上了，整个系统文件资源你都可以直接通过 Tomcat 去访问</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/640.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/640.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="640"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/640.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/640.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>这样的话，就算原来的应用因为 Context reload 失败而导致 404 失效，还有其他的目录都可供访问。而原来的应用打成404了，Tomcat不会崩溃，依旧能允许解析jsp。那么我们写jsp的时候就写到&#x2F;tmp下，appBase改为&#x2F;或&#x2F;tmp，web业务挂掉也能访问恶意jsp。</p>
 <blockquote>
 <p>分清楚顺序，检查jar文件有变动就会触发reload写session文件，而reload先stop写文件，然后start再加载jar。而且Tomcat 在加载 JAR 包时，如果遇到 某个 JAR 加载失败（比如格式损坏、类冲突、验证异常）<strong>，</strong>一般不会崩溃，而是继续加载其它 JAR 包，并输出错误日志。所以JAR错误并不会影响到写文件。</p>
@@ -826,30 +826,30 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/exploit.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/exploit.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="exploit"></p>
 <h3 id="加载JAR"><a href="#加载JAR" class="headerlink" title="加载JAR"></a>加载JAR</h3><p>除了解法1提到的EL表达式+写JAR触发reload重新加载JAR外，还有地方可以触发reload</p>
 <p>org.apache.catalina.startup.HostConfig#fireLifecycleEvent会装配一个生命周期监听器</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131033709.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131033709.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421131033709"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131033709.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131033709.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p><code>org.apache.catalina.startup.HostConfig#lifecycleEvent</code>中，如果事件发生在运行中（PERIODIC_EVENT)，会调用check方法</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421130747804.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421130747804.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421130747804"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421130747804.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421130747804.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>如果Host开启了autoDeploy（默认开启），则会调用checkResource</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131305832.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131305832.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421131305832"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131305832.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131305832.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>checkResources 方法用于检查已部署的应用程序资源是否发生更改，如果检测到修改，则根据资源类型执行重新部署或重新加载操作。</p>
 <p>下面是redeployResources被修改的情况，调用了reload(xxx)</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131938042.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131938042.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421131938042"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131938042.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421131938042.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>跟进后调用了context.reload</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132017994.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132017994.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421132017994"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132017994.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132017994.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>找个地方打断点看看redeployResources中有什么？</p>
 <blockquote>
 <p>从checkResource的参数可以看出，checkResource的app.redeployResource变量是来自deployed变量</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133906966.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133906966.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421133906966"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133946176.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133946176.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421133946176"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133906966.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133906966.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133946176.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421133946176.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 </blockquote>
 <p>我是打在HostConfig#deployDirectory()的末尾，可以看到如下五个地址都处于被监控的范围</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135814183.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135814183.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421135814183"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135814183.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135814183.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>然后打开<code>C:\Users\Administrator\AppData\Local\JetBrains\IntelliJIdea2023.3\tomcat\33f450f0-977b-475d-b74e-5dbb6d22246c\conf\Catalina\localhost\manager.xml</code>，里面包含了<code>WEB-INF/web.xml</code>和<code>$&#123;catalina.base&#125;/conf/web.xml</code>。注释也写的很清楚，如果有变化会触发web application will be reload</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135900980.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135900980.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421135900980"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135900980.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421135900980.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>我这里是Tomcat8环境，好像只监控了<code>WEB-INF/web.xml</code>和<code>$&#123;catalina.base&#125;/conf/web.xml</code>，而Tomcat9环境如下图：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421140056231.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421140056231.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421140056231"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421140056231.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421140056231.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>什么情况下会调用到PERIODIC_EVENT状态的fireLifecycleEvent呢？还是StandardContext.backgroundProcess触发的。这意味着除了上面列举的loader会触发StandardContext.reload，其他文件变化（比如配置文件的变化）都会触发StandardContext.reload</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132650314.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132650314.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421132650314"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132650314.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421132650314.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>总结一下：Tomcat8 在后台线程（通常每 10 秒一次）会检测<code>WEB-INF/web.xml</code>和<code>$&#123;catalina.base&#125;/conf/web.xml</code>文件 <code>lastModified</code> 时间戳是否发生变化，如果变了，就会：</p>
 <p>👉 **自动触发 <code>context.reload()</code>**，相当于重新部署整个 Web 应用。</p>
 <p>Tomcat9 还包括<code>WEB-INF/tomcat-web.xml</code></p>
@@ -861,7 +861,7 @@
 <p>如果把JSP放到构造的Jar包的META-INF&#x2F;resources下，那可以直接访问JSP。这是利用了在 Servlet 3.0 协议规范中，包含在 Jar 文件 <code>/META-INF/resources/</code> 路径下的资源可以直接被 web 访问的特性。</p>
 <p>那么有同学就想问，释放jsp到源代码目录的&#x2F;META-INF&#x2F;resources目录下可以吗。答案是不行</p>
 <p>你可以打开任意一个Tomcat项目，META-INF只会出现在Jar包中。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421142503841.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421142503841.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250421142503841"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421142503841.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250421142503841.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>因为Tomcat 默认配置下不会将 <code>META-INF</code> 暴露为静态资源目录。META-INF是JAR包的默认映射行为</p>
 <p>这种将jsp写到JAR包META-INF&#x2F;resource的方式，c0ny1师傅也做了一个爆破满足ascii-jar的脚本：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-2.py">https://github.com/c0ny1/ascii-jar/blob/master/ascii-jar-2.py</a></p>
 <p>另外还有一个借助org.apache.jasper.compiler.StringInterpreter进行加载的，但并不能做到Tomcat通用，在此略过</p>
@@ -905,12 +905,12 @@
 
 <p>这段代码在编译后等同于执行 <code>Runtime.getRuntime().exec(&quot;calc&quot;)</code>，从而实现命令执行。</p>
 <p>在代码中体现为org.eclipse.jdt.internal.compiler.parser.Scanner.getNextChar()发现 <code>\\</code> 和一个 <code>u</code> 字符，将转而调用 <code>getNextUnicodeChar</code> 方法进行 Unicode 字符串的解析。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785090605.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785090605.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="1671785090605"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785090605.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785090605.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <blockquote>
 <p><code>\\</code>就是转义后的<code>\</code></p>
 </blockquote>
 <p> <code>getNextUnicodeChar</code> 方法中写了一个 while 循环来跳过其中的 <code>u</code> 字符，也就是说在 Unicode 中这个 <code>u</code> 可以重复写若干个</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785106245.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785106245.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="1671785106245"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785106245.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/1671785106245.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h3 id="trick2：文件编码"><a href="#trick2：文件编码" class="headerlink" title="trick2：文件编码"></a>trick2：文件编码</h3><p>Tomcat 支持多种编码如 UTF-8、UTF-16LE、ISO-10646 等，自动识别 BOM，也可通过 <code>pageEncoding</code> 手动指定。</p>
 <p>BOM 是一个以二进制形式存在于文件开头的特殊字节序列（如UTF为 <code>EF BB BF</code>，UTF-16（大端序）)：BOM 为 <code>FE FF</code>），用于标识文件的编码方式和字节顺序。某些编辑器或操作系统（如 Windows 的记事本）在保存 UTF-8 文件时会自动添加 BOM，而其他编辑器（如 Linux 系统中的 Vim）则不会。如果一个文件开头未包含特定的字节序列（如 <code>EF BB BF</code>），则可以认为该文件没有 BOM（Byte Order Mark）。</p>
 <p>而pageEncoding是JSP 页面指令中的一个属性</p>
@@ -926,10 +926,10 @@
 
 <p>除了上面三种标签外，还有JSTL<a target="_blank" rel="noopener" href="https://www.runoob.com/jsp/jsp-jstl.html">https://www.runoob.com/jsp/jsp-jstl.html</a></p>
 <p>如：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250419170914223.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250419170914223.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250419170914223"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250419170914223.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250419170914223.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>遇到了再看菜鸟也来得及</p>
 <p>除此以外，看到对jsp的标签解析函数<code>org.apache.jasper.compiler.Parser.parseElements(Node parent)</code>，还支持解析<code>$&#123;</code>开头的EL表达式，开启isDeferredSyntaxAllowedAsLiteral后还支持<code>#&#123;</code>解析EL表达式</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150749044.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150749044.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250420150749044"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150749044.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250420150749044.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <blockquote>
 <p>在 JSP 中，EL 表达式默认支持的是 <code>$&#123;&#125;</code> 语法，而 <code>#&#123;&#125;</code> 语法是用于 <strong>方法调用</strong> 的，通常出现在 <strong>JSF</strong>（JavaServer Faces）或某些特定框架（例如 Spring）中，而不是标准的 JSP EL 中。因此，默认情况下，JSP 中只支持 <code>$&#123;&#125;</code>，而 <code>#&#123;&#125;</code> 需要额外的配置。</p>
 </blockquote>
@@ -1345,7 +1345,7 @@
             
 
             <div class="post-img-box">
-              <a href="/2025/05/28/fastjson-groovy-lian/" class="post-img " style="background-size: cover; 
+              <a href="/2025/05/28/fastjson-1.2.76-1.2.80-groovy-lian/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8157.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8157.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
@@ -1356,7 +1356,7 @@
                   <span class="post-date">05-28</span>
                 
               </div>
-              <a class="post-title" href="/2025/05/28/fastjson-groovy-lian/">fastjson 1.2.76-1.2.80 groovy链</a>
+              <a class="post-title" href="/2025/05/28/fastjson-1.2.76-1.2.80-groovy-lian/">fastjson 1.2.76-1.2.80 groovy链</a>
             </div>
           </div>
         
