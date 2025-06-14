@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>Godown_blog</title>
+  <title>UTF-8 Overlong Encodeing 绕过WAF | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,43 +591,17 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://pic1.zhimg.com/80/v2-03a22891ccba9bccf6424dfd7cbf4be7_1440w.webp')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8162.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        
+        UTF-8 Overlong Encodeing 绕过WAF
       </span>
     </div>
     
-    
-      
-        <span class="post-detail-header_date">
-          <i class="fas fa-calendar"></i> 发表于：2025-06-13 |
-        </span>
-      
-
-      
-
-      
-        <div class="post-detail-header_wordcount">
-          <span class="totalcount">
-            <i class="fas fa-file-text-o"></i> 字数统计: 5.4k |
-          </span>
-  
-          <span class="min2read">
-            <i class="fas fa-clock"></i> 阅读时长: 26分钟 |
-          </span>
-  
-          
-            <span class="reading">
-              <i class="fas fa-eye"></i> 阅读量：<span id="busuanzi_value_page_pv"></span>
-            </span>
-          
-        </div>
-      
     
   </div>
   
@@ -645,11 +619,7 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title: <span class="string">&quot;UTF-8 Overlong Encodeing 绕过WAF&quot;</span></span><br><span class="line">onlyTitle: <span class="literal">true</span></span><br><span class="line">date: <span class="number">2025</span>-<span class="number">6</span>-<span class="number">13</span> <span class="number">16</span>:<span class="number">55</span>:<span class="number">26</span></span><br><span class="line">categories:</span><br><span class="line">- java</span><br><span class="line">- other漏洞</span><br><span class="line">img: https:<span class="comment">//typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8162.jpg</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="UTF-8-Overlong-Encodeing-绕过WAF"><a href="#UTF-8-Overlong-Encodeing-绕过WAF" class="headerlink" title="UTF-8 Overlong Encodeing 绕过WAF"></a>UTF-8 Overlong Encodeing 绕过WAF</h1><h2 id="Unicode-到-UTF-8"><a href="#Unicode-到-UTF-8" class="headerlink" title="Unicode 到 UTF-8"></a>Unicode 到 UTF-8</h2><p>引用一段来自dicksuck的回答</p>
+        <h1 id="UTF-8-Overlong-Encodeing-绕过WAF"><a href="#UTF-8-Overlong-Encodeing-绕过WAF" class="headerlink" title="UTF-8 Overlong Encodeing 绕过WAF"></a>UTF-8 Overlong Encodeing 绕过WAF</h1><h2 id="Unicode-到-UTF-8"><a href="#Unicode-到-UTF-8" class="headerlink" title="Unicode 到 UTF-8"></a>Unicode 到 UTF-8</h2><p>引用一段来自dicksuck的回答</p>
 <p>Unicode 字符到 UTF-8 编码的转换遵循一套清晰但精妙的规则。其核心思想是：<strong>根据 Unicode 码点（Code Point）所处的数值范围，决定使用多少个字节（1 到 4 个）进行编码，并按照特定模式填充这些字节的位。</strong> UTF-8 的设计巧妙地实现了对 ASCII 的完全兼容，并支持表示整个 Unicode 码空间（U+0000 到 U+10FFFF）。</p>
 <p>以下是详细的转换步骤和规则：</p>
 <ol>
@@ -918,7 +888,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/" target="_blank" title="">https://godownio.github.io/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/</a>
+    <a href="/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/" target="_blank" title="UTF-8 Overlong Encodeing 绕过WAF">https://godownio.github.io/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -1246,7 +1216,7 @@
             <div class="post-img-box">
               <a href="/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic1.zhimg.com/80/v2-03a22891ccba9bccf6424dfd7cbf4be7_1440w.webp" class="lazyload placeholder" data-srcset="https://pic1.zhimg.com/80/v2-03a22891ccba9bccf6424dfd7cbf4be7_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8162.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8162.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
             </div>
             <div class="post-date-title">
@@ -1255,7 +1225,7 @@
                   <span class="post-date">06-13</span>
                 
               </div>
-              <a class="post-title" href="/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/">暂无标题</a>
+              <a class="post-title" href="/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/">UTF-8 Overlong Encodeing 绕过WAF</a>
             </div>
           </div>
         

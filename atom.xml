@@ -42,22 +42,26 @@
   </entry>
   
   <entry>
-    <title></title>
+    <title>UTF-8 Overlong Encodeing 绕过WAF</title>
     <link href="https://godownio.github.io/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/"/>
     <id>https://godownio.github.io/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/</id>
-    <published>2025-06-13T08:50:59.074Z</published>
-    <updated>2025-06-13T08:55:16.779Z</updated>
+    <published>2025-06-13T08:55:26.000Z</published>
+    <updated>2025-06-14T09:24:51.090Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+    <summary type="html">&lt;h1 id=&quot;UTF-8-Overlong-Encodeing-绕过WAF&quot;&gt;&lt;a href=&quot;#UTF-8-Overlong-Encodeing-绕过WAF&quot; class=&quot;headerlink&quot; title=&quot;UTF-8 Overlong Encodeing</summary>
         
       
     
     
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
     
     
   </entry>
