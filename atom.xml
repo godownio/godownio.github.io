@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-06-14T09:10:38.565Z</updated>
+  <updated>2025-09-06T04:54:42.920Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,197 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>lilctf 2025</title>
+    <link href="https://godownio.github.io/2025/08/28/lilctf/"/>
+    <id>https://godownio.github.io/2025/08/28/lilctf/</id>
+    <published>2025-08-28T05:45:14.000Z</published>
+    <updated>2025-09-06T04:54:42.920Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;lilctf-2025&quot;&gt;&lt;a href=&quot;#lilctf-2025&quot; class=&quot;headerlink&quot; title=&quot;lilctf 2025&quot;&gt;&lt;/a&gt;lilctf 2025&lt;/h2&gt;&lt;p&gt;ctf地址（趁在线）&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
+    
+    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
+    
+    
+    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>打靶笔记</title>
+    <link href="https://godownio.github.io/2025/08/21/da-ba-bi-ji/"/>
+    <id>https://godownio.github.io/2025/08/21/da-ba-bi-ji/</id>
+    <published>2025-08-21T10:45:51.000Z</published>
+    <updated>2025-09-06T04:52:24.031Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;春秋云境——Tsclient&lt;/li&gt;
+&lt;li&gt;思考flag2中除了传cs马进程注入，有无其他方式（RDP？）&lt;/li&gt;
+&lt;li&gt;cs常见命令用法&lt;/li&gt;
+&lt;li&gt;修改注册表映像劫持有哪些利用方式&lt;/li&gt;
+&lt;li&gt;哈希传递登录的不同方式（不同工具的区别、利用</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="渗透笔记" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="渗透笔记" scheme="https://godownio.github.io/tags/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>春秋云镜 Tsclient</title>
+    <link href="https://godownio.github.io/2025/08/21/chun-qiu-yun-jing-tsclient/"/>
+    <id>https://godownio.github.io/2025/08/21/chun-qiu-yun-jing-tsclient/</id>
+    <published>2025-08-21T09:35:51.000Z</published>
+    <updated>2025-09-06T04:50:51.361Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Tscilent&quot;&gt;&lt;a href=&quot;#春秋云镜-Tscilent&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Tscilent&quot;&gt;&lt;/a&gt;春秋云镜 Tscilent&lt;/h2&gt;&lt;h3 id=&quot;一刷&quot;&gt;&lt;a href=&quot;#一刷&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>春秋云镜 delivery</title>
+    <link href="https://godownio.github.io/2025/08/14/chun-qiu-yun-jing-delivery/"/>
+    <id>https://godownio.github.io/2025/08/14/chun-qiu-yun-jing-delivery/</id>
+    <published>2025-08-14T14:08:17.000Z</published>
+    <updated>2025-09-06T04:50:13.121Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;delivery&quot;&gt;&lt;a href=&quot;#delivery&quot; class=&quot;headerlink&quot; title=&quot;delivery&quot;&gt;&lt;/a&gt;delivery&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a href=&quot;#flag1&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>春秋云镜 hospital</title>
+    <link href="https://godownio.github.io/2025/08/07/chun-qiu-yun-jing-hospital/"/>
+    <id>https://godownio.github.io/2025/08/07/chun-qiu-yun-jing-hospital/</id>
+    <published>2025-08-07T15:18:18.000Z</published>
+    <updated>2025-09-06T04:49:10.954Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;hospital&quot;&gt;&lt;a href=&quot;#hospital&quot; class=&quot;headerlink&quot; title=&quot;hospital&quot;&gt;&lt;/a&gt;hospital&lt;/h2&gt;&lt;p&gt;fscan&lt;/p&gt;
+&lt;p&gt;&lt;img</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2025 hw日记</title>
+    <link href="https://godownio.github.io/2025/07/31/hu-wang-ri-zhi/"/>
+    <id>https://godownio.github.io/2025/07/31/hu-wang-ri-zhi/</id>
+    <published>2025-07-31T13:00:00.000Z</published>
+    <updated>2025-09-06T04:44:03.801Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;2025-hw日记&quot;&gt;&lt;a href=&quot;#2025-hw日记&quot; class=&quot;headerlink&quot; title=&quot;2025 hw日记&quot;&gt;&lt;/a&gt;2025</summary>
+        
+      
+    
+    
+    
+    <category term="蓝队" scheme="https://godownio.github.io/categories/%E8%93%9D%E9%98%9F/"/>
+    
+    <category term="hw日记" scheme="https://godownio.github.io/categories/%E8%93%9D%E9%98%9F/hw%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="hw" scheme="https://godownio.github.io/tags/hw/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的那些杂七杂八的笔记</title>
+    <link href="https://godownio.github.io/2025/07/20/wo-de-na-xie-za-qi-za-ba-de-bi-ji/"/>
+    <id>https://godownio.github.io/2025/07/20/wo-de-na-xie-za-qi-za-ba-de-bi-ji/</id>
+    <published>2025-07-20T03:11:11.000Z</published>
+    <updated>2025-09-06T04:59:43.124Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;密码学树莓派环境配置坑点&quot;&gt;&lt;a href=&quot;#密码学树莓派环境配置坑点&quot; class=&quot;headerlink&quot; title=&quot;密码学树莓派环境配置坑点&quot;&gt;&lt;/a&gt;密码学树莓派环境配置坑点&lt;/h2&gt;&lt;p&gt;树莓派5 + Ubuntu</summary>
+        
+      
+    
+    
+    
+    <category term="杂七杂八" scheme="https://godownio.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>IAST 分析jsp命令执行/SQL注入/log4j demo</title>
@@ -373,201 +564,6 @@
     
     
     <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2022RWCTF desperate cat 字符串写JAR文件和脏数据绕过</title>
-    <link href="https://godownio.github.io/2025/04/21/2022rwctf-desperate-cat-xue-xi-zi-fu-chuan-xie-jar-wen-jian-he-zang-shu-ju-rao-guo/"/>
-    <id>https://godownio.github.io/2025/04/21/2022rwctf-desperate-cat-xue-xi-zi-fu-chuan-xie-jar-wen-jian-he-zang-shu-ju-rao-guo/</id>
-    <published>2025-04-21T07:43:43.000Z</published>
-    <updated>2025-06-04T03:56:11.484Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;2022RWCTF-desperate-cat-字符串写JAR文件和脏数据绕过&quot;&gt;&lt;a href=&quot;#2022RWCTF-desperate-cat-字符串写JAR文件和脏数据绕过&quot; class=&quot;headerlink&quot; title=&quot;2022RWCTF</summary>
-        
-      
-    
-    
-    
-    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
-    
-    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
-    
-    
-    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Tomcat下ClassPathXmlApplicationContext的不出网利用</title>
-    <link href="https://godownio.github.io/2025/04/17/tomcat-xia-classpathxmlapplicationcontext-de-bu-chu-wang-li-yong/"/>
-    <id>https://godownio.github.io/2025/04/17/tomcat-xia-classpathxmlapplicationcontext-de-bu-chu-wang-li-yong/</id>
-    <published>2025-04-17T15:09:08.000Z</published>
-    <updated>2025-06-04T03:56:11.474Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;依旧来自p神的Springboot Code-Breaking 2025小挑战&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323）</title>
-    <link href="https://godownio.github.io/2025/04/17/apache-hertzbeat-snakeyaml-fan-xu-lie-hua/"/>
-    <id>https://godownio.github.io/2025/04/17/apache-hertzbeat-snakeyaml-fan-xu-lie-hua/</id>
-    <published>2025-04-17T09:11:08.000Z</published>
-    <updated>2025-06-04T03:56:11.459Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Apache-HertzBeat-SnakeYaml-反序列化远程代码执行漏洞（CVE-2024-42323）&quot;&gt;&lt;a href=&quot;#Apache-HertzBeat-SnakeYaml-反序列化远程代码执行漏洞（CVE-2024-42323）&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="SnakYaml" scheme="https://godownio.github.io/tags/SnakYaml/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shiro反序列化突破长度限制</title>
-    <link href="https://godownio.github.io/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/"/>
-    <id>https://godownio.github.io/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/</id>
-    <published>2025-04-15T07:02:08.000Z</published>
-    <updated>2025-06-04T03:56:11.521Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Shiro反序列化突破长度限制&quot;&gt;&lt;a href=&quot;#Shiro反序列化突破长度限制&quot; class=&quot;headerlink&quot; title=&quot;Shiro反序列化突破长度限制&quot;&gt;&lt;/a&gt;Shiro反序列化突破长度限制&lt;/h1&gt;&lt;p&gt;来源于hw面试官的问题，shiro</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="Shiro" scheme="https://godownio.github.io/tags/Shiro/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CC注入Tomcat Upgrade/Executor/WebSocket内存马</title>
-    <link href="https://godownio.github.io/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/"/>
-    <id>https://godownio.github.io/2025/04/14/cc-zhu-ru-tomcat-upgrade-executor-he-websocket-nei-cun-ma/</id>
-    <published>2025-04-14T10:05:52.000Z</published>
-    <updated>2025-06-04T03:56:11.530Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;学习一下Tomcat中和组件内存马不一样的马。除了学习注入原理外，其payload还在一些缩短payload的场景有应用，比如shiro&lt;/p&gt;
-&lt;h1 id=&quot;CC注入Tomcat-Upgrade-x2F-Executor-x2F-WebSocket内存马&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    
-    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用java-object-searcher构造Tomcat线程回显</title>
-    <link href="https://godownio.github.io/2025/04/09/li-yong-java-object-searcher-gou-jian-tomcat-xian-cheng-hui-xian/"/>
-    <id>https://godownio.github.io/2025/04/09/li-yong-java-object-searcher-gou-jian-tomcat-xian-cheng-hui-xian/</id>
-    <published>2025-04-09T08:34:52.000Z</published>
-    <updated>2025-06-04T03:56:11.493Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;提前说好，回显并不是内存马&lt;/p&gt;
-&lt;h2 id=&quot;Java-object-searcher&quot;&gt;&lt;a href=&quot;#Java-object-searcher&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    
-    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>fastjson 原生反序列化（obj.toString的四种触发方式）</title>
-    <link href="https://godownio.github.io/2025/04/06/fastjson-yuan-sheng-fan-xu-lie-hua-obj.tostring-de-si-chong-hong-fa-fang-shi/"/>
-    <id>https://godownio.github.io/2025/04/06/fastjson-yuan-sheng-fan-xu-lie-hua-obj.tostring-de-si-chong-hong-fa-fang-shi/</id>
-    <published>2025-04-06T09:59:15.000Z</published>
-    <updated>2025-06-04T03:56:11.501Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;fastjson-原生反序列化（obj-toString的四种触发方式）&quot;&gt;&lt;a href=&quot;#fastjson-原生反序列化（obj-toString的四种触发方式）&quot; class=&quot;headerlink&quot; title=&quot;fastjson</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
     
   </entry>
   
