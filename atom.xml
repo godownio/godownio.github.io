@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-09-06T04:54:42.920Z</updated>
+  <updated>2025-10-14T06:50:06.890Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,87 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>春秋云镜 Initial</title>
+    <link href="https://godownio.github.io/2025/10/14/chun-qiu-yun-jing-brute4road/"/>
+    <id>https://godownio.github.io/2025/10/14/chun-qiu-yun-jing-brute4road/</id>
+    <published>2025-10-14T06:29:32.000Z</published>
+    <updated>2025-10-14T06:50:06.890Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Brute4Road&quot;&gt;&lt;a href=&quot;#春秋云镜-Brute4Road&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Brute4Road&quot;&gt;&lt;/a&gt;春秋云镜 Brute4Road&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>春秋云镜 Initial</title>
+    <link href="https://godownio.github.io/2025/10/13/chun-qiu-yun-jing-initial/"/>
+    <id>https://godownio.github.io/2025/10/13/chun-qiu-yun-jing-initial/</id>
+    <published>2025-10-13T09:14:32.000Z</published>
+    <updated>2025-10-14T02:05:10.976Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Initial&quot;&gt;&lt;a href=&quot;#春秋云镜-Initial&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Initial&quot;&gt;&lt;/a&gt;春秋云镜 Initial&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a href=&quot;#flag1&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>春秋云镜 Time</title>
+    <link href="https://godownio.github.io/2025/09/15/chun-qiu-yun-jing-time/"/>
+    <id>https://godownio.github.io/2025/09/15/chun-qiu-yun-jing-time/</id>
+    <published>2025-09-15T12:09:32.000Z</published>
+    <updated>2025-10-14T02:04:20.137Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;Time&quot;&gt;&lt;a href=&quot;#Time&quot; class=&quot;headerlink&quot; title=&quot;Time&quot;&gt;&lt;/a&gt;Time&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a href=&quot;#flag1&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>lilctf 2025</title>
@@ -48,7 +129,7 @@
     <link href="https://godownio.github.io/2025/08/21/da-ba-bi-ji/"/>
     <id>https://godownio.github.io/2025/08/21/da-ba-bi-ji/</id>
     <published>2025-08-21T10:45:51.000Z</published>
-    <updated>2025-09-06T04:52:24.031Z</updated>
+    <updated>2025-10-14T03:14:44.289Z</updated>
     
     
       
@@ -481,89 +562,6 @@
     
     
     <category term="Freemarker" scheme="https://godownio.github.io/tags/Freemarker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java Thymeleaf SSTI(本质为SpEL)</title>
-    <link href="https://godownio.github.io/2025/04/28/java-thymeleaf-ssti-spel/"/>
-    <id>https://godownio.github.io/2025/04/28/java-thymeleaf-ssti-spel/</id>
-    <published>2025-04-28T08:00:06.000Z</published>
-    <updated>2025-06-04T03:56:11.488Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;Java ssti，我特么莱辣&lt;/p&gt;
-&lt;p&gt;分析一下thymeleaf，velocity，freemarker等的模板注入！这节是Thymeleaf&lt;/p&gt;
-&lt;p&gt;代码环境：&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="SSTI" scheme="https://godownio.github.io/categories/java/SSTI/"/>
-    
-    
-    <category term="Thymeleaf" scheme="https://godownio.github.io/tags/Thymeleaf/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Resin反序列化JNDI</title>
-    <link href="https://godownio.github.io/2025/04/23/resin-fan-xu-lie-hua/"/>
-    <id>https://godownio.github.io/2025/04/23/resin-fan-xu-lie-hua/</id>
-    <published>2025-04-23T07:39:06.000Z</published>
-    <updated>2025-06-04T03:56:11.505Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;resin反序列化&quot;&gt;&lt;a href=&quot;#resin反序列化&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="resin" scheme="https://godownio.github.io/tags/resin/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ascii-jar首次操刀解决code-breaking 2025</title>
-    <link href="https://godownio.github.io/2025/04/21/ascii-jar-shou-ci-cao-dao/"/>
-    <id>https://godownio.github.io/2025/04/21/ascii-jar-shou-ci-cao-dao/</id>
-    <published>2025-04-21T14:59:06.000Z</published>
-    <updated>2025-06-04T03:56:11.496Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;ascii-jar首次操刀解决code-breaking-2025&quot;&gt;&lt;a href=&quot;#ascii-jar首次操刀解决code-breaking-2025&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
-    
-    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
-    
-    
-    <category term="Tomcat" scheme="https://godownio.github.io/tags/Tomcat/"/>
     
   </entry>
   
