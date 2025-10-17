@@ -71,6 +71,33 @@
   </entry>
   
   <entry>
+    <title>对某国教育局两个某系统的代码审计</title>
+    <link href="https://godownio.github.io/2025/10/01/dui-mou-guo-jiao-yu-ju-liang-ge-mou-xi-tong-de-dai-ma-shen-ji/"/>
+    <id>https://godownio.github.io/2025/10/01/dui-mou-guo-jiao-yu-ju-liang-ge-mou-xi-tong-de-dai-ma-shen-ji/</id>
+    <published>2025-10-01T15:59:59.000Z</published>
+    <updated>2025-10-17T08:17:27.416Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;红队打进去直接扒下来的两套代码，由于并不是源码，所以都不能调试，怀疑有漏洞都在线上找的靶机&lt;/p&gt;
+&lt;p&gt;当然因为我是彩笔的原因，一个系统只找到一个受限的反序列化，一套后台的SQL注入，都没有什么利用空间，各位可以不带脑子观看的一集&lt;/p&gt;
+&lt;p&gt;但是从拿到这种大型项目束手</summary>
+        
+      
+    
+    
+    
+    <category term="保密工作" scheme="https://godownio.github.io/categories/%E4%BF%9D%E5%AF%86%E5%B7%A5%E4%BD%9C/"/>
+    
+    
+    <category term="保密工作" scheme="https://godownio.github.io/tags/%E4%BF%9D%E5%AF%86%E5%B7%A5%E4%BD%9C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>春秋云镜 Time</title>
     <link href="https://godownio.github.io/2025/09/15/chun-qiu-yun-jing-time/"/>
     <id>https://godownio.github.io/2025/09/15/chun-qiu-yun-jing-time/</id>
@@ -535,33 +562,6 @@
     <category term="JDBC" scheme="https://godownio.github.io/tags/JDBC/"/>
     
     <category term="jdk 17" scheme="https://godownio.github.io/tags/jdk-17/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java Freemarker SSTI</title>
-    <link href="https://godownio.github.io/2025/05/01/java-freemarker-ssti/"/>
-    <id>https://godownio.github.io/2025/05/01/java-freemarker-ssti/</id>
-    <published>2025-05-01T08:40:06.000Z</published>
-    <updated>2025-06-04T03:56:11.464Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Java-Freemarker-SSTI&quot;&gt;&lt;a href=&quot;#Java-Freemarker-SSTI&quot; class=&quot;headerlink&quot; title=&quot;Java Freemarker SSTI&quot;&gt;&lt;/a&gt;Java Freemarker</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="SSTI" scheme="https://godownio.github.io/categories/java/SSTI/"/>
-    
-    
-    <category term="Freemarker" scheme="https://godownio.github.io/tags/Freemarker/"/>
     
   </entry>
   
