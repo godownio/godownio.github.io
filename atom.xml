@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-10-14T08:29:42.225Z</updated>
+  <updated>2025-10-20T02:26:48.236Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,60 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>春秋云镜 Certify</title>
+    <link href="https://godownio.github.io/2025/10/19/chun-qiu-yun-jing-exchange/"/>
+    <id>https://godownio.github.io/2025/10/19/chun-qiu-yun-jing-exchange/</id>
+    <published>2025-10-19T14:48:32.000Z</published>
+    <updated>2025-10-20T02:26:48.236Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Exchange&quot;&gt;&lt;a href=&quot;#春秋云镜-Exchange&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Exchange&quot;&gt;&lt;/a&gt;春秋云镜 Exchange&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>春秋云镜 Certify</title>
+    <link href="https://godownio.github.io/2025/10/18/chun-qiu-yun-jing-certify/"/>
+    <id>https://godownio.github.io/2025/10/18/chun-qiu-yun-jing-certify/</id>
+    <published>2025-10-18T15:07:32.000Z</published>
+    <updated>2025-10-20T02:25:30.264Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Certify&quot;&gt;&lt;a href=&quot;#春秋云镜-Certify&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Certify&quot;&gt;&lt;/a&gt;春秋云镜 Certify&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a href=&quot;#flag1&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>春秋云镜 Brute4Road</title>
@@ -494,66 +548,6 @@
     
     
     <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java Agent内存马</title>
-    <link href="https://godownio.github.io/2025/05/12/java-agent-nei-cun-ma/"/>
-    <id>https://godownio.github.io/2025/05/12/java-agent-nei-cun-ma/</id>
-    <published>2025-05-12T13:27:06.000Z</published>
-    <updated>2025-06-04T03:56:11.509Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;在了解了RASP的基础上，就很容易看懂Agent内存马了&lt;/p&gt;
-&lt;p&gt;RASP从0到1：&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="内存马" scheme="https://godownio.github.io/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    
-    <category term="内存马" scheme="https://godownio.github.io/tags/%E5%86%85%E5%AD%98%E9%A9%AC/"/>
-    
-    <category term="RASP" scheme="https://godownio.github.io/tags/RASP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JRE 17受限环境下的h2 jdbc attack</title>
-    <link href="https://godownio.github.io/2025/05/06/jre17-huan-jing-xia-de-h2-jdbc-attack/"/>
-    <id>https://godownio.github.io/2025/05/06/jre17-huan-jing-xia-de-h2-jdbc-attack/</id>
-    <published>2025-05-06T09:43:06.000Z</published>
-    <updated>2025-06-04T03:56:11.516Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;最近看了很多安全文章，发现JDK17下对漏洞姿势的影响还挺大的，通过X1r0z大佬的H2 JDBC Attack学习一下绕过JDK17限制的手法，X1r0z大佬的原文如下：&lt;/p&gt;
-&lt;p&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="JDBC" scheme="https://godownio.github.io/tags/JDBC/"/>
-    
-    <category term="jdk 17" scheme="https://godownio.github.io/tags/jdk-17/"/>
     
   </entry>
   
