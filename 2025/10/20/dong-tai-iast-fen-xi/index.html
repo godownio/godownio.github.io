@@ -642,7 +642,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/HXSecurity/DongTai.git</span><br><span class="line">git pull#更新代码</span><br><span class="line">cd DongTai/deploy/docker-compose/</span><br><span class="line">./dtctl install</span><br></pre></td></tr></table></figure>
 
 <p>另外也可以部署指定版本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./dtctl install -v 1.8.0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">部署arm版本请使用dockerhub镜像，同时需要使用自定义数据库</span></span><br><span class="line">./dtctl install -r dockerhub</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./dtctl install -v 1.15.0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">部署arm版本请使用dockerhub镜像，同时需要使用自定义数据库</span></span><br><span class="line">./dtctl install -r dockerhub</span><br></pre></td></tr></table></figure>
 
 <p>如果报<code>curl: (60) SSL: no alternative certificate subject name matches target host name &#39;registry.hub.docker.com&#39;</code>，忽视SSL<code>git config --global http.sslVerify false </code></p>
 <p>另外，如果报<code>未能连接到registry.hub.docker.com 端口 443: 连接超时</code>，请见对应issue</p>
@@ -670,13 +670,14 @@
 <p>把vulns.war放到tomcat的web目录，也就是webapps目录</p>
 <p>然后配置agent.jar：<a target="_blank" rel="noopener" href="https://doc.dongtai.io/docs/getting-started/agent/install-java-agent">https://doc.dongtai.io/docs/getting-started/agent/install-java-agent</a></p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250615204710578.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250615204710578.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250615204710578"></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$1</span>&quot;</span> = <span class="string">&quot;start&quot;</span> -o <span class="string">&quot;<span class="variable">$1</span>&quot;</span> = <span class="string">&quot;run&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">JAVA_OPTS=<span class="string">&quot;-javaagent:<span class="variable">$&#123;CATALINA_HOME&#125;</span>/iast-tool/agent.jar <span class="variable">$&#123;JAVA_OPTS&#125;</span>&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$1</span>&quot;</span> = <span class="string">&quot;start&quot;</span> -o <span class="string">&quot;<span class="variable">$1</span>&quot;</span> = <span class="string">&quot;run&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">JAVA_OPTS=<span class="string">&quot;-javaagent:&#x27;/home/kali/Desktop/apache-tomcat-8.5.57/iast-tool/agent.jar&#x27; <span class="variable">$&#123;JAVA_OPTS&#125;</span>&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
 
 <p>启动Tomcat服务器：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./catalina.sh start</span><br></pre></td></tr></table></figure>
 
 <p>openrasp测试用例启动后：</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250615210914906.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250615210914906.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250615210914906"></p>
+<p>openrasp测试需要jdk11</p>
 <p>Dongtai链接目标后：</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250615210957497.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250615210957497.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250615210957497"></p>
 <p>不过我点击好像没什么用，不知道是JDK配错了还是没配openapi？不管了，直接分析了，能配上就算大功告成</p>
@@ -1194,6 +1195,28 @@
 
 
 
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8178.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8178.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2025/10/24/chun-qiu-yun-jing-wang-ding-bei-2022/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> 上一篇:
+        <div class="title-text">春秋云镜 2022网鼎杯半决赛复盘</div>
+      </div>
+      
+      <!-- <div class="content">
+        春秋云镜 2022网鼎杯半决赛复盘flag1fscan啥也没扫出来
+
+随便点点，看到是WordPress
+
+wpscan
+      </div> -->
+    </a>
+  </div>
+
 
 
   
@@ -1464,6 +1487,27 @@
             
 
             <div class="post-img-box">
+              <a href="/2025/10/24/chun-qiu-yun-jing-wang-ding-bei-2022/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8178.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8178.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-24</span>
+                
+              </div>
+              <a class="post-title" href="/2025/10/24/chun-qiu-yun-jing-wang-ding-bei-2022/">春秋云镜 2022网鼎杯半决赛复盘</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2025/10/20/dong-tai-iast-fen-xi/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8177.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8177.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1539,27 +1583,6 @@
                 
               </div>
               <a class="post-title" href="/2025/10/14/chun-qiu-yun-jing-brute4road/">春秋云镜 Brute4Road</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/10/13/chun-qiu-yun-jing-initial/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8172.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8172.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">10-13</span>
-                
-              </div>
-              <a class="post-title" href="/2025/10/13/chun-qiu-yun-jing-initial/">春秋云镜 Initial</a>
             </div>
           </div>
         

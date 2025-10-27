@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-10-20T09:32:48.287Z</updated>
+  <updated>2025-10-27T12:50:11.136Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,38 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>春秋云镜 2022网鼎杯半决赛复盘</title>
+    <link href="https://godownio.github.io/2025/10/24/chun-qiu-yun-jing-wang-ding-bei-2022/"/>
+    <id>https://godownio.github.io/2025/10/24/chun-qiu-yun-jing-wang-ding-bei-2022/</id>
+    <published>2025-10-24T09:25:32.000Z</published>
+    <updated>2025-10-27T12:50:11.136Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-2022网鼎杯半决赛复盘&quot;&gt;&lt;a href=&quot;#春秋云镜-2022网鼎杯半决赛复盘&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 2022网鼎杯半决赛复盘&quot;&gt;&lt;/a&gt;春秋云镜 2022网鼎杯半决赛复盘&lt;/h2&gt;&lt;h3</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>洞态IAST分析</title>
     <link href="https://godownio.github.io/2025/10/20/dong-tai-iast-fen-xi/"/>
     <id>https://godownio.github.io/2025/10/20/dong-tai-iast-fen-xi/</id>
     <published>2025-10-20T07:31:32.000Z</published>
-    <updated>2025-10-20T09:32:48.287Z</updated>
+    <updated>2025-10-21T07:43:28.764Z</updated>
     
     
       
@@ -521,34 +548,6 @@
     <category term="mobile" scheme="https://godownio.github.io/tags/mobile/"/>
     
     <category term="WP" scheme="https://godownio.github.io/tags/WP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>fastjson 1.2.76-1.2.80 groovy链</title>
-    <link href="https://godownio.github.io/2025/05/28/fastjson-1.2.76-1.2.80-groovy-lian/"/>
-    <id>https://godownio.github.io/2025/05/28/fastjson-1.2.76-1.2.80-groovy-lian/</id>
-    <published>2025-05-28T07:56:06.000Z</published>
-    <updated>2025-06-04T03:56:11.513Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;不出意外，groovy利用还是脱不开AST注解、GroovyShell、GroovyClassLoader这几个东西&lt;/p&gt;
-&lt;h2 id=&quot;fastjson-groovy链&quot;&gt;&lt;a href=&quot;#fastjson-groovy链&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="fastjson" scheme="https://godownio.github.io/tags/fastjson/"/>
     
   </entry>
   
