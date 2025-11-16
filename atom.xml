@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-10-27T12:50:11.136Z</updated>
+  <updated>2025-11-16T03:55:09.507Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>春秋云镜 Finance postgresql jdbc attack部分</title>
+    <link href="https://godownio.github.io/2025/11/16/finance-jdbc-attack/"/>
+    <id>https://godownio.github.io/2025/11/16/finance-jdbc-attack/</id>
+    <published>2025-11-16T03:54:32.000Z</published>
+    <updated>2025-11-16T03:55:09.507Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Finance-postgresql-jdbc-attack部分&quot;&gt;&lt;a href=&quot;#春秋云镜-Finance-postgresql-jdbc-attack部分&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Finance</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>春秋云镜 2022网鼎杯半决赛复盘</title>
@@ -519,35 +546,6 @@
     
     
     <category term="springAOP" scheme="https://godownio.github.io/tags/springAOP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>XCTF mobile WP part1</title>
-    <link href="https://godownio.github.io/2025/06/01/xctf-mobile-wp-part1/"/>
-    <id>https://godownio.github.io/2025/06/01/xctf-mobile-wp-part1/</id>
-    <published>2025-06-01T09:06:06.000Z</published>
-    <updated>2025-06-04T03:56:11.480Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;从0开始mobile安全！&lt;/p&gt;
-&lt;p&gt;学了一下渗透，发现我真的不适合，不喜欢那种不确定性，打了两个HTB，WP写好了我又给删了，我认为我以后不会从事这个工作。我觉得还是能看见代码的东西更适合我&lt;/p&gt;
-&lt;p&gt;现在从0刷一刷Mobile题，感觉还挺有趣的。边刷边学知识点&lt;</summary>
-        
-      
-    
-    
-    
-    <category term="安卓逆向" scheme="https://godownio.github.io/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/"/>
-    
-    
-    <category term="mobile" scheme="https://godownio.github.io/tags/mobile/"/>
-    
-    <category term="WP" scheme="https://godownio.github.io/tags/WP/"/>
     
   </entry>
   
