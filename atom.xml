@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-11-16T04:04:43.970Z</updated>
+  <updated>2025-11-25T08:37:09.420Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Dynamic Taint Tracking for Modern Java Virtual Machines</title>
+    <link href="https://godownio.github.io/2025/11/25/galette/"/>
+    <id>https://godownio.github.io/2025/11/25/galette/</id>
+    <published>2025-11-25T08:34:32.000Z</published>
+    <updated>2025-11-25T08:37:09.420Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;Dynamic-Taint-Tracking-for-Modern-Java-Virtual-Machines&quot;&gt;&lt;a href=&quot;#Dynamic-Taint-Tracking-for-Modern-Java-Virtual-Machines&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="杂七杂八" scheme="https://godownio.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>春秋云镜 Finance postgresql jdbc attack部分</title>
@@ -519,33 +542,6 @@
     
     
     <category term="JNDI" scheme="https://godownio.github.io/tags/JNDI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring AOP链</title>
-    <link href="https://godownio.github.io/2025/06/04/spring-aop-lian/"/>
-    <id>https://godownio.github.io/2025/06/04/spring-aop-lian/</id>
-    <published>2025-06-04T03:36:26.000Z</published>
-    <updated>2025-06-04T03:56:11.535Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Spring-AOP链&quot;&gt;&lt;a href=&quot;#Spring-AOP链&quot; class=&quot;headerlink&quot; title=&quot;Spring AOP链&quot;&gt;&lt;/a&gt;Spring AOP链&lt;/h1&gt;&lt;h2 id=&quot;springAOP简介&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="springAOP" scheme="https://godownio.github.io/tags/springAOP/"/>
     
   </entry>
   
