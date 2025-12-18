@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-11-25T08:37:09.420Z</updated>
+  <updated>2025-12-18T14:08:23.176Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,60 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>春秋云镜 Flarum</title>
+    <link href="https://godownio.github.io/2025/12/18/chun-qiu-yun-jing-flarum/"/>
+    <id>https://godownio.github.io/2025/12/18/chun-qiu-yun-jing-flarum/</id>
+    <published>2025-12-18T14:08:48.000Z</published>
+    <updated>2025-12-18T14:08:23.176Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Flarum&quot;&gt;&lt;a href=&quot;#春秋云镜-Flarum&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Flarum&quot;&gt;&lt;/a&gt;春秋云镜 Flarum&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a href=&quot;#flag1&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>春秋云镜 Delegation</title>
+    <link href="https://godownio.github.io/2025/12/18/chun-qiu-yun-jing-delegation/"/>
+    <id>https://godownio.github.io/2025/12/18/chun-qiu-yun-jing-delegation/</id>
+    <published>2025-12-17T18:17:42.000Z</published>
+    <updated>2025-12-18T14:07:44.800Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Delegation&quot;&gt;&lt;a href=&quot;#春秋云镜-Delegation&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Delegation&quot;&gt;&lt;/a&gt;春秋云镜</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>Dynamic Taint Tracking for Modern Java Virtual Machines</title>
@@ -98,7 +152,7 @@
     <link href="https://godownio.github.io/2025/10/20/dong-tai-iast-fen-xi/"/>
     <id>https://godownio.github.io/2025/10/20/dong-tai-iast-fen-xi/</id>
     <published>2025-10-20T07:31:32.000Z</published>
-    <updated>2025-11-06T07:25:55.135Z</updated>
+    <updated>2025-12-17T13:17:39.902Z</updated>
     
     
       
@@ -208,7 +262,7 @@
     <link href="https://godownio.github.io/2025/10/13/chun-qiu-yun-jing-initial/"/>
     <id>https://godownio.github.io/2025/10/13/chun-qiu-yun-jing-initial/</id>
     <published>2025-10-13T09:14:32.000Z</published>
-    <updated>2025-10-14T07:00:50.803Z</updated>
+    <updated>2025-12-09T09:36:37.954Z</updated>
     
     
       
@@ -489,59 +543,6 @@
     
     <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>UTF-8 Overlong Encodeing 绕过WAF</title>
-    <link href="https://godownio.github.io/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/"/>
-    <id>https://godownio.github.io/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/</id>
-    <published>2025-06-13T08:55:26.000Z</published>
-    <updated>2025-06-14T09:26:00.133Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;UTF-8-Overlong-Encodeing-绕过WAF&quot;&gt;&lt;a href=&quot;#UTF-8-Overlong-Encodeing-绕过WAF&quot; class=&quot;headerlink&quot; title=&quot;UTF-8 Overlong Encodeing</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>LdapAttribute getter JNDI</title>
-    <link href="https://godownio.github.io/2025/06/10/ldapattribute-jndi/"/>
-    <id>https://godownio.github.io/2025/06/10/ldapattribute-jndi/</id>
-    <published>2025-06-10T08:58:26.000Z</published>
-    <updated>2025-06-10T08:59:07.942Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;在触发JNDI注入的时候，我们用到的一个JNDI Client如下，用的LDAP协议：&lt;/p&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
-    
-    <category term="other漏洞" scheme="https://godownio.github.io/categories/java/other%E6%BC%8F%E6%B4%9E/"/>
-    
-    
-    <category term="JNDI" scheme="https://godownio.github.io/tags/JNDI/"/>
     
   </entry>
   
