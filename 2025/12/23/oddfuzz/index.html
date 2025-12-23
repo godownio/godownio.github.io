@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>jackson 反序列化(纯流程无POC) | Godown_blog</title>
+  <title>ODDFUZZ | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8105.png')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8183.png')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        jackson 反序列化(纯流程无POC)
+        ODDFUZZ
       </span>
     </div>
     
@@ -619,218 +619,98 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>pom.xml：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-annotations<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>基础知识点：</p>
-<p><a target="_blank" rel="noopener" href="https://drun1baby.top/2023/12/07/Jackson-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/">https://drun1baby.top/2023/12/07/Jackson-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/</a></p>
-<p>以下知识均来自上述链接，有空请移步仔细阅读</p>
-<p>给个总结：</p>
-<h2 id="基础知识总结"><a href="#基础知识总结" class="headerlink" title="基础知识总结"></a>基础知识总结</h2><p>jackson是用来序列化和反序列化json的解析器之一</p>
-<p>Jackson 的核心模块由三部分组成。</p>
+        <h2 id="ODDFUZZ"><a href="#ODDFUZZ" class="headerlink" title="ODDFUZZ"></a>ODDFUZZ</h2><p>DOI:10.1109&#x2F;SP46215.2023.10179377</p>
+<p>ODDFUZZ: Discovering Java Deserialization Vulnerabilities via Structure-Aware Directed Greybox Fuzzing</p>
+<p>感觉以后可以做这个，SP发表，虽然23年的文作者现在仓库仍为空，不过有点思路，值得记录</p>
+<p>我来小巧的总结一下：</p>
+<p>作者画了四五页讲CC链，这里不讲了。</p>
+<p>实现方法就是：</p>
+<ol>
+<li>先定义和hook source、sink。至于用什么定义，我建议用OpenRasp-IAST写js脚本最方便，作者文中自己写的用的手写的Instrument。</li>
+<li>搜索source到sink的路径</li>
+</ol>
+<p>创新点：<strong>处理运行时多态（关键优化）</strong>：</p>
 <ul>
-<li>jackson-core，核心包，提供基于”流模式”解析的相关 API，它包括 JsonPaser 和 JsonGenerator。  Jackson 内部实现正是通过高性能的流模式 API 的 JsonGenerator 和 JsonParser 来生成和解析 json。</li>
-<li>jackson-annotations，注解包，提供标准注解功能；</li>
-<li>jackson-databind ，数据绑定包， 提供基于”对象绑定” 解析的相关 API （ ObjectMapper ）  和”树模型” 解析的相关 API （JsonNode）</li>
+<li>对于Java中的<strong>虚方法调用</strong>，传统方法（如类层次分析CHA）会盲目考虑所有可能的子类重写方法，极易导致“路径爆炸”。</li>
+<li>ODDFUZZ的优化在于：<strong>仅当调用点（call site）本身被污染（即参数或<code>this</code>对象受Source影响）时，才会启用CHA去分析子类</strong>。这个策略极大地减少了需要分析的无关路径。</li>
 </ul>
-<h2 id="ObjectMapper"><a href="#ObjectMapper" class="headerlink" title="ObjectMapper"></a>ObjectMapper</h2><p>使用该对象的方法，可以解析JSON到java对象，也可以把java对象转化为JSON</p>
-<h3 id="json转化为对象"><a href="#json转化为对象" class="headerlink" title="json转化为对象"></a>json转化为对象</h3><p>将json转化为对象code：（需要有Person类）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">json</span> <span class="operator">=</span> <span class="string">&quot;&#123;\&quot;name\&quot;:\&quot;John\&quot;, \&quot;age\&quot;:30&#125;&quot;</span>;</span><br><span class="line"><span class="type">ObjectMapper</span> <span class="variable">objectMapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectMapper</span>();</span><br><span class="line"><span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> objectMapper.readValue(json, Person.class);</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="对象转化为json"><a href="#对象转化为json" class="headerlink" title="对象转化为json"></a>对象转化为json</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ObjectMapper</span> <span class="variable">objectMapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectMapper</span>();</span><br><span class="line">      <span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line">      person.setAge(<span class="number">123</span>);</span><br><span class="line">      person.setName(<span class="string">&quot;fakes0u1&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">jsonstring</span> <span class="operator">=</span> objectMapper.writeValueAsString(person);</span><br></pre></td></tr></table></figure>
-
-<p>共有三种方法可以将对象转化为json：</p>
+<p>与类似工具<strong>GadgetInspector使用广度优先搜索（BFS）</strong>不同，ODDFUZZ在程序调用图中，从标记的Source方法开始，<strong>基于方法摘要进行深度优先搜索（DFS）</strong>。</p>
+<p>看懂这里先去看GadgetInspector</p>
+<p>那么读到这里就有个疑问了，这里不是就知道Gadget了吗，知道gadget我还用这些花里胡哨的方法干嘛？接着往下看</p>
+<p>算法中几个关键的部分：</p>
 <ul>
-<li>writeValue()</li>
-<li>writeValueAsString()</li>
-<li>writeValueAsBytes()</li>
+<li>关键一：前向种子突变策略</li>
 </ul>
-<h2 id="JsonParser"><a href="#JsonParser" class="headerlink" title="JsonParser"></a>JsonParser</h2><p>ObjectMapper.readValue其实底层就是用的JsonParser进行解析。算是另一种更底层的转化方式，由于底层，所以速度更快</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011101628760.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011101628760.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="json转化为对象-1"><a href="#json转化为对象-1" class="headerlink" title="json转化为对象"></a>json转化为对象</h3><p>JsonParser的使用如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">json</span> <span class="operator">=</span> <span class="string">&quot;&#123;\&quot;name\&quot;:\&quot;fakes0u1\&quot;,\&quot;age\&quot;:123&#125;&quot;</span>;</span><br><span class="line">      <span class="type">JsonFactory</span> <span class="variable">jsonFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JsonFactory</span>();</span><br><span class="line"><span class="type">JsonParser</span> <span class="variable">parser</span> <span class="operator">=</span> jsonFactory.createParser(json);</span><br></pre></td></tr></table></figure>
-
-<h3 id="对象转化为Json"><a href="#对象转化为Json" class="headerlink" title="对象转化为Json"></a>对象转化为Json</h3><p>使用JsonGenerator从java对象生成JSON</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">JsonFactory</span> <span class="variable">jsonFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JsonFactory</span>();</span><br><span class="line">      <span class="type">Person1</span> <span class="variable">person1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person1</span>();</span><br><span class="line"><span class="type">JsonGenerator</span> <span class="variable">jsonGenerator</span> <span class="operator">=</span> jsonFactory.createGenerator(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;output.json&quot;</span>), JsonEncoding.UTF8);</span><br><span class="line">      jsonGenerator.writeStartObject();</span><br><span class="line">      jsonGenerator.writeStringField(<span class="string">&quot;name&quot;</span>,<span class="string">&quot;fakes0u1&quot;</span>);</span><br><span class="line">      jsonGenerator.writeNumberField(<span class="string">&quot;age&quot;</span>,<span class="number">123</span>);</span><br><span class="line">      jsonGenerator.writeEndObject();</span><br><span class="line"></span><br><span class="line">      jsonGenerator.close();</span><br></pre></td></tr></table></figure>
-
-<p>也可以把文件流换成其他流进行写入</p>
-<h2 id="JacksonPolymorphicDeserialization-机制"><a href="#JacksonPolymorphicDeserialization-机制" class="headerlink" title="JacksonPolymorphicDeserialization 机制"></a>JacksonPolymorphicDeserialization 机制</h2><p>简单地说，Java 多态就是同一个接口使用不同的实例而执行不同的操作。</p>
-<p>那么问题来了，如果对多态类的某一个子类实例在序列化后再进行反序列化时，如何能够保证反序列化出来的实例即是我们想要的那个特定子类的实例而非多态类的其他子类实例呢？—— Jackson 实现了 JacksonPolymorphicDeserialization 机制来解决这个问题。</p>
-<p>JacksonPolymorphicDeserialization 即 Jackson  多态类型的反序列化：在反序列化某个类对象的过程中，如果类的成员变量不是具体类型（non-concrete），比如  Object、接口或抽象类，则可以在 JSON 字符串中指定其具体类型，Jackson 将生成具体类型的实例。</p>
-<p>简单地说，就是将具体的子类信息绑定在序列化的内容中以便于后续反序列化的时候直接得到目标子类对象，其实现有两种，即 <code>DefaultTyping</code> 和 <code>@JsonTypeInfo</code> 注解。这里和前面学过的 fastjson 是很相似的。</p>
-<h3 id="DefaultTyping"><a href="#DefaultTyping" class="headerlink" title="DefaultTyping"></a>DefaultTyping</h3><p>Jackson 提供一个 enableDefaultTyping 设置，该设置位于<code>jackson-databind-2.7.9.jar!/com/fasterxml/jackson/databind/ObjectMapper.java</code></p>
-<p>共有以下四个选项：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JAVA_LANG_OBJECT</span><br><span class="line">OBJECT_AND_NON_CONCRETE</span><br><span class="line">NON_CONCRETE_AND_ARRAYS</span><br><span class="line">NON_FINAL</span><br></pre></td></tr></table></figure>
-
-<p>先用enableDefaultTyping进行设置，再调用writeValueAsString进行序列化。就会按照属性类型进行序列化和反序列化。看下case吧：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ObjectMapper</span> <span class="variable">mapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectMapper</span>(); </span><br><span class="line">mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT);</span><br><span class="line"><span class="type">String</span> <span class="variable">json</span> <span class="operator">=</span> mapper.writeValueAsString(p);</span><br></pre></td></tr></table></figure>
-
-<p>左边是没设置enableDefaultTyping，右边是设置的</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/compare.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/compare.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="compare"></p>
-<p>这四个选项能反序列化的属性范围如下：</p>
+<p>这是ODDFUZZ与传统随机变异的核心区别。传统Fuzzer随机翻转比特，极易产生语法无效的Java对象。而ODDFUZZ的变异是<strong>在“属性树”的语义层面进行</strong>的：</p>
+<ol>
+<li><strong>属性级变异</strong>：<ul>
+<li>对于<strong>基本类型</strong>（如int）：调用 <code>random.nextInt()</code> 等方法生成随机值。</li>
+<li>对于<strong>类类型</strong>：从该属性所有可能的子类中，<code>random.choose()</code> 一个。</li>
+<li>对于<strong>数组</strong>：随机设置大小，并根据元素类型生成实例。</li>
+</ul>
+</li>
+<li><strong>前向引导</strong>：<ul>
+<li>这是算法的精髓。Fuzzer会分析当前种子卡在链中哪个Gadget方法里（利用执行反馈）。</li>
+<li>然后，它<strong>有目的地突变</strong>导致“卡住”的那个<strong>嵌套子对象所对应的属性</strong>。例如，如果执行卡在 <code>TransformingComparator.compare()</code>，算法就会翻转一个标识符，专门变异 <code>TransformingComparator</code> 类实例的属性（如 <code>transformer</code> 字段），而不是盲目变异整个对象。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>混合反馈指导</li>
+</ul>
+<blockquote>
+<p>变异机制主要攻克了静态分析无法解决的三大难题：</p>
 <table>
 <thead>
 <tr>
-<th>DefaultTyping类型</th>
-<th>能反序列化的属性</th>
+<th>难题</th>
+<th>静态分析的局限</th>
+<th>变异如何智能解决</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>JAVA_LANG_OBJECT</td>
-<td>属性的类型为Object</td>
+<td><strong>1. 满足复杂数据约束</strong></td>
+<td>知道方法A调用方法B，但不知道调用B需要某个字段为特定值。</td>
+<td><strong>随机探索</strong>：变异会不断尝试为字段赋予各种随机值（数字、字符串、对象），直到找到一个能让<strong>程序流通过</strong>的组合。</td>
 </tr>
 <tr>
-<td>OBJECT_AND_NON_CONCRETE</td>
-<td>属性的类型为Object、Interface、AbstractClass</td>
+<td><strong>2. 构建正确的对象类型</strong></td>
+<td>知道需要一个<code>Comparator</code>接口的实现，但不知道具体需要哪一个子类（如<code>TransformingComparator</code>）。</td>
+<td><strong>结构化选择</strong>：变异时，会从一个候选类型池中，选择并实例化正确的子类对象来替换接口，从而满足运行时类型要求。</td>
 </tr>
 <tr>
-<td>NON_CONCRETE_AND_ARRAYS</td>
-<td>属性的类型为Object、Interface、AbstractClass、Array</td>
-</tr>
-<tr>
-<td>NON_FINAL</td>
-<td>所有除了声明为final之外的属性</td>
+<td><strong>3. 引导执行流向目标</strong></td>
+<td>知道所有可能的岔路，但不知道哪条路最终能通向Sink。</td>
+<td><strong>定向引导</strong>：结合“距离”反馈，变异会优先修改那些更有可能接近目标Sink的路径上的对象属性（前向种子突变）。</td>
 </tr>
 </tbody></table>
-<p>**enableDefaultTyping()**默认无参数设置为OBJECT_AND_NON_CONCRETE</p>
-<p>有的不理解interface和Object在这里的区别是什么：</p>
-<p>按CC链来举例，Transformer[]是数组，Transformer是接口，而InvokerTransformer这种就是Object</p>
-<h2 id="JsonTypeInfo注解"><a href="#JsonTypeInfo注解" class="headerlink" title="@JsonTypeInfo注解"></a>@JsonTypeInfo注解</h2><p>和DefaultTyping功能类似，JsonTypeInfo是直接注解字段，达到相同的功能</p>
-<p>比如在需要序列化和反序列化的对象内，标记Object字段：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> age;  </span><br><span class="line">    <span class="keyword">public</span> String name;  </span><br><span class="line">    <span class="meta">@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)</span>  </span><br><span class="line">    <span class="keyword">public</span> Object object;  </span><br><span class="line">  </span><br><span class="line">	getter...setter...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以下两种注解能达到反序列化</p>
-<ul>
-<li>JsonTypeInfo.Id.CLASS</li>
-<li>JsonTypeInfo. Id. MINIMAL_CLASS</li>
-</ul>
-<p>比如注解为<code>@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)</code></p>
-<p>序列化出来的json字符如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;age&quot;</span><span class="punctuation">:</span><span class="number">6</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;drunkbaby&quot;</span><span class="punctuation">,</span><span class="attr">&quot;object&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;@class&quot;</span><span class="punctuation">:</span><span class="string">&quot;com.drunkbaby.Hacker&quot;</span><span class="punctuation">,</span><span class="attr">&quot;skill&quot;</span><span class="punctuation">:</span><span class="string">&quot;hiphop&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>反序列化当然也能按照指定的类进行反序列化</p>
-<p>注解为<code>@JsonTypeInfo(use = JsonTypeInfo. Id. MINIMAL_CLASS)</code>时，用 @c 替代了 @class，就是一个简单的缩短，和<code>JsonTypeInfo.Id.CLASS</code>作用相同</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;age&quot;:6,&quot;name&quot;:&quot;drunkbaby&quot;,&quot;object&quot;:&#123;&quot;@c&quot;:&quot;com.drunkbaby.Hacker&quot;,&quot;skill&quot;:&quot;hiphop&quot;&#125;&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="反序列化条件"><a href="#反序列化条件" class="headerlink" title="反序列化条件"></a>反序列化条件</h3><p>达到以下任意一个条件，可以反序列化指定类：</p>
-<ul>
-<li>开启了enableDefaultTyping()四个的任意一个设置，不过不同设置能反序列化的范围不同，trick也不同（不过范围最小的JAVA_LANG_OBJECT都够用）</li>
-<li>使用了@JsonTypeInfo注解字段，注解值为<code>JsonTypeInfo.Id.CLASS</code>或者<code>JsonTypeInfo. Id. MINIMAL_CLASS</code></li>
-</ul>
-<h3 id="反序列化json格式"><a href="#反序列化json格式" class="headerlink" title="反序列化json格式"></a>反序列化json格式</h3><p>当然，你也能观察到不同的指定方式，json的格式不同。比如enableDefaultTyping()设置后序列化出来的字符串，并没有<code>@</code>符号，而是用<code>[]</code>包裹了</p>
-<ul>
-<li>enableDefaultTyping对应json格式：</li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置JAVA_LANG_OBJECT  </span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;age&quot;</span><span class="punctuation">:</span><span class="number">6</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;mi1k7ea&quot;</span><span class="punctuation">,</span><span class="attr">&quot;object&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="string">&quot;com.mi1k7ea.Hacker&quot;</span><span class="punctuation">,</span><span class="punctuation">&#123;</span><span class="attr">&quot;skill&quot;</span><span class="punctuation">:</span><span class="string">&quot;Jackson&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">]</span><span class="punctuation">&#125;</span> </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)</code></li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;age&quot;</span><span class="punctuation">:</span><span class="number">6</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;drunkbaby&quot;</span><span class="punctuation">,</span><span class="attr">&quot;object&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;@class&quot;</span><span class="punctuation">:</span><span class="string">&quot;com.drunkbaby.Hacker&quot;</span><span class="punctuation">,</span><span class="attr">&quot;skill&quot;</span><span class="punctuation">:</span><span class="string">&quot;hiphop&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>@JsonTypeInfo(use = JsonTypeInfo. Id. MINIMAL_CLASS)</code></li>
-</ul>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;age&quot;</span><span class="punctuation">:</span><span class="number">6</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;drunkbaby&quot;</span><span class="punctuation">,</span><span class="attr">&quot;object&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;@c&quot;</span><span class="punctuation">:</span><span class="string">&quot;com.drunkbaby.Hacker&quot;</span><span class="punctuation">,</span><span class="attr">&quot;skill&quot;</span><span class="punctuation">:</span><span class="string">&quot;hiphop&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="反序列化入口"><a href="#反序列化入口" class="headerlink" title="反序列化入口"></a>反序列化入口</h3><p>反序列化的入口为以下两个的一种：</p>
-<ul>
-<li>JsonFactory.createParser</li>
-<li>objectMapper.readValue</li>
-</ul>
-<p>OK，下面看看反序列化的过程，到底怎么反序列化的</p>
-<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><h3 id="调试代码"><a href="#调试代码" class="headerlink" title="调试代码"></a>调试代码</h3><p>这里就只调试开启了enableDefaultTyping()的case，注解的方式过程也差不多</p>
-<p>Sex接口：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Sex</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setSex</span><span class="params">(<span class="type">int</span> sex)</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSex</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>MySex类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MySex</span> <span class="keyword">implements</span> <span class="title class_">Sex</span> &#123;</span><br><span class="line">    <span class="type">int</span> sex;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MySex</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;MySex构造函数&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSex</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;MySex.getSex&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> sex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setSex</span><span class="params">(<span class="type">int</span> sex)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;MySex.setSex&quot;</span>);</span><br><span class="line">        <span class="built_in">this</span>.sex = sex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Person类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Person Constructor&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> String param1;</span><br><span class="line">    <span class="keyword">private</span> Sex sex;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getParam1</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;getParam1&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> param1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setParam1</span><span class="params">(String param1)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;setParam1&quot;</span>);</span><br><span class="line">        <span class="built_in">this</span>.param1 = param1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> Sex <span class="title function_">getSex</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;getSex&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> sex;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setSex</span><span class="params">(Sex sex)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;setSex&quot;</span>);</span><br><span class="line">        <span class="built_in">this</span>.sex = sex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>jacksoncase主类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">jacksoncase</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">ObjectMapper</span> <span class="variable">mapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectMapper</span>();</span><br><span class="line">        mapper.enableDefaultTyping();</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">json</span> <span class="operator">=</span> <span class="string">&quot;&#123;\&quot;param1\&quot;:\&quot;aaa\&quot;,\&quot;sex\&quot;:[\&quot;org.exploit.othercase.jackson.MySex\&quot;,&#123;\&quot;sex\&quot;:1&#125;]&#125;&quot;</span>;</span><br><span class="line">        <span class="type">Person</span> <span class="variable">p2</span> <span class="operator">=</span> mapper.readValue(json, Person.class);</span><br><span class="line">        System.out.println(p2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出如下：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011150540636.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011150540636.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>可以看到是按照 <code>构造函数-&gt;setter赋值</code>，对里面的字段也采取这个嵌套的方式进行反序列化</p>
-<h3 id="调用构造器和setter"><a href="#调用构造器和setter" class="headerlink" title="调用构造器和setter"></a>调用构造器和setter</h3><p>在readValue处打上断点</p>
-<p>跟进到<code>_readMapAndClose</code>，从JsonParser中读取并解析JSON数据为指定的valueType对象</p>
-<p>会走进deser.deserialize</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154527112.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154527112.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>其中令牌可以看到JsonToken，<code>&#123;&#125;</code>代表对象，<code>[]</code>代表数组</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250418163443014.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250418163443014.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>我们这里JSONToken令牌是START_OBJECT，表示是个对象进行反序列化</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154556761.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154556761.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>继续跟进，如果令牌是START_OBJECT，会走进if调用vanillaDeserialize</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154900652.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011154900652.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>p.nextToken就是<code>&#123;</code>下一个符号，也就是我们的”param1”，对应的JsonToken是FIELD_NAME</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011155135088.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011155135088.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>vanillaDeserialize就是jackson反序列化json至对象的主逻辑，如下：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011155829805.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011155829805.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>_valueInstantiator包含了从valueType中取到的构造函数</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011155926684.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011155926684.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>createUsingDefault完成了实例化Person类</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011160138840.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011160138840.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011160150855.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011160150855.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>把这个实例化的空的bean，存到JsonParser中。</p>
-<p>如果JsonParser当前处于字段名（FIELD_NAME）状态，则循环处理每个属性</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011160448411.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011160448411.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>处理方式为：</p>
-<ul>
-<li>获取当前属性名</li>
-<li>获取类中对应的字段作为prop，包含了对应的setter</li>
-</ul>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011161009399.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011161009399.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>prop不为空，则调用deserializeAndSet进行设置字段</li>
-</ul>
-<p>跟进到deserializeAndSet内，继续跟到StringDeserializer.deserialize</p>
-<p>我们设置的第一个键值对为<code>&quot;param1&quot;:&quot;aaa&quot;</code>，所以字段值属于VALUE_STRING，直接返回了</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011161301958.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011161301958.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>返回后直接调用setter赋值了</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011161415319.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011161415319.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>再看下循环到的自定义的MySex对象，在vanillaDeserialize do…while的第二次循环：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011161536746.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011161536746.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>由于<code>_valueTypeDeserializer</code>不为空，（在初始化的时候就设为了Array对应的反序列化器），于是调用指定反序列化器的deserializeWithType进行反序列化字段</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011170025600.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011170025600.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011170008762.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011170008762.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟进到<code>AsArrayTypeDeserializer._deserialize</code>，看名字也知道，数组的反序列化器，继续跟进发现又走到了vannillaDeserialize</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011163746878.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241011163746878.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>也就是个嵌套的解析</p>
-<p>继续跟到StdValueInstantiator.createFromString，如果当前类有构造方法，会进入call1()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014111626356.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014111626356.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>调用有参构造函数</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014111738771.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241014111738771.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>关于jackson调用无参构造器和有参构造器的顺序如下；</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jiayoudangdang/article/details/127813330">https://blog.csdn.net/jiayoudangdang/article/details/127813330</a></p>
-<ul>
-<li>没有无参构造时：   <ul>
-<li>如果有参构造的参数全，或者更多(就是有不存在的值)，这样还能正常运行</li>
-<li>如果参数不全则直接异常</li>
-</ul>
-</li>
-<li>无参构造和有参构造方法都有的时候先走无参构造；   <ul>
-<li>无参构造需要set&#x2F;get方法来完成序列化和反序列化</li>
-</ul>
-</li>
-</ul>
+</blockquote>
+<p>算法不是盲目变异，而是用两种反馈智能指导：</p>
+<ol>
+<li><strong>种子距离</strong>：衡量当前种子执行轨迹与目标Sink基本块之间的“距离”。距离越小的种子，被认为越有可能到达Sink，在下一轮中被分配更多<strong>变异能量</strong>（即更多次变异机会）。</li>
+<li><strong>Gadget覆盖率</strong>：衡量种子执行路径覆盖了多少个链上的Gadget方法。这有助于在初始阶段探索不同路径，避免陷入局部最优。</li>
+</ol>
+<p>有个问题，这不是事先都知道当前种子执行轨迹与目标Sink块的距离了，意味着我不是都知道漏洞Sink和Gadget了，还找什么？</p>
+<p>对，关键就是找什么</p>
+<p><strong>ODDFUZZ不需要事先知道一条“完整且确定可利用”的链。它启动时所需的，是“通过轻量级静态分析推测出的、可能存在缺陷的候选链骨架”。</strong>这个骨架是“可能”的路径，但其中充满了缺失的约束和不确定的分支。工具的核心任务，就是通过智能化的模糊测试，<strong>动态地、自动化地为这个骨架“填充血肉”并验证其可行性。</strong></p>
+<p>也就是说，事先用静态分析已经找出了Gadget（也就是前面说的BFS，我推测是修改了GadgetInspector的BFS为DFS</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251223213152922.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251223213152922.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251223213152922"></p>
+<p>也就是修改GadgetInspector的BFS的出入栈为，，，等下？你告诉我GadgetInspector是什么遍历？？？</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251223212835060.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251223212835060.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251223212835060"></p>
+<p>啥也没改吧你laodx，OK这里暂且不说</p>
+<p>然后用ODDFUZZ来验证每个链子，也就是生成POC了。</p>
+<p>不过能生成POC也是好事，减少了人工。</p>
+<p>如果有科研后期我会写代码复现一下这个算法，如果有。。</p>
+<p>我觉得可以创新的点：</p>
+<ol>
+<li>变异能量不是个好办法，因为一个字符型propagator变异很多次也是原来的东西，而他离sink很近，有多次变异机会也无济于事。离sink的距离其实跟变异机会（我理解的变异机会其实就等同于Gadget中单次对象生成成功率）没有任何联系，相反，如果一个propagator有很多字段，那么才应该增加变异机会</li>
+<li>从source到sink写payload从来都不是一个好的方案，我每次写payload都是从Runtime，TemplatesImpl开始写，如果一个Gadget的触发点是TemplatesImpl，那用这个工具一辈子也找不到POC，不如把搜集的Gadget看下有没有TemplatesImpl，然后从sink开始写。从sink往上找Gadget用这种变异去生成可用的对象，比从source可用性绝对大得多。</li>
+<li>既然都是逐步装填写poc了，大量的FUZZ用LLM肯定不行，但是最后POC的可用性和微小语法错误（变异生成的对象大概率有语法错误）可以用LLM检查top-k遍。</li>
+</ol>
+<p>如果有人做了给我说一声别让我白费功夫</p>
 
       </div>
       <div class="post-tags-categories">
-        
-        <div class="tags">
-          
-            <a href="/tags/jackson/" class="">
-              jackson
-            </a>
-          
-        </div>
         
       </div>
       
@@ -841,7 +721,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/" target="_blank" title="jackson 反序列化(纯流程无POC)">https://godownio.github.io/2024/10/11/jackson-fan-xu-lie-hua-liu-cheng-fen-xi-wu-poc/</a>
+    <a href="/2025/12/23/oddfuzz/" target="_blank" title="ODDFUZZ">https://godownio.github.io/2025/12/23/oddfuzz/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -859,40 +739,25 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8106.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8106.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2024/10/13/spring-yi-wen-ru-men-zhuan-zai/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">spring一文入门</div>
-      </div>
-      
-      <!-- <div class="content">
-        Spring转载自https://www.yuque.com/5tooc3a/jas/vwovvqh6w86ifrye#
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8104.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2024/10/08/fastjson-lian/" class="post-nav-link">
+    <a href="/2025/12/18/chun-qiu-yun-jing-flarum/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">fastjson JNDI+不出网BCEL</div>
+        <div class="title-text">春秋云镜 Flarum</div>
       </div>
       <!-- <div class="content">
-        回想fastjson获取setter方法的部分
-123456789101112131415161718192021222
+        春秋云镜 Flarumflag1
+只扫出有个web站
+主页有个邮箱，还有个注册和登陆接口
+
+用rockyou爆破一手，这
       </div> -->
     </a>
   </div>
@@ -1113,7 +978,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93"><span class="toc-text">基础知识总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ObjectMapper"><span class="toc-text">ObjectMapper</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#json%E8%BD%AC%E5%8C%96%E4%B8%BA%E5%AF%B9%E8%B1%A1"><span class="toc-text">json转化为对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E8%BD%AC%E5%8C%96%E4%B8%BAjson"><span class="toc-text">对象转化为json</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JsonParser"><span class="toc-text">JsonParser</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#json%E8%BD%AC%E5%8C%96%E4%B8%BA%E5%AF%B9%E8%B1%A1-1"><span class="toc-text">json转化为对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E8%BD%AC%E5%8C%96%E4%B8%BAJson"><span class="toc-text">对象转化为Json</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JacksonPolymorphicDeserialization-%E6%9C%BA%E5%88%B6"><span class="toc-text">JacksonPolymorphicDeserialization 机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DefaultTyping"><span class="toc-text">DefaultTyping</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JsonTypeInfo%E6%B3%A8%E8%A7%A3"><span class="toc-text">@JsonTypeInfo注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%9D%A1%E4%BB%B6"><span class="toc-text">反序列化条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96json%E6%A0%BC%E5%BC%8F"><span class="toc-text">反序列化json格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E5%8F%A3"><span class="toc-text">反序列化入口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95"><span class="toc-text">调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E4%BB%A3%E7%A0%81"><span class="toc-text">调试代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8Csetter"><span class="toc-text">调用构造器和setter</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ODDFUZZ"><span class="toc-text">ODDFUZZ</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
