@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-12-23T14:16:06.744Z</updated>
+  <updated>2025-12-29T05:28:51.567Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>春秋云镜 Spoofing</title>
+    <link href="https://godownio.github.io/2025/12/25/chun-qiu-yun-jing-spoofing/"/>
+    <id>https://godownio.github.io/2025/12/25/chun-qiu-yun-jing-spoofing/</id>
+    <published>2025-12-25T06:06:21.000Z</published>
+    <updated>2025-12-29T05:28:51.567Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Spoofing&quot;&gt;&lt;a href=&quot;#春秋云镜-Spoofing&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Spoofing&quot;&gt;&lt;/a&gt;春秋云镜 Spoofing&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>ODDFUZZ</title>
@@ -518,29 +545,6 @@
     
     
     <category term="hw" scheme="https://godownio.github.io/tags/hw/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我的那些杂七杂八的笔记</title>
-    <link href="https://godownio.github.io/2025/07/20/wo-de-na-xie-za-qi-za-ba-de-bi-ji/"/>
-    <id>https://godownio.github.io/2025/07/20/wo-de-na-xie-za-qi-za-ba-de-bi-ji/</id>
-    <published>2025-07-20T03:11:11.000Z</published>
-    <updated>2025-09-06T04:59:43.124Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;密码学树莓派环境配置坑点&quot;&gt;&lt;a href=&quot;#密码学树莓派环境配置坑点&quot; class=&quot;headerlink&quot; title=&quot;密码学树莓派环境配置坑点&quot;&gt;&lt;/a&gt;密码学树莓派环境配置坑点&lt;/h2&gt;&lt;p&gt;树莓派5 + Ubuntu</summary>
-        
-      
-    
-    
-    
-    <category term="杂七杂八" scheme="https://godownio.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
-    
     
   </entry>
   

