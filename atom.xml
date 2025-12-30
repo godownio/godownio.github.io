@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-12-29T05:28:51.567Z</updated>
+  <updated>2025-12-30T07:11:31.827Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hibernate反序列化</title>
+    <link href="https://godownio.github.io/2025/12/30/hibernate-fan-xu-lie-hua/"/>
+    <id>https://godownio.github.io/2025/12/30/hibernate-fan-xu-lie-hua/</id>
+    <published>2025-12-30T07:10:21.000Z</published>
+    <updated>2025-12-30T07:11:31.827Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;好久没写链子了，练手&lt;/p&gt;
+&lt;h1 id=&quot;hibernate反序列化&quot;&gt;&lt;a href=&quot;#hibernate反序列化&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="框架漏洞" scheme="https://godownio.github.io/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/"/>
+    
+    
+    <category term="hibernate" scheme="https://godownio.github.io/tags/hibernate/"/>
+    
+  </entry>
   
   <entry>
     <title>春秋云镜 Spoofing</title>
@@ -385,7 +413,7 @@
     <link href="https://godownio.github.io/2025/08/28/lilctf/"/>
     <id>https://godownio.github.io/2025/08/28/lilctf/</id>
     <published>2025-08-28T05:45:14.000Z</published>
-    <updated>2025-09-06T04:54:42.920Z</updated>
+    <updated>2025-12-30T07:20:28.144Z</updated>
     
     
       
@@ -518,33 +546,6 @@
     
     
     <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2025 hw日记</title>
-    <link href="https://godownio.github.io/2025/07/31/hu-wang-ri-zhi/"/>
-    <id>https://godownio.github.io/2025/07/31/hu-wang-ri-zhi/</id>
-    <published>2025-07-31T13:00:00.000Z</published>
-    <updated>2025-09-06T04:44:03.801Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;2025-hw日记&quot;&gt;&lt;a href=&quot;#2025-hw日记&quot; class=&quot;headerlink&quot; title=&quot;2025 hw日记&quot;&gt;&lt;/a&gt;2025</summary>
-        
-      
-    
-    
-    
-    <category term="蓝队" scheme="https://godownio.github.io/categories/%E8%93%9D%E9%98%9F/"/>
-    
-    <category term="hw日记" scheme="https://godownio.github.io/categories/%E8%93%9D%E9%98%9F/hw%E6%97%A5%E8%AE%B0/"/>
-    
-    
-    <category term="hw" scheme="https://godownio.github.io/tags/hw/"/>
     
   </entry>
   

@@ -650,13 +650,18 @@
 <p>目标出网 ，&lt;&#x3D;1.2.47，打JNDI</p>
 <p>1.2.68+commons-io能写文件</p>
 <p>github上有payload项目，我所知的唯一缺少的是fastjson&gt;1.2.36+有h2依赖能打jdbc attack</p>
-<h2 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget"></a>Gadget</h2><p>一个gadget衔接合集，仅统计常用衔接链</p>
+<h2 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget"></a>Gadget</h2><p>java-search-object从线程找变量</p>
+<p>一个gadget衔接合集，仅统计常用衔接链</p>
 <p>Hessian2反序列化和Kryo、FST反序列化会触发hashMap.put</p>
 <p>compare通常伴随着任意getter调用（因为compare需要逐项取值对比）</p>
+<p>CodeSigner.toString-&gt;get()(See lilctf 2025)</p>
 <p>BadAttributeValueExpException.readObject -&gt; toString</p>
 <p>XString.equals -&gt; toString</p>
 <p>HashMap.readObject() -&gt; AbstractMap.equals -&gt; UIDefault$TextAndMnemonicHashMap.get -&gt; toString</p>
 <p>EventListenerList.readObject() -&gt; tostring</p>
+<p>UTF-8 Overlong Encodeing 绕过字符串正则型WAF</p>
+<p>RMIConnector#connect -&gt;findRMIServer -&gt;findRMIServerJRMP 对base64String二次反序列化</p>
+<p>(CC 3.2.1&amp;&amp;CC 4) TransformedList.set() -&gt; transform</p>
 <p>(JDK8u65) AnnotationInvocationHandler.invoke -&gt; get</p>
 <p>(jdk7u21&#x2F;8u20 rce) AnnotationInvocationHandler.equalsImpl -&gt; invoke </p>
 <p>PriorityQueue.readObject -&gt; compare</p>
@@ -667,10 +672,16 @@
 <p>(fastjson) JSON.parse -&gt; setter</p>
 <p>(fastjson) JSON.parseObject -&gt; setter&#x2F;getter</p>
 <p>(fastjson) JSONObject.toString -&gt; getter (1.2.83都能打原生二次反序列化)</p>
+<p>(Spring-AOP &amp;&amp; aspectjweaver) 任意方法调用</p>
 <p>signedObject.getObject -&gt; readObject</p>
-<p>JdbcRowSetImpl.setAutoCommit -&gt;  JNDI</p>
+<p>JdbcRowSetImpl.setAutoCommit(is setter) -&gt;  JNDI</p>
+<p>JdbcRowSetImpl.getDatabaseMetaData(is getter) -&gt; JNDI</p>
+<p>LdapAttribute.getAttributeDefinition（is getter) -&gt; JNDI</p>
 <p>(resin) com.caucho.naming.QName#toString -&gt; JNDI</p>
 <p>(Tomcat) BasicDataSource.getConnection -&gt; Class.forName</p>
+<p>(hibernate v4) BasicPropertyAccessor$BasicGetter.get -&gt; getter</p>
+<p>(hibernate v5) GetterMethodImpl.get() -&gt; getter</p>
+<p>(hibernate 反序列化) ComponentType.getPropertyValue() -&gt; get</p>
 <p>(c3p0) ReferenceableUtils#ReferenceSerialized.referenceToObject -&gt; Reference JNDI</p>
 <p>(rome) ToStringBean.toString -&gt; getter</p>
 <p>(rome) EqualsBean.beanEquals -&gt; getter</p>
@@ -1118,6 +1129,27 @@
             
 
             <div class="post-img-box">
+              <a href="/2025/12/30/hibernate-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-30</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/30/hibernate-fan-xu-lie-hua/">hibernate反序列化</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2025/12/25/chun-qiu-yun-jing-spoofing/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1193,27 +1225,6 @@
                 
               </div>
               <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-delegation/">春秋云镜 Delegation</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/11/25/galette/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8180.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8180.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">11-25</span>
-                
-              </div>
-              <a class="post-title" href="/2025/11/25/galette/">Dynamic Taint Tracking for Modern Java Virtual Machines</a>
             </div>
           </div>
         

