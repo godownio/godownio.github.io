@@ -1043,6 +1043,12 @@ ODDFUZZ: Disco
       
 <section class="widget side_toc">
   
+  <header>
+    
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+    
+  </header>
+
 
   <div class='content'>
     <div class="toc-main">
@@ -1694,7 +1700,7 @@ ODDFUZZ: Disco
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
 
 <script>
-  var headerEl = '',  //headers 
+  var headerEl = 'h2, h3, h4',  //headers 
     content = '.post-detail',//文章容器
     idArr = {};  //标题数组以确定是否增加索引id
   //add #id
@@ -1714,7 +1720,7 @@ ODDFUZZ: Disco
     fixedSidebarOffset: 'auto',
     activeLinkClass: 'is-active-link',
     orderedList: true,
-    collapseDepth: ,
+    collapseDepth: 6,
     // onClick: function (e) {},
   }
   if ($('.toc').length > 0) {

