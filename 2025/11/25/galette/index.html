@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html>
+  <!-- meta/link... -->
+  
+
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+  <title>Dynamic Taint Tracking for Modern Java Virtual Machines | Godown_blog</title>
+
+  <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
+  <link href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/js/swiper/swiper@5.4.1.min.css" rel="stylesheet">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/animate.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
+  
+  
+    
+<link rel="stylesheet" href="/js/shareJs/share.min.css">
+
+  
+  <style>
+        @media (max-width: 992px) {
+            #waifu {
+                display: none;
+            }
+        }
+    </style>
+    <script defer src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+    
+    
+    <!-- 依赖于jquery和vue -->
+    
+        <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+    
+
+    
+        <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
+    
+
+    <!-- import link -->
+    
+        
+            
+        
+            
+        
+    
+    <!-- import script -->
+    
+        
+            
+        
+            
+        
+    
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Godown_blog" type="application/atom+xml">
+</head>
+
+  
+  <!-- 预加载动画 -->
+  <!-- 页面预加载动画 -->
+
+  
+    <div class="preloader_2" id="loader">
+  <div class="loader"></div>
+</div>
+
+  
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+</script>
+
+  <body>
+    <!-- 判断是否为暗黑风格 -->
+    <!-- 判断是否为黑夜模式 -->
+<script>
+  let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+
+  if (isDark) {
+    $(document.body).addClass('darkModel');
+  }
+</script>
+
+    <!-- 需要在上面加载的js -->
+    <script>
+  function loadScript(src, cb) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+
+  //https://github.com/filamentgroup/loadCSS
+  var loadCSS = function (src) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  };
+
+</script> 
+
+<!-- 轮播图所需要的js -->
+<script src="/js/swiper/swiper.min.js"></script>
+<script src="/js/swiper/vue-awesome-swiper.js"></script>
+<script src="/js/swiper/swiper.animate1.0.3.min.js"></script>
+
+<script type="text/javascript">
+  Vue.use(window.VueAwesomeSwiper)
+</script>
+
+
+  <script src="/js/vue-typed-js/index.js"></script>
+
+
+<!-- 首页的公告滚动插件的js需要重新加载 -->
+<script src="/js/vue-seamless-scroll/index.js"></script>
+
+<!-- 打字机效果js -->
+<script src="https://unpkg.com/typed.js@2.0.11"></script>
+
+
+    <div id="safearea">
+      <main class="main" id="pjax-container">
+        <!-- 头部导航 -->
+        
+<header class="header  " 
+  id="navHeader"
+  style="position: fixed;
+  left: 0; top: 0; z-index: 10;width: 100%;"
+>
+  <div class="header-content">
+    <div class="bars">
+      <div id="appDrawer" class="sidebar-image">
+  <div class="drawer-box-icon">
+    <i class="fas fa-bars" aria-hidden="true" @click="showDialogDrawer"></i>
+  </div>
+  
+  <transition name="fade">
+    <div class="drawer-box_mask" v-cloak style="display: none;" v-show="visible" @click.self="cancelDialogDrawer">
+    </div>
+  </transition>
+  <div class="drawer-box" :class="{'active': visible}">
+    <div class="drawer-box-head bg-color">
+      <img class="drawer-box-head_logo lazyload placeholder" src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+      <h3 class="drawer-box-head_title">Godown_blog</h3>
+      <h5 class="drawer-box-head_desc">山水为竭，冬雷震震</h5>
+    </div>
+    
+    <div class="drawer-box-content">
+      <ul class="drawer-box-content_menu">
+        
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/archives" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/tags" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/categories" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/friends" class="drawer-menu-item-link">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="javascript:;" class="drawer-menu-item-link has-children" @click="openOrCloseMenu(5)">
+                  <span>
+                    
+                      <i class="fas fa-link"></i>
+                    
+                    <span class="name">更多</span>
+                  </span>
+                  <i class="fas fa-chevron-left arrow " :class="{'icon-rotate': isOpen(5)}" aria-hidden="true"></i>
+                </a>
+                <ul class="drawer-sub-menu" v-if="isOpen(5)">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+        
+          <li class="drawer-box-content_item">
+            <a target="_blank" rel="noopener" href="https://github.com/godownio">
+              <i class="fas fa-github" aria-hidden="true"></i>
+              <span>Github</span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDrawer',
+    data: {
+      visible: false,
+      top: 0,
+      openArr: [],
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      isOpen(index) {
+        if (this.openArr.includes(index)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      openOrCloseMenu(curIndex) {
+        const index = this.openArr.indexOf(curIndex);
+        if (index !== -1) {
+          this.openArr.splice(index, 1);
+        } else {
+          this.openArr.push(curIndex);
+        }
+      },
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'width: 100%; height: 100%;overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      }
+    },
+    created() {}
+  })
+</script>
+
+    </div>
+    <div class="blog-title" id="author-avatar">
+      
+        <div class="avatar">
+          <img src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+        </div>
+      
+      <a href="/" class="logo">Godown_blog</a>
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/" class="menu-item-link" title="首页">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/archives" class="menu-item-link" title="归档">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/tags" class="menu-item-link" title="标签">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/categories" class="menu-item-link" title="分类">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/friends" class="menu-item-link" title="友情链接">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="javascript:;" class="menu-item-link" title="更多">
+                  
+                    <i class="fas fa-link"></i>
+                  
+                  <span class="name">更多</span>
+                  <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
+                </a>
+                <ul class="sub-menu">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+      </ul>
+      
+      
+        <div id="appSearch">
+  <div class="search"  @click="showDialog()"><i class="fas fa-search" aria-hidden="true"></i></div>
+  <transition name="fade">
+    <div class="message-box_wrapper" style="display: none;" v-cloak v-show="dialogVisible" @click.self="cancelDialogVisible()">
+      <div class="message-box animated bounceInDown">
+        <h2>
+          <span>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span class="title">本地搜索</span>
+          </span>
+          <i class="fas fa-times close" pointer style="float:right;" aria-hidden="true" @click.self="cancelDialogVisible()"></i>
+        </h2>
+        <form class="site-search-form">
+          <input type="text"
+            placeholder="请输入关键字"
+            id="local-search-input" 
+            @click="getSearchFile()"
+            class="st-search-input"
+            v-model="searchInput"
+          />
+        </form>
+        <div class="result-wrapper">
+          <div id="local-search-result" class="local-search-result-cls"></div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+<script src="/js/local_search.js"></script>
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appSearch',
+    data: {
+      dialogVisible: false,
+      searchInput: '',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+      window.addEventListener('pjax:complete', () => {
+        this.cancelDialogVisible();
+      })
+    },
+    methods: {
+      showDialog() {
+        this.dialogVisible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'overflow: hidden;';
+      },
+      getSearchFile() {
+        if (!this.searchInput) {
+          getSearchFile("/search.xml");
+        }
+      },
+      cancelDialogVisible() {
+        this.dialogVisible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+    },
+    created() {}
+  })
+</script>
+<!-- 解决刷新页面闪烁问题，可以在元素上添加display: none, 或者用vue.extend方法，详情：https://blog.csdn.net/qq_31393401/article/details/81017912 -->
+<!-- 下面是搜索基本写法 -->
+<!-- <script type="text/javascript" id="local.search.active">
+  var inputArea = document.querySelector("#local-search-input");
+  inputArea.onclick   = function(){ getSearchFile(); this.onclick = null }
+  inputArea.onkeydown = function(){ if(event.keyCode == 13) return false }
+</script> -->
+
+      
+
+    </nav>
+  </div>
+  
+    <a target="_blank" rel="noopener" href="https://github.com/godownio" class="github-corner color-primary" aria-label="View source on GitHub"><svg width="60" height="60" viewBox="0 0 250 250" style="fill:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  
+  
+</header>
+        <!-- 内容区域 -->
+        
+ <!-- prismjs 代码高亮 -->
+ 
+
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8180.png')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        Dynamic Taint Tracking for Modern Java Virtual Machines
+      </span>
+    </div>
+    
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <h3 id="Dynamic-Taint-Tracking-for-Modern-Java-Virtual-Machines"><a href="#Dynamic-Taint-Tracking-for-Modern-Java-Virtual-Machines" class="headerlink" title="Dynamic Taint Tracking for Modern Java Virtual Machines"></a><a target="_blank" rel="noopener" href="https://dl.acm.org/doi/abs/10.1145/3729349">Dynamic Taint Tracking for Modern Java Virtual Machines</a></h3><p>科研🦆🍐很大，2025 ACM顶刊污点分析拜读</p>
+<h2 id="影子存储与镜像存储"><a href="#影子存储与镜像存储" class="headerlink" title="影子存储与镜像存储"></a>影子存储与镜像存储</h2><p>镜像存储：把变量导入到另一个函数模拟执行操作</p>
+<blockquote>
+<p><strong>不直接修改</strong>原始程序的栈帧、方法签名或类结构。</p>
+<p>通过一个<strong>独立的、并行的系统</strong>（例如，在另一个线程或一个全局的数据结构中）来“镜像”或映射原始程序的状态，并在这个独立的系统中维护和传播污点标签。</p>
+<ul>
+<li><strong>优点：侵入性弱，更稳健</strong></li>
+<li>因为对原始代码的修改较少，所以应用程序的正常行为受影响较小，更不容易崩溃，更加稳健。</li>
+<li><strong>缺点：可能不够精确</strong></li>
+<li>由于污点跟踪逻辑与程序主逻辑是“分离”的，它可能无法完美地捕捉到所有细微的运行时状态，导致污点传播的精确性下降（例如，在某些复杂控制流下可能丢失标签）。</li>
+</ul>
+</blockquote>
+<p>镜像存储的插桩后伪代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局的污点映射表</span></span><br><span class="line">Map&lt;Object, Boolean&gt; taintMap = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">processData</span><span class="params">(<span class="type">int</span> sensitive, <span class="type">int</span> normal)</span> &#123;</span><br><span class="line">    <span class="comment">// 在独立的&quot;镜像&quot;系统中记录操作</span></span><br><span class="line">    TaintTracker.recordMethodEntry(<span class="string">&quot;processData&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录参数污点状态</span></span><br><span class="line">    TaintTracker.recordParameter(<span class="number">0</span>, sensitive); <span class="comment">// 参数0 = sensitive</span></span><br><span class="line">    TaintTracker.recordParameter(<span class="number">1</span>, normal);    <span class="comment">// 参数1 = normal</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 执行原始操作</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> sensitive + normal;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 在镜像系统中执行污点传播</span></span><br><span class="line">    TaintTracker.recordBinaryOperation(<span class="string">&quot;IADD&quot;</span>, sensitive, normal, result);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 根据污点规则计算结果的污点状态</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">s_sensitive</span> <span class="operator">=</span> TaintTracker.getTaint(sensitive);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">s_normal</span> <span class="operator">=</span> TaintTracker.getTaint(normal);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">s_result</span> <span class="operator">=</span> s_sensitive || s_normal;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 在镜像中存储结果的污点标签</span></span><br><span class="line">    TaintTracker.setTaint(result, s_result);</span><br><span class="line">    </span><br><span class="line">    TaintTracker.recordMethodExit(<span class="string">&quot;processData&quot;</span>, result);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// TaintTracker 类的简化实现</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TaintTracker</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> Map&lt;Object, Boolean&gt; valueTaints = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">static</span> Stack&lt;OperationContext&gt; contextStack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recordMethodEntry</span><span class="params">(String methodName)</span> &#123;</span><br><span class="line">        contextStack.push(<span class="keyword">new</span> <span class="title class_">OperationContext</span>(methodName));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recordParameter</span><span class="params">(<span class="type">int</span> index, Object value)</span> &#123;</span><br><span class="line">        <span class="comment">// 记录参数值与其污点状态的映射</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recordBinaryOperation</span><span class="params">(String op, Object left, Object right, Object result)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">taintLeft</span> <span class="operator">=</span> getTaint(left);</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">taintRight</span> <span class="operator">=</span> getTaint(right);</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">taintResult</span> <span class="operator">=</span> taintLeft || taintRight; <span class="comment">// 传播规则</span></span><br><span class="line">        setTaint(result, taintResult);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">getTaint</span><span class="params">(Object value)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> valueTaints.getOrDefault(value, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setTaint</span><span class="params">(Object value, <span class="type">boolean</span> taint)</span> &#123;</span><br><span class="line">        valueTaints.put(value, taint);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>影子存储：为每一个原始数据都创建一个并行的“影子”来存储其污点标签。dicksuck描述：</p>
+<blockquote>
+<h4 id="1-如何存储标签？"><a href="#1-如何存储标签？" class="headerlink" title="1. 如何存储标签？"></a>1. 如何存储标签？</h4><ul>
+<li><strong>局部变量</strong>：在同一个栈帧中，为每个原始局部变量创建一个新的“影子局部变量”来存储其污点标签。</li>
+<li><strong>操作数栈</strong>：修改操作数栈，使得每个原始操作数旁边都紧挨着存储其对应的“影子操作数”（即标签）。</li>
+<li><strong>字段</strong>：为每个类的原始字段添加一个“影子字段”。</li>
+<li><strong>数组</strong>：用一个新的包装对象替换原始数组，这个包装对象内部既存储原始数组，也存储每个数组元素和数组长度的污点标签。</li>
+</ul>
+<h4 id="2-如何传递标签？"><a href="#2-如何传递标签？" class="headerlink" title="2. 如何传递标签？"></a>2. 如何传递标签？</h4><ul>
+<li>为每个原始方法创建一个对应的“影子方法”。</li>
+<li>影子方法的参数列表是原始参数列表加上对应的“影子参数”（用于传入每个参数的污点标签）。</li>
+<li>如果方法有返回值，还会额外添加一个影子参数，用于<strong>传出</strong>返回值的污点标签。</li>
+<li>程序中的所有方法调用都被替换为对相应影子方法的调用。</li>
+</ul>
+<h4 id="3-如何传播标签？"><a href="#3-如何传播标签？" class="headerlink" title="3. 如何传播标签？"></a>3. 如何传播标签？</h4><ul>
+<li>将计算和传播污点标签的逻辑<strong>直接插入</strong>到原始方法体的字节码中。</li>
+<li>标签的运算和原始程序的逻辑在<strong>同一个方法调用、同一个栈帧</strong>中执行。</li>
+</ul>
+<h4 id="影子存储的优缺点"><a href="#影子存储的优缺点" class="headerlink" title="影子存储的优缺点"></a>影子存储的优缺点</h4><ul>
+<li><strong>优点：精确性高</strong></li>
+<li>因为污点数据的存储和运算与原始程序保持完全同步（在同一个栈帧、同一逻辑流中），所以它能非常精确地模拟 JVM 的运行时语义，污点传播的结果很准确。</li>
+<li><strong>缺点：侵入性强，可能导致问题</strong></li>
+<li><strong>“侵入性”</strong> 指的是它对原始程序的字节码修改非常深、范围非常广（改变了栈结构、方法签名、类结构等）。</li>
+<li>这种深度的修改可能导致应用程序的<strong>行为与正常运行时不一致</strong>，比如引发意外的崩溃或兼容性问题。文中提到，其他研究和他们自己的评估都观察到了这种现象。</li>
+</ul>
+</blockquote>
+<p>影子存储插桩后的伪代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 影子方法 - 添加了影子参数来传递污点标签</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">processData_shadow</span><span class="params">(</span></span><br><span class="line"><span class="params">    <span class="type">int</span> sensitive,       // 原始参数</span></span><br><span class="line"><span class="params">    <span class="type">boolean</span> s_sensitive, // sensitive的影子参数（污点标签）</span></span><br><span class="line"><span class="params">    <span class="type">int</span> normal,          // 原始参数  </span></span><br><span class="line"><span class="params">    <span class="type">boolean</span> s_normal,    // normal的影子参数（污点标签）</span></span><br><span class="line"><span class="params">    <span class="type">boolean</span>[] s_return   // 返回值的影子参数（传出）</span></span><br><span class="line"><span class="params">)</span> &#123;</span><br><span class="line">    <span class="comment">// 影子局部变量</span></span><br><span class="line">    <span class="type">boolean</span> s_result;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 加载原始值和对应的影子标签</span></span><br><span class="line">    <span class="comment">// LOAD sensitive, s_sensitive</span></span><br><span class="line">    <span class="comment">// LOAD normal, s_normal</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 执行原始操作：加法</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> sensitive + normal;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 污点传播逻辑：如果任一操作数被污染，结果也被污染</span></span><br><span class="line">    s_result = s_sensitive || s_normal;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 存储返回值的污点标签</span></span><br><span class="line">    s_return[<span class="number">0</span>] = s_result;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用处的插桩</span></span><br><span class="line"><span class="comment">// 原始调用：processData(x, y)</span></span><br><span class="line"><span class="comment">// 变为：</span></span><br><span class="line"><span class="type">boolean</span>[] return_taint = <span class="keyword">new</span> <span class="title class_">boolean</span>[<span class="number">1</span>];</span><br><span class="line"><span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> processData_shadow(x, taint_x, y, taint_y, return_taint);</span><br><span class="line"><span class="type">boolean</span> <span class="variable">result_taint</span> <span class="operator">=</span> return_taint[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><strong>影子存储的“长”</strong>：<strong>精确性</strong>。因为污点标签的存储和传播与原始程序逻辑在同一个栈帧、同一方法体中同步进行，能完美匹配JVM语义。</li>
+<li><strong>影子存储的“短”</strong>：<strong>侵入性过强</strong>。修改方法签名、用包装器包裹数组等操作，极易导致程序行为异常或崩溃，尤其是在面对现代Java特性（如模块系统、原生方法）时。</li>
+<li><strong>镜像存储的“长”</strong>：<strong>稳健性</strong>。不改变原始程序的结构，只是在一个平行的“镜像空间”中模拟执行，因此对程序正常行为影响小。</li>
+<li><strong>镜像存储的“短”</strong>：<strong>不精确</strong>。由于污点逻辑与程序逻辑分离，难以精确模拟所有JVM语义，且容易因JVM的“上行调用”导致污点标签传递错位。</li>
+</ul>
+<h2 id="Gelette设计架构"><a href="#Gelette设计架构" class="headerlink" title="Gelette设计架构"></a>Gelette设计架构</h2><h3 id="操作数栈的处理"><a href="#操作数栈的处理" class="headerlink" title="操作数栈的处理"></a>操作数栈的处理</h3><p>采用影子存储，但是从紧挨的影子栈变成对称影子栈</p>
+<p>传统影子存储会修改操作数栈的结构，使其每个原始值下面紧挨着存储其标签。这非常复杂且容易出错（例如，处理<code>DUP2_X2</code>这样的指令时会生成大量代码，可能超出方法体积限制）。</p>
+<p>Galette将影子操作数栈存储在方法的局部变量表中。</p>
+<p>它将局部变量表的后半部分开辟为“影子栈”的空间。这后半部分就作为栈，影子栈的“栈顶”始终位于局部变量表的最后一个索引位置。当原始程序对操作数栈进行压栈、出栈等操作时，Galette的插桩代码会在影子栈的对应区域执行完全相同的操作，只不过操作的对象是污点标签。</p>
+<p>原来需要顺序执行的栈操作，现在对称执行就行了</p>
+<h3 id="字段处理"><a href="#字段处理" class="headerlink" title="字段处理"></a>字段处理</h3><p>采用传统影子存储</p>
+<p>为每个原始字段添加一个对应的“影子字段”（例如，字段<code>count</code>对应的影子字段是<code>count$$Tag</code>）。</p>
+<p>影子字段与原始字段在同一个类中声明，具有相同的访问修饰符。这使得JVM在解析字段访问时，其语义与原始程序完全一致，无需像镜像存储那样去模拟字段解析过程，从而保证了精确性。</p>
+<h3 id="数组处理"><a href="#数组处理" class="headerlink" title="数组处理"></a>数组处理</h3><p>采用镜像存储</p>
+<p>传统影子存储会用一个新的“包装器对象”替换原始数组，这会带来严重问题：</p>
+<ul>
+<li>当包装器数组被传递给未插桩的代码（尤其是<strong>原生方法</strong>）时，对方期望的是原始数组，收到包装器会导致崩溃或未定义行为。（说人话就是类型不匹配，明明要的是ArrayList，你非要封装一个MyHashMap给我）</li>
+</ul>
+<p>Galette的解决方案：维护一个全局的、类似于镜像存储中“镜像堆”的映射结构——<code>TagStore</code>。</p>
+<ul>
+<li><code>TagStore</code>将一个原始数组对象映射到一个<code>ArrayTags</code>记录，该记录包含了该数组长度和每个元素的污点标签。</li>
+<li>当访问数组元素时，插桩代码会从<code>TagStore</code>中查询或更新对应元素的污点标签。</li>
+</ul>
+<p>原始数组对象本身没有任何改变，可以安全地传递给任何代码（包括原生方法），极大地提升了系统的稳健性。</p>
+<h3 id="方法调用间的标签传递"><a href="#方法调用间的标签传递" class="headerlink" title="方法调用间的标签传递"></a>方法调用间的标签传递</h3><p>Galette为每个原始方法创建一个“影子方法”，该方法的参数列表是在原始参数基础上<strong>追加一个<code>Frame</code>（标签帧）参数</strong>。这个<code>Frame</code>对象包含了所有传入参数的污点标签，以及用于存放返回值的污点标签的空间。</p>
+<p>所有方法调用点都被替换为对影子方法的调用，并传入构建好的<code>Frame</code>。</p>
+<ul>
+<li>相比于镜像存储依赖“镜像调用栈”的隐式传递，这种<strong>显式参数传递</strong>确保了污点标签总能被准确地从调用者传递给正确的被调用者，即使JVM在中间执行了上行调用，也不会造成错位。</li>
+</ul>
+<blockquote>
+<p>镜像调用栈的挑战：</p>
+<ul>
+<li>由于镜像调用栈是独立于JVM栈的，它必须精确地模拟JVM的调用栈行为。但是，JVM在执行过程中可能会进行一些“上行调用”（up-calls）。这些上行调用可能会在原始程序指令之间插入，导致镜像调用栈的压栈和出栈操作与JVM栈不一致。</li>
+<li>例如，在仪器化代码中，可能在调用方法之前插入了将镜像帧压入镜像栈的代码，而在被调用方法开始处插入从镜像栈弹出帧的代码。但是，如果在这两者之间JVM执行了一个上行调用，那么这个上行调用也会被仪器化，并压入一个镜像帧，从而破坏了镜像栈的预期结构，导致污点标签传递错误。</li>
+</ul>
+<p>镜像存储方法的优点是非侵入性，不会改变原始程序的结构，但缺点是由于需要模拟整个执行环境，容易因模拟不精确而导致污点标签传播错误。</p>
+<p><strong>上行调用问题</strong>：这是镜像调用栈的一个<strong>致命弱点</strong>。JVM在执行过程中，可能会在Java字节码指令之间插入对Java运行时本身的调用（例如，加载一个类、初始化一个类、抛出异常等）。这被称为“上行调用”。</p>
+<ul>
+<li><strong>问题所在</strong>：在仪器化代码刚刚压入一个镜像帧之后，但在目标方法实际执行之前，JVM进行了一个上行调用。这个上行调用也会被仪器化，并压入它自己的镜像帧。当目标方法最终开始执行时，它会错误地使用为上行调用准备的镜像帧，导致污点标签完全错乱。</li>
+</ul>
+<p><strong>性能开销</strong>：维护一个完全独立的、与程序执行同步的镜像栈，并进行大量的映射查找和模拟操作，通常会带来比影子存储更高的性能开销。论文中的数据也显示，MirrorTaint的平均开销（5593倍）远高于Galette和Phosphor。</p>
+</blockquote>
+<h3 id="签名多态方法"><a href="#签名多态方法" class="headerlink" title="签名多态方法"></a>签名多态方法</h3><p><strong>签名多态方法</strong>是一类特殊的Java方法，它们<strong>在源代码层面“看起来”可以接受任何参数类型和数量</strong>，并且可以返回任何类型。</p>
+<p>举个例子，他的声明方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="meta">@PolymorphicSignature</span> Object <span class="title function_">invokeExact</span><span class="params">(Object... args)</span> <span class="keyword">throws</span> Throwable;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="它与普通方法的核心区别是什么？"><a href="#它与普通方法的核心区别是什么？" class="headerlink" title="它与普通方法的核心区别是什么？"></a>它与普通方法的核心区别是什么？</h4><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>普通方法</th>
+<th>签名多态方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>类型检查时机</strong></td>
+<td><strong>编译时</strong>。编译器根据方法声明的固定签名进行检查。</td>
+<td><strong>运行时</strong>。在方法被<strong>调用时</strong>，JVM才根据调用点的具体类型描述符进行检查。</td>
+</tr>
+<tr>
+<td><strong>链接（Linking）</strong></td>
+<td>链接到一个固定的实现。</td>
+<td>链接到一个高度可变的、由方法句柄（MethodHandle）目标决定的实现。</td>
+</tr>
+<tr>
+<td><strong>方法签名</strong></td>
+<td>固定的。</td>
+<td><strong>动态的</strong>，取决于调用站点（call site）的写法。</td>
+</tr>
+</tbody></table>
+<p>在标准的Java类库中，主要有两个类包含签名多态方法：</p>
+<ul>
+<li><strong><code>java.lang.invoke.MethodHandle</code></strong> (Java 7引入)<ul>
+<li>例如：<code>invoke(Object... args)</code>, <code>invokeExact(Object... args)</code>, <code>invokeWithArguments(Object... args)</code></li>
+</ul>
+</li>
+<li><strong><code>java.lang.invoke.VarHandle</code></strong> (Java 9引入)<ul>
+<li>例如：<code>get(Object... args)</code>, <code>set(Object... args)</code>, <code>compareAndSet(Object... args)</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>无法修改签名</strong>：传统的“影子存储”技术会通过修改方法签名（添加影子参数）来传递污点标签。但对于签名多态方法，这样做会<strong>破坏其核心机制</strong>。因为JVM会检查调用点的签名是否与 <code>MethodHandle</code> 的预期签名匹配，你添加了额外参数，匹配就会失败，调用无法进行。</p>
+<p><strong>参数可能被JVM修改</strong>：JVM在调用签名多态方法时，可能会<strong>内部修改参数列表</strong>（例如，添加或移除尾部的参数，或进行基本类型转换）。这使得污点跟踪系统难以在调用方和被调用方之间正确地对应参数和它们的污点标签。</p>
+<p>签名多态方法的方法签名不能被修改，否则会导致类型匹配失败。</p>
+<p>Galette的解决方案：采用一个线程局部的“帧存储”来间接传递标签。</p>
+<ol>
+<li>在调用签名多态方法前，插桩代码将参数的标签帧存入当前线程的帧存储中。</li>
+<li>然后，以原始方式（不修改签名）调用该多态方法。</li>
+<li>在<strong>目标方法的一端</strong>（任何一个方法都可能被多态调用，所以Galette将所有原始方法体都改造成了“包装器”），包装器会首先检查线程局部的帧存储。</li>
+<li>如果帧存储中有帧，并且通过一个“宽松的匹配算法”确认该帧属于本次调用，则使用该帧来初始化影子方法的参数。匹配算法会考虑JVM可能对参数做的固有修改（如添加或移除尾部参数）。</li>
+<li>最后，清除或恢复帧存储的状态。</li>
+</ol>
+<p>什么意思呢？举个例子：</p>
+<p>调用签名多态方法 <code>methodHandle.invokeExact(23, 45)</code>，其中 <code>23</code> 是被污染的，<code>45</code> 是干净的。</p>
+<p>1、在调用具体的invokeExact方法之前，会先生成一个线程局部帧存储（只有当前线程能访问，避免帧错乱）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocalFrameStore.set(</span><br><span class="line">    frame: [TAINTED, CLEAN], <span class="comment">// 标签帧</span></span><br><span class="line">    originalArgs: [<span class="number">23</span>, <span class="number">45</span>]   <span class="comment">// 帧数据</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>2、正常调用多态方法：调用原始的、未修改<code>invokeExact(23, 45)</code>，因为都是原始参数和方法，所以JVM运行正常</p>
+<p>3、Galette加入了一个包装器方法，该方法会去第一步创建的线程局部帧存储看看有没有对应上的帧数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在包装器方法内部</span></span><br><span class="line"><span class="type">Frame</span> <span class="variable">possibleFrame</span> <span class="operator">=</span> ThreadLocalFrameStore.get(); <span class="comment">// 去中转站查看</span></span><br></pre></td></tr></table></figure>
+
+<p>线程局部帧存储里可能有货，也可能没货。有货的话，这个货是不是就一定属于当前这个收货人呢？不一定！</p>
+<p>这种情况当然发生于两个签名多态方法调用连续发生，并且它们共享同一个线程。但是什么代码会使它连续发生呢？</p>
+<p>下面的mhFoo指向方法foo</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MethodHandle</span> <span class="variable">mhFoo</span> <span class="operator">=</span> ...; <span class="comment">// 指向 foo</span></span><br><span class="line"><span class="comment">// 第一个调用</span></span><br><span class="line">mhFoo.invokeExact(...); </span><br></pre></td></tr></table></figure>
+
+<p>在invokeExact发生了上行调用，调用到了类加载，刚好加载的那个类的static方法内有第二个签名多态方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MethodHandle</span> <span class="variable">mhBar</span> <span class="operator">=</span> ...; <span class="comment">// 指向 bar</span></span><br><span class="line"><span class="keyword">static</span>&#123;</span><br><span class="line">    mhBar.invokeExact(...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就会发生第二个线程局部帧存储覆盖第一个的情况</p>
+<p>当然这种情况实属罕见，作者能考虑到这种程度也真的很细心了</p>
+<p>作者为了应付这种情况，特地加入了一个宽松匹配方法，因为作者认为，两次签名多态方法，总不能参数类型和数据一模一样吧</p>
+<p>具体的宽松匹配算法：</p>
+<ul>
+<li>场景A：<strong>JVM加入了一个尾部参数</strong>。假如线程局部帧存储里为如下数据：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[23, 45, SomeJVMStuff]</span><br></pre></td></tr></table></figure>
+
+<p>而包装器方法收到的<code>[23]</code>数据</p>
+<p>宽松匹配算法会说：”忽略那个JVM添加的额外东西，核心货物 <code>23</code> 对得上，这货是你的。”</p>
+<ul>
+<li>场景B：<strong>JVM转换了类型</strong>。包装器收到一个 <code>int</code> 类型的 <code>23</code>，线程局部帧存储上记录的是一个 <code>byte</code> 类型的 <code>23</code>。宽松匹配算法会说：”数值一样，只是包装不同，这货是你的。”</li>
+</ul>
+<p>如果匹配成功，包装器则会取走标签帧 <code>[TAINTED, CLEAN]</code>，并清空线程局部帧存储；如果匹配失败，他会创建一个空的标签帧来处理</p>
+<p>包装器现在有了标签帧（无论是有标签的还是空的），他终于可以去做真正的业务了。</p>
+<p>他拿着收到的数据和标签帧，去调用<strong>真正的后台处理部门（影子方法）</strong>。</p>
+<p><strong>这是一个典型的折中方案</strong>：它引入了类似镜像存储的全局状态，因而在理论上仍然存在因上行调用导致标签错配的风险（尽管Galette通过匹配算法尽力缓解）。但这是在不破坏签名多态方法语义的前提下，能够跟踪信息流的唯一实用方法。</p>
+<p>作者通过对各种污点传播过程中数据的存储方式进行了考量，完成了在JDK高版本下算得上是高兼容的污点数据结构。</p>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>Gelette的前身为phosphor，这个项目经过了1200+commit，代码相当多，我看起来真的头痛</p>
+<p>相比起来，Gelette 2025这个项目像个婴儿</p>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>premain起手，插桩类为GaletteTransformer</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125152331266.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125152331266.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125152331266"></p>
+<p>插桩会调用GaletteTransformer#transform</p>
+<p>具体来说就是去除无需插桩的java内部类，缓存已插桩的类，然后调用transformInternal进行具体的改造</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125152627011.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125152627011.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125152627011"></p>
+<p>一句一个注释吗</p>
+<h3 id="影子字段和影子方法增强"><a href="#影子字段和影子方法增强" class="headerlink" title="影子字段和影子方法增强"></a>影子字段和影子方法增强</h3><p>跟进transformInternal，添加了Frame（标签帧）、影子字段和影子方法，具体的ASM代码就不看了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125153049868.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125153049868.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125153049868"></p>
+<p>跟进ShadowFieldAdder，可以看到加的影子字段前缀为<code>$$GALETTE</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154200966.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154200966.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125154200966"></p>
+<p>跟进ShadowMethodCreator，影子方法的处理会遍历该方法里用到的所有方法去生成影子方法。所以论文提到第一次污点attach会花费较长的时间，问题就出在这里，有时候一直遍历子方法可能会有bug</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154308681.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154308681.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125154308681"></p>
+<p>原来看Dongtai IAST的时候我还没考虑到如果要增强JNI方法怎么办，事实上执行一遍用一个包装器去包装原JNI方法，然后外面套一个去掉native方法的壳就行了。这里也是这么处理的</p>
+<p>先是去掉了方法的前置native和权限控制符，这些都会同时暂存起来。然后制作一个影子方法。那为什么没看到前面提到的帧存储呢？答案是放在了方法描述符里</p>
+<p>这里完成影子方法的制作后，用TagPropagator完成一个方法中污点数据到另一个方法的传播（Propagator）</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154906963.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125154906963.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125154906963"></p>
+<p>在getShadowMethodDescriptor中，帧标签被一起放到方法描述符中存储</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125155118677.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125155118677.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125155118677"></p>
+<h3 id="操作树栈增强"><a href="#操作树栈增强" class="headerlink" title="操作树栈增强"></a>操作树栈增强</h3><p>ShadowLocals#visitFrame，拷贝原始局部变量到新的列表中，用TOP填补空位</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125160213781.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125160213781.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125160213781"></p>
+<p>标签Tag，也就是污点传播的规则，全在TagPropagator里写死了</p>
+<h3 id="source-x2F-sink"><a href="#source-x2F-sink" class="headerlink" title="source&#x2F;sink"></a>source&#x2F;sink</h3><p>masks目录下是Node的规则，这里面既包含了source也包含了sink</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161351659.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161351659.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125161351659"></p>
+<p>比如各种invoke，newInstance</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161450967.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161450967.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125161450967"></p>
+<p>再比如各种序列化和反序列化</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161529386.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125161529386.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125161529386"></p>
+<p>本文的重点不在于污点传播规则的设定，而是一种新的字节码插桩方式。所以污点传播的指定也是只针对了他的benchmark</p>
+<p>举个例子，他的ArrayAccessITCase测试三维数组元素的污点传播。测试排序后整型数组的污点标签是否正确保留。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125162838865.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251125162838865.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251125162838865"></p>
+<p>感觉，不太实用，但是思路很好。纯科研算法吧。</p>
+<p>没看完代码，看的我有点头痛，污点传播逻辑全用ASM写TagPropagator里，是个人都不想读了。不过根据bench来看，不像是用于漏洞测试，而是一个自定义的污点去测试系统功能。算是我最近读到能读懂，最贴合我的学习路线、思路最屌的论文了。</p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>作者:  </strong>GodownKai</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>文章链接:  </strong>
+    <a href="/2025/11/25/galette/" target="_blank" title="Dynamic Taint Tracking for Modern Java Virtual Machines">https://godownio.github.io/2025/11/25/galette/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明:   </strong>
+      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      许可协议。转载请注明出处!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2025/12/18/chun-qiu-yun-jing-delegation/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> 上一篇:
+        <div class="title-text">春秋云镜 Delegation</div>
+      </div>
+      
+      <!-- <div class="content">
+        春秋云镜 Delegation39.98.115.7
+flag1fscan一直爆破ftp，神人
+百度一下，发现直接拼接a
+      </div> -->
+    </a>
+  </div>
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8179.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8179.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2025/11/16/finance-jdbc-attack/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">春秋云镜 Finance postgresql jdbc attack部分</div>
+      </div>
+      <!-- <div class="content">
+        春秋云镜 Finance postgresql jdbc attack部分大佬叫打的，好像是靶场的一血？
+h2 webc
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+      <div id="appDonate" class="post-donate">
+  <div id="donate_board" class="donate_bar center" ref="donate">
+    <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏" @click="showDialogDrawer()"></a>
+  </div>
+  <transition name="fade">
+    <div 
+      class="donate-box-mask"
+      v-cloak 
+      v-show="visible"
+      @click="cancelDialogDrawer()"
+    >
+    </div>
+  </transition>
+  <transition name="bounce">
+    <div class="donate-box" v-cloak v-show="visible">
+      <div class="donate-box_close">
+        <i class="fas fa-times" aria-hidden="true" @click="cancelDialogDrawer" pointer></i>
+      </div>
+      <div class="donate-box_title">
+        <h4>
+          慧眼识珠牢弟
+        </h4>
+      </div>
+      <div class="donate-box_tab">
+        <div class="Alipay" pointer :class="{'active': tabActive === 'Alipay'}" @click="changeTabActive('Alipay')">
+          支付宝
+        </div>
+        <div class="WeChatpay" pointer :class="{'active': tabActive === 'WeChatpay'}" @click="changeTabActive('WeChatpay')">
+          微信
+        </div>
+      </div>
+      <div class="donate-box_img">
+        <div class="AlipayImg" v-show="tabActive === 'Alipay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="支付宝打赏" />
+        </div> 
+        <div class="WeChatpayImg" v-show="tabActive === 'WeChatpay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="微信打赏" />
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDonate',
+    data: {
+      visible: false,
+      tabActive: 'Alipay',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        // function getScroll() {
+        //   return {
+        //     left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+        //     top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+        //   };
+        // }
+        this.top = $(document).scrollTop() // or getScroll().top
+        // console.log('aa', $('.main-content'));
+        body.style.cssText = 'overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+      changeTabActive(name) {
+        this.tabActive = name;
+      }
+    },
+    created() {}
+  })
+</script>
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <aside id='l_side'>
+  
+    
+      <section class="widget side_blogger">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Godown_blog</h2>
+        
+        
+          <p>something for nothing</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Godown_blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="mailto:me@xxx.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/godownio"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1958304602"
+              class="social fab fa-qq flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+    
+  
+  
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-Taint-Tracking-for-Modern-Java-Virtual-Machines"><span class="toc-text">Dynamic Taint Tracking for Modern Java Virtual Machines</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%B1%E5%AD%90%E5%AD%98%E5%82%A8%E4%B8%8E%E9%95%9C%E5%83%8F%E5%AD%98%E5%82%A8"><span class="toc-text">影子存储与镜像存储</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E6%A0%87%E7%AD%BE%EF%BC%9F"><span class="toc-text">1. 如何存储标签？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E6%A0%87%E7%AD%BE%EF%BC%9F"><span class="toc-text">2. 如何传递标签？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E4%BC%A0%E6%92%AD%E6%A0%87%E7%AD%BE%EF%BC%9F"><span class="toc-text">3. 如何传播标签？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%B1%E5%AD%90%E5%AD%98%E5%82%A8%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">影子存储的优缺点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gelette%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84"><span class="toc-text">Gelette设计架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-text">操作数栈的处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86"><span class="toc-text">字段处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%A4%84%E7%90%86"><span class="toc-text">数组处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E9%97%B4%E7%9A%84%E6%A0%87%E7%AD%BE%E4%BC%A0%E9%80%92"><span class="toc-text">方法调用间的标签传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D%E5%A4%9A%E6%80%81%E6%96%B9%E6%B3%95"><span class="toc-text">签名多态方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%83%E4%B8%8E%E6%99%AE%E9%80%9A%E6%96%B9%E6%B3%95%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">它与普通方法的核心区别是什么？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">预处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%B1%E5%AD%90%E5%AD%97%E6%AE%B5%E5%92%8C%E5%BD%B1%E5%AD%90%E6%96%B9%E6%B3%95%E5%A2%9E%E5%BC%BA"><span class="toc-text">影子字段和影子方法增强</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%A0%91%E6%A0%88%E5%A2%9E%E5%BC%BA"><span class="toc-text">操作树栈增强</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#source-x2F-sink"><span class="toc-text">source&#x2F;sink</span></a></li></ol> -->
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
+</div>
+
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/30/hibernate-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8185.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-30</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/30/hibernate-fan-xu-lie-hua/">hibernate反序列化</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/25/chun-qiu-yun-jing-spoofing/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8184.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-25</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/25/chun-qiu-yun-jing-spoofing/">春秋云镜 Spoofing</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/23/oddfuzz/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8183.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8183.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-23</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/23/oddfuzz/">ODDFUZZ</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/18/chun-qiu-yun-jing-flarum/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-18</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-flarum/">春秋云镜 Flarum</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2025/12/18/chun-qiu-yun-jing-delegation/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8181.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-18</span>
+                
+              </div>
+              <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-delegation/">春秋云镜 Delegation</a>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
+
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    
+  
+  
+    <!-- 底部鱼儿跳动效果，依赖于jquery-->
+<div id="j-fish-skip" style=" position: relative;height: 153px;width: auto;"></div>
+<script>
+  var RENDERER = {
+    POINT_INTERVAL: 5,
+    FISH_COUNT: 3,
+    MAX_INTERVAL_COUNT: 50,
+    INIT_HEIGHT_RATE: .5,
+    THRESHOLD: 50,
+    FISH_COLOR: '',
+    init: function () {
+      this.setFishColor(); this.setParameters(), this.reconstructMethods(), this.setup(), this.bindEvent(), this.render()
+    },
+    setFishColor: function () {
+      let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+      if (isDark) {
+        this.FISH_COLOR = '#222'; // 暗黑色，有时间把这整成一个变量
+      } else {
+        this.FISH_COLOR = '' || 'rgba(66, 185, 133, 0.8)';
+      }
+    },
+    setParameters: function () {
+      this.$window = $(window), this.$container = $("#j-fish-skip"), this.$canvas = $("<canvas />"), this.context = this.$canvas.appendTo(this.$container).get(0).getContext("2d"), this.points = [], this.fishes = [], this.watchIds = []
+    },
+    createSurfacePoints: function () {
+      var t = Math.round(this.width / this.POINT_INTERVAL);
+      this.pointInterval = this.width / (t - 1), this.points.push(new SURFACE_POINT(this, 0));
+      for (var i = 1; i < t; i++) {
+        var e = new SURFACE_POINT(this, i * this.pointInterval),
+          h = this.points[i - 1];
+        e.setPreviousPoint(h), h.setNextPoint(e), this.points.push(e)
+      }
+    },
+    reconstructMethods: function () {
+      this.watchWindowSize = this.watchWindowSize.bind(this), this.jdugeToStopResize = this.jdugeToStopResize.bind(this), this.startEpicenter = this.startEpicenter.bind(this), this.moveEpicenter = this.moveEpicenter.bind(this), this.reverseVertical = this.reverseVertical.bind(this), this.render = this.render.bind(this)
+    },
+    setup: function () {
+      this.points.length = 0, this.fishes.length = 0, this.watchIds.length = 0, this.intervalCount = this.MAX_INTERVAL_COUNT, this.width = this.$container.width(), this.height = this.$container.height(), this.fishCount = this.FISH_COUNT * this.width / 500 * this.height / 500, this.$canvas.attr({
+        width: this.width,
+        height: this.height
+      }), this.reverse = !1, this.fishes.push(new FISH(this)), this.createSurfacePoints()
+    },
+    watchWindowSize: function () {
+      this.clearTimer(), this.tmpWidth = this.$window.width(), this.tmpHeight = this.$window.height(), this.watchIds.push(setTimeout(this.jdugeToStopResize, this.WATCH_INTERVAL))
+    },
+    clearTimer: function () {
+      for (; this.watchIds.length > 0;) clearTimeout(this.watchIds.pop())
+    },
+    jdugeToStopResize: function () {
+      var t = this.$window.width(),
+        i = this.$window.height(),
+        e = t == this.tmpWidth && i == this.tmpHeight;
+      this.tmpWidth = t, this.tmpHeight = i, e && this.setup()
+    },
+    bindEvent: function () {
+      this.$window.on("resize", this.watchWindowSize), this.$container.on("mouseenter", this.startEpicenter), this.$container.on("mousemove", this.moveEpicenter)
+    },
+    getAxis: function (t) {
+      var i = this.$container.offset();
+      return {
+        x: t.clientX - i.left + this.$window.scrollLeft(),
+        y: t.clientY - i.top + this.$window.scrollTop()
+      }
+    },
+    startEpicenter: function (t) {
+      this.axis = this.getAxis(t)
+    },
+    moveEpicenter: function (t) {
+      var i = this.getAxis(t);
+      this.axis || (this.axis = i), this.generateEpicenter(i.x, i.y, i.y - this.axis.y), this.axis = i
+    },
+    generateEpicenter: function (t, i, e) {
+      if (!(i < this.height / 2 - this.THRESHOLD || i > this.height / 2 + this.THRESHOLD)) {
+        var h = Math.round(t / this.pointInterval);
+        h < 0 || h >= this.points.length || this.points[h].interfere(i, e)
+      }
+    },
+    reverseVertical: function () {
+      this.reverse = !this.reverse;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].reverseVertical()
+    },
+    controlStatus: function () {
+      for (var t = 0, i = this.points.length; t < i; t++) this.points[t].updateSelf();
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].updateNeighbors();
+      this.fishes.length < this.fishCount && 0 == --this.intervalCount && (this.intervalCount = this.MAX_INTERVAL_COUNT, this.fishes.push(new FISH(this)))
+    },
+    render: function () {
+      requestAnimationFrame(this.render), this.controlStatus(), this.context.clearRect(0, 0, this.width, this.height), this.context.fillStyle = this.FISH_COLOR;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].render(this.context);
+      this.context.save(), this.context.globalCompositeOperation = "xor", this.context.beginPath(), this.context.moveTo(0, this.reverse ? 0 : this.height);
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].render(this.context);
+      this.context.lineTo(this.width, this.reverse ? 0 : this.height), this.context.closePath(), this.context.fill(), this.context.restore()
+    }
+  },
+  SURFACE_POINT = function (t, i) {
+    this.renderer = t, this.x = i, this.init()
+  };
+  SURFACE_POINT.prototype = {
+    SPRING_CONSTANT: .03,
+    SPRING_FRICTION: .9,
+    WAVE_SPREAD: .3,
+    ACCELARATION_RATE: .01,
+    init: function () {
+      this.initHeight = this.renderer.height * this.renderer.INIT_HEIGHT_RATE, this.height = this.initHeight, this.fy = 0, this.force = {
+        previous: 0,
+        next: 0
+      }
+    },
+    setPreviousPoint: function (t) {
+      this.previous = t
+    },
+    setNextPoint: function (t) {
+      this.next = t
+    },
+    interfere: function (t, i) {
+      this.fy = this.renderer.height * this.ACCELARATION_RATE * (this.renderer.height - this.height - t >= 0 ? -1 : 1) * Math.abs(i)
+    },
+    updateSelf: function () {
+      this.fy += this.SPRING_CONSTANT * (this.initHeight - this.height), this.fy *= this.SPRING_FRICTION, this.height += this.fy
+    },
+    updateNeighbors: function () {
+      this.previous && (this.force.previous = this.WAVE_SPREAD * (this.height - this.previous.height)), this.next && (this.force.next = this.WAVE_SPREAD * (this.height - this.next.height))
+    },
+    render: function (t) {
+      this.previous && (this.previous.height += this.force.previous, this.previous.fy += this.force.previous), this.next && (this.next.height += this.force.next, this.next.fy += this.force.next), t.lineTo(this.x, this.renderer.height - this.height)
+    }
+  };
+  var FISH = function (t) {
+    this.renderer = t, this.init()
+  };
+  FISH.prototype = {
+    GRAVITY: .4,
+    init: function () {
+      this.direction = Math.random() < .5, this.x = this.direction ? this.renderer.width + this.renderer.THRESHOLD : -this.renderer.THRESHOLD, this.previousY = this.y, this.vx = this.getRandomValue(4, 10) * (this.direction ? -1 : 1), this.renderer.reverse ? (this.y = this.getRandomValue(1 * this.renderer.height / 10, 4 * this.renderer.height / 10), this.vy = this.getRandomValue(2, 5), this.ay = this.getRandomValue(.05, .2)) : (this.y = this.getRandomValue(6 * this.renderer.height / 10, 9 * this.renderer.height / 10), this.vy = this.getRandomValue(-5, -2), this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1, this.theta = 0, this.phi = 0
+    },
+    getRandomValue: function (t, i) {
+      return t + (i - t) * Math.random()
+    },
+    reverseVertical: function () {
+      this.isOut = !this.isOut, this.ay *= -1
+    },
+    controlStatus: function (t) {
+      this.previousY = this.y, this.x += this.vx, this.y += this.vy, this.vy += this.ay, this.renderer.reverse ? this.y > this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy -= this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(.05, .2)), this.isOut = !1) : this.y < this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy += this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1), this.isOut || (this.theta += Math.PI / 20, this.theta %= 2 * Math.PI, this.phi += Math.PI / 30, this.phi %= 2 * Math.PI), this.renderer.generateEpicenter(this.x + (this.direction ? -1 : 1) * this.renderer.THRESHOLD, this.y, this.y - this.previousY), (this.vx > 0 && this.x > this.renderer.width + this.renderer.THRESHOLD || this.vx < 0 && this.x < -this.renderer.THRESHOLD) && this.init()
+    },
+    render: function (t) {
+      t.save(), t.translate(this.x, this.y), t.rotate(Math.PI + Math.atan2(this.vy, this.vx)), t.scale(1, this.direction ? 1 : -1), t.beginPath(), t.moveTo(-30, 0), t.bezierCurveTo(-20, 15, 15, 10, 40, 0), t.bezierCurveTo(15, -10, -20, -15, -30, 0), t.fill(), t.save(), t.translate(40, 0), t.scale(.9 + .2 * Math.sin(this.theta), 1), t.beginPath(), t.moveTo(0, 0), t.quadraticCurveTo(5, 10, 20, 8), t.quadraticCurveTo(12, 5, 10, 0), t.quadraticCurveTo(12, -5, 20, -8), t.quadraticCurveTo(5, -10, 0, 0), t.fill(), t.restore(), t.save(), t.translate(-3, 0), t.rotate((Math.PI / 3 + Math.PI / 10 * Math.sin(this.phi)) * (this.renderer.reverse ? -1 : 1)), t.beginPath(), this.renderer.reverse ? (t.moveTo(5, 0), t.bezierCurveTo(10, 10, 10, 30, 0, 40), t.bezierCurveTo(-12, 25, -8, 10, 0, 0)) : (t.moveTo(-5, 0), t.bezierCurveTo(-10, -10, -10, -30, 0, -40), t.bezierCurveTo(12, -25, 8, -10, 0, 0)), t.closePath(), t.fill(), t.restore(), t.restore(), this.controlStatus(t)
+    }
+  }, $(function () {
+    RENDERER.init()
+    $('.dark').click(function () {
+      setTimeout(() => {
+        RENDERER.setFishColor();
+        RENDERER.context.fill();
+      });
+    })
+  });
+</script>
+  
+  <div class="footer bg-color">
+    <div class="footer-main">
+      
+        
+          <div class="link">
+            
+          </div>
+        
+      
+        
+          <div class="footer-copyright">
+            <p>Copyright © 2020 - 2025 <a target="_blank" rel="noopener" href="https://github.com/godownio">godownio</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
+
+          </div>
+        
+      
+        
+          
+            <!-- 不蒜子统计 -->
+            <!-- 不蒜子统计 -->
+<span id="busuanzi_container_site_pv">
+      <i class="fas fa-eye" aria-hidden="true"></i>本站总访问量：<span id="busuanzi_value_site_pv"></span> 次
+</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+      <i class="fas fa-users" aria-hidden="true"></i>本站访客数：<span id="busuanzi_value_site_uv"></span> 人
+</span>
+
+          
+        
+      
+        
+          <div class="footer-custom">
+            
+          </div>
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- 渲染暗黑按钮 -->
+    
+      <div class="dark">
+  <div class="dark-content">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
+  </div>
+  
+</div>
+
+<script>
+  $(function() {
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    if (isDark) {
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+    }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
+</script>
+    
+    <!-- 渲染回到顶部按钮 -->
+    
+      <div class="goTop top-btn-color" pointer>
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</div>
+<script src="/js/goTop.js"></script>
+
+    
+    <!-- 渲染左下角音乐播放器 -->
+    
+      <link rel="stylesheet" href="/js/aplayer/APlayer@1.10.1.min.css">
+<style>
+.aplayer .aplayer-lrc p {
+  
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px !important;
+}
+
+.aplayer .aplayer-lrc p.aplayer-lrc-current {
+  
+  font-size: 15px;
+  color: #42b983;
+}
+
+
+</style>
+<meting-js  
+  class=""
+  server="tencent"
+  type="album"
+  id="002VeS6r4L5fLZ"
+  fixed='true'
+  autoplay='false'
+  theme='#42b983'
+  loop='all'
+  order='random'
+  preload='auto'
+  volume='0.7'
+  list-folded='true'
+>
+</meting-js>
+
+<!-- <style>
+  #aplayer {
+    position: fixed;
+    left: 0;
+    bottom: 300px;
+  }
+</style> -->
+<script src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://unpkg.com/meting@2/dist/Meting.min.js"></script>
+    
+
+    <!-- 图片放大 -->
+    
+      <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    
+
+    <!-- 百度解析 -->
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <!-- 背景彩带 -->
+    
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+    
+
+    <script src="/js/utils/index.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- 文章目录所需js -->
+<!-- <link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
+
+<script>
+  var headerEl = '',  //headers 
+    content = '.post-detail',//文章容器
+    idArr = {};  //标题数组以确定是否增加索引id
+  //add #id
+  var option = {
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: content,
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: headerEl,
+    scrollSmooth: true,
+    scrollSmoothOffset: -70,
+    // headingsOffset: -($(window).height() * 0.4 - 45),
+    headingsOffset: -($(window).height() * 0.4 - 70),
+    // positionFixedSelector: '.toc-main',
+    // positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    activeLinkClass: 'is-active-link',
+    orderedList: true,
+    collapseDepth: ,
+    // onClick: function (e) {},
+  }
+  if ($('.toc').length > 0) {
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      tocbot.init(option);
+      mobileTocClick();
+    });
+
+  }
+
+  window.tocScrollFn = function () {
+    return bamboo.throttle(function () {
+      findHeadPosition();
+    }, 100)()
+  }
+  window.addEventListener('scroll', tocScrollFn);
+
+  const findHeadPosition = function (top) {
+    if ($('.toc-list').length <= 0) {
+      return false;
+    }
+    setTimeout(() => {  // or DOMContentLoaded 
+      autoScrollToc();
+    }, 0);
+  }
+
+  const autoScrollToc = function () {
+    const $activeItem = document.querySelector('.is-active-link');
+    const $cardToc = document.querySelector('.toc-content');
+    const activePosition = $activeItem.getBoundingClientRect().top
+    const sidebarScrollTop = $cardToc.scrollTop
+    if (activePosition > (document.documentElement.clientHeight - 100)) {
+      $cardToc.scrollTop = sidebarScrollTop + 150
+    }
+    if (activePosition < 150) {
+      $cardToc.scrollTop = sidebarScrollTop - 150
+    }
+  }
+
+  document.addEventListener('pjax:send', function () {
+    if ($('.toc').length) {
+      tocbot.destroy();
+    }
+  });
+
+  document.addEventListener('pjax:complete', function () {
+    if ($('.toc').length) {
+      tocbot.init(option);
+      mobileTocClick();
+    }
+  });
+  
+  // 手机端toc按钮点击出现目录
+  const mobileTocClick = function () {
+    const $cardTocLayout = document.getElementsByClassName('side_toc')[0];
+    const $cardToc = $cardTocLayout.getElementsByClassName('toc-content')[0];
+    let right = '45px';
+    if (window.innerWidth >= 551 && window.innerWidth <= 992) {
+      right = '100px'
+    }
+    const mobileToc = {
+      open: () => {
+        $cardTocLayout.style.cssText = 'animation: toc-open .3s; opacity: 1; right: ' + right
+      },
+
+      close: () => {
+        $cardTocLayout.style.animation = 'toc-close .2s'
+        setTimeout(() => {
+          $cardTocLayout.style.cssText = "opacity:''; animation: ''; right: ''"
+        }, 100)
+      }
+    }
+    document.getElementById('toc-mobile-btn').addEventListener('click', () => {
+      if (window.getComputedStyle($cardTocLayout).getPropertyValue('opacity') === '0') mobileToc.open()
+      else mobileToc.close()
+    })
+
+    $cardToc.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) { // 小于992px的时候
+        mobileToc.close()
+      }
+    })
+  }
+</script>
+
+<style>
+  /* .is-position-fixed {
+    position: sticky !important;
+    top: 74px;
+  }
+
+  .toc-main ul {
+    counter-reset: show-list;
+  }
+
+  .toc-main ul li::before {
+    content: counter(item)".";
+    display: block;
+    position: absolute;
+    left: 12px;
+    top: 0;
+  } */
+</style>
+ 
+
+<!-- 设置导航背景 -->
+<script>
+  let setHeaderClass = () => {
+    const nav = $('#navHeader');
+    const navTop = nav.outerHeight();
+    const winTop = $(window).scrollTop();
+    if(winTop > navTop) {
+      nav.addClass('header-bg-color');
+    }
+    else {
+      nav.removeClass('header-bg-color');
+    }
+  };
+
+  let scrollCollect = () => {
+    return bamboo.throttle(function (e) {
+      setHeaderClass();
+    }, 200)()
+  }
+
+  let initHeaderBg = () => {
+    setHeaderClass();
+  }
+
+  setHeaderClass();
+  window.addEventListener('scroll', scrollCollect);
+
+  document.addEventListener('pjax:send', function () {
+    window.removeEventListener('scroll', scrollCollect)
+  })
+  document.addEventListener('pjax:complete', function () {
+    window.addEventListener('scroll', scrollCollect);
+    setHeaderClass();
+  })
+</script> 
+
+<!-- 渲染issues标签里的内容 -->
+<script>
+  function loadIssuesJS() {
+    if ($(".post-detail").find(".issues-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/issues/index.js');
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof IssuesAPI == "undefined") {
+      loadIssuesJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的图片标签(getPhotoOnline)里的内容 -->
+<script>
+  function loadPhotoOnlineJS() {
+    if ($(".post-detail").find(".getJsonPhoto-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getPhotoOnline/index.js');
+  };
+  $(function () {
+    loadPhotoOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getPhotoJson == "undefined") {
+      loadPhotoOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的talk标签(getTalkOnline)里的内容 -->
+<script>
+  function loadTalkOnlineJS() {
+    if ($(".post-detail").find(".getJsonTalk-api").length == 0) {
+      return;
+    } 
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/waterfall.js/1.0.2/waterfall.min.js'); // 瀑布流插件，https://raphamorim.io/waterfall.js/
+    loadScript('/js/getTalkOnline/index.js');
+  };
+  $(function () {
+    loadTalkOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getTalkJson == "undefined") {
+      loadTalkOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的site-card标签(getSiteOnline)里的内容 -->
+<script>
+  function loadSiteOnlineJS() {
+    if ($(".post-detail").find(".getJsonSite-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getSiteOnline/index.js');
+  };
+  $(function () {
+    loadSiteOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getSiteJson == "undefined") {
+      loadSiteOnlineJS();
+    }
+  })
+</script>
+
+<!-- 输入框打字特效 -->
+<!-- 输入框打字特效 -->
+
+  <script src="/js/activate-power-mode.js"></script>
+  <script>
+    POWERMODE.colorful = true;  // 打开随机颜色特效
+    POWERMODE.shake = false;    // 关闭输入框抖动
+    document.body.addEventListener('input', POWERMODE);//监听打字事件
+  </script>
+
+
+<!-- markdown代码一键复制功能 -->
+
+  <link rel="stylesheet" href="https://unpkg.com/v-plugs-ayu/lib/ayu.css">
+  <script src="https://unpkg.com/v-plugs-ayu/lib/ayu.umd.min.js"></script>
+  <script src="/js/clipboard/clipboard.min.js"></script>
+  <div id="appCopy">
+  </div>
+  <script data-pjax>
+    var vm = new Vue({
+      el: '#appCopy',
+      data: {
+      },
+      computed: {
+      },
+      mounted() {
+        const that = this;
+        var copy = '复制';
+        /* code */
+        var initCopyCode = function () {
+          var copyHtml = '';
+          copyHtml += '<button class="btn-copy" data-clipboard-snippet="" style="position:absolute;top:0;right:0;z-index:1;">';
+          copyHtml += '<i class="fas fa-copy"></i><span>' + copy + '</span>';
+          copyHtml += '</button>';
+          $(".post-detail pre").not('.gutter pre').wrap("<div class='codeBox' style='position:relative;width:100%;'></div>")
+          $(".post-detail pre").not('.gutter pre').before(copyHtml);
+          new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+              return trigger.nextElementSibling;
+            }
+          });
+        }
+        initCopyCode();
+        $('.btn-copy').unbind('click').bind('click', function () {
+          doSomething();
+        })
+        $(document).unbind('keypress').bind('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode == 67) {
+            doSomething();
+          }
+        })
+
+        function doSomething() {
+          that.$notify({
+            title: "成功",
+            content: "代码已复制，请遵守相关授权协议。",
+            type: 'success'
+          })
+        }
+      },
+      methods: {
+      },
+      created() { }
+    })
+  </script>
+  
+
+<!-- 图片懒加载 -->
+<script defer src="https://unpkg.com/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+<!-- 卡片滚动动画 -->
+   
+
+<!-- 评论所需js -->
+
+  
+    <script type="text/javascript">
+  var utteranceCommon = {};
+
+  function check_utterance() {
+    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+    if (isDark) {
+      utteranceCommon.Theme = 'github-dark';
+    } else {
+      utteranceCommon.Theme = 'github-light';
+    }
+
+    return document.getElementById("gitment-container");
+  }
+  comment_el = '#gitment-container';
+  load_utterance = function () {
+    if ($(comment_el).length) {
+      // 匿名函数，防止污染全局变量
+      const HEAD = check_utterance();
+
+      var utterances = document.createElement('script');
+      utterances.type = 'text/javascript';
+      utterances.async = true;
+      utterances.setAttribute('issue-term', 'pathname')
+      utterances.setAttribute('theme', utteranceCommon.Theme)
+      utterances.setAttribute('repo', 'godownio/godownio.github.io')
+      utterances.crossorigin = 'anonymous';
+      utterances.src = 'https://utteranc.es/client.js';
+      // content 是要插入评论的地方
+      document.getElementById('gitment-container').appendChild(utterances);
+
+    }
+  }
+
+  function dark_utterance() {
+    const HEAD = check_utterance();
+    if (!HEAD) return;
+    const message = {
+      type: 'set-theme',
+      theme: utteranceCommon.Theme
+    };
+    const utteranceIframe = document.querySelector('iframe');
+    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+
+  $(document).ready(load_utterance);
+  document.addEventListener('pjax:complete', function () {
+    load_utterance();
+  });
+
+  $('.dark').click(function () {
+    setTimeout(() => {
+      dark_utterance();
+    });
+  })
+
+</script>
+
+<style>
+  .utterances {
+    max-width: inherit !important;
+  }
+</style>
+  
+
+
+<!-- 鼠标点击特效 -->
+<!-- 爱心点击 -->
+
+  
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 999; pointer-events: none;" ></canvas>
+    <script src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
+    <script src="/js/cursor/explosion.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-pjax></script>
+
+
+<!-- 轮播图标签 -->
+<script>
+  var bambooSwiperTag = {};
+  function load_swiper() {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    loadCSS("https://unpkg.com/swiper@6/swiper-bundle.min.css")
+    loadScript("https://unpkg.com/swiper@6/swiper-bundle.min.js").then(() => {
+      pjax_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function pjax_swiper() {
+    bambooSwiperTag.swiper = new Swiper('.post-swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      autoplay: true ? {
+        delay: 3000,
+        stopOnLastSlide: false,
+        disableOnInteraction: false,
+      } : false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      on:{
+        init: function(){
+          swiperAnimateCache(this); //隐藏动画元素 
+          swiperAnimate(this); //初始化完成开始动画
+        }, 
+        slideChangeTransitionEnd: function(){ 
+          swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
+          //this.slides.eq(this.activeIndex).find('.ani').removeClass('ani'); 动画只展现一次，去除ani类名
+        } 
+      }
+    });
+  }
+
+  document.addEventListener('pjax:complete', function () {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    if (typeof bambooSwiperTag.swiper === "undefined") {
+      load_swiper();
+    } else {
+      pjax_swiper();
+    }
+  });
+</script>
+    <!-- pjax -->
+    
+
+<!-- pjax -->
+
+
+  <script src="/js/pjax@0.2.8/index.js"></script>
+  
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+    document.addEventListener('pjax:complete', function () {
+      window.HideLoading();
+    })
+    document.addEventListener('pjax:send', function () {
+      window.ShowLoading();
+    })
+    document.addEventListener('pjax:error', function () {
+      window.HideLoading();
+    })
+	</script>
+</div>
+
+  
+
+  <script>
+    var pjax = new Pjax({
+      elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([no-pjax])',   // 拦截正常带链接的 a 标签
+      selectors: ["#pjax-container","title"],                                   // 根据实际需要确认重载区域
+      cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+      timeout: 5000
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+
+    })
+    
+    document.addEventListener('pjax:complete', function () {
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.location.href = e.triggerElement.href;
+    })
+    
+    // 刷新不从顶部开始
+    document.addEventListener("DOMContentLoaded", function () {
+      history.scrollRestoration = 'auto';
+    })
+  </script>
+
+
+
+  </body>
+</html>
