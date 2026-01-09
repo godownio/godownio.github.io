@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2025-12-30T08:07:41.477Z</updated>
+  <updated>2026-01-09T09:58:56.583Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>春秋云镜 Privilege</title>
+    <link href="https://godownio.github.io/2026/01/09/chun-qiu-yun-jing-privilege/"/>
+    <id>https://godownio.github.io/2026/01/09/chun-qiu-yun-jing-privilege/</id>
+    <published>2026-01-09T09:37:21.000Z</published>
+    <updated>2026-01-09T09:58:56.583Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Privilege&quot;&gt;&lt;a href=&quot;#春秋云镜-Privilege&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Privilege&quot;&gt;&lt;/a&gt;春秋云镜 Privilege&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>hibernate反序列化</title>
@@ -507,34 +534,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;delivery&quot;&gt;&lt;a href=&quot;#delivery&quot; class=&quot;headerlink&quot; title=&quot;delivery&quot;&gt;&lt;/a&gt;delivery&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a href=&quot;#flag1&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
-    
-    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
-    
-    
-    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>春秋云镜 hospital</title>
-    <link href="https://godownio.github.io/2025/08/07/chun-qiu-yun-jing-hospital/"/>
-    <id>https://godownio.github.io/2025/08/07/chun-qiu-yun-jing-hospital/</id>
-    <published>2025-08-07T15:18:18.000Z</published>
-    <updated>2025-09-06T04:49:10.954Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;hospital&quot;&gt;&lt;a href=&quot;#hospital&quot; class=&quot;headerlink&quot; title=&quot;hospital&quot;&gt;&lt;/a&gt;hospital&lt;/h2&gt;&lt;p&gt;fscan&lt;/p&gt;
-&lt;p&gt;&lt;img</summary>
         
       
     
