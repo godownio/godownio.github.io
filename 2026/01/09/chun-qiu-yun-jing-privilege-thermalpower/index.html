@@ -954,7 +954,7 @@ Windows 环境： C:\Program Files\Jenkins\secrets\initialAdminPassword
 <p>通过网站<a target="_blank" rel="noopener" href="https://www.ssleye.com/ssltool/pem_xml.html%EF%BC%8C%E5%B0%86">https://www.ssleye.com/ssltool/pem_xml.html，将</a> XML 格式转成 PEM 格式，得到 <code>PRIVATE KEY</code></p>
 <p>然后通过[<a target="_blank" rel="noopener" href="https://www.lddgo.net/encrypt/rsa%EF%BC%8C%E5%86%8D%E6%8A%8A">https://www.lddgo.net/encrypt/rsa，再把</a> <code>aes key</code>解出来，输入内容为<code>encryptedAesKey</code> 中加密的内容，解密后得到一串字符。</p>
 <p>然后一次AES解密桌面上的ScadaDB.sql.locky得到flag4</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Cipher import AES</span><br><span class="line">import os</span><br><span class="line">import base64</span><br><span class="line"></span><br><span class="line">AES_KEY = base64.b64decode(&quot;cli9gqXpTrm7CPMcdP9TSmVSzXVgSb3jrW+AakS7azk=&quot;)</span><br><span class="line"></span><br><span class="line">def decrypt_file(input_file, output_file):</span><br><span class="line">    aes_cipher = AES.new(AES_KEY, AES.MODE_CBC)</span><br><span class="line">    with open(input_file, &#x27;rb&#x27;) as f:</span><br><span class="line">        iv = f.read(16)</span><br><span class="line">        aes_cipher = AES.new(AES_KEY, AES.MODE_CBC, iv)</span><br><span class="line">        with open(output_file, &#x27;wb&#x27;) as decrypted_file:</span><br><span class="line">            while True:</span><br><span class="line">                chunk = f.read(16)</span><br><span class="line">                if len(chunk) == 0:</span><br><span class="line">                    break</span><br><span class="line">                decrypted_chunk = aes_cipher.decrypt(chunk)</span><br><span class="line">                decrypted_file.write(decrypted_chunk)</span><br><span class="line"></span><br><span class="line">    print(&quot;解密完成&quot;)</span><br><span class="line"></span><br><span class="line">input_file = &quot;ScadaDB.sql.locky&quot;</span><br><span class="line">output_file = &quot;ScadaDB.sql&quot;  # 解密后的文件</span><br><span class="line">decrypt_file(input_file, output_file)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">AES_KEY = base64.b64decode(<span class="string">&quot;cli9gqXpTrm7CPMcdP9TSmVSzXVgSb3jrW+AakS7azk=&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decrypt_file</span>(<span class="params">input_file, output_file</span>):</span><br><span class="line">    aes_cipher = AES.new(AES_KEY, AES.MODE_CBC)</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(input_file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        iv = f.read(<span class="number">16</span>)</span><br><span class="line">        aes_cipher = AES.new(AES_KEY, AES.MODE_CBC, iv)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(output_file, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> decrypted_file:</span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                chunk = f.read(<span class="number">16</span>)</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(chunk) == <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                decrypted_chunk = aes_cipher.decrypt(chunk)</span><br><span class="line">                decrypted_file.write(decrypted_chunk)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;解密完成&quot;</span>)</span><br><span class="line"></span><br><span class="line">input_file = <span class="string">&quot;ScadaDB.sql.locky&quot;</span></span><br><span class="line">output_file = <span class="string">&quot;ScadaDB.sql&quot;</span>  <span class="comment"># 解密后的文件</span></span><br><span class="line">decrypt_file(input_file, output_file)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>得到最后一个flag</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110215141083.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260110215141083.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260110215141083"></p>
@@ -979,7 +979,7 @@ Windows 环境： C:\Program Files\Jenkins\secrets\initialAdminPassword
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2026/01/09/chun-qiu-yun-jing-privilege/" target="_blank" title="春秋云镜 Privilege &amp; ThermalPower">https://godownio.github.io/2026/01/09/chun-qiu-yun-jing-privilege/</a>
+    <a href="/2026/01/09/chun-qiu-yun-jing-privilege-thermalpower/" target="_blank" title="春秋云镜 Privilege &amp; ThermalPower">https://godownio.github.io/2026/01/09/chun-qiu-yun-jing-privilege-thermalpower/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -996,6 +996,27 @@ Windows 环境： C:\Program Files\Jenkins\secrets\initialAdminPassword
 <div class="post-nav">
 
 
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8187.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8187.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2026/01/15/chun-qiu-yun-jing-magicrelay/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> 上一篇:
+        <div class="title-text">春秋云镜 magicrelay</div>
+      </div>
+      
+      <!-- <div class="content">
+        春秋云镜 magicrelayflag1fscan -h 39.99.228.176
+
+redis未授权
+redis-c
+      </div> -->
+    </a>
+  </div>
 
 
 
@@ -1266,7 +1287,28 @@ hibernate反序列化Hibernate 是一个广泛使用的开源对象关系映射�
             
 
             <div class="post-img-box">
-              <a href="/2026/01/09/chun-qiu-yun-jing-privilege/" class="post-img " style="background-size: cover; 
+              <a href="/2026/01/15/chun-qiu-yun-jing-magicrelay/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8187.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8187.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">01-15</span>
+                
+              </div>
+              <a class="post-title" href="/2026/01/15/chun-qiu-yun-jing-magicrelay/">春秋云镜 magicrelay</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/01/09/chun-qiu-yun-jing-privilege-thermalpower/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8186.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8186.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
@@ -1277,7 +1319,7 @@ hibernate反序列化Hibernate 是一个广泛使用的开源对象关系映射�
                   <span class="post-date">01-09</span>
                 
               </div>
-              <a class="post-title" href="/2026/01/09/chun-qiu-yun-jing-privilege/">春秋云镜 Privilege &amp; ThermalPower</a>
+              <a class="post-title" href="/2026/01/09/chun-qiu-yun-jing-privilege-thermalpower/">春秋云镜 Privilege &amp; ThermalPower</a>
             </div>
           </div>
         
@@ -1341,27 +1383,6 @@ hibernate反序列化Hibernate 是一个广泛使用的开源对象关系映射�
                 
               </div>
               <a class="post-title" href="/2025/12/23/oddfuzz/">ODDFUZZ</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2025/12/18/chun-qiu-yun-jing-flarum/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8182.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-18</span>
-                
-              </div>
-              <a class="post-title" href="/2025/12/18/chun-qiu-yun-jing-flarum/">春秋云镜 Flarum</a>
             </div>
           </div>
         
