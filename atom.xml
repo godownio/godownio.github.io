@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2026-01-15T13:51:13.173Z</updated>
+  <updated>2026-01-21T09:06:46.653Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,61 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>春秋云镜 Aoselu</title>
+    <link href="https://godownio.github.io/2026/01/21/chun-qiu-yun-jing-aoselu/"/>
+    <id>https://godownio.github.io/2026/01/21/chun-qiu-yun-jing-aoselu/</id>
+    <published>2026-01-21T09:06:42.000Z</published>
+    <updated>2026-01-21T09:06:46.653Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-Aoselu&quot;&gt;&lt;a href=&quot;#春秋云镜-Aoselu&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Aoselu&quot;&gt;&lt;/a&gt;春秋云镜 Aoselu&lt;/h2&gt;&lt;h3 id=&quot;flag1&quot;&gt;&lt;a href=&quot;#flag1&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>春秋云镜 GreatWall</title>
+    <link href="https://godownio.github.io/2026/01/19/chun-qiu-yun-jing-greatwall/"/>
+    <id>https://godownio.github.io/2026/01/19/chun-qiu-yun-jing-greatwall/</id>
+    <published>2026-01-19T12:30:35.000Z</published>
+    <updated>2026-01-21T09:05:53.213Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;春秋云镜-GreatWall&quot;&gt;&lt;a href=&quot;#春秋云镜-GreatWall&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 GreatWall&quot;&gt;&lt;/a&gt;春秋云镜 GreatWall&lt;/h2&gt;&lt;p&gt;据说是第一届ccb半决的题&lt;/p&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+    
+    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>春秋云镜 magicrelay</title>
@@ -487,65 +542,6 @@
     
     
     <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>lilctf 2025</title>
-    <link href="https://godownio.github.io/2025/08/28/lilctf/"/>
-    <id>https://godownio.github.io/2025/08/28/lilctf/</id>
-    <published>2025-08-28T05:45:14.000Z</published>
-    <updated>2025-12-30T07:20:28.144Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;lilctf-2025&quot;&gt;&lt;a href=&quot;#lilctf-2025&quot; class=&quot;headerlink&quot; title=&quot;lilctf 2025&quot;&gt;&lt;/a&gt;lilctf 2025&lt;/h2&gt;&lt;p&gt;ctf地址（趁在线）&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="ctf" scheme="https://godownio.github.io/categories/ctf/"/>
-    
-    <category term="WP" scheme="https://godownio.github.io/categories/ctf/WP/"/>
-    
-    
-    <category term="CTF" scheme="https://godownio.github.io/tags/CTF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>打靶笔记</title>
-    <link href="https://godownio.github.io/2025/08/21/da-ba-bi-ji/"/>
-    <id>https://godownio.github.io/2025/08/21/da-ba-bi-ji/</id>
-    <published>2025-08-21T10:45:51.000Z</published>
-    <updated>2025-10-14T03:14:44.289Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;ul&gt;
-&lt;li&gt;春秋云境——Tsclient&lt;/li&gt;
-&lt;li&gt;思考flag2中除了传cs马进程注入，有无其他方式（RDP？）&lt;/li&gt;
-&lt;li&gt;cs常见命令用法&lt;/li&gt;
-&lt;li&gt;修改注册表映像劫持有哪些利用方式&lt;/li&gt;
-&lt;li&gt;哈希传递登录的不同方式（不同工具的区别、利用</summary>
-        
-      
-    
-    
-    
-    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
-    
-    <category term="渗透笔记" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/"/>
-    
-    
-    <category term="渗透笔记" scheme="https://godownio.github.io/tags/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
