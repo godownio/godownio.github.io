@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2026-03-10T12:39:17.177Z</updated>
+  <updated>2026-03-11T07:16:01.292Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>jadx mcp分析</title>
+    <link href="https://godownio.github.io/2026/03/11/jadx-mcp-fen-xi/"/>
+    <id>https://godownio.github.io/2026/03/11/jadx-mcp-fen-xi/</id>
+    <published>2026-03-11T07:15:42.000Z</published>
+    <updated>2026-03-11T07:16:01.292Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;用trae+jadx mcp+ida mcp连跑三道android的题，尽管我丝毫不懂android。什么都不能描述我的震惊。&lt;/p&gt;
+&lt;p&gt;先分析一遍jadx mcp，刚开始看到是来自&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://godownio.github.io/categories/java/"/>
+    
+    <category term="java杂谈" scheme="https://godownio.github.io/categories/java/java%E6%9D%82%E8%B0%88/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>春秋云镜 powergrid</title>
@@ -524,25 +550,6 @@
     
     
     <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>对某国教育局两个某系统的代码审计</title>
-    <link href="https://godownio.github.io/2025/10/01/dui-mou-guo-jiao-yu-ju-liang-ge-mou-xi-tong-de-dai-ma-shen-ji/"/>
-    <id>https://godownio.github.io/2025/10/01/dui-mou-guo-jiao-yu-ju-liang-ge-mou-xi-tong-de-dai-ma-shen-ji/</id>
-    <published>2025-10-01T15:59:59.000Z</published>
-    <updated>2025-10-17T08:29:33.216Z</updated>
-    
-    
-    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
-    
-    
-    
-    <category term="保密工作" scheme="https://godownio.github.io/categories/%E4%BF%9D%E5%AF%86%E5%B7%A5%E4%BD%9C/"/>
-    
-    
-    <category term="保密工作" scheme="https://godownio.github.io/tags/%E4%BF%9D%E5%AF%86%E5%B7%A5%E4%BD%9C/"/>
     
   </entry>
   
