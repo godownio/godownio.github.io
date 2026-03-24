@@ -675,7 +675,6 @@
 <p>(jdk7u21&#x2F;8u20 rce) AnnotationInvocationHandler.equalsImpl -&gt; invoke </p>
 <p>PriorityQueue.readObject -&gt; compare</p>
 <p>(cb) PropertyUtils.getProperty -&gt; getter</p>
-<p>(vibur)ViburDBCPObjectFactory.getObjectInstance-&gt;JDBC Attack</p>
 <p>(jackson&#x2F;springboot) POJONode.toString -&gt; JSON.writeValueAsString -&gt;getter</p>
 <p>(jackson) ObjectMapper.readValue -&gt; setter&#x2F;constructor&#x2F;getter</p>
 <p>(jackson) JSONFactory.createParser -&gt; setter&#x2F;constructor</p>
@@ -711,11 +710,27 @@
 <p>TrAXFilter.TrAXFilter -&gt; newTransformer (CC3)</p>
 <p>TiedMapEntry.toString -&gt; getValue -&gt; get (CC5)</p>
 <p>LazyMap.get-&gt;put</p>
-<h3 id="JDBC-Attack"><a href="#JDBC-Attack" class="headerlink" title="JDBC Attack"></a>JDBC Attack</h3><p>(databricks) -&gt;JNDI(alictf 2026MHGA)</p>
-<h3 id="JNDI"><a href="#JNDI" class="headerlink" title="JNDI"></a>JNDI</h3><p>HessianProxyFactory JNDI to Hessian反序列化</p>
+<h3 id="JDBC-Attack"><a href="#JDBC-Attack" class="headerlink" title="JDBC Attack"></a>JDBC Attack</h3><p>打CPX的如果有Tomcat，都可以搭配ascii-jar写文件加载</p>
+<p>(databricks) -&gt;JNDI(alictf 2026MHGA)</p>
+<p>(mysql)fakeserver-&gt;readObject原生反序列化</p>
+<p>(PostgreSQL)socketFactory+socketFactoryArg-&gt;constructor（打CPX）</p>
+<p>(PostgreSQL)loggerLevel+loggerFile-&gt;writeFile</p>
+<p>(h2database)RUNSCRIPT-&gt;远程加载SQL 出网</p>
+<p>(h2database)CREATE TRIGGER创建触发器-&gt;执行JavaScript&#x2F;执行java代码&#x2F;Groovy AST</p>
+<p>(Jre17 +h2database)commons-io写文件+commons-beanutils MethodUtils反射调用System.load</p>
+<p>(IBM DB2)-&gt;JNDI</p>
+<p>(ModeShape)-&gt;JNDI</p>
+<p>(Derby)JNDIServer-&gt;readObject原生反序列化</p>
+<p>(sqlite)<code>jdbc:sqlite::resource:http://127.0.0.1:8888/poc.db</code>上传任意文件-&gt;create view劫持select语句-&gt;load_extension加载动态链接库</p>
+<p>(Tomcat)org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory JNDI-&gt;JDBC</p>
+<h3 id="JNDI-HignVersion"><a href="#JNDI-HignVersion" class="headerlink" title="JNDI HignVersion"></a>JNDI HignVersion</h3><p>getObjectInstance大集合</p>
+<p>(Hessian)HessianProxyFactory JNDI to Hessian反序列化</p>
+<p>(Tomcat)beanFactory 构造一个恶意ResourceRef类，forceString参数调用任意方法</p>
+<p>org.apache.catalina.users.MemoryUserDatabaseFactory JNDI to XXE</p>
+<p>org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory JNDI to JDBC</p>
+<p>(vibur)ViburDBCPObjectFactory-&gt;JDBC Attack</p>
 <h3 id="jwt"><a href="#jwt" class="headerlink" title="jwt"></a>jwt</h3><p>一般jwt直接破解不了的，考虑原型链污染key。一般jwt考题都伴随了原型链污染</p>
-<p>面试问了jwt相对session&#x2F;cookie的优劣势</p>
-<p>可以放在cookie外的header头，防止csrf</p>
+<p>面试问了jwt相对session&#x2F;cookie的优劣势：可以放在cookie外的header头，防止csrf</p>
 <h3 id="hessian"><a href="#hessian" class="headerlink" title="hessian"></a>hessian</h3><p>hessian一般伴随着能触发hashMap.put hashCode&#x2F;equals&#x2F;compareTo</p>
 <p>hessian打TemplatesImpl不能readObject初始化tfactory，可以选择直接SignedObject-&gt;TemplatesImpl</p>
 <p>这个超全：</p>
@@ -1161,7 +1176,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ctf%E5%B9%B3%E5%8F%B0"><span class="toc-text">ctf平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-Collections"><span class="toc-text">Common-Collections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trick%E7%BB%95%E8%BF%87"><span class="toc-text">trick绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%8F%82%E6%95%B0exec%E7%BB%95%E8%BF%87"><span class="toc-text">单参数exec绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson"><span class="toc-text">fastjson</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gadget"><span class="toc-text">Gadget</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CC-Gadget"><span class="toc-text">CC Gadget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC-Attack"><span class="toc-text">JDBC Attack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNDI"><span class="toc-text">JNDI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jwt"><span class="toc-text">jwt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hessian"><span class="toc-text">hessian</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JRMP"><span class="toc-text">JRMP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EJRMP%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B%E5%A6%82%E4%B8%8B"><span class="toc-text">关于JRMP的两种攻击流程如下</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="toc-text">第一种攻击方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="toc-text">第二种攻击方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E9%97%AE%E9%A2%98"><span class="toc-text">无回显问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#flask-SSTI%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-text">flask SSTI无回显</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pickle%E4%B8%8D%E5%87%BA%E7%BD%91%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-text">pickle不出网无回显</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other%E9%AA%9A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3"><span class="toc-text">other骚报错解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#maven%E6%89%93%E5%8C%85%E9%97%AE%E9%A2%98"><span class="toc-text">maven打包问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#paython%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98"><span class="toc-text">paython传参问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#idea%E6%96%87%E4%BB%B6%E5%92%96%E5%95%A1%E6%9D%AF%E9%97%AE%E9%A2%98"><span class="toc-text">idea文件咖啡杯问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jinja2%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">jinja2安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fenjing%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">fenjing安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E6%97%A0%E6%95%88%E9%97%AE%E9%A2%98"><span class="toc-text">nodejs原型链污染无效问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proc-ctf%E5%B8%B8%E7%94%A8%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="toc-text">proc ctf常用文件信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98"><span class="toc-text">静态代码块执行问题</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ctf%E5%B9%B3%E5%8F%B0"><span class="toc-text">ctf平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-Collections"><span class="toc-text">Common-Collections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trick%E7%BB%95%E8%BF%87"><span class="toc-text">trick绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%8F%82%E6%95%B0exec%E7%BB%95%E8%BF%87"><span class="toc-text">单参数exec绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson"><span class="toc-text">fastjson</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gadget"><span class="toc-text">Gadget</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CC-Gadget"><span class="toc-text">CC Gadget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC-Attack"><span class="toc-text">JDBC Attack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNDI-HignVersion"><span class="toc-text">JNDI HignVersion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jwt"><span class="toc-text">jwt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hessian"><span class="toc-text">hessian</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JRMP"><span class="toc-text">JRMP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EJRMP%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B%E5%A6%82%E4%B8%8B"><span class="toc-text">关于JRMP的两种攻击流程如下</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="toc-text">第一种攻击方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="toc-text">第二种攻击方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E9%97%AE%E9%A2%98"><span class="toc-text">无回显问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#flask-SSTI%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-text">flask SSTI无回显</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pickle%E4%B8%8D%E5%87%BA%E7%BD%91%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-text">pickle不出网无回显</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other%E9%AA%9A%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3"><span class="toc-text">other骚报错解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#maven%E6%89%93%E5%8C%85%E9%97%AE%E9%A2%98"><span class="toc-text">maven打包问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#paython%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98"><span class="toc-text">paython传参问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#idea%E6%96%87%E4%BB%B6%E5%92%96%E5%95%A1%E6%9D%AF%E9%97%AE%E9%A2%98"><span class="toc-text">idea文件咖啡杯问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jinja2%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">jinja2安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fenjing%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-text">fenjing安装问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nodejs%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E6%97%A0%E6%95%88%E9%97%AE%E9%A2%98"><span class="toc-text">nodejs原型链污染无效问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#proc-ctf%E5%B8%B8%E7%94%A8%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="toc-text">proc ctf常用文件信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98"><span class="toc-text">静态代码块执行问题</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -1187,6 +1202,27 @@
       <!-- hash算法 -->
       
       <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/03/24/chun-qiu-yun-jing-vertex/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8194.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8194.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">03-24</span>
+                
+              </div>
+              <a class="post-title" href="/2026/03/24/chun-qiu-yun-jing-vertex/">春秋云镜 Vertex</a>
+            </div>
+          </div>
         
           <div class="aside-list-item">
             
@@ -1269,27 +1305,6 @@
                 
               </div>
               <a class="post-title" href="/2026/03/10/chun-qiu-yun-jing-powergrid/">春秋云镜 powergrid</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2026/01/21/chun-qiu-yun-jing-aoselu/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8190.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8190.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">01-21</span>
-                
-              </div>
-              <a class="post-title" href="/2026/01/21/chun-qiu-yun-jing-aoselu/">春秋云镜 Aoselu</a>
             </div>
           </div>
         
