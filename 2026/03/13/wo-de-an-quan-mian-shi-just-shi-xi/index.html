@@ -619,7 +619,10 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <h2 id="面试卡壳点"><a href="#面试卡壳点" class="headerlink" title="面试卡壳点"></a>面试卡壳点</h2><p>记录一些面试没答好的问题，持续更新</p>
+        <h2 id="感觉比较好的面筋"><a href="#感觉比较好的面筋" class="headerlink" title="感觉比较好的面筋"></a>感觉比较好的面筋</h2><p>我看过的一些面筋，可以引发我的思考，感觉有用的，每个问题都想一遍（当然二进制就别想了（：</p>
+<p><a target="_blank" rel="noopener" href="https://sechub.in/view/2639447">https://sechub.in/view/2639447</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/vvmdx/Sec-Interview-4-2023?tab=readme-ov-file#0x00-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8-%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E4%B9%A0%E7%94%9F">https://github.com/vvmdx/Sec-Interview-4-2023?tab=readme-ov-file#0x00-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8-%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E4%B9%A0%E7%94%9F</a></p>
+<h2 id="面试卡壳点"><a href="#面试卡壳点" class="headerlink" title="面试卡壳点"></a>面试卡壳点</h2><p>记录一些面试没答好的问题，持续更新</p>
 <h3 id="字节风控一面"><a href="#字节风控一面" class="headerlink" title="字节风控一面"></a>字节风控一面</h3><p>算法，对数个ipv4进行排序，算法随意</p>
 <p>没写出来，面试官说用冒泡排序写，然而我全忘了</p>
 <p>总结下排序算法常用的思路，分治（分段排序，然后递归-&gt;快排），双指针（合并数组-&gt;归并），提出来一个元素找合适的位置加进去（插入），不合顺序的交换（冒泡）</p>
@@ -629,7 +632,7 @@
 <li><p>XSS 的危害，可能造成蠕虫攻击，在移动端上 XSS 可以调用 WebView 顶层接口，具体一下有没有可能触发 Chrome 的一些 0day 和 nday 漏洞。</p>
 <p>对于上述的防护，可以在采用 innerHTML、前端框架中的 dangerous html 方法等，也可以给研发提供一些更安全的 SDK，来支持转义和 JS 过滤。</p>
 </li>
-<li><p>CSRF的防御：除了保底防御的CSRF token(服务器生成一个<strong>随机 token</strong>。用户请求时必须带上)，还应该提到Referer &#x2F; Origin 校验，看下是否来自白名单；还有验证码，二次确认等。原理都是浏览器只要请求目标域名匹配 Cookie 的 domain&#x2F;path，就自动发送 Cookie，而csrf不在cookie内</p>
+<li><p>CSRF的防御：除了保底防御的CSRF token(服务器生成一个<strong>随机 token</strong>。用户请求时必须带上)，还应该提到Referer &#x2F; Origin 校验，看下是否来自白名单，SameSite；还有验证码，二次确认等。原理都是浏览器只要请求目标域名匹配 Cookie 的 domain&#x2F;path，就自动发送 Cookie，而csrf不在cookie内</p>
 </li>
 <li><p>微服务安全的全架构审计：应该提到网关、鉴权、服务间调用、RPC的事情</p>
 </li>
@@ -704,7 +707,7 @@
 </ul>
 <h3 id="字节风控二面"><a href="#字节风控二面" class="headerlink" title="字节风控二面"></a>字节风控二面</h3><p>原来是一面面试官太nice了</p>
 <p>一面着重问思路，很明显是在业务上的，二面首先他就迟到了，然后进来也很吵，自我介绍完就给了一个很难的算法。中间我有语法问题，问他为啥跑不了，他说可以切到自己的IDE，我顺便拿去问了deepseek，结果思考了206s。首先对一个安全人员来说，既然要求算法我为什么学的是ctf不是acm？然后一个小时没写出来，之后他就不耐烦的问了10分钟的问题。我觉得他甚至没看过我的简历，直接问了常见的几个网安八股，xss的攻击和防御，csrf的攻击和防御，就没了。喂喂喂我写那么多java代审干嘛来的，叫我介绍之前经历最有意义的点，我提到绿盟设备对长数据包解析有问题，经典的案例就是shiro打有脏数据的哥斯拉webshell，他问了两遍什么shell？我说哥斯拉，ok没听过哥斯拉我没意见，为什么我回答后老是一两分钟都不说话，他一直在看自己上面的屏幕，除了哥斯拉基本一个字都没听我说，是只有哥斯拉这种奇怪的名字才能吸引他的注意力吗？</p>
-<p>可能是我投错部门了，我投的风控——安全实习生。可能应该投安全攻防部，就没有这种面安全问算法的老哥了，我真没招了，投向leetcode怀抱中</p>
+<p>可能是我投错部门了，我投的风控——安全实习生。可能应该投安全攻防部，就没有这种面安全问算法的老哥了，我真没招了</p>
 <p>说下题目吧，之后才知道是经典的算法题，但是哪个好人学安全刷算法的？</p>
 <p>给定一个数 n，如 23121；给定一组数字 A 如 {2,4,9}，求由 A 中元素组成的、小于 n 的最大数，如小于 23121 的最大数为 22999</p>
 <p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/93a71157275b505b31a60a26878d3010.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/93a71157275b505b31a60a26878d3010.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="93a71157275b505b31a60a26878d3010"></p>
@@ -713,6 +716,87 @@
 <p>优势：不用存储省服务器空间；可以放在header头，就能防止csrf</p>
 <p>劣势：弱密钥或者密钥泄露会被长期伪造</p>
 <p>ok这就是全场高光的一道问题。</p>
+<h3 id="腾子一面"><a href="#腾子一面" class="headerlink" title="腾子一面"></a>腾子一面</h3><p>好评，不刷算法，问的都是java核心，挺好的</p>
+<p>实习经历挨着问，水货实习小心了</p>
+<p>shiro反序列化，shiro反序列化怎么防？</p>
+<p>我先说了jep290黑名单过滤一些危险类，然后他说如果机器很多，不能挨着改怎么办，我说那只能WAF了，想了一会儿我说可以限制header长度（我觉得能答出这个真的有点天才的，一个是真的有用，另外一个复现过shiro绕长度限制可以进一步引导面试官），他想了想，说不错，不过另外还有RASP，对啊，然后我讲了一大堆rasp</p>
+<p>rasp的原理（随便讲），顺便扯到IAST，也是随便讲</p>
+<p>反序列化的原理，几种反序列化的情况，就挨着说原生反序列化readObject&#x2F;jndi&#x2F;fastjson这种调用constructor,setter,getter的情况</p>
+<p>为什么我的某个项目-&gt;指反序列化生成器为什么7个月没更新了😀，当时妹说写论文去了，笑嘻嘻就过去了</p>
+<p>主要是介绍经历，问我360期间无聊，其他实习怎么样之类的。</p>
+<p>有没有自己开发工具（说了给某公司写了个运维系统，然后分析过很多别人的工具之类的，bp插件？）</p>
+<p>还问熟悉vibe coding吗？包熟悉的</p>
+<p>整体没问什么技术，可能是自我介绍叫他去看博客和github了，感觉往这个方向走还挺好的，他会忙着去看项目，问也是针对项目问，当然是主场了。其他的都没怎么问，比如经典的owasp top10都没问，问我想不想写个算法，我说别搞，就没写</p>
+<h3 id="深信服一面"><a href="#深信服一面" class="headerlink" title="深信服一面"></a>深信服一面</h3><p>问了很多对抗的东西</p>
+<p>webshell，内存马免杀（不会）面试官的意思说是自己搭个雷池绕，我就说了个overlong UTF-16</p>
+<p>问了websocket内存马，绕反向代理，本来我想说Upgrade马，但是记不太清了妹说。现在看来答当前路径的通用回显、或者Upgrade马都比较合适，只要不新开映射都能弹回</p>
+<p>缓存投毒（不会）</p>
+<p>http走私原理，检测（只记得chunk了）</p>
+<p>agent实践，氛围编程（说项目经验）</p>
+<p>c2各种防检测，比如改配置文件等（不会）</p>
+<p>可能是想问：</p>
+<blockquote>
+<p>使用HTTPS、DNS、WebSocket、CDN等合法协议传输数据。例如，将C2通信封装在HTTP&#x2F;2流量中，模仿浏览器访问。</p>
+<p>利用<strong>域前置</strong>：通过高信誉CDN（如Cloudflare、Amazon CloudFront）转发流量，使真实C2域名隐藏在CDN之后，仅CDN与目标通信，目标看到的源IP是CDN节点。</p>
+<p>将C2配置（如服务器地址、端口、加密密钥）硬编码在二进制中时，使用加密或分段存储，避免静态扫描直接提取。</p>
+<p>使用“白加黑”技术，将恶意代码注入合法的签名进程中执行。</p>
+</blockquote>
+<h3 id="深信服二面"><a href="#深信服二面" class="headerlink" title="深信服二面"></a>深信服二面</h3><p>keborasting攻击</p>
+<p>模型投毒、提示词注入手法</p>
+<p>设计一个治理大模型隐私安全问题的方案</p>
+<p>什么是联邦学习</p>
+<p>什么是同态加密</p>
+<p>介绍AI+IAST</p>
+<p>银狐的原理和手法，应急</p>
+<h3 id="字节安全运营一面"><a href="#字节安全运营一面" class="headerlink" title="字节安全运营一面"></a>字节安全运营一面</h3><p>感觉问的很深，每个都是问到不会为止，但是没有算法，666，全场景题，但是确实很有道理。心服口服</p>
+<p>介绍运营事件整个是怎么判定的？（转文字原文：我们首先是去判断一个真实性，就是是不是误报这种就是看他的配漏的是不是有具体的攻击代码。比如说sql的，它肯定有相应的注入的内容，反序列化rce就肯定有runtime或者打字节码这种内容。就是看它是否与它的告警相符。如果相符，就是看他的payload有没有执行成功，然后我们当时是不能上机的，就比如说他搭配了的，比如说一个DNS log的外带或者是其他的之类的外联，我们就去看他有没有进一步的外联，或者说他打了webshell打了内存码，就去分析它这个内存码是否有。比如说listener内存码，它会去新建一个servlet映射之类的，我们就去看他有没有访问新建的那个映射。这样就进一步判断他有没有达成功，就是他去访问那个新的映射，可能会有执行命令，执行成功的回显之类的。至于加密的内存码就要进一步分析。比如说哥斯拉的加密的内存码，就要去匹配它的特征，要再进一步的分析。）</p>
+<p>绿盟期间每天的告警量？会不会添加规则</p>
+<p>大部分误报怎么处理（我说业务加白</p>
+<p>你每天有上千条告警，那这些告警很多误报都是有共性的吗？</p>
+<p>处理完之后，每周都会向客户去通报这个结果，对吧？这个是你去通报的吗？</p>
+<p>比如说这个报告发过去，客户会有一些挑战，他们经常会问你吗？后期的处置是需要你你去做的吗？还是说你只要发现，向他告警就行了。</p>
+<p>于是问到入侵排查</p>
+<p>公司有一台内网的这个服务器，然后流量产品还有一条告警说有一个挖矿。好，这个是我们拿到了最原始的这个信息了，然后让你去处置你觉得你那你该从哪些方面去做？比如说从告警研判开始到确认威胁之后，要去上机排查，寻找这个攻击的源头以及最终止损、定损，写调查报告，你觉得你怎流程，你会去怎么做？</p>
+<p>那其实说你比如说发现有一台机器挖矿让你去做，那我们可能关心的是他为什么会被挖矿，对吧？第二个他到底是挖了这一台，还是说挖了很多台？要去排查这台机器为什么会被挖矿，它是怎么打进来的。这个你一般的思路是什么？</p>
+<p>好，如果你排查到了一台机器它的攻击源头之后，第二个那个横向排查，那你那你会去怎么排查？比如说我要意识判断他的他影响面是什么。第二个他会不会攻击？他攻击了这台机子之后，他会不会去做一些其他的事情，那这个该怎么做？</p>
+<p>你可以再扩展一点，就比如说你从流量设备，因为你如果只有流量特征，你可能只局限于在流量特征上。但实际上你是可以上机去排查的，或者说这台服务器上可能会有一些其他的安全产品的日志的。就比如说主机安全的对吧？或者说从HIDS是的这个日志就你看可以做些什么事情。</p>
+<p>能不能通过一些大模型帮忙处置告警</p>
+<p>EDR，HIDS，有运营过类似这样的告警吗</p>
+<p>怎么发现银狐的</p>
+<p>你怎么发现这个微信上面有一些可疑的这种操作的？企业微信也好，我给你发一些附件，发一些东西，这其实也是比较正常的一个现象。那你你们为是怎么抓到这一次发送附件的方式是比较可疑的，然后才还有后面的什么分析附件，这就这样的这样的动作是怎么发现的？</p>
+<p>我甲方的警惕性也没有那么高，或者说这个用户可能对安全也不是特别懂，对吧？他那这时候让我们去发现这个银狐事件，我们作为安全团队，那肯定也要去发现这样的银狐，对吧？那你觉得要从哪些方式去发现他？</p>
+<p>内存马的查杀</p>
+<p>内存马的实现原理</p>
+<p>懂二进制吗</p>
+<p>怎么治理龙虾带来的安全隐患，隐私泄露之类的</p>
+<p>怎么用龙虾辅助安全运营？角色互换这一块</p>
+<p>介绍完整的内网域渗透的经历</p>
+<h3 id="拓竹一面"><a href="#拓竹一面" class="headerlink" title="拓竹一面"></a>拓竹一面</h3><p>我操，拓竹才是他妈的众望所归！真是遇到知音了</p>
+<p>java安全实战挖过哪些洞</p>
+<p>JNDI注入？JNDI注入除了lookup还有别的sink吗？（答了各种getObjectInstance，包括今年alictf的hessian jndi，爽飞了给我，还打了LdapAttribute，总之lookup到getObjectInstance中间的如果其他方法有调用都可以一试）</p>
+<p>JDBC attack?问了mysql和h2的，再次爽飞</p>
+<p>布豪，讲完h2就问了HQL-&gt;hibernate，我真不知道hql注入了，学习！</p>
+<p>问实战有没有挖过反序列化，好像没有（想起亿赛通，挖过来着），但打ctf还是自己挖过链子的，面试官此处不太满意</p>
+<p>SSRF实战挖过吗？我太老实了，再次没有，遂问挖过哪些洞</p>
+<p>逻辑洞，举了刚挖的云丹田</p>
+<p>XXE&#x2F;SSTI大量举例，包括python，java的，列举了一些-&gt;jinja,flask,thymeleaf,freemarker,vocility之类的</p>
+<p>DNS重绑定</p>
+<p>CSP？有什么用？（防XSS）</p>
+<p>CORS，我操就记得叫同源策略了，拿来跨域的</p>
+<p>jsonp？</p>
+<p>http走私原理</p>
+<p>Host头注入（再次不懂，面试官提示host碰撞，其实我都没听过这个洞</p>
+<p>云原生懂哪些？metadata，特权容器</p>
+<p>阿里云的元数据是什么？彻底露馅，此处面试官质疑到底有没有遇到过云metadata</p>
+<p>云原生的api server</p>
+<p>java反射怎么导致问题说一下，说了invoke和newInstance..</p>
+<p>你觉得你比较擅长什么？再次java代审</p>
+<p>go审过哪些洞</p>
+<p>接触安全多久了？为什么每个面试官都这么问我</p>
+<h3 id="另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜"><a href="#另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜" class="headerlink" title="另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜"></a>另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜</h3><p>如何绕CND找ip（这个问题我一直不知道答案，可能是方法太多了）</p>
+<p>CDN（比如 Cloudflare、Akamai）的作用是<strong>隐藏源站 IP</strong></p>
+<p>子域名泄露（最常见）很多站只是主站走 CDN，但子域名没走； 历史 DNS 记录；邮件服务器 &#x2F; MX 记录</p>
+<p>域前置？</p>
 
       </div>
       <div class="post-tags-categories">
@@ -999,7 +1083,7 @@ https://www.aliyunctf
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%8D%A1%E5%A3%B3%E7%82%B9"><span class="toc-text">面试卡壳点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E9%A3%8E%E6%8E%A7%E4%B8%80%E9%9D%A2"><span class="toc-text">字节风控一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E9%A3%8E%E6%8E%A7%E4%BA%8C%E9%9D%A2"><span class="toc-text">字节风控二面</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%84%9F%E8%A7%89%E6%AF%94%E8%BE%83%E5%A5%BD%E7%9A%84%E9%9D%A2%E7%AD%8B"><span class="toc-text">感觉比较好的面筋</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%8D%A1%E5%A3%B3%E7%82%B9"><span class="toc-text">面试卡壳点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E9%A3%8E%E6%8E%A7%E4%B8%80%E9%9D%A2"><span class="toc-text">字节风控一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E9%A3%8E%E6%8E%A7%E4%BA%8C%E9%9D%A2"><span class="toc-text">字节风控二面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%85%BE%E5%AD%90%E4%B8%80%E9%9D%A2"><span class="toc-text">腾子一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E4%BF%A1%E6%9C%8D%E4%B8%80%E9%9D%A2"><span class="toc-text">深信服一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E4%BF%A1%E6%9C%8D%E4%BA%8C%E9%9D%A2"><span class="toc-text">深信服二面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E5%AE%89%E5%85%A8%E8%BF%90%E8%90%A5%E4%B8%80%E9%9D%A2"><span class="toc-text">字节安全运营一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E7%AB%B9%E4%B8%80%E9%9D%A2"><span class="toc-text">拓竹一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%A6%E5%A4%96%E6%88%91%E8%A7%89%E5%BE%97%E6%9C%89%E6%84%8F%E4%B9%89%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E8%BF%87%E9%9D%A2%E8%AF%95%E6%B2%A1%E4%BA%BA%E9%97%AE%EF%BC%8C%E5%8F%AF%E8%83%BD%E8%A7%89%E5%BE%97%E6%88%91%E6%B8%97%E9%80%8F%E5%A4%AA%E8%8F%9C"><span class="toc-text">另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
