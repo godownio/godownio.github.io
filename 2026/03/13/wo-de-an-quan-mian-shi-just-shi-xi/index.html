@@ -622,6 +622,7 @@
         <h2 id="感觉比较好的面筋"><a href="#感觉比较好的面筋" class="headerlink" title="感觉比较好的面筋"></a>感觉比较好的面筋</h2><p>我看过的一些面筋，可以引发我的思考，感觉有用的，每个问题都想一遍（当然二进制就别想了（：</p>
 <p><a target="_blank" rel="noopener" href="https://sechub.in/view/2639447">https://sechub.in/view/2639447</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/vvmdx/Sec-Interview-4-2023?tab=readme-ov-file#0x00-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8-%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E4%B9%A0%E7%94%9F">https://github.com/vvmdx/Sec-Interview-4-2023?tab=readme-ov-file#0x00-%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8-%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E4%B9%A0%E7%94%9F</a></p>
+<p>提前说明，本人自我介绍均会主动提起擅长java代审，其他方向不太行。如果是其他方向的web手（流量分析，php&#x2F;go&#x2F;python审计，渗透哥，src哥，ai哥），借鉴率可能没那么高，各位当个笑话看。</p>
 <h2 id="面试卡壳点"><a href="#面试卡壳点" class="headerlink" title="面试卡壳点"></a>面试卡壳点</h2><p>记录一些面试没答好的问题，持续更新</p>
 <h3 id="字节风控一面"><a href="#字节风控一面" class="headerlink" title="字节风控一面"></a>字节风控一面</h3><p>算法，对数个ipv4进行排序，算法随意</p>
 <p>没写出来，面试官说用冒泡排序写，然而我全忘了</p>
@@ -727,6 +728,7 @@
 <p>有没有自己开发工具（说了给某公司写了个运维系统，然后分析过很多别人的工具之类的，bp插件？）</p>
 <p>还问熟悉vibe coding吗？包熟悉的</p>
 <p>整体没问什么技术，可能是自我介绍叫他去看博客和github了，感觉往这个方向走还挺好的，他会忙着去看项目，问也是针对项目问，当然是主场了。其他的都没怎么问，比如经典的owasp top10都没问，问我想不想写个算法，我说别搞，就没写</p>
+<p>面试官答应一天给邮件回复，后续7天超时挂了，再被安全技术部捞起来问他为什么挂我，他说他也不知道。。</p>
 <h3 id="深信服一面"><a href="#深信服一面" class="headerlink" title="深信服一面"></a>深信服一面</h3><p>问了很多对抗的东西</p>
 <p>webshell，内存马免杀（不会）面试官的意思说是自己搭个雷池绕，我就说了个overlong UTF-16</p>
 <p>问了websocket内存马，绕反向代理，本来我想说Upgrade马，但是记不太清了妹说。现在看来答当前路径的通用回显、或者Upgrade马都比较合适，只要不新开映射都能弹回</p>
@@ -748,6 +750,7 @@
 <p>什么是同态加密</p>
 <p>介绍AI+IAST</p>
 <p>银狐的原理和手法，应急</p>
+<p>已oc，hr高高兴兴打电话来，但竹子已offer了，再见sxf</p>
 <h3 id="字节安全运营一面"><a href="#字节安全运营一面" class="headerlink" title="字节安全运营一面"></a>字节安全运营一面</h3><p>感觉问的很深，每个都是问到不会为止，但是没有算法，666，全场景题，但是确实很有道理。心服口服</p>
 <p>介绍运营事件整个是怎么判定的？（转文字原文：我们首先是去判断一个真实性，就是是不是误报这种就是看他的配漏的是不是有具体的攻击代码。比如说sql的，它肯定有相应的注入的内容，反序列化rce就肯定有runtime或者打字节码这种内容。就是看它是否与它的告警相符。如果相符，就是看他的payload有没有执行成功，然后我们当时是不能上机的，就比如说他搭配了的，比如说一个DNS log的外带或者是其他的之类的外联，我们就去看他有没有进一步的外联，或者说他打了webshell打了内存码，就去分析它这个内存码是否有。比如说listener内存码，它会去新建一个servlet映射之类的，我们就去看他有没有访问新建的那个映射。这样就进一步判断他有没有达成功，就是他去访问那个新的映射，可能会有执行命令，执行成功的回显之类的。至于加密的内存码就要进一步分析。比如说哥斯拉的加密的内存码，就要去匹配它的特征，要再进一步的分析。）</p>
 <p>绿盟期间每天的告警量？会不会添加规则</p>
@@ -794,6 +797,34 @@
 <p>go审过哪些洞</p>
 <p>接触安全多久了？为什么每个面试官都这么问我</p>
 <p>答上了70%，不过实战太少，但是专业对口，期待！</p>
+<p>（后续进二面了</p>
+<h3 id="拓竹二面"><a href="#拓竹二面" class="headerlink" title="拓竹二面"></a>拓竹二面</h3><p>实战审过那些大型复杂的漏洞？</p>
+<p>有没有挖过开源组件的漏洞</p>
+<p>有没有自己挖漏洞（代审）的方法论？于是疯狂讲sink溯源之类的</p>
+<p>sink点被封装在工具或者定时任务，这种web上没有入口，大型项目下有很多这种情况，怎么审（经过h神的提示，原来面试官是想问微服务项目，微服务架构除了在单个服务内追踪 source 到 sink，还需要关注 RPC 接口、消息队列等服务边界，将其视为新的 source 或 sink，我不知道这里该不该提起mscan和污点分析，因为用的比较少。。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>️⃣ RPC接口（HTTP / Dubbo / gRPC）</span><br><span class="line"><span class="meta">@PostMapping(&quot;/xxx&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">api</span><span class="params">(<span class="meta">@RequestBody</span> Input input)</span></span><br><span class="line"><span class="number">2</span>️⃣ MQ消费者</span><br><span class="line"><span class="meta">@KafkaListener</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">consume</span><span class="params">(String msg)</span></span><br><span class="line"><span class="number">3</span>️⃣ 定时任务</span><br><span class="line"><span class="meta">@Scheduled</span></span><br><span class="line">    都是作为新的source</span><br></pre></td></tr></table></figure>
+
+<p>有没有审计过大型商业项目（泛微，帆软</p>
+<p>稍微大点的项目怎么审（说到codeql跑别人的规则，tabby自动化，实际搭起来对应的功能和代码熟悉一下，包括鉴权和安全机制，第三方依赖，感觉答得很行吧，但是面试要求实战有这种经验</p>
+<p>说一下java已知的第三方组件，框架都有些什么漏洞，知道多少说多少（疯狂输出，讲完fastjson,jackson嘴都麻了，面试官说先不说fastjson,jackson了，然后把其他的resin,rome,spring aop,hessian,dubbo,snakeyaml,rhino等一大串全部说了一遍，感觉面试官还没听够，说到后面我好多想不起来了，惭愧</p>
+<p>resin有什么特性？（可以用java跑php，刚问的gpt</p>
+<p>shiro 550，721有没有实战打过？721打密钥的条件（真记不得了，因为利用条件比较苛刻，看过一遍就再也没遇到了</p>
+<p>除了550，721，shiro还有什么打法？看过好几次权限绕过，就是答不上来，曹，再次惭愧（面后看了是shiro和spring解析差异的问题</p>
+<p>知道spring security吗（不知道</p>
+<p>bypass RASP的姿势？说了反射调到native之间的栈，可能RASP没过滤完。或者读源码下来，RASP可能直接在代码里有开关，把它关掉。在一个就是自己编译so加载。此处面试官没听够</p>
+<p>反问阶段问RASP还有什么姿势？因为确实很想知道，说是还能新起线程注入，新线程可能不会被hook？但是每个request不都是新线程吗，此处不懂，后续试试</p>
+<p>jetty知道吗？有什么特性？有什么问题？不知道，只知道jetty的内存马的构造，对比其他中间件的特性真不知道</p>
+<p>codeql和tabby有没有自己写全套规则？没有，都是八别人的来用或者有单独的链子要找，找ai写，并没有全套规则去审一套系统</p>
+<p>jdbc反序列化？挨着说，知道多少说多少</p>
+<p>挖的最深，印象最深刻，利用最复杂的一个漏洞？想不起来了，讲了ascii-jar打postgresql，overlong utf-16，虽然没那么复杂，但是比较通用</p>
+<p>（进终面了</p>
+<h3 id="拓竹三面"><a href="#拓竹三面" class="headerlink" title="拓竹三面"></a>拓竹三面</h3><p>boss面</p>
+<p>挖过最难的洞是什么</p>
+<p>vibecoding看法</p>
+<p>根据最难的洞再问一些技术问题，此处已无参考性</p>
+<p>对之前的实习工作和公司有什么看法</p>
+<p>拿了些什么奖，打过最难的ctf题是什么，依旧根据题目再问两句</p>
+<p>已oc</p>
 <h3 id="另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜"><a href="#另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜" class="headerlink" title="另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜"></a>另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜</h3><p>如何绕CND找ip（这个问题我一直不知道答案，可能是方法太多了）</p>
 <p>CDN（比如 Cloudflare、Akamai）的作用是<strong>隐藏源站 IP</strong></p>
 <p>子域名泄露（最常见）很多站只是主站走 CDN，但子域名没走； 历史 DNS 记录；邮件服务器 &#x2F; MX 记录</p>
@@ -1084,7 +1115,7 @@ https://www.aliyunctf
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%84%9F%E8%A7%89%E6%AF%94%E8%BE%83%E5%A5%BD%E7%9A%84%E9%9D%A2%E7%AD%8B"><span class="toc-text">感觉比较好的面筋</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%8D%A1%E5%A3%B3%E7%82%B9"><span class="toc-text">面试卡壳点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E9%A3%8E%E6%8E%A7%E4%B8%80%E9%9D%A2"><span class="toc-text">字节风控一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E9%A3%8E%E6%8E%A7%E4%BA%8C%E9%9D%A2"><span class="toc-text">字节风控二面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%85%BE%E5%AD%90%E4%B8%80%E9%9D%A2"><span class="toc-text">腾子一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E4%BF%A1%E6%9C%8D%E4%B8%80%E9%9D%A2"><span class="toc-text">深信服一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E4%BF%A1%E6%9C%8D%E4%BA%8C%E9%9D%A2"><span class="toc-text">深信服二面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E5%AE%89%E5%85%A8%E8%BF%90%E8%90%A5%E4%B8%80%E9%9D%A2"><span class="toc-text">字节安全运营一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E7%AB%B9%E4%B8%80%E9%9D%A2"><span class="toc-text">拓竹一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%A6%E5%A4%96%E6%88%91%E8%A7%89%E5%BE%97%E6%9C%89%E6%84%8F%E4%B9%89%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E8%BF%87%E9%9D%A2%E8%AF%95%E6%B2%A1%E4%BA%BA%E9%97%AE%EF%BC%8C%E5%8F%AF%E8%83%BD%E8%A7%89%E5%BE%97%E6%88%91%E6%B8%97%E9%80%8F%E5%A4%AA%E8%8F%9C"><span class="toc-text">另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜</span></a></li></ol></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%84%9F%E8%A7%89%E6%AF%94%E8%BE%83%E5%A5%BD%E7%9A%84%E9%9D%A2%E7%AD%8B"><span class="toc-text">感觉比较好的面筋</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E5%8D%A1%E5%A3%B3%E7%82%B9"><span class="toc-text">面试卡壳点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E9%A3%8E%E6%8E%A7%E4%B8%80%E9%9D%A2"><span class="toc-text">字节风控一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E9%A3%8E%E6%8E%A7%E4%BA%8C%E9%9D%A2"><span class="toc-text">字节风控二面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%85%BE%E5%AD%90%E4%B8%80%E9%9D%A2"><span class="toc-text">腾子一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E4%BF%A1%E6%9C%8D%E4%B8%80%E9%9D%A2"><span class="toc-text">深信服一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E4%BF%A1%E6%9C%8D%E4%BA%8C%E9%9D%A2"><span class="toc-text">深信服二面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E5%AE%89%E5%85%A8%E8%BF%90%E8%90%A5%E4%B8%80%E9%9D%A2"><span class="toc-text">字节安全运营一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E7%AB%B9%E4%B8%80%E9%9D%A2"><span class="toc-text">拓竹一面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E7%AB%B9%E4%BA%8C%E9%9D%A2"><span class="toc-text">拓竹二面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E7%AB%B9%E4%B8%89%E9%9D%A2"><span class="toc-text">拓竹三面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%A6%E5%A4%96%E6%88%91%E8%A7%89%E5%BE%97%E6%9C%89%E6%84%8F%E4%B9%89%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E8%BF%87%E9%9D%A2%E8%AF%95%E6%B2%A1%E4%BA%BA%E9%97%AE%EF%BC%8C%E5%8F%AF%E8%83%BD%E8%A7%89%E5%BE%97%E6%88%91%E6%B8%97%E9%80%8F%E5%A4%AA%E8%8F%9C"><span class="toc-text">另外我觉得有意义的一些问题，不过面试没人问，可能觉得我渗透太菜</span></a></li></ol></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
