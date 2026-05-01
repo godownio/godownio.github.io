@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>分类 | Godown_blog</title>
+  <title>Ghost Bits Bypass WAF | Godown_blog</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -578,259 +578,645 @@
 </header>
         <!-- 内容区域 -->
         
-<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"></div>
-<div class="bg-light-floor-categories" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -3;"></div>
+ <!-- prismjs 代码高亮 -->
+ 
 
-<div class="categories-header" style="background-image:url('https://pic2.zhimg.com/80/v2-7c496c95897fb15768593cc5170c8b1a_1440w.jpg?source=1940ef5c')">
-    <div class="categories-header-title">
-        categories
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8195.jpg')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        Ghost Bits Bypass WAF
+      </span>
     </div>
-    <div class="categories-header-desc">
     
-        <span class="title" id="categories-header-desc"></span>
-    <script>
-  function typedFn() {
-    const el = '#categories-header-desc';
-    const type = 'categories';
-    let desc = '愿你如风，被人温柔以待'
-    var typed = new Typed(el, {
-      strings: [desc],
-      startDelay: 100,
-      typeSpeed: 100,
-      loop: true,
-      backSpeed: 50,
-      showCursor: true
-    });
-  }
-  typedFn();
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <h2 id="Ghost-Bits-Bypass-WAF"><a href="#Ghost-Bits-Bypass-WAF" class="headerlink" title="Ghost Bits Bypass WAF"></a>Ghost Bits Bypass WAF</h2><p>最近太火了，又是浅蓝大神，怎么会这么强</p>
+<p>原文：Black Hat Asia 2026 《Cast Attack: A New Threat Posed by Ghost Bits in Java》</p>
+<h3 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h3><p>其实和overlong UTF-8很像，<a href="https://godownio.github.io/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/">https://godownio.github.io/2025/06/13/utf-8-overlong-encoding-rao-guo-waf/</a></p>
+<p>overlong UTF-8中，readUTFSpan会按照UTF-8的模板去解析，于是可以把在可见字符的单字节ascii字符强行转为双字节or三字节的UTF码</p>
+<p>那么这里的Ghost Bits是什么呢？</p>
+<p>其实是开发不规范的原因，用小位数类型去强转大位数类型导致的高位bits被丢弃，但是高位bits会参与UTF字符的形成，导致Bypass WAF，和各种Bypass WAF的姿势一样，这种对于可见字符的构造，不会绕过Rasp</p>
+<p>Java 的 <code>char</code>类型为 16 位（2 字节），而 <code>byte</code>类型仅为 8 位（1 字节）</p>
+<p>将 <code>char</code>转换为 <code>byte</code>时，高 8 位会被丢弃，只保留低 8 位，这一丢失的高位数据即被称为”幽灵比特位（Ghost Bits）”。</p>
+<p>依旧是UTF码点代表可见性，从readUTFSpan扩展到了各种强转的场景，额仅此而已</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">爻  →  U+2F58  →  二进制：<span class="number">00101111</span> | <span class="number">00111010</span></span><br><span class="line">(<span class="type">byte</span>) 转换后：高 <span class="number">8</span> 位 <span class="number">0x2F</span> 丢弃，低 <span class="number">8</span> 位 <span class="number">0x3A</span> → <span class="string">&#x27;X&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>而网上涉及到这个漏洞就会出现的一个案例：CVE-2025-41242 <a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub/pull/773">https://github.com/vulhub/vulhub/pull/773</a></p>
+<p>payload为<code>阮严灵丰丰甲来/阮严灵丰丰甲来</code>&#x3D; <code>./..</code> &#x3D; <code>../</code></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501201247752.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501201247752.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260501201247752"></p>
+<p>Spring Framework 6.2.9下 spring-core&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;springframework&#x2F;util&#x2F;StringUtils.java:803存在这种写法</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501201225061.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501201225061.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260501201225061"></p>
+<p><code>%u002e</code>会被解码为<code>.</code>，于是<code>.%u002e</code> → <code>..</code></p>
+<h3 id="漏洞场景"><a href="#漏洞场景" class="headerlink" title="漏洞场景"></a>漏洞场景</h3><p>如果有这么写代码（其中ch为char）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="type">byte</span>) ch</span><br><span class="line">ch &amp; <span class="number">0xFF</span></span><br><span class="line">baos.write(ch)</span><br><span class="line">DataOutputStream.writeBytes(...)</span><br></pre></td></tr></table></figure>
+
+<p>修复：统一使用 <code>str.getBytes(StandardCharsets.UTF_8)</code> 做显式编码转换。</p>
+<h3 id="可用的漏洞依赖"><a href="#可用的漏洞依赖" class="headerlink" title="可用的漏洞依赖"></a>可用的漏洞依赖</h3><p>首先是业务上有propagator是上面这么写的</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501200613215.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501200613215.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260501200613215"></p>
+<h3 id="批量"><a href="#批量" class="headerlink" title="批量"></a>批量</h3><p>更新你的yakit</p>
+<p>一个是fuzz插件，一个fuzz后不太确定是不是对的，可以验证下，还有一个Codec用于单次Ghost bits编码</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501202010296.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501202010296.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260501202010296"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501202328956.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501202328956.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260501202328956"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501202342162.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20260501202342162.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20260501202342162"></p>
+<p>已经猜到有ctf会考Ghost Bits了，那会不会有Ghost Bits WAF+Overlong UTF-8打反序列化的打法呢？</p>
+<p>如果是Ghost Bits+Overlong UTF-8，则场景大概率为：将Overlong UTF-8 ObjectStream Ghost Bits编码后作为payload</p>
+<p>代码场景为WAF后baos.write()后写进文件，再从文件readObject，完美的payload,完美的场景</p>
+<p>虽然这样还是会被装上了Ghost Bits的WAF掉，但是想想还是很有趣</p>
+<blockquote>
+<p>另外，Burpsuite在发包时也会吞掉unicode中的前8位，导致没法用Burpsuite复现这个漏洞，改用Yakit即可解决。</p>
+</blockquote>
+<p>另外涉及到对字符进制的表达式计算，也会有漏洞，p神的思路这一块，夸张噢</p>
+<p><a target="_blank" rel="noopener" href="https://t.zsxq.com/3t0Yr">https://t.zsxq.com/3t0Yr</a></p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>作者:  </strong>GodownKai</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>文章链接:  </strong>
+    <a href="/2026/05/01/ghost-bits/" target="_blank" title="Ghost Bits Bypass WAF">https://godownio.github.io/2026/05/01/ghost-bits/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明:   </strong>
+      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      许可协议。转载请注明出处!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8194.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8194.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2026/03/24/chun-qiu-yun-jing-vertex/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">春秋云镜 Vertex</div>
+      </div>
+      <!-- <div class="content">
+        最后一把，打完备战招聘了，最后一个ROCD照着打都没打出来，也排查了时钟那些，甚至开了三遍靶机打，糖丸了
+春秋云镜 Ve
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+      <div id="appDonate" class="post-donate">
+  <div id="donate_board" class="donate_bar center" ref="donate">
+    <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏" @click="showDialogDrawer()"></a>
+  </div>
+  <transition name="fade">
+    <div 
+      class="donate-box-mask"
+      v-cloak 
+      v-show="visible"
+      @click="cancelDialogDrawer()"
+    >
+    </div>
+  </transition>
+  <transition name="bounce">
+    <div class="donate-box" v-cloak v-show="visible">
+      <div class="donate-box_close">
+        <i class="fas fa-times" aria-hidden="true" @click="cancelDialogDrawer" pointer></i>
+      </div>
+      <div class="donate-box_title">
+        <h4>
+          慧眼识珠牢弟
+        </h4>
+      </div>
+      <div class="donate-box_tab">
+        <div class="Alipay" pointer :class="{'active': tabActive === 'Alipay'}" @click="changeTabActive('Alipay')">
+          支付宝
+        </div>
+        <div class="WeChatpay" pointer :class="{'active': tabActive === 'WeChatpay'}" @click="changeTabActive('WeChatpay')">
+          微信
+        </div>
+      </div>
+      <div class="donate-box_img">
+        <div class="AlipayImg" v-show="tabActive === 'Alipay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="支付宝打赏" />
+        </div> 
+        <div class="WeChatpayImg" v-show="tabActive === 'WeChatpay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="微信打赏" />
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDonate',
+    data: {
+      visible: false,
+      tabActive: 'Alipay',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        // function getScroll() {
+        //   return {
+        //     left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+        //     top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+        //   };
+        // }
+        this.top = $(document).scrollTop() // or getScroll().top
+        // console.log('aa', $('.main-content'));
+        body.style.cssText = 'overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+      changeTabActive(name) {
+        this.tabActive = name;
+      }
+    },
+    created() {}
+  })
 </script>
     
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <aside id='l_side'>
+  
+    
+      <section class="widget side_blogger">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Godown_blog</h2>
+        
+        
+          <p>something for nothing</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Godown_blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="mailto:me@xxx.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/godownio"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1958304602"
+              class="social fab fa-qq flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+    
+  
+  
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+  <header>
+    
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ghost-Bits-Bypass-WAF"><span class="toc-text">Ghost Bits Bypass WAF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%9C%BA%E6%99%AF"><span class="toc-text">漏洞场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E7%94%A8%E7%9A%84%E6%BC%8F%E6%B4%9E%E4%BE%9D%E8%B5%96"><span class="toc-text">可用的漏洞依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E9%87%8F"><span class="toc-text">批量</span></a></li></ol></li></ol> -->
+        <div class="toc"></div>
+      </div>
     </div>
-    <div class="mask-box"></div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
 </div>
 
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
 
 
-<div id="categories" class="container">
-    <div class="card">
-        <div class="card-content">
-            <div class="category-title center-align">
-                <i class="fas fa-tags"></i>&nbsp;&nbsp;文章分类
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/05/01/ghost-bits/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8195.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8195.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
             </div>
-            <div class="category-chips">
+            <div class="post-date-title">
+              <div>
                 
+                  <span class="post-date">05-01</span>
                 
-                <a href="/categories/java/" title="java: 80">
-                    <span class="category-content"
-                        title="java" style="background-color: #A3E4D7;">java
-                        <span class="category-length">80</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/ctf/" title="ctf: 11">
-                    <span class="category-content"
-                        title="ctf" style="background-color: #F9E79F;">ctf
-                        <span class="category-length">11</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/" title="框架漏洞: 29">
-                    <span class="category-content"
-                        title="框架漏洞" style="background-color: #D7BDE2;">框架漏洞
-                        <span class="category-length">29</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/%E5%86%85%E5%AD%98%E9%A9%AC/" title="内存马: 11">
-                    <span class="category-content"
-                        title="内存马" style="background-color: #82E0AA;">内存马
-                        <span class="category-length">11</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/ctf/WP/" title="WP: 10">
-                    <span class="category-content"
-                        title="WP" style="background-color: #A3E4D7;">WP
-                        <span class="category-length">10</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/CC/" title="CC: 10">
-                    <span class="category-content"
-                        title="CC" style="background-color: #FFF;">CC
-                        <span class="category-length">10</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" title="杂七杂八: 6">
-                    <span class="category-content"
-                        title="杂七杂八" style="background-color: #F5EEF8;">杂七杂八
-                        <span class="category-length">6</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/other%E6%BC%8F%E6%B4%9E/" title="other漏洞: 8">
-                    <span class="category-content"
-                        title="other漏洞" style="background-color: #F8F9F9;">other漏洞
-                        <span class="category-length">8</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/Hexo/" title="Hexo: 1">
-                    <span class="category-content"
-                        title="Hexo" style="background-color: #E8F8F5;">Hexo
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%B8%97%E9%80%8F/" title="渗透: 26">
-                    <span class="category-content"
-                        title="渗透" style="background-color: #82E0AA;">渗透
-                        <span class="category-length">26</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/java%E6%9D%82%E8%B0%88/" title="java杂谈: 14">
-                    <span class="category-content"
-                        title="java杂谈" style="background-color: #F9E79F;">java杂谈
-                        <span class="category-length">14</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E8%93%9D%E9%98%9F/" title="蓝队: 2">
-                    <span class="category-content"
-                        title="蓝队" style="background-color: #D5F5E3;">蓝队
-                        <span class="category-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/SSTI/" title="SSTI: 2">
-                    <span class="category-content"
-                        title="SSTI" style="background-color: #A3E4D7;">SSTI
-                        <span class="category-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/RMI/" title="RMI: 3">
-                    <span class="category-content"
-                        title="RMI" style="background-color: #FFF;">RMI
-                        <span class="category-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/java/RASP/" title="RASP: 3">
-                    <span class="category-content"
-                        title="RASP" style="background-color: #D7BDE2;">RASP
-                        <span class="category-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%B8%97%E9%80%8F/HTB/" title="HTB: 1">
-                    <span class="category-content"
-                        title="HTB" style="background-color: #F9E79F;">HTB
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E8%93%9D%E9%98%9F/%E6%BA%AF%E6%BA%90/" title="溯源: 1">
-                    <span class="category-content"
-                        title="溯源" style="background-color: #FEF9E7;">溯源
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/" title="春秋云镜: 19">
-                    <span class="category-content"
-                        title="春秋云镜" style="background-color: #FEF9E7;">春秋云镜
-                        <span class="category-length">19</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/nodejs/" title="nodejs: 2">
-                    <span class="category-content"
-                        title="nodejs" style="background-color: #82E0AA;">nodejs
-                        <span class="category-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/python/" title="python: 1">
-                    <span class="category-content"
-                        title="python" style="background-color: #F8C471;">python
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%B8%97%E9%80%8F/vulnhub/" title="vulnhub: 4">
-                    <span class="category-content"
-                        title="vulnhub" style="background-color: #D5F5E3;">vulnhub
-                        <span class="category-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" title="安卓逆向: 1">
-                    <span class="category-content"
-                        title="安卓逆向" style="background-color: #85C1E9;">安卓逆向
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E4%BF%9D%E5%AF%86%E5%B7%A5%E4%BD%9C/" title="保密工作: 2">
-                    <span class="category-content"
-                        title="保密工作" style="background-color: #F5EEF8;">保密工作
-                        <span class="category-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/" title="渗透笔记: 2">
-                    <span class="category-content"
-                        title="渗透笔记" style="background-color: #F8C471;">渗透笔记
-                        <span class="category-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E8%93%9D%E9%98%9F/hw%E6%97%A5%E8%AE%B0/" title="hw日记: 1">
-                    <span class="category-content"
-                        title="hw日记" style="background-color: #FEF9E7;">hw日记
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E7%AE%97%E6%B3%95/" title="算法: 1">
-                    <span class="category-content"
-                        title="算法" style="background-color: #F9EBEA;">算法
-                        <span class="category-length">1</span>
-                    </span>
-                </a>
-                
+              </div>
+              <a class="post-title" href="/2026/05/01/ghost-bits/">Ghost Bits Bypass WAF</a>
             </div>
-        </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/03/24/chun-qiu-yun-jing-vertex/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8194.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8194.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">03-24</span>
+                
+              </div>
+              <a class="post-title" href="/2026/03/24/chun-qiu-yun-jing-vertex/">春秋云镜 Vertex</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/03/19/alictf-2025-web-java/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8193.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8193.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">03-19</span>
+                
+              </div>
+              <a class="post-title" href="/2026/03/19/alictf-2025-web-java/">Alictf 2026 javaweb</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">03-13</span>
+                
+              </div>
+              <a class="post-title" href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/">我的安全面试——实习</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/03/11/jadx-mcp-fen-xi/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">03-11</span>
+                
+              </div>
+              <a class="post-title" href="/2026/03/11/jadx-mcp-fen-xi/">jadx mcp分析</a>
+            </div>
+          </div>
+        
+      </div>
     </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
 </div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
 
       </main>
     </div>
