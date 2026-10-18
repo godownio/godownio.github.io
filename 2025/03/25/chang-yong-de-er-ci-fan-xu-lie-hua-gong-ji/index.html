@@ -625,14 +625,14 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RMIConnector#connect -&gt;</span><br><span class="line">    findRMIServer -&gt;findRMIServerJRMP</span><br></pre></td></tr></table></figure>
 
 <p>RMIConnector#findRMIServerJRMP对传入的base64字符串进行了反序列化</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094524982.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094524982.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250827094524982"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094524982.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094524982.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>这种接收字符串，再进行反序列化的方式，很明显是个二次反序列化的点，能绕过对原始对象的resolveClass黑名单</p>
 <p>查找用法仅findRMIServer调用到了</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094706778.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094706778.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250827094706778"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094706778.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094706778.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>这里调用findRMIServerJRMP需要path以&#x2F;stub&#x2F;开头</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094745911.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094745911.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250827094745911"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094745911.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094745911.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>在connect方法中，如果rmiServer字段为空，，则会调用findRMIServer，而且connect是个public方法</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094843635.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094843635.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250827094843635"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094843635.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20250827094843635.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>那么以下面的poc就能实现反序列化base64字符串：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">JMXServiceURL</span> <span class="variable">jmxServiceURL</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JMXServiceURL</span>(<span class="string">&quot;service:jmx:rmi://&quot;</span>);  </span><br><span class="line">setFieldValue(jmxServiceURL, <span class="string">&quot;urlPath&quot;</span>, <span class="string">&quot;/stub/base64string&quot;</span>);  </span><br><span class="line"><span class="type">RMIConnector</span> <span class="variable">rmiConnector</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RMIConnector</span>(jmxServiceURL, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
 
@@ -1014,6 +1014,27 @@
             
 
             <div class="post-img-box">
+              <a href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-18</span>
+                
+              </div>
+              <a class="post-title" href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/">一些奇怪的姿势和场景杂烩</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2026/05/01/rhino-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1089,27 +1110,6 @@
                 
               </div>
               <a class="post-title" href="/2026/03/19/alictf-2025-web-java/">Alictf 2026 javaweb</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">03-13</span>
-                
-              </div>
-              <a class="post-title" href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/">我的安全面试——实习</a>
             </div>
           </div>
         

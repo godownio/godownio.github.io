@@ -6,7 +6,7 @@
   <link href="https://godownio.github.io/atom.xml" rel="self"/>
   
   <link href="https://godownio.github.io/"/>
-  <updated>2026-05-01T13:05:36.889Z</updated>
+  <updated>2026-10-18T09:51:06.685Z</updated>
   <id>https://godownio.github.io/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>一些奇怪的姿势和场景杂烩</title>
+    <link href="https://godownio.github.io/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/"/>
+    <id>https://godownio.github.io/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/</id>
+    <published>2026-10-18T09:49:14.000Z</published>
+    <updated>2026-10-18T09:51:06.685Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;漏洞姿势&quot;&gt;&lt;a href=&quot;#漏洞姿势&quot; class=&quot;headerlink&quot; title=&quot;漏洞姿势&quot;&gt;&lt;/a&gt;漏洞姿势&lt;/h2&gt;&lt;p&gt;AI时代，已经没有什么漏洞足够惊艳了，这里记载的漏洞，都是属于特定业务场景下我觉得思路比较清奇的漏洞，lets</summary>
+        
+      
+    
+    
+    
+    <category term="杂七杂八" scheme="https://godownio.github.io/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Rhino 反序列化</title>
     <link href="https://godownio.github.io/2026/05/01/rhino-fan-xu-lie-hua/"/>
     <id>https://godownio.github.io/2026/05/01/rhino-fan-xu-lie-hua/</id>
     <published>2026-05-01T13:05:14.000Z</published>
-    <updated>2026-05-01T13:05:36.889Z</updated>
+    <updated>2026-05-31T03:06:01.538Z</updated>
     
     
       
@@ -48,7 +71,7 @@
     <link href="https://godownio.github.io/2026/05/01/ghost-bits/"/>
     <id>https://godownio.github.io/2026/05/01/ghost-bits/</id>
     <published>2026-05-01T12:40:14.000Z</published>
-    <updated>2026-05-01T12:40:32.117Z</updated>
+    <updated>2026-05-31T03:06:01.473Z</updated>
     
     
       
@@ -73,7 +96,7 @@
     <link href="https://godownio.github.io/2026/03/24/chun-qiu-yun-jing-vertex/"/>
     <id>https://godownio.github.io/2026/03/24/chun-qiu-yun-jing-vertex/</id>
     <published>2026-03-24T10:29:42.000Z</published>
-    <updated>2026-03-24T10:31:53.295Z</updated>
+    <updated>2026-05-31T03:12:01.322Z</updated>
     
     
       
@@ -101,7 +124,7 @@
     <link href="https://godownio.github.io/2026/03/19/alictf-2025-web-java/"/>
     <id>https://godownio.github.io/2026/03/19/alictf-2025-web-java/</id>
     <published>2026-03-19T13:36:14.000Z</published>
-    <updated>2026-03-30T10:05:44.496Z</updated>
+    <updated>2026-05-31T03:06:01.546Z</updated>
     
     
       
@@ -130,7 +153,7 @@
     <link href="https://godownio.github.io/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/"/>
     <id>https://godownio.github.io/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/</id>
     <published>2026-03-13T04:35:42.000Z</published>
-    <updated>2026-04-06T06:23:33.541Z</updated>
+    <updated>2026-05-31T03:06:01.531Z</updated>
     
     
     <summary type="html">有东西被加密了, 请输入密码查看.</summary>
@@ -149,7 +172,7 @@
     <link href="https://godownio.github.io/2026/03/11/jadx-mcp-fen-xi/"/>
     <id>https://godownio.github.io/2026/03/11/jadx-mcp-fen-xi/</id>
     <published>2026-03-11T07:15:42.000Z</published>
-    <updated>2026-03-11T07:16:01.292Z</updated>
+    <updated>2026-05-31T03:06:01.462Z</updated>
     
     
       
@@ -175,7 +198,7 @@
     <link href="https://godownio.github.io/2026/03/10/chun-qiu-yun-jing-powergrid/"/>
     <id>https://godownio.github.io/2026/03/10/chun-qiu-yun-jing-powergrid/</id>
     <published>2026-03-10T12:39:42.000Z</published>
-    <updated>2026-03-10T12:39:17.177Z</updated>
+    <updated>2026-05-31T03:06:01.444Z</updated>
     
     
       
@@ -203,7 +226,7 @@
     <link href="https://godownio.github.io/2026/01/21/chun-qiu-yun-jing-aoselu/"/>
     <id>https://godownio.github.io/2026/01/21/chun-qiu-yun-jing-aoselu/</id>
     <published>2026-01-21T09:06:42.000Z</published>
-    <updated>2026-01-21T09:08:19.679Z</updated>
+    <updated>2026-05-31T03:06:01.410Z</updated>
     
     
       
@@ -230,7 +253,7 @@
     <link href="https://godownio.github.io/2026/01/19/chun-qiu-yun-jing-greatwall/"/>
     <id>https://godownio.github.io/2026/01/19/chun-qiu-yun-jing-greatwall/</id>
     <published>2026-01-19T12:30:35.000Z</published>
-    <updated>2026-01-21T09:08:33.530Z</updated>
+    <updated>2026-05-31T03:06:01.427Z</updated>
     
     
       
@@ -258,7 +281,7 @@
     <link href="https://godownio.github.io/2026/01/15/chun-qiu-yun-jing-magicrelay/"/>
     <id>https://godownio.github.io/2026/01/15/chun-qiu-yun-jing-magicrelay/</id>
     <published>2026-01-15T08:30:21.000Z</published>
-    <updated>2026-01-15T13:51:13.173Z</updated>
+    <updated>2026-05-31T03:06:01.525Z</updated>
     
     
       
@@ -285,7 +308,7 @@
     <link href="https://godownio.github.io/2026/01/09/chun-qiu-yun-jing-privilege-thermalpower/"/>
     <id>https://godownio.github.io/2026/01/09/chun-qiu-yun-jing-privilege-thermalpower/</id>
     <published>2026-01-09T09:37:21.000Z</published>
-    <updated>2026-01-11T13:53:41.158Z</updated>
+    <updated>2026-05-31T03:06:01.528Z</updated>
     
     
       
@@ -313,7 +336,7 @@
     <link href="https://godownio.github.io/2025/12/30/hibernate-fan-xu-lie-hua/"/>
     <id>https://godownio.github.io/2025/12/30/hibernate-fan-xu-lie-hua/</id>
     <published>2025-12-30T07:10:21.000Z</published>
-    <updated>2025-12-30T08:07:41.477Z</updated>
+    <updated>2026-05-31T03:06:01.517Z</updated>
     
     
       
@@ -341,7 +364,7 @@
     <link href="https://godownio.github.io/2025/12/25/chun-qiu-yun-jing-spoofing/"/>
     <id>https://godownio.github.io/2025/12/25/chun-qiu-yun-jing-spoofing/</id>
     <published>2025-12-25T06:06:21.000Z</published>
-    <updated>2025-12-29T05:28:51.567Z</updated>
+    <updated>2026-05-31T03:06:01.552Z</updated>
     
     
       
@@ -368,7 +391,7 @@
     <link href="https://godownio.github.io/2025/12/23/oddfuzz/"/>
     <id>https://godownio.github.io/2025/12/23/oddfuzz/</id>
     <published>2025-12-23T13:52:48.000Z</published>
-    <updated>2025-12-23T14:16:06.744Z</updated>
+    <updated>2026-05-31T03:06:01.500Z</updated>
     
     
       
@@ -391,7 +414,7 @@
     <link href="https://godownio.github.io/2025/12/20/2025-ciscn-chu-sai-wp-by-yp0int/"/>
     <id>https://godownio.github.io/2025/12/20/2025-ciscn-chu-sai-wp-by-yp0int/</id>
     <published>2025-12-20T11:30:21.000Z</published>
-    <updated>2026-01-15T13:50:55.853Z</updated>
+    <updated>2026-05-31T03:06:01.492Z</updated>
     
     
       
@@ -418,7 +441,7 @@
     <link href="https://godownio.github.io/2025/12/18/chun-qiu-yun-jing-flarum/"/>
     <id>https://godownio.github.io/2025/12/18/chun-qiu-yun-jing-flarum/</id>
     <published>2025-12-18T14:08:48.000Z</published>
-    <updated>2025-12-18T14:08:23.176Z</updated>
+    <updated>2026-05-31T03:06:01.477Z</updated>
     
     
       
@@ -445,7 +468,7 @@
     <link href="https://godownio.github.io/2025/12/18/chun-qiu-yun-jing-delegation/"/>
     <id>https://godownio.github.io/2025/12/18/chun-qiu-yun-jing-delegation/</id>
     <published>2025-12-17T18:17:42.000Z</published>
-    <updated>2025-12-18T14:07:44.800Z</updated>
+    <updated>2026-05-31T03:06:01.453Z</updated>
     
     
       
@@ -472,7 +495,7 @@
     <link href="https://godownio.github.io/2025/11/25/galette/"/>
     <id>https://godownio.github.io/2025/11/25/galette/</id>
     <published>2025-11-25T08:34:32.000Z</published>
-    <updated>2025-11-25T08:37:09.420Z</updated>
+    <updated>2026-05-31T03:06:01.430Z</updated>
     
     
       
@@ -495,7 +518,7 @@
     <link href="https://godownio.github.io/2025/11/16/finance-jdbc-attack/"/>
     <id>https://godownio.github.io/2025/11/16/finance-jdbc-attack/</id>
     <published>2025-11-16T03:54:32.000Z</published>
-    <updated>2025-11-16T04:04:43.970Z</updated>
+    <updated>2026-05-31T03:06:01.489Z</updated>
     
     
       
@@ -503,33 +526,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;春秋云镜-Finance-postgresql-jdbc-attack部分&quot;&gt;&lt;a href=&quot;#春秋云镜-Finance-postgresql-jdbc-attack部分&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 Finance</summary>
-        
-      
-    
-    
-    
-    <category term="渗透" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/"/>
-    
-    <category term="春秋云镜" scheme="https://godownio.github.io/categories/%E6%B8%97%E9%80%8F/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
-    
-    
-    <category term="春秋云镜" scheme="https://godownio.github.io/tags/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>春秋云镜 2022网鼎杯半决赛复盘</title>
-    <link href="https://godownio.github.io/2025/10/24/chun-qiu-yun-jing-wang-ding-bei-2022/"/>
-    <id>https://godownio.github.io/2025/10/24/chun-qiu-yun-jing-wang-ding-bei-2022/</id>
-    <published>2025-10-24T09:25:32.000Z</published>
-    <updated>2025-10-27T12:50:11.136Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;春秋云镜-2022网鼎杯半决赛复盘&quot;&gt;&lt;a href=&quot;#春秋云镜-2022网鼎杯半决赛复盘&quot; class=&quot;headerlink&quot; title=&quot;春秋云镜 2022网鼎杯半决赛复盘&quot;&gt;&lt;/a&gt;春秋云镜 2022网鼎杯半决赛复盘&lt;/h2&gt;&lt;h3</summary>
         
       
     

